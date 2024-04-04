@@ -29,6 +29,9 @@
 # Gradle cache directory
 .gradle/
 
+# Jetbrains files
+.idea/
+
 # Directory System Store
 .DS_Store
 
