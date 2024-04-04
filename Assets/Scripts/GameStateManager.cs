@@ -10,7 +10,7 @@ public class GameStateManager : MonoBehaviour
     public int maxPlayerHealth;
     public int CurrentPlayerHealth { get; set; }
     public int MaxActionPoints { get; set; }
-    public List<Card> Deck{ get;private set}
+    public List<Card> Deck{ get; private set; }
 
     // Add this specific card to the deck
     public void AddCardToDeck(Card c)
