@@ -1,8 +1,10 @@
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.UI;
 using Random = System.Random;
 
-public class BattleStateManager
+public class BattleStateManager:MonoBehaviour
 {
     public List<Card> DrawPile{ get; private set; }
     public List<Card> Hand { get; private set; }
@@ -31,7 +33,7 @@ public class BattleStateManager
     public List<Card> Shuffle(List<Card> deck)
     {
         Random r = new Random();
-        int n = deck.Count;  
+        int n = deck.Count;
         while (n > 1) {  
             n--;  
             int k = r.Next(n + 1);  
@@ -109,6 +111,16 @@ public class BattleStateManager
         CurrentActionPoints = GameStateManager.Instance.MaxActionPoints;
     }
 
+    /*
+     * Execute the effect of this specific card
+     */
+    public void ApplyCardEffect(Card c, Enemy e)
+    {
+        // Check for aoe effect
+        // Execute card effect on either the selected enemy or all enemies
+    }
+    
+    
     /*
      * Battle has ended, either the player has won or died
      */
