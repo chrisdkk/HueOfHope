@@ -6,9 +6,13 @@ public class Enemy : MonoBehaviour
 {
     [SerializeField]
     private int maxHealth = 30;
-    private int health;
     
-    private Stats stats = new Stats();
+    [SerializeField]
+    private int enemyActionStrength = 6;
+
+    [SerializeField] private GameObject healthBarUI;
+    
+    public Stats stats = new Stats();
 
     private EnemyPattern enemyPattern = new EnemyPattern();
     
@@ -18,15 +22,35 @@ public class Enemy : MonoBehaviour
         // this should define the enemies order of action during a round
         // example: attack -> block -> attack
         // this could be done on a button click for the prototype and not in Start()
+        stats.health = maxHealth;
         enemyPattern.SetPattern();
     }
 
     // Update is called once per frame
     void Update()
     {
-        // receive a pattern of actions for the enemy
-        // enemyPattern.GetPattern();
-        // execute this when it is the enemies turn during a round
-        // enemyPattern.ExecutePatternAction();
+        UpdateHealthBar();
+    }
+
+    public void EnemyAttack()
+    {
+        PatternTypes pattern;
+        pattern = enemyPattern.GetCurrentActionPattern();
+
+        switch (pattern)
+        {
+            case PatternTypes.Attack:
+                GameStateManager.Instance.BattleManager.PlayerStats.health -= enemyActionStrength;
+                break;
+            case PatternTypes.Block:
+                stats.defense += enemyActionStrength;
+                break;
+            default: break;
+        }
+    }
+
+    public void UpdateHealthBar()
+    {
+        healthBarUI.transform.localScale = new Vector3((float)stats.health / (float)maxHealth, 0.04f, 0.5f);
     }
 }

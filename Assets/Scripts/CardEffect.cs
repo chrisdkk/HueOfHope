@@ -16,7 +16,7 @@ public class CardEffect
     public CardEffectType effectType;
     public int[] payload;
 
-    public void Apply(Stats[] targets, BattleManager manager)
+    public Stats[] Apply(Stats[] targets, BattleManager manager)
     {
         switch (effectType)
         {
@@ -27,7 +27,7 @@ public class CardEffect
                     Stats target = targets[i];
                     int damage = payload[0];
                     int difference = damage - target.defense;
-
+                    
                     if (difference < 0)
                     {
                         damage = 0;
@@ -35,6 +35,7 @@ public class CardEffect
                     }
 
                     target.health -= damage;
+                    targets[i] = target;
                 }
                 break;
             }
@@ -46,11 +47,14 @@ public class CardEffect
                     int defense = payload[0];
 
                     target.defense += defense;
+                    targets[i] = target;
                 }
                 break;
             }
             default: break;
         }
+        
+        return targets;
     }
     
 }

@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-struct Stats
+public struct Stats
 {
-  private int defense;
-  private int insight;
-  private int burn;
-  private int wound;
+  public int health;
+  public int defense;
+  public int insight;
+  
+  public int burn;
+  public int wound;
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Timeline;
 using Random = System.Random;
 
-enum PatternTypes
+public enum PatternTypes
 {
     Attack,
     Block
@@ -15,6 +15,9 @@ enum PatternTypes
 public class EnemyPattern : MonoBehaviour
 {
     private PatternTypes types;
+    private PatternTypes[] randomArray;
+
+    private int currentActionIndex = -1;
 
     PatternTypes[] RandomizeEnum(PatternTypes type1, PatternTypes type2)
     {
@@ -44,34 +47,17 @@ public class EnemyPattern : MonoBehaviour
     public void SetPattern()
     {
         // get a random pattern action
-        // Array PatternActions = PatternTypes.GetValues(typeof(PatternTypes));
-        // Random random = new Random();
-        // PatternTypes randomPatternAction = (PatternTypes)PatternActions.GetValue(random.Next(PatternActions.Length));
-        // Debug.Log(randomPatternAction);
-
-        PatternTypes[] randomArray = RandomizeEnum(PatternTypes.Attack, PatternTypes.Block);
-        // Debug.Log(randomArray);
-
-        // // Print the result
-        foreach (PatternTypes item in randomArray)
-        {
-            Debug.Log(item);
-        }
+        randomArray = RandomizeEnum(PatternTypes.Attack, PatternTypes.Block);
     }
 
-    public void GetPattern()
+    public PatternTypes GetCurrentActionPattern()
     {
-    }
-
-    public void ExecutePatternAction()
-    {
-        switch (types)
+        currentActionIndex++;
+        if (currentActionIndex == randomArray.Length)
         {
-            case PatternTypes.Attack:
-                break;
-            case PatternTypes.Block:
-                break;
-            default: break;
+            currentActionIndex = 0;
         }
+
+        return randomArray[currentActionIndex];
     }
 }

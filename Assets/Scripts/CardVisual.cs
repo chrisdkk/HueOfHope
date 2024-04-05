@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class CardVisual : MonoBehaviour
 {
-    [SerializeField] private Card card;
+    [SerializeField] public Card card;
     [SerializeField] private TextMeshPro title;
     [SerializeField] private TextMeshPro cost;
     [SerializeField] private TextMeshPro description;

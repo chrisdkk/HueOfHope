@@ -557,6 +557,8 @@ GameObject:
   - component: {fileID: 4489018448995607965}
   - component: {fileID: 5030697451408870578}
   - component: {fileID: 8948728842646713710}
+  - component: {fileID: 4660266699023792190}
+  - component: {fileID: 511554320375178512}
   m_Layer: 0
   m_Name: CardVisual
   m_TagString: Untagged
@@ -654,3 +656,31 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &4660266699023792190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7400410488725575388}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 069d5409959ae4634a5ff9b12bd180b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  card: {fileID: 11400000, guid: 2c7a899fb24b04001b416db918cb37c0, type: 2}
+  title: {fileID: 1669560087439148957}
+  cost: {fileID: 4738908978270861983}
+  description: {fileID: 1708135757163034695}
+--- !u!114 &511554320375178512
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7400410488725575388}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d99a0ef0d8938244783c613f2501ee5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

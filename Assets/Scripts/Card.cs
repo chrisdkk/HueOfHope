@@ -18,11 +18,14 @@ public class Card : ScriptableObject
     public bool multiTarget;
     public CardEffect[] effects;
     
-    public void ApplyEffects(Stats[] targets, BattleManager manager)
+    public Stats[] ApplyEffects(Stats[] targets, BattleManager manager)
     {
         for (int i = 0; i < effects.Length; i++)
         {
-            effects[i].Apply(targets, manager, multiTarget);
+            targets = effects[i].Apply(targets, manager);
+            
         }
+
+        return targets;
     }
 }
