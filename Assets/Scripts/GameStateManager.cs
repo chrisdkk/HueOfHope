@@ -47,7 +47,7 @@ public class GameStateManager : MonoBehaviour
 
     public void StartStageBattle()
     {
-        BattleStateManager bsm = new BattleStateManager();
+        BattleManager bsm = new BattleManager();
         List<Enemy> enemies = new List<Enemy>();
         bsm.Initialize(Deck, enemies);
     }

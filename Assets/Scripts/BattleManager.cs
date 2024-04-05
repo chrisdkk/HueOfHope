@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Random = System.Random;
 
-public class BattleStateManager:MonoBehaviour
+public class BattleManager:MonoBehaviour
 {
     public List<Card> DrawPile{ get; private set; }
     public List<Card> Hand { get; private set; }
@@ -56,10 +56,10 @@ public class BattleStateManager:MonoBehaviour
     /*
      * Discard a specific card from the hand
      */
-    public void DiscardCard(Card c)
+    public void DiscardCard(Card card)
     {
-        DiscardPile.Add(c);
-        Hand.Remove(c);
+        DiscardPile.Add(card);
+        Hand.Remove(card);
     }
 
     /*
@@ -67,9 +67,9 @@ public class BattleStateManager:MonoBehaviour
      */
     public void DiscardHand()
     {
-        foreach (Card c in Hand)
+        foreach (Card card in Hand)
         {
-            DiscardCard(c);
+            DiscardCard(card);
         }
     }
 
@@ -79,7 +79,7 @@ public class BattleStateManager:MonoBehaviour
     public void EnemyTurn()
     {
         // Reduce insight of player
-        foreach (Enemy e in EnemiesInBattle)
+        foreach (Enemy enemy in EnemiesInBattle)
         {
             // Apply and reduce burn/wound of enemy
         
@@ -114,7 +114,7 @@ public class BattleStateManager:MonoBehaviour
     /*
      * Execute the effect of this specific card
      */
-    public void ApplyCardEffect(Card c, Enemy e)
+    public void ApplyCardEffect(Card c, Enemy enemy)
     {
         // Check for aoe effect
         // Execute card effect on either the selected enemy or all enemies
@@ -145,7 +145,7 @@ public class BattleStateManager:MonoBehaviour
         List<Card> rewards = new List<Card>();
         Random r = new Random();
         // Select the three random cards
-        while (rewards < 3)
+        while (rewards.Count < 3)
         {
             int index = r.Next(Deck.AllAvailableCards.Count);
             if (!rewards.Contains(Deck.AllAvailableCards[index]))
