@@ -1,31 +1,57 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
-
-public enum CardType
+public class Card: MonoBehaviour
 {
-    Attack,
-    Skill,
-    Power
-}
+    public CardData data;
+    private bool isSelected = false;
+    private CardVisual visual;
 
-[CreateAssetMenu(fileName = "Card", menuName = "ScriptableObjects/Card", order = 1)]
-public class Card : ScriptableObject
-{
-    public string title;
-    public int apCost = 0;
-    public CardType cardType = CardType.Attack;
-    public bool multiTarget;
-    public CardEffect[] effects;
+    private float originalZIndex;
+
+    public delegate void CardClickedEventHandler(Card clickedCard);
+
+    public event CardClickedEventHandler OnClick;
+
+    public void Initialize(CardData cardData)
+    {
+        data = cardData;
+        visual = GetComponentInChildren<CardVisual>();
+        visual.Initialize(data);
+    }
+    
+    public void Select()
+    {
+        var position = transform.position;
+        originalZIndex = position.z;
+        position = new Vector3(position.x, position.y, 1f);
+        transform.position = position;
+        
+        isSelected = true;
+        visual.SetSelected(true);
+    }
+    
+    public void Deselect()
+    {
+        var position = transform.position;
+        position = new Vector3(position.x, position.y, originalZIndex);
+        transform.position = position;
+        
+        isSelected = false;
+        visual.SetSelected(false);
+    }
     
     public Stats[] ApplyEffects(Stats[] targets, BattleManager manager)
     {
-        for (int i = 0; i < effects.Length; i++)
+        foreach (CardEffect effect in data.effects)
         {
-            targets = effects[i].Apply(targets, manager);
-            
+            targets = effect.Apply(targets, manager);
         }
 
         return targets;
+    }
+
+    private void OnMouseDown()
+    {
+        OnClick?.Invoke(this);
     }
 }

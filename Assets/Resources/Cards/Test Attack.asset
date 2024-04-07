@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6f279a1cc38142b48cf348f369e6de0, type: 3}
   m_Name: Test Attack
   m_EditorClassIdentifier: 
-  title: Test Attack
+  cardName: Test Attack
   apCost: 1
   cardType: 0
   multiTarget: 0

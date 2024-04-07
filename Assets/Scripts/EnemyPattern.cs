@@ -12,7 +12,7 @@ public enum PatternTypes
 }
 
 // [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/SpawnManagerScriptableObject", order = 1)]
-public class EnemyPattern : MonoBehaviour
+public class EnemyPattern
 {
     private PatternTypes types;
     private PatternTypes[] randomArray;

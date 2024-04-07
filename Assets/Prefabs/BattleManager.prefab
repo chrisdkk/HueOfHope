@@ -48,3 +48,4 @@ MonoBehaviour:
     type: 3}
   cardPrefab: {fileID: 2143948763588692177, guid: b88fad82b70f64781871aef41dfe4ba5,
     type: 3}
+  handDisplay: {x: 0, y: -3, z: 0}

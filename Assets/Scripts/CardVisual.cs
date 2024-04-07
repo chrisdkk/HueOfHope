@@ -6,34 +6,42 @@ using UnityEngine;
 
 public class CardVisual : MonoBehaviour
 {
-    [SerializeField] public Card card;
     [SerializeField] private TextMeshPro title;
     [SerializeField] private TextMeshPro cost;
     [SerializeField] private TextMeshPro description;
 
-    private void Start()
+    [SerializeField] private float selectedOffset;
+    
+    public void Initialize(CardData cardData)
     {
-        title.SetText(card.title);
-        cost.SetText(card.apCost.ToString());
+        title.SetText(cardData.cardName);
+        cost.SetText(cardData.apCost.ToString());
         string effectText = "";
-        for (int i = 0; i < card.effects.Length; i++)
+        foreach (CardEffect effect in cardData.effects)
         {
-            CardEffect effect = card.effects[i];
             switch (effect.effectType)
             {
                 case CardEffectType.Damage:
-                {
-                    effectText += $"Deal {effect.payload[0].ToString()} damage";
+                    effectText += $"Deal {effect.payload[0]} damage";
                     break;
-                }
                 case CardEffectType.Defend:
-                {
-                    effectText += $"Block {effect.payload[0].ToString()} damage";
+                    effectText += $"Block {effect.payload[0]} damage";
                     break;
-                }
                 default: break;
             }
         }
         description.SetText(effectText);
+    }
+
+    public void SetSelected(bool selected)
+    {
+        if (selected)
+        {
+            transform.position += Vector3.up * selectedOffset; 
+        }
+        else
+        {
+            transform.position = transform.parent.position;
+        }
     }
 }

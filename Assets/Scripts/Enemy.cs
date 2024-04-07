@@ -24,18 +24,12 @@ public class Enemy : MonoBehaviour
         // this could be done on a button click for the prototype and not in Start()
         stats.health = maxHealth;
         enemyPattern.SetPattern();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
         UpdateHealthBar();
     }
 
     public void EnemyAttack()
     {
-        PatternTypes pattern;
-        pattern = enemyPattern.GetCurrentActionPattern();
+        PatternTypes pattern = enemyPattern.GetCurrentActionPattern();
 
         switch (pattern)
         {
