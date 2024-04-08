@@ -58,7 +58,6 @@ public class Card: MonoBehaviour
         if (!isSelected)
         {
             BringToFront();
-            transform.Translate(Vector3.up * 0.2f);
         }
     }
 
@@ -67,7 +66,6 @@ public class Card: MonoBehaviour
         if (!isSelected)
         {
             SendBack();
-            transform.Translate(-Vector3.up * 0.2f);
         } 
     }
 
