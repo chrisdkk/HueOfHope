@@ -7,6 +7,7 @@ public class BattleManager: MonoBehaviour
 {
     [SerializeField] private GameObject playerCharacterPrefab;
     [SerializeField] private GameObject cardPrefab;
+    [SerializeField] private GameObject rewardPrefab;
     [SerializeField] private int maxHandSize = 5;
     private List<CardData> drawPile;
     private List<Card> hand;
@@ -230,6 +231,15 @@ public class BattleManager: MonoBehaviour
             Enemy enemy = targetObject.GetComponent<Enemy>();
             enemy.stats = selectedCard.ApplyEffects(new Stats[] {enemy.stats}, this)[0];
             enemy.UpdateHealthBar();
+            if (enemy.stats.health <= 0)
+            {
+                enemiesInBattle.Remove(enemy);
+                Destroy(enemy.gameObject);
+                if (enemiesInBattle.Count == 0)
+                {
+                    EndBattle();
+                }
+            }
         }
         CurrentActionPoints -= selectedCard.data.apCost;
         DiscardCard(selectedCard);
@@ -291,36 +301,45 @@ public class BattleManager: MonoBehaviour
     /*
      * Show three random cards to the player
      */
-    private void ShowReward()
+    
+    public void ShowReward()
     {
-        List<Card> rewards = new List<Card>();
+        List<CardData> rewards = new List<CardData>();
         Random r = new Random();
-        // Select the three random cards
-        // while (rewards.Count < 3)
-        // {
-        //     int index = r.Next(Deck.AllAvailableCards.Count);
-        //     if (!rewards.Contains(Deck.AllAvailableCards[index]))
-        //     {
-        //         rewards.Add(Deck.AllAvailableCards[index]);
-        //     }
-        // }
+        while (rewards.Count < 3)
+        {
+            int index = r.Next(GameStateManager.Instance.allAvailableCards.Length);
+            //if (!rewards.Contains(GameStateManager.AllAvailableCards[index]))
+            //{
+            rewards.Add(GameStateManager.Instance.allAvailableCards[index]);
+            //}
+        }
+
         // Show them in a popup to the player
-    }
+        int i = 0;
+        foreach (Card card in rewardPrefab.GetComponentsInChildren<Card>())
+        {
+            card.data = rewards[i];
+            i++;
+        }
+        Instantiate(rewardPrefab, new Vector3(0, 0, -4), Quaternion.identity);
+    } 
+
     
     private void UpdateHandVisuals()
-     {
-         // Calculate spacing between cards
-         float cardWidth = cardPrefab.transform.localScale.x;
-         float offset = cardWidth * 1.2f;
-         float startX = handDisplay.position.x;
+    {
+        // Calculate spacing between cards
+        float cardWidth = cardPrefab.transform.localScale.x;
+        float offset = cardWidth * 1.2f;
+        float startX = handDisplay.position.x;
      
-         // Instantiate visual card prefabs for each card in hand
-         for (int i = 0; i < hand.Count; i++)
-         {
-             float xPos = startX + offset * (i - 0.5f * (hand.Count - 1));
+        // Instantiate visual card prefabs for each card in hand
+        for (int i = 0; i < hand.Count; i++)
+        {
+            float xPos = startX + offset * (i - 0.5f * (hand.Count - 1));
 
-             Card card = hand[i];
-             card.transform.position = new Vector3(xPos, handDisplay.position.y, i + 5f);
-         }
-     }
+            Card card = hand[i];
+            card.transform.position = new Vector3(xPos, handDisplay.position.y, i + 5f);
+        }
+    }
 }

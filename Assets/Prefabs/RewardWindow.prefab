@@ -26,8 +26,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 2.5, y: 2.5, z: 2.5}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 4402210070956072442}
   - {fileID: 9114092201252154201}
@@ -47,6 +47,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: Card (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 4660266699023792190, guid: b88fad82b70f64781871aef41dfe4ba5,
+        type: 3}
+      propertyPath: card
+      value: 
+      objectReference: {fileID: 11400000, guid: a15b1eb6d84b65444b30d8bb4ef970bb,
+        type: 2}
     - target: {fileID: 6184852389880004070, guid: b88fad82b70f64781871aef41dfe4ba5,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -121,6 +127,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: Card (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 4660266699023792190, guid: b88fad82b70f64781871aef41dfe4ba5,
+        type: 3}
+      propertyPath: card
+      value: 
+      objectReference: {fileID: 11400000, guid: a15b1eb6d84b65444b30d8bb4ef970bb,
+        type: 2}
     - target: {fileID: 6184852389880004070, guid: b88fad82b70f64781871aef41dfe4ba5,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -195,6 +207,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: Card
       objectReference: {fileID: 0}
+    - target: {fileID: 4660266699023792190, guid: b88fad82b70f64781871aef41dfe4ba5,
+        type: 3}
+      propertyPath: card
+      value: 
+      objectReference: {fileID: 11400000, guid: a15b1eb6d84b65444b30d8bb4ef970bb,
+        type: 2}
     - target: {fileID: 6184852389880004070, guid: b88fad82b70f64781871aef41dfe4ba5,
         type: 3}
       propertyPath: m_LocalPosition.x

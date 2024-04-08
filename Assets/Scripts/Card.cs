@@ -12,6 +12,11 @@ public class Card: MonoBehaviour
 
     public event CardClickedEventHandler OnClick;
 
+    private void Start()
+    {
+        originalZIndex = transform.position.z;
+    }
+
     public void Initialize(CardData cardData)
     {
         data = cardData;
@@ -21,23 +26,16 @@ public class Card: MonoBehaviour
     
     public void Select()
     {
-        var position = transform.position;
-        originalZIndex = position.z;
-        position = new Vector3(position.x, position.y, 1f);
-        transform.position = position;
-        
+        BringToFront();
         isSelected = true;
-        visual.SetSelected(true);
+        transform.Translate(Vector3.up * 0.3f);
     }
     
     public void Deselect()
     {
-        var position = transform.position;
-        position = new Vector3(position.x, position.y, originalZIndex);
-        transform.position = position;
-        
+        SendBack();
         isSelected = false;
-        visual.SetSelected(false);
+        transform.Translate(-Vector3.up * 0.3f);
     }
     
     public Stats[] ApplyEffects(Stats[] targets, BattleManager manager)
@@ -53,5 +51,37 @@ public class Card: MonoBehaviour
     private void OnMouseDown()
     {
         OnClick?.Invoke(this);
+    }
+
+    private void OnMouseEnter()
+    {
+        if (!isSelected)
+        {
+            BringToFront();
+            transform.Translate(Vector3.up * 0.2f);
+        }
+    }
+
+    private void OnMouseExit()
+    {
+        if (!isSelected)
+        {
+            SendBack();
+            transform.Translate(-Vector3.up * 0.2f);
+        } 
+    }
+
+    private void BringToFront()
+    {
+        var position = transform.position;
+        position = new Vector3(position.x, position.y, 1f);
+        transform.position = position;
+    }
+
+    private void SendBack()
+    {
+        var position = transform.position;
+        position = new Vector3(position.x, position.y, originalZIndex);
+        transform.position = position;
     }
 }

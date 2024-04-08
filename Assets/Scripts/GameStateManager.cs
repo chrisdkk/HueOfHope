@@ -20,7 +20,7 @@ public class GameStateManager : MonoBehaviour
     public int CurrentPlayerHealth { get; set; }
     public int maxPlayerHealth;
     public int MaxActionPoints { get; set; }
-    private List<CardData> deck;
+    public List<CardData> deck;
     public CardData[] allAvailableCards;
     private List<Enemy> Enemies = new List<Enemy>();
 

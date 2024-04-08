@@ -32,16 +32,4 @@ public class CardVisual : MonoBehaviour
         }
         description.SetText(effectText);
     }
-
-    public void SetSelected(bool selected)
-    {
-        if (selected)
-        {
-            transform.position += Vector3.up * selectedOffset; 
-        }
-        else
-        {
-            transform.position = transform.parent.position;
-        }
-    }
 }
