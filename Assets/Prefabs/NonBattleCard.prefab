@@ -9,10 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6184852389880004070}
+  - component: {fileID: 3605339480905001791}
   - component: {fileID: 8038502226859397320}
-  - component: {fileID: 3108746595590733292}
   m_Layer: 0
-  m_Name: Card
+  m_Name: NonBattleCard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -34,6 +34,19 @@ Transform:
   - {fileID: 5204735647118805591}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3605339480905001791
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2143948763588692177}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 064d6267c61d4cedbb2a6a447b7be43e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: 2c7a899fb24b04001b416db918cb37c0, type: 2}
 --- !u!61 &8038502226859397320
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -79,19 +92,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.485, y: 2.42}
   m_EdgeRadius: 0
---- !u!114 &3108746595590733292
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2143948763588692177}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6b12ad0b64554542aeb0c0a0519ed33c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  data: {fileID: 11400000, guid: 2c7a899fb24b04001b416db918cb37c0, type: 2}
 --- !u!1 &3420761669907127547
 GameObject:
   m_ObjectHideFlags: 0
