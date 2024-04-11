@@ -15,15 +15,15 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private EnemyActionTypes[] possibleEnemyAction;
     
-    public Stats stats = new Stats();
+    public Stats stats;
 
     private EnemyPattern enemyPattern;
     private int actionSize = 3;
-    private List<EnemyCard> attackActions = new List<EnemyCard>();
-    private List<EnemyCard> blockActions = new List<EnemyCard>();
+    private List<EnemyCard> attackActions = new();
+    private List<EnemyCard> blockActions = new ();
     private EnemyActionTypes currentAction;
     private int cardPower;
-    private Random random = new Random();
+    private Random random = new();
 
 
     // Start is called before the first frame update
@@ -37,15 +37,7 @@ public class Enemy : MonoBehaviour
         
         // Load and sort all available enemy cards
         EnemyCard[] enemyCards = Resources.LoadAll<EnemyCard>("EnemyCards/");
-        Dictionary<int, List<EnemyCard>> allEnemyAttackCards = new Dictionary<int, List<EnemyCard>>();
-        Dictionary<int, List<EnemyCard>> allEnemyBlockCards = new Dictionary<int, List<EnemyCard>>();
 
-        for (int i = 1; i <= 3; i++)
-        {
-            allEnemyAttackCards.Add(i, new List<EnemyCard>());
-            allEnemyBlockCards.Add(i, new List<EnemyCard>());
-        }
-        
         foreach (EnemyCard enemyCard in enemyCards)
         {
             if (enemyCard.tier == enemyTier)
@@ -53,11 +45,11 @@ public class Enemy : MonoBehaviour
                 switch (enemyCard.cardType)
                 {
                     case EnemyCardTypes.Attack:
-                        allEnemyAttackCards[enemyCard.power].Add(enemyCard);
+                        attackActions.Add(enemyCard);
                         break;
                     
                     case EnemyCardTypes.Defense:
-                        allEnemyBlockCards[enemyCard.power].Add(enemyCard);
+                        blockActions.Add(enemyCard);
                         break;
                     
                     default:
@@ -65,16 +57,7 @@ public class Enemy : MonoBehaviour
                 }
             }
         }
-
-        // Select 3 random cards for each enemy action type
-        for (int i = 1; i <= 3; i++)
-        {
-            var randomIndex = random.Next(allEnemyAttackCards[i].Count);
-            attackActions.Add(allEnemyAttackCards[i].ElementAt(randomIndex));
-            
-            randomIndex = random.Next(allEnemyBlockCards[i].Count);
-            blockActions.Add(allEnemyBlockCards[i].ElementAt(randomIndex));
-        }
+        
 
         foreach (EnemyCard card in attackActions)
         {
