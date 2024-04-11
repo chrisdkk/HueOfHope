@@ -141,7 +141,7 @@ public class BattleManager: MonoBehaviour
             }
 
             // Do action
-            enemy.EnemyAttack();
+            enemy.PlayEnemyCard();
 
             if (PlayerStats.health <= 0)
             {

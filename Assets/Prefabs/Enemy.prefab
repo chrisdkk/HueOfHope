@@ -123,8 +123,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 30
-  enemyActionStrength: 6
+  enemyTier: 1
   healthBarUI: {fileID: 6388321550548094313}
+  possibleEnemyAction: 000000000000000001000000
 --- !u!114 &619927079934182639
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -137,6 +138,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 933d0a0ff454a49958f8f197eb0b3d10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isPlayer: 0
 --- !u!1 &6388321550548094313
 GameObject:
   m_ObjectHideFlags: 0
