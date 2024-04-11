@@ -22,7 +22,7 @@ public class BattleManager: MonoBehaviour
 
     public void Initialize(List<CardData> deck, List<Enemy> enemies)
     {
-        handDisplay = GameObject.Find("HandDisplay").transform;
+        // handDisplay = GameObject.Find("HandDisplay").transform;
         // Player stats, the deck and enemies of this battle
         drawPile = Shuffle(deck);
         discardPile = new List<CardData>();

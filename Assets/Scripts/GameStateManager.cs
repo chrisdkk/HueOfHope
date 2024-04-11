@@ -16,7 +16,7 @@ public class GameStateManager : MonoBehaviour
     public BattleManager BattleManager { get; private set; }
 
     [SerializeField] private BattleManager battleManagerPrefab;
-    
+
     public int CurrentPlayerHealth { get; set; }
     public int maxPlayerHealth;
     public int MaxActionPoints { get; set; }
@@ -25,6 +25,10 @@ public class GameStateManager : MonoBehaviour
     private List<Enemy> Enemies = new List<Enemy>();
 
     [SerializeField] public Enemy prototypeEnemy;
+
+    // DECK SYSTEM
+    [SerializeField] private DeckSystem deckSystem;
+    // DECK SYSTEM
 
     // Start is called before the first frame update
     void Start()
@@ -39,7 +43,7 @@ public class GameStateManager : MonoBehaviour
             deck = new List<CardData>();
 
             Enemies.Add(prototypeEnemy);
-            
+
             allAvailableCards = Resources.LoadAll<CardData>("Cards/");
 
             //Add standard deck for prototype
@@ -47,17 +51,22 @@ public class GameStateManager : MonoBehaviour
             {
                 deck.Add(allAvailableCards[i % 2]);
             }
-            Debug.Log(deck.Count);
+
+            // Debug.Log(deck.Count);
             StartBattle();
         }
     }
 
     private void StartBattle()
     {
-        BattleManager = Instantiate(battleManagerPrefab, new Vector3(0, 0, 0), Quaternion.identity);
-        BattleManager.Initialize(deck, Enemies);
+        // BattleManager = Instantiate(battleManagerPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+        // BattleManager.Initialize(deck, Enemies);
+        
+        // DECK SYSTEM
+        deckSystem.InitializeDeck(deck);
+        // DECK SYSTEM
     }
-    
+
     // Add this specific card to the deck
     public void AddCardToDeck(CardData card)
     {
@@ -69,5 +78,4 @@ public class GameStateManager : MonoBehaviour
     {
         return deck.Remove(card);
     }
-
 }
