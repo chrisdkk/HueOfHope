@@ -1,3 +1,6 @@
+# For line ending normalization between Unix and Windows
+* text=auto
+
 ## Unity ##
 
 *.cs diff=csharp text
