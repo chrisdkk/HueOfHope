@@ -21,7 +21,6 @@ public class Card: MonoBehaviour
     {
         data = cardData;
         visual = GetComponentInChildren<CardVisual>();
-        visual.Initialize(data);
     }
     
     public void Select()

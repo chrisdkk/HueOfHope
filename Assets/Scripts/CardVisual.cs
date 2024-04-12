@@ -6,13 +6,17 @@ using UnityEngine;
 
 public class CardVisual : MonoBehaviour
 {
-    [SerializeField] private TextMeshPro title;
-    [SerializeField] private TextMeshPro cost;
-    [SerializeField] private TextMeshPro description;
+    [SerializeField] private TextMeshProUGUI title;
+    [SerializeField] private TextMeshProUGUI cost;
+    [SerializeField] private TextMeshProUGUI description;
+    public CardData cardData;
 
-    [SerializeField] private float selectedOffset;
-    
-    public void Initialize(CardData cardData)
+    private void Start()
+    {
+        UpdateCardVisual();
+    }
+
+    public void UpdateCardVisual()
     {
         title.SetText(cardData.cardName);
         cost.SetText(cardData.apCost.ToString());
