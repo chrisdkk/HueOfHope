@@ -18,6 +18,7 @@ public class CardEffect
 
     public Stats[] Apply(Stats[] targets, BattleManager manager)
     {
+        Debug.Log(effectType + "-" + targets[0] + "-" + payload[0]);
         switch (effectType)
         {
             case CardEffectType.Damage:

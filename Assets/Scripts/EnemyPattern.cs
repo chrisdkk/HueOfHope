@@ -1,63 +1,48 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Timeline;
 using Random = System.Random;
 
-public enum PatternTypes
+public enum EnemyActionTypes
 {
     Attack,
     Block
 }
 
-// [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/SpawnManagerScriptableObject", order = 1)]
 public class EnemyPattern
 {
-    private PatternTypes types;
-    private PatternTypes[] randomArray;
-
+    private List<EnemyActionTypes> patternArray;
     private int currentActionIndex = -1;
 
-    PatternTypes[] RandomizeEnum(PatternTypes type1, PatternTypes type2)
+    /* Set a random pattern consisting of the EnemyActionTypes in the parameter*/
+    public EnemyPattern(params EnemyActionTypes[] typesArray)
     {
-        Random random = new Random();
-
-        // Create an array to hold the enum items
-        PatternTypes[] array = new PatternTypes[3];
-
-        // Assign the first two elements randomly
-        if (random.Next(2) == 0)
+        int n = typesArray.Length;
+        Random random= new Random();
+        while (n > 1) 
         {
-            array[0] = type1;
-            array[1] = type2;
-        }
-        else
-        {
-            array[0] = type2;
-            array[1] = type1;
+            int k = random.Next(n--);
+            
+            EnemyActionTypes temp = typesArray[n];
+            typesArray[n] = typesArray[k];
+            typesArray[k] = temp;
         }
 
-        // Assign the third element randomly
-        array[2] = random.Next(2) == 0 ? type1 : type2;
-
-        return array;
+        patternArray = new List<EnemyActionTypes>(typesArray);
     }
 
-    public void SetPattern()
-    {
-        // get a random pattern action
-        randomArray = RandomizeEnum(PatternTypes.Attack, PatternTypes.Block);
-    }
-
-    public PatternTypes GetCurrentActionPattern()
+    /* Get the current action */
+    public EnemyActionTypes GetCurrentActionPattern()
     {
         currentActionIndex++;
-        if (currentActionIndex == randomArray.Length)
+        if (currentActionIndex == patternArray.Count)
         {
             currentActionIndex = 0;
         }
 
-        return randomArray[currentActionIndex];
+        return patternArray.ElementAt(currentActionIndex);
     }
 }
