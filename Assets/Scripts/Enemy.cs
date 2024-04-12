@@ -57,17 +57,6 @@ public class Enemy : MonoBehaviour
                 }
             }
         }
-        
-
-        foreach (EnemyCard card in attackActions)
-        {
-            Debug.Log("Attack:" + card);
-        }
-        
-        foreach (EnemyCard card in blockActions)
-        {
-            Debug.Log("Block:" + card);
-        }
     }
 
     /* Play the current selected enemy card*/
@@ -80,12 +69,12 @@ public class Enemy : MonoBehaviour
         {
             case EnemyActionTypes.Attack:
                 effects = attackActions.ElementAt(cardPower).effects;
-                targets[1] = GameStateManager.Instance.BattleManager.PlayerStats;
+                targets[0] = GameStateManager.Instance.BattleManager.PlayerStats;
                 break;
             
             case EnemyActionTypes.Block:
                 effects = blockActions.ElementAt(cardPower).effects;
-                targets[1] = stats;
+                targets[0] = stats;
                 break;
             default:
                 effects = null;
@@ -95,7 +84,20 @@ public class Enemy : MonoBehaviour
         // Apply all effects
         foreach (CardEffect effect in effects)
         {
-            effect.Apply(targets, GameStateManager.Instance.BattleManager);
+            targets = effect.Apply(targets, GameStateManager.Instance.BattleManager);
+        }
+        
+        switch (currentAction)
+        {
+            case EnemyActionTypes.Attack:
+                GameStateManager.Instance.BattleManager.PlayerStats = targets[0];
+                break;
+            
+            case EnemyActionTypes.Block:
+                stats = targets[0];
+                break;
+            default:
+                break;
         }
         
         currentAction = enemyPattern.GetCurrentActionPattern();
