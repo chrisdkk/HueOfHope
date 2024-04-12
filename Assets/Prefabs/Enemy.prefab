@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8919775776321209059}
   - component: {fileID: 2529766005443298267}
   - component: {fileID: 619927079934182639}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -137,6 +137,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 933d0a0ff454a49958f8f197eb0b3d10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isPlayer: 0
 --- !u!1 &6388321550548094313
 GameObject:
   m_ObjectHideFlags: 0
@@ -149,7 +150,7 @@ GameObject:
   - component: {fileID: 7215271535466503635}
   - component: {fileID: 5770043989450840096}
   - component: {fileID: 1371957668680364748}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Health
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -305,6 +306,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Target
+      objectReference: {fileID: 0}
+    - target: {fileID: 7625836844796965750, guid: 4f448d609a2ce44ae8a5dcb677b56107,
+        type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
