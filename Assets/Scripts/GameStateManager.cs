@@ -28,6 +28,7 @@ public class GameStateManager : MonoBehaviour
 
     // DECK SYSTEM
     [SerializeField] private DeckSystem deckSystem;
+    public List<CardData> availableCardsForDeck = new List<CardData>();
     // DECK SYSTEM
 
     // Start is called before the first frame update
@@ -50,9 +51,11 @@ public class GameStateManager : MonoBehaviour
             for (int i = 0; i < 15; i++)
             {
                 deck.Add(allAvailableCards[i % 2]);
+                
+                // this is done for dev purposes
+                availableCardsForDeck.Add(allAvailableCards[i % 2]);
             }
-
-            // Debug.Log(deck.Count);
+            
             StartBattle();
         }
     }
@@ -64,6 +67,7 @@ public class GameStateManager : MonoBehaviour
         
         // DECK SYSTEM
         deckSystem.InitializeDeck(deck);
+        deckSystem.InitializeAvailable(availableCardsForDeck);
         // DECK SYSTEM
     }
 

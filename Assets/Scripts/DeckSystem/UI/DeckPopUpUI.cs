@@ -16,9 +16,15 @@ public class DeckPopUpUI : MonoBehaviour
 
     private GameObject deckWindowInstance;
 
+    private float deckCardPosX = 100;
+    private float deckCardPosY = -100;
+
+    private float availableCardPosX = 100;
+    private float availableCardPosY = -100;
+
     private void Start()
     {
-        // instantiate only one pop up
+        // instantiate only one pop up if one is not already open
         if (!isDeckWindowCreated)
         {
             deckWindowInstance = Instantiate(popUpPrefab, new Vector3(0, 0, 0), Quaternion.identity);
@@ -41,40 +47,59 @@ public class DeckPopUpUI : MonoBehaviour
             canOpenPopUp = true;
         }
 
-        float cardPosX = 100;
-        float cardPosY = -100;
-
         // necessary?
         // deckWindowInstance.GetComponentInChildren<Canvas>().planeDistance = 3;
 
         // make deck/map scene camera "see" the card prefab instances WHY?
         deckWindowInstance.transform.GetComponentInChildren<Canvas>().worldCamera = camera;
 
-        // get specific child (i know this is weird)
-        Transform currentDeckPanel = deckWindowInstance.transform.GetChild(0).GetChild(1).GetChild(0).transform;
-        Transform availableCardsPanel = deckWindowInstance.transform.GetChild(0).GetChild(0).GetChild(0).transform;
+        // get specific child, content in this case (this is weird)
+        Transform currentDeckPanel =
+            deckWindowInstance.transform.GetChild(0).GetChild(1).GetChild(0).GetChild(0).transform;
+        Transform availableCardsPanel =
+            deckWindowInstance.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(0).transform;
 
+        // deck cards tab (right)
         foreach (CardData card in deckSystem.deckList)
         {
-            cardPrefab.GetComponentInChildren<Card>().data = card;
+            cardPrefab.GetComponentInChildren<NonBattleCard>().data = card;
 
             GameObject cardInstance = Instantiate(cardPrefab, currentDeckPanel, false);
+            
+            cardInstance.GetComponent<NonBattleCard>().OnClick += deckSystem.HandleCardOnClick;
 
             cardInstance.transform.localScale = new Vector3(50, 50, 50);
-            cardInstance.transform.localPosition = new Vector3(cardPosX, cardPosY, -1f);
+            cardInstance.transform.localPosition = new Vector3(deckCardPosX, deckCardPosY, -1f);
+            
+            deckCardPosX += 100;
 
-            cardPosX += 100;
-
-            if (cardPosX >= 700)
+            if (deckCardPosX >= 700)
             {
-                cardPosX = 100;
-                cardPosY -= 150;
+                deckCardPosX = 100;
+                deckCardPosY -= 150;
             }
         }
 
-        // // Adjust content height of scroll view
-        // RectTransform rectTransform = currentDeckPanel.GetComponent<RectTransform>();
-        // cardPosY = (cardPosY - 100) * -1;
-        // rectTransform.sizeDelta = new Vector2(rectTransform.rect.size.x, cardPosY);
+        // available cards tab (left)
+        foreach (CardData card in deckSystem.availableList)
+        {
+            cardPrefab.GetComponentInChildren<NonBattleCard>().data = card;
+
+            // if item gets "moved" from one list to another, remove prefab instance so visual reflects data
+            GameObject cardInstance = Instantiate(cardPrefab, availableCardsPanel, false);
+            
+            cardInstance.GetComponent<NonBattleCard>().OnClick += deckSystem.HandleCardOnClick;
+            
+            cardInstance.transform.localScale = new Vector3(50, 50, 50);
+            cardInstance.transform.localPosition = new Vector3(availableCardPosX, availableCardPosY, -1f);
+
+            availableCardPosX += 100;
+
+            if (availableCardPosX >= 700)
+            {
+                availableCardPosX = 100;
+                availableCardPosY -= 150;
+            }
+        }
     }
 }
