@@ -14,14 +14,14 @@ public class DeckPopUpUI : MonoBehaviour
     private bool isDeckWindowCreated = false;
     private bool canOpenPopUp = false;
 
-    private GameObject DeckWindowInstance;
+    private GameObject deckWindowInstance;
 
     private void Start()
     {
         // instantiate only one pop up
         if (!isDeckWindowCreated)
         {
-            DeckWindowInstance = Instantiate(popUpPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+            deckWindowInstance = Instantiate(popUpPrefab, new Vector3(0, 0, 0), Quaternion.identity);
             isDeckWindowCreated = true;
             canOpenPopUp = true;
         }
@@ -32,12 +32,12 @@ public class DeckPopUpUI : MonoBehaviour
         // this might re-instantiate its child prefabs (cardInstance), do we want that?
         if (canOpenPopUp)
         {
-            DeckWindowInstance.SetActive(true);
+            deckWindowInstance.SetActive(true);
             canOpenPopUp = false;
         }
         else
         {
-            DeckWindowInstance.SetActive(false);
+            deckWindowInstance.SetActive(false);
             canOpenPopUp = true;
         }
 
@@ -45,14 +45,14 @@ public class DeckPopUpUI : MonoBehaviour
         float cardPosY = -100;
 
         // necessary?
-        // DeckWindowInstance.GetComponentInChildren<Canvas>().planeDistance = 3;
+        // deckWindowInstance.GetComponentInChildren<Canvas>().planeDistance = 3;
 
         // make deck/map scene camera "see" the card prefab instances WHY?
-        DeckWindowInstance.transform.GetComponentInChildren<Canvas>().worldCamera = camera;
-        
+        deckWindowInstance.transform.GetComponentInChildren<Canvas>().worldCamera = camera;
+
         // get specific child (i know this is weird)
-        Transform currentDeckPanel = DeckWindowInstance.transform.GetChild(0).GetChild(1).GetChild(0).transform;
-        Transform availableCardsPanel = DeckWindowInstance.transform.GetChild(0).GetChild(0).GetChild(0).transform;
+        Transform currentDeckPanel = deckWindowInstance.transform.GetChild(0).GetChild(1).GetChild(0).transform;
+        Transform availableCardsPanel = deckWindowInstance.transform.GetChild(0).GetChild(0).GetChild(0).transform;
 
         foreach (CardData card in deckSystem.deckList)
         {
@@ -65,7 +65,7 @@ public class DeckPopUpUI : MonoBehaviour
 
             cardPosX += 100;
 
-            if (cardPosX >= 800)
+            if (cardPosX >= 700)
             {
                 cardPosX = 100;
                 cardPosY -= 150;

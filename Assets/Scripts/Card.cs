@@ -53,6 +53,7 @@ public class Card: MonoBehaviour
         OnClick?.Invoke(this);
     }
 
+    // hover effect
     private void OnMouseEnter()
     {
         if (!isSelected)
