@@ -2,14 +2,17 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class DeckPopUpUI : MonoBehaviour
+public class DeckPopUpUI : MonoBehaviour, IDeselectHandler
 {
     [SerializeField] private DeckSystem deckSystem;
 
     [SerializeField] private GameObject popUpPrefab;
     [SerializeField] private GameObject cardPrefab;
     [SerializeField] private Camera camera;
+
+    private float cardScale = 80f;
 
     private bool isDeckWindowCreated = false;
     private bool canOpenPopUp = false;
@@ -32,6 +35,14 @@ public class DeckPopUpUI : MonoBehaviour
             isDeckWindowCreated = true;
             canOpenPopUp = true;
         }
+    }
+
+    // close deck ui pop up when clicking outside of it
+    public void OnDeselect(BaseEventData eventData)
+    {
+        Debug.Log(eventData.selectedObject);
+        deckWindowInstance.SetActive(false);
+        canOpenPopUp = true;
     }
 
     public void OnButtonClick()
@@ -71,15 +82,15 @@ public class DeckPopUpUI : MonoBehaviour
 
                 // cardInstance.GetComponent<NonBattleCard>().OnClick += deckSystem.HandleCardOnClick;
 
-                cardInstance.transform.localScale = new Vector3(50, 50, 50);
+                cardInstance.transform.localScale = new Vector3(cardScale, cardScale, cardScale);
                 cardInstance.transform.localPosition = new Vector3(deckCardPosX, deckCardPosY, -1f);
 
-                deckCardPosX += 100;
+                deckCardPosX += 150;
 
-                if (deckCardPosX >= 700)
+                if (deckCardPosX >= 1700)
                 {
                     deckCardPosX = 100;
-                    deckCardPosY -= 150;
+                    deckCardPosY -= 200;
                 }
             }
 
