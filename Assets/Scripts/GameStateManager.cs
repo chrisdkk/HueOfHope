@@ -53,7 +53,7 @@ public class GameStateManager : MonoBehaviour
                 deck.Add(allAvailableCards[i % 2]);
                 
                 // this is done for dev purposes
-                availableCardsForDeck.Add(allAvailableCards[i % 2]);
+                // availableCardsForDeck.Add(allAvailableCards[i % 2]);
             }
             
             StartBattle();
@@ -67,7 +67,7 @@ public class GameStateManager : MonoBehaviour
         
         // DECK SYSTEM
         deckSystem.InitializeDeck(deck);
-        deckSystem.InitializeAvailable(availableCardsForDeck);
+        // deckSystem.InitializeAvailable(availableCardsForDeck);
         // DECK SYSTEM
     }
 

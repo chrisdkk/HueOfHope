@@ -13,6 +13,7 @@ public class DeckPopUpUI : MonoBehaviour
 
     private bool isDeckWindowCreated = false;
     private bool canOpenPopUp = false;
+    private bool hasListBeenFilled = false;
 
     private GameObject deckWindowInstance;
 
@@ -56,50 +57,55 @@ public class DeckPopUpUI : MonoBehaviour
         // get specific child, content in this case (this is weird)
         Transform currentDeckPanel =
             deckWindowInstance.transform.GetChild(0).GetChild(1).GetChild(0).GetChild(0).transform;
-        Transform availableCardsPanel =
-            deckWindowInstance.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(0).transform;
+        // Transform availableCardsPanel =
+        //     deckWindowInstance.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(0).transform;
 
         // deck cards tab (right)
-        foreach (CardData card in deckSystem.deckList)
+        if (!hasListBeenFilled)
         {
-            cardPrefab.GetComponentInChildren<NonBattleCard>().data = card;
-
-            GameObject cardInstance = Instantiate(cardPrefab, currentDeckPanel, false);
-            
-            cardInstance.GetComponent<NonBattleCard>().OnClick += deckSystem.HandleCardOnClick;
-
-            cardInstance.transform.localScale = new Vector3(50, 50, 50);
-            cardInstance.transform.localPosition = new Vector3(deckCardPosX, deckCardPosY, -1f);
-            
-            deckCardPosX += 100;
-
-            if (deckCardPosX >= 700)
+            foreach (CardData card in deckSystem.deckList)
             {
-                deckCardPosX = 100;
-                deckCardPosY -= 150;
+                cardPrefab.GetComponentInChildren<NonBattleCard>().data = card;
+
+                GameObject cardInstance = Instantiate(cardPrefab, currentDeckPanel, false);
+
+                // cardInstance.GetComponent<NonBattleCard>().OnClick += deckSystem.HandleCardOnClick;
+
+                cardInstance.transform.localScale = new Vector3(50, 50, 50);
+                cardInstance.transform.localPosition = new Vector3(deckCardPosX, deckCardPosY, -1f);
+
+                deckCardPosX += 100;
+
+                if (deckCardPosX >= 700)
+                {
+                    deckCardPosX = 100;
+                    deckCardPosY -= 150;
+                }
             }
+
+            hasListBeenFilled = true;
         }
 
         // available cards tab (left)
-        foreach (CardData card in deckSystem.availableList)
-        {
-            cardPrefab.GetComponentInChildren<NonBattleCard>().data = card;
-
-            // if item gets "moved" from one list to another, remove prefab instance so visual reflects data
-            GameObject cardInstance = Instantiate(cardPrefab, availableCardsPanel, false);
-            
-            cardInstance.GetComponent<NonBattleCard>().OnClick += deckSystem.HandleCardOnClick;
-            
-            cardInstance.transform.localScale = new Vector3(50, 50, 50);
-            cardInstance.transform.localPosition = new Vector3(availableCardPosX, availableCardPosY, -1f);
-
-            availableCardPosX += 100;
-
-            if (availableCardPosX >= 700)
-            {
-                availableCardPosX = 100;
-                availableCardPosY -= 150;
-            }
-        }
+        // foreach (CardData card in deckSystem.availableList)
+        // {
+        //     cardPrefab.GetComponentInChildren<NonBattleCard>().data = card;
+        //
+        //     // if item gets "moved" from one list to another, remove prefab instance so visual reflects data
+        //     GameObject cardInstance = Instantiate(cardPrefab, availableCardsPanel, false);
+        //     
+        //     cardInstance.GetComponent<NonBattleCard>().OnClick += deckSystem.HandleCardOnClick;
+        //     
+        //     cardInstance.transform.localScale = new Vector3(50, 50, 50);
+        //     cardInstance.transform.localPosition = new Vector3(availableCardPosX, availableCardPosY, -1f);
+        //
+        //     availableCardPosX += 100;
+        //
+        //     if (availableCardPosX >= 700)
+        //     {
+        //         availableCardPosX = 100;
+        //         availableCardPosY -= 150;
+        //     }
+        // }
     }
 }
