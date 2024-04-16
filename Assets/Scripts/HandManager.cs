@@ -11,6 +11,7 @@ public class HandManager : MonoBehaviour
     [SerializeField] private float horizontalSpacing;
     [SerializeField] private int maxHandSize;
     private DeckManager deck;
+    private Stats stats;
     private List<GameObject> cardsInHand = new List<GameObject>();
 
     public void Initialize(DeckManager deckManager)
@@ -34,7 +35,6 @@ public class HandManager : MonoBehaviour
             Destroy(cardsInHand[i]);
         }
         cardsInHand = new List<GameObject>();
-        UpdateHandVisuals();
     }
 
     public void AddCardToHand(CardData cardData)
@@ -43,9 +43,17 @@ public class HandManager : MonoBehaviour
         GameObject newCard = Instantiate(cardPrefab, handTransform.position, Quaternion.identity, handTransform);
         cardsInHand.Add(newCard);
 
+        // Set card visuals
         CardVisual cardVisual = newCard.GetComponent<CardVisual>();
         cardVisual.cardData = cardData;
         cardVisual.UpdateCardVisual();
+        
+        // Set card movement
+        CardMovement cardMovement = newCard.GetComponent<CardMovement>();
+        cardMovement.OnPlay += DiscardCard;
+        cardMovement.OnDrag += CardDragHandler;
+        cardMovement.OnDrop += CardDropHandler;
+        cardMovement.Initialize(cardData);
 
         UpdateHandVisuals();
     }
@@ -56,6 +64,9 @@ public class HandManager : MonoBehaviour
         deck.DiscardCard(cardData);
         cardsInHand.Remove(card);
         Destroy(card);
+        
+        UpdateHandVisuals();
+        UpdateHandSelectable();
     }
 
     private void UpdateHandVisuals()
@@ -70,4 +81,39 @@ public class HandManager : MonoBehaviour
             card.transform.position = new Vector3(x, handTransform.position.y, i);
         }
     }
+
+    private void UpdateHandSelectable()
+    {
+        BattleManager battleManager = FindObjectOfType<BattleManager>();
+        foreach (GameObject card in cardsInHand)
+        {
+            if (card.GetComponent<CardVisual>().cardData.apCost > battleManager.CurrentActionPoints)
+            {
+                card.GetComponent<CardMovement>().isSelectable = false;
+            } 
+        }
+    }
+
+    private void CardDragHandler(GameObject draggedCard)
+    {
+        foreach (GameObject card in cardsInHand)
+        {
+            if (card != draggedCard)
+            {
+                card.GetComponent<CardMovement>().isSelectable = false;
+            }
+        }
+    }
+    
+    private void CardDropHandler(GameObject droppedCard)
+    {
+        foreach (GameObject card in cardsInHand)
+        {
+            if (card != droppedCard)
+            {
+                card.GetComponent<CardMovement>().isSelectable = true;
+            }
+        }
+    }
+    
 }
