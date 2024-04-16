@@ -1,48 +1,48 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
-public class NonBattleCard : MonoBehaviour
+public class NonBattleCard: MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,IPointerClickHandler
 {
     [SerializeField] private Vector3 increasedScale;
-    [SerializeField] private List<Material> hightlightMaterial;
-    [SerializeField] private List<Material> defaultMaterial;
-
-    public CardData data;
-    private CardVisual visual;
+    [SerializeField] private Sprite hightlightSprite;
+    [SerializeField] private Sprite defaultSprite;
+    
     private Vector3 baseScale;
 
-    public delegate void CardClickedEventHandler(NonBattleCard clickedCard);
+    public delegate void NonBattleCardClickedEventHandler(NonBattleCard clickedCard);
 
-    public event CardClickedEventHandler OnClick;
+    public event NonBattleCardClickedEventHandler OnClick;
+    
+     void Start()
+     {
+         baseScale = transform.localScale;
+     }
 
-    void Start()
+     public void OnPointerEnter(PointerEventData eventData)
     {
-        // baseScale = transform.localScale;
+        transform.localScale = increasedScale;
     }
 
-    void OnMouseOver()
+    public void OnPointerExit(PointerEventData eventData)
     {
-        // transform.localScale = increasedScale;
+        transform.localScale = baseScale;
     }
 
-    void OnMouseExit()
-    {
-        // transform.localScale = baseScale;
-    }
-
-    void OnMouseUp()
+    public void OnPointerClick(PointerEventData eventData)
     {
         OnClick?.Invoke(this);
     }
 
     public void OnOtherRewardChosen()
     {
-        GetComponentInChildren<MeshRenderer>().SetMaterials(defaultMaterial);
+        GetComponent<Image>().sprite = defaultSprite;
     }
 
     public void OnRewardChosen()
     {
-        GetComponentInChildren<MeshRenderer>().SetMaterials(hightlightMaterial);
+        GetComponent<Image>().sprite = hightlightSprite;
     }
 }

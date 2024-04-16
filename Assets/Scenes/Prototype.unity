@@ -387,6 +387,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 698283384}
+  - component: {fileID: 698283385}
   m_Layer: 0
   m_Name: HandDisplay
   m_TagString: Untagged
@@ -409,6 +410,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &698283385
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 698283383}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4dfbb9efa5c724aac9c9909845594699, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cardPrefab: {fileID: 5102065105404934718, guid: 233ea21290818462da6c79081947af88,
+    type: 3}
+  handTransform: {fileID: 698283384}
+  horizontalSpacing: 1
+  maxHandSize: 5
 --- !u!1 &1035274088
 GameObject:
   m_ObjectHideFlags: 0
