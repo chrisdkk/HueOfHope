@@ -12,7 +12,7 @@ public class DeckPopUpUI : MonoBehaviour, IDeselectHandler
     [SerializeField] private GameObject cardPrefab;
     [SerializeField] private Camera camera;
 
-    private float cardScale = 80f;
+    [SerializeField] private float cardScale = 80f;
 
     private bool isDeckWindowCreated = false;
     private bool canOpenPopUp = false;
@@ -21,10 +21,10 @@ public class DeckPopUpUI : MonoBehaviour, IDeselectHandler
     private GameObject deckWindowInstance;
 
     private float deckCardPosX = 100;
-    private float deckCardPosY = -100;
+    private float deckCardPosY = -300;
 
-    private float availableCardPosX = 100;
-    private float availableCardPosY = -100;
+    // private float availableCardPosX = 100;
+    // private float availableCardPosY = -100;
 
     private void Start()
     {
@@ -76,7 +76,7 @@ public class DeckPopUpUI : MonoBehaviour, IDeselectHandler
         {
             foreach (CardData card in deckSystem.deckList)
             {
-                cardPrefab.GetComponentInChildren<NonBattleCard>().data = card;
+                cardPrefab.GetComponentInChildren<CardVisual>().cardData = card;
 
                 GameObject cardInstance = Instantiate(cardPrefab, currentDeckPanel, false);
 

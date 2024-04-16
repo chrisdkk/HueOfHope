@@ -52,16 +52,16 @@ public class DeckSystem : MonoBehaviour
         //     Destroy(clickedCard);
         // }
         
-        if (clickedList.name == "CurrentDeck")
-        {
-            deckList.Remove(clickedCard.data);
-            // Debug.Log(clickedCard.data.name);
-            
-            availableList.Add(clickedCard.data);
-            
-            // destroy card data after "moving" it to other list to prevent multiplying it
-            // might not be needed of visual gets destroyed
-            Destroy(clickedCard);
-        }
+        // if (clickedList.name == "CurrentDeck")
+        // {
+        //     deckList.Remove(clickedCard.data);
+        //     // Debug.Log(clickedCard.data.name);
+        //     
+        //     availableList.Add(clickedCard.data);
+        //     
+        //     // destroy card data after "moving" it to other list to prevent multiplying it
+        //     // might not be needed of visual gets destroyed
+        //     Destroy(clickedCard);
+        // }
     }
 }
