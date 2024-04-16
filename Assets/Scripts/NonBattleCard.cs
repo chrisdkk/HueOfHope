@@ -10,13 +10,11 @@ public class NonBattleCard: MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     [SerializeField] private Sprite hightlightSprite;
     [SerializeField] private Sprite defaultSprite;
     
-    public CardData data;
-    private CardVisual visual;
     private Vector3 baseScale;
 
-    public delegate void CardClickedEventHandler(NonBattleCard clickedCard);
+    public delegate void NonBattleCardClickedEventHandler(NonBattleCard clickedCard);
 
-    public event CardClickedEventHandler OnClick;
+    public event NonBattleCardClickedEventHandler OnClick;
     
      void Start()
      {

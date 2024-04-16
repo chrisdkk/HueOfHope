@@ -6,7 +6,7 @@ using Random = System.Random;
 public class BattleManager: MonoBehaviour
 {
     [SerializeField] private GameObject playerCharacterPrefab;
-    [SerializeField] private GameObject rewardPrefab;
+    [SerializeField] private GameObject rewardWindow;
     private DeckManager deckManager;
     private HandManager handManager;
     private List<Enemy> enemiesInBattle;
@@ -134,33 +134,7 @@ public class BattleManager: MonoBehaviour
 
         // You won
         GameStateManager.Instance.CurrentPlayerHealth = PlayerStats.health;
-        ShowReward();
+        rewardWindow.GetComponent<RewardManager>().ShowReward();
     }
 
-    /*
-     * Show three random cards to the player
-     */
-    
-    public void ShowReward()
-    {
-        List<CardData> rewards = new List<CardData>();
-        Random r = new Random();
-        while (rewards.Count < 3)
-        {
-            int index = r.Next(GameStateManager.Instance.allAvailableCards.Length);
-            //if (!rewards.Contains(GameStateManager.AllAvailableCards[index]))
-            //{
-            rewards.Add(GameStateManager.Instance.allAvailableCards[index]);
-            //}
-        }
-
-        // Show them in a popup to the player
-        int i = 0;
-        foreach (Card card in rewardPrefab.GetComponentsInChildren<Card>())
-        {
-            card.data = rewards[i];
-            i++;
-        }
-        Instantiate(rewardPrefab, new Vector3(0, 0, -4), Quaternion.identity);
-    } 
 }

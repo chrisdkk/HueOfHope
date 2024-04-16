@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,60 +7,56 @@ using Random = System.Random;
 public class RewardManager : MonoBehaviour
 {
     
-    [SerializeField] private GameObject rewardPrefab;
     [SerializeField] private GameObject chooseRewardButton;
     private NonBattleCard selectedReward;
-    private GameObject instPrefab;
+    private Button buttonButtonComponent;
 
-    // Start is called before the first frame update
     void Start()
     {
-        ShowReward();
+        buttonButtonComponent = chooseRewardButton.GetComponent<Button>();
     }
-
-    // Update is called once per frame
+    
     void Update()
     {
-        
+        // Enable the button if a card is selected
+        if (selectedReward != null)
+        {
+            buttonButtonComponent.interactable = true;
+        }
     }
 
     public void ShowReward()
     {
+        // Choose 3 random card datas as reward
         List<CardData> rewards = new List<CardData>();
         Random r = new Random();
         while (rewards.Count < 3)
         {
             int index = r.Next(GameStateManager.Instance.allAvailableCards.Length);
+            // Prevent duplicates
             //if (!rewards.Contains(GameStateManager.AllAvailableCards[index]))
             //{
             rewards.Add(GameStateManager.Instance.allAvailableCards[index]);
             //}
         }
 
-        // Adjust scaling of canvases
-        foreach (CanvasScaler canvasScaler in rewardPrefab.GetComponentsInChildren<CanvasScaler>())
-        {
-            canvasScaler.referenceResolution = new Vector2(1280, 740);
-        }
-
-        // Register for onclick on cards
-        foreach (NonBattleCard nonBattleCard in rewardPrefab.GetComponentsInChildren<NonBattleCard>())
-        {
-            nonBattleCard.OnClick += HandleCardOnClick;
-        }
-
         // Register for onclick on button
         chooseRewardButton.GetComponent<ChooseRewardButtonUI>().OnClick += HandleButtonOnClick;
         
         // Load card data into card game object
-        int i = 0;
-        foreach (CardVisual cardVisual in rewardPrefab.GetComponentsInChildren<CardVisual>())
+        for(int i=0; i < transform.childCount;i++)
         {
-            cardVisual.Initialize(rewards[i]);
-            i++;
+            CardVisual cardVisual = transform.GetChild(i).GetComponentInChildren<CardVisual>();
+            cardVisual.cardData = rewards[i];
+            cardVisual.UpdateCardVisual();
+            cardVisual.transform.parent.gameObject.SetActive(true);
         }
-        // Show reward window
-        instPrefab = Instantiate(rewardPrefab, new Vector3(0, 0, -4), Quaternion.identity);
+
+        // Register for onclick on cards
+        foreach (NonBattleCard nonBattleCard in transform.GetComponentsInChildren<NonBattleCard>())
+        {
+            nonBattleCard.OnClick += HandleCardOnClick;
+        }
     }
     
     /* Remove the highlighting, if another card was clicked */
@@ -78,9 +75,13 @@ public class RewardManager : MonoBehaviour
         clickedCard.OnRewardChosen();
     }
 
+    /* Select the reward, add it to the deck and remove the reward window */
     void HandleButtonOnClick()
     {
-        GameStateManager.Instance.deck.Add(selectedReward.data);
-        Destroy(instPrefab);
+        if (selectedReward != null)
+        {
+            GameStateManager.Instance.deck.Add(selectedReward.GetComponent<CardVisual>().cardData);
+            Destroy(transform.gameObject);
+        }
     }
 }
