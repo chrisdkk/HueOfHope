@@ -656,9 +656,10 @@ MonoBehaviour:
   deckSystem: {fileID: 1050785215}
   popUpPrefab: {fileID: 807054639006542272, guid: 2967124449be78f40be35259fc6490f6,
     type: 3}
-  cardPrefab: {fileID: 2143948763588692177, guid: e697805cd52b10f45a4c2e90f3dec587,
+  cardPrefab: {fileID: 197478084497947527, guid: ca26986165e66cf4e92da62b9feb94c4,
     type: 3}
   camera: {fileID: 1256729818}
+  cardScale: 80
 --- !u!1 &1904094328
 GameObject:
   m_ObjectHideFlags: 0
