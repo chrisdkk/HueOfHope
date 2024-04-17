@@ -90,6 +90,7 @@ public class BattleManager: MonoBehaviour
      */
     private void StartPlayerTurn()
     {
+        GameObject.Find("HealthBar").GetComponent<HealthMonitor>().UpdatePlayerAnimation(PlayerStats.health);
         // Apply and reduce status effects of player
         PlayerStats.defense = 0;
         if (PlayerStats.burn > 0)
