@@ -18,6 +18,8 @@ public enum CardPlayType
 
 public class CardMovement : MonoBehaviour
 {
+    private static CardMovement selectedCard;
+    
     private CardPlayType playType;
     private Vector3 originalLocalPointerPosition;
     private Vector3 originalPosition;
@@ -33,16 +35,10 @@ public class CardMovement : MonoBehaviour
     [SerializeField] private GameObject glowEffect;
     [SerializeField] private GameObject playArrow;
 
-    public bool isSelectable = true;
-    
     // Event for handling a play attempt
     public delegate void PlayEventHandler(GameObject playedCard);
-    public delegate void DragEventHandler(GameObject playedCard);
-    public delegate void DropEventHandler(GameObject playedCard);
 
     public event PlayEventHandler OnPlay;
-    public event DragEventHandler OnDrag;
-    public event DropEventHandler OnDrop;
 
     public void Initialize(CardData card)
     {
@@ -96,7 +92,7 @@ public class CardMovement : MonoBehaviour
 
     private void OnMouseEnter()
     {
-        if (currentState == CardState.Idle && isSelectable)
+        if (currentState == CardState.Idle && selectedCard == null)
         {
             originalPosition = transform.localPosition;
             originalRotation = transform.localRotation;
@@ -118,16 +114,8 @@ public class CardMovement : MonoBehaviour
         if (currentState == CardState.Hover)
         {
             currentState = CardState.Dragging;
-            OnDrag?.Invoke(this.gameObject);
+            selectedCard = this;
         } 
-        else if (currentState == CardState.Play || currentState == CardState.Dragging)
-        {
-            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out var hit, 100, layerMask)) {
-                
-                OnPlay?.Invoke(this.gameObject);
-            } 
-        }
     }
 
     private void HandleHoverState()
@@ -172,10 +160,31 @@ public class CardMovement : MonoBehaviour
             transform.localPosition = localMousePos;
         }
 
-        if (Input.GetMouseButtonDown(1) || localMousePos.y < cardPlay.y)
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (playType == CardPlayType.Arrow)
+            {
+                Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+                if (Physics.Raycast(ray, out var hit, 100, layerMask))
+                {
+                    selectedCard = null;
+                    OnPlay?.Invoke(gameObject);
+                } 
+            }
+            else
+            {
+                if (transform.localPosition.y > cardPlay.y)
+                {
+                    selectedCard = null;
+                    OnPlay?.Invoke(gameObject);
+                }
+            }
+        }
+
+        if (Input.GetMouseButtonDown(1) || localMousePos.y < -0.2)
         {
             playArrow.SetActive(false);
-            OnDrop?.Invoke(this.gameObject);
+            selectedCard = null;
             TransitionToIdleState();
         }
     }

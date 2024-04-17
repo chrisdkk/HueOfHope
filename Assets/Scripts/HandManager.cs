@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class HandManager : MonoBehaviour
 {
@@ -13,7 +12,7 @@ public class HandManager : MonoBehaviour
     private DeckManager deck;
     private Stats stats;
     private List<GameObject> cardsInHand = new List<GameObject>();
-
+    
     public void Initialize(DeckManager deckManager)
     {
         deck = deckManager;
@@ -51,8 +50,6 @@ public class HandManager : MonoBehaviour
         // Set card movement
         CardMovement cardMovement = newCard.GetComponent<CardMovement>();
         cardMovement.OnPlay += DiscardCard;
-        cardMovement.OnDrag += CardDragHandler;
-        cardMovement.OnDrop += CardDropHandler;
         cardMovement.Initialize(cardData);
 
         UpdateHandVisuals();
@@ -66,7 +63,6 @@ public class HandManager : MonoBehaviour
         Destroy(card);
         
         UpdateHandVisuals();
-        UpdateHandSelectable();
     }
 
     private void UpdateHandVisuals()
@@ -81,39 +77,4 @@ public class HandManager : MonoBehaviour
             card.transform.position = new Vector3(x, handTransform.position.y, i);
         }
     }
-
-    private void UpdateHandSelectable()
-    {
-        BattleManager battleManager = FindObjectOfType<BattleManager>();
-        foreach (GameObject card in cardsInHand)
-        {
-            if (card.GetComponent<CardVisual>().cardData.apCost > battleManager.CurrentActionPoints)
-            {
-                card.GetComponent<CardMovement>().isSelectable = false;
-            } 
-        }
-    }
-
-    private void CardDragHandler(GameObject draggedCard)
-    {
-        foreach (GameObject card in cardsInHand)
-        {
-            if (card != draggedCard)
-            {
-                card.GetComponent<CardMovement>().isSelectable = false;
-            }
-        }
-    }
-    
-    private void CardDropHandler(GameObject droppedCard)
-    {
-        foreach (GameObject card in cardsInHand)
-        {
-            if (card != droppedCard)
-            {
-                card.GetComponent<CardMovement>().isSelectable = true;
-            }
-        }
-    }
-    
 }

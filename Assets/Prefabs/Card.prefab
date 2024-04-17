@@ -514,11 +514,10 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   selectScale: 1.1
-  cardPlay: {x: 0, y: 0.5}
+  cardPlay: {x: 0, y: 1}
   playPosition: {x: 0, y: 1, z: 0}
   glowEffect: {fileID: 6596201708000344729}
   playArrow: {fileID: 6708614352295726533}
-  isSelectable: 1
 --- !u!61 &4111712118602202969
 BoxCollider2D:
   m_ObjectHideFlags: 0
