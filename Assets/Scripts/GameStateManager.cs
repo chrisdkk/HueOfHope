@@ -47,7 +47,6 @@ public class GameStateManager : MonoBehaviour
             {
                 deck.Add(allAvailableCards[i % 2]);
             }
-            Debug.Log(deck.Count);
             StartBattle();
         }
     }

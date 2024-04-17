@@ -7,55 +7,73 @@ using UnityEngine;
 public enum CardEffectType
 {
     Damage,
-    Defend,
+    Block,
+    Insight,
+    Burn,
+    AttackDebuff,
+    BlockDebuff
 }
 
 [Serializable]
 public class CardEffect
 {
     public CardEffectType effectType;
-    public int[] payload;
+    public int payload;
+    public bool multipleTargets;
 
-    public Stats[] Apply(Stats[] targets, BattleManager manager)
+    /* Apply the effect to the target*/
+    public void Apply(Stats user,ref Stats target)
     {
-        Debug.Log(effectType + "-" + targets[0] + "-" + payload[0]);
         switch (effectType)
         {
+            
             case CardEffectType.Damage:
             {
-                for (int i = 0; i < targets.Length; i++)
-                {
-                    Stats target = targets[i];
-                    int damage = payload[0];
+                int damage = payload+user.insight-user.attackDebuff;
                     int difference = damage - target.defense;
                     
-                    if (difference < 0)
+                    if (difference <= 0)
                     {
-                        damage = 0;
                         target.defense = Math.Abs(difference);
+                        difference = damage = 0;
                     }
 
-                    target.health -= damage;
-                    targets[i] = target;
-                }
-                break;
+                    target.health -= difference;
+                    break;
             }
-            case CardEffectType.Defend:
-            {
-                for (int i = 0; i < targets.Length; i++)
-                {
-                    Stats target = targets[i];
-                    int defense = payload[0];
 
-                    target.defense += defense;
-                    targets[i] = target;
-                }
+            case CardEffectType.Block:
+            {
+                target.defense += payload;
+                    break;
+            }
+            
+            case CardEffectType.Insight:
+            {
+                target.insight += payload;
                 break;
             }
+            
+            case CardEffectType.Burn:
+            {
+                target.burn += payload;
+                    break;
+            }
+            
+            case CardEffectType.AttackDebuff:
+            {
+                target.attackDebuff += payload;
+                break;
+            }
+            
+            case CardEffectType.BlockDebuff:
+            {
+                target.defense -= payload;
+                    break;
+            }
+            
             default: break;
         }
-        
-        return targets;
     }
     
 }

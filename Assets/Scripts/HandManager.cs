@@ -49,12 +49,33 @@ public class HandManager : MonoBehaviour
         
         // Set card movement
         CardMovement cardMovement = newCard.GetComponent<CardMovement>();
-        cardMovement.OnPlay += DiscardCard;
+        cardMovement.OnPlay += PlayCard;
         cardMovement.Initialize(cardData);
 
         UpdateHandVisuals();
     }
 
+    private void PlayCard(GameObject card, GameObject enemy)
+    {
+        CardData cardData = card.GetComponent<CardVisual>().cardData;
+
+        bool cardPlayed;
+        // Determine if card was offensive or defensive
+        if (enemy != null)
+        {
+            cardPlayed = GameStateManager.Instance.BattleManager.PlayCard(GameStateManager.Instance.BattleManager.PlayerStats, true, cardData.apCost, cardData.effects, ref enemy.GetComponent<Enemy>().stats);
+        }
+        else
+        {
+            cardPlayed = GameStateManager.Instance.BattleManager.PlayCard(GameStateManager.Instance.BattleManager.PlayerStats, true, cardData.apCost, cardData.effects, ref GameStateManager.Instance.BattleManager.PlayerStats);
+        }
+        
+        if (cardPlayed)
+        {
+            DiscardCard(card);
+        }
+    }
+    
     private void DiscardCard(GameObject card)
     {
         CardData cardData = card.GetComponent<CardVisual>().cardData;

@@ -9,5 +9,5 @@ public struct Stats
   public int insight;
   
   public int burn;
-  public int wound;
+  public int attackDebuff;
 }

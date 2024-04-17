@@ -10,12 +10,11 @@ public class BattleManager: MonoBehaviour
     private DeckManager deckManager;
     private HandManager handManager;
     private List<Enemy> enemiesInBattle;
-    public int CurrentActionPoints { get; set; }
-    public Stats PlayerStats;
     private GameObject playerCharacter;
-
-    private Card selectedCard;
     private Transform handDisplay;
+    public int CurrentActionPoints { get; private set; }
+    
+    public Stats PlayerStats;
 
     public void Initialize(List<CardData> deck, List<Enemy> enemies)
     {
@@ -60,12 +59,6 @@ public class BattleManager: MonoBehaviour
                 enemy.stats.burn--;
             }
 
-            if (enemy.stats.wound > 0)
-            {
-                enemy.stats.health -= 5;
-                enemy.stats.wound--;
-            }
-
             // Do action
             enemy.PlayEnemyCard();
 
@@ -96,12 +89,6 @@ public class BattleManager: MonoBehaviour
         {
             PlayerStats.health -= 4;
             PlayerStats.burn--;
-        }
-
-        if (PlayerStats.wound > 0)
-        {
-            PlayerStats.health -= 5;
-            PlayerStats.wound--;
         }
 
         handManager.DrawHand();
@@ -137,4 +124,56 @@ public class BattleManager: MonoBehaviour
         rewardWindow.GetComponent<RewardManager>().ShowReward();
     }
 
+    /* Determine if the card can be played and if so apply all effects*/
+    public bool PlayCard(Stats user, bool isPlayer, int cardCost, CardEffect[] cardEffects, ref Stats target)
+    {
+        // Reduce action points
+        if (cardCost > CurrentActionPoints)
+        {
+            return false;
+        }
+        CurrentActionPoints -= cardCost;
+
+        // Apply all effects
+        foreach (CardEffect effect in cardEffects)
+        {
+            switch (effect.effectType)
+            {
+                case CardEffectType.Damage:
+                case CardEffectType.AttackDebuff:
+                case CardEffectType.BlockDebuff:
+                case CardEffectType.Burn:
+                    // Only player can damage multiple enemies
+                    if (isPlayer && effect.multipleTargets)
+                    {
+                        for(int i=0;i<enemiesInBattle.Count;i++)
+                        {
+                            effect.Apply(user, ref enemiesInBattle[i].stats);
+                        }
+                    }
+                    else
+                    { 
+                        effect.Apply(user, ref target);
+                    }
+                    break;
+                case CardEffectType.Block:
+                case CardEffectType.Insight:
+                    // Player can only buff self
+                    if (effect.multipleTargets && !isPlayer)
+                    {
+                        for(int i=0;i<enemiesInBattle.Count;i++)
+                        {
+                            effect.Apply(user, ref enemiesInBattle[i].stats);
+                        }
+                    }
+                    else
+                    {
+                        effect.Apply(user, ref target);
+                    }
+                    break;
+            }
+        }
+        return true;
+    }
+    
 }

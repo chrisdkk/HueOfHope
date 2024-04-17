@@ -26,10 +26,10 @@ public class CardVisual : MonoBehaviour
             switch (effect.effectType)
             {
                 case CardEffectType.Damage:
-                    effectText += $"Deal {effect.payload[0]} damage";
+                    effectText += $"Deal {effect.payload} damage";
                     break;
-                case CardEffectType.Defend:
-                    effectText += $"Block {effect.payload[0]} damage";
+                case CardEffectType.Block:
+                    effectText += $"Block {effect.payload} damage";
                     break;
                 default: break;
             }

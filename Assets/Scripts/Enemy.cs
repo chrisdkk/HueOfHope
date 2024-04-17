@@ -62,44 +62,20 @@ public class Enemy : MonoBehaviour
     /* Play the current selected enemy card*/
     public void PlayEnemyCard()
     {
-        // Load effects and targets for the card
-        CardEffect[] effects;
-        Stats[] targets = new Stats[1]; // Change if enemies can shield all enemies
-        switch (currentAction)
+        EnemyCard enemyCard;
+        // Play the current action card and target either the player or self
+        if (currentAction == EnemyActionTypes.Attack)
         {
-            case EnemyActionTypes.Attack:
-                effects = attackActions.ElementAt(cardPower).effects;
-                targets[0] = GameStateManager.Instance.BattleManager.PlayerStats;
-                break;
-            
-            case EnemyActionTypes.Block:
-                effects = blockActions.ElementAt(cardPower).effects;
-                targets[0] = stats;
-                break;
-            default:
-                effects = null;
-                break;
+            enemyCard = attackActions.ElementAt(cardPower);
+            GameStateManager.Instance.BattleManager.PlayCard(stats, false, 0, enemyCard.effects, ref GameStateManager.Instance.BattleManager.PlayerStats);
         }
+        else
+        {
+            enemyCard = blockActions.ElementAt(cardPower);
+            GameStateManager.Instance.BattleManager.PlayCard(stats, false, 0, enemyCard.effects, ref stats);
+        }
+        
 
-        // Apply all effects
-        foreach (CardEffect effect in effects)
-        {
-            targets = effect.Apply(targets, GameStateManager.Instance.BattleManager);
-        }
-        
-        switch (currentAction)
-        {
-            case EnemyActionTypes.Attack:
-                GameStateManager.Instance.BattleManager.PlayerStats = targets[0];
-                break;
-            
-            case EnemyActionTypes.Block:
-                stats = targets[0];
-                break;
-            default:
-                break;
-        }
-        
         currentAction = enemyPattern.GetCurrentActionPattern();
         cardPower = random.Next(actionSize);
     }
