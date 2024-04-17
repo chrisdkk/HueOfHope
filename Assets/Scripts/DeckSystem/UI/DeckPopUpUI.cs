@@ -1,103 +1,115 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class DeckPopUpUI : MonoBehaviour, IDeselectHandler
+public class DeckPopUpUI : MonoBehaviour
 {
-    [SerializeField] private DeckSystem deckSystem;
+    [SerializeField] private GameObject attackCardContent;
+    [SerializeField] private GameObject skillCardContent;
 
-    [SerializeField] private GameObject popUpPrefab;
+    [SerializeField] private GameObject totalCardCount;
+    [SerializeField] private GameObject attackCardCount;
+    [SerializeField] private GameObject skillCardCount;
+
+    [HideInInspector] public DeckSystem deckSystem;
     [SerializeField] private GameObject cardPrefab;
-    [SerializeField] private Camera camera;
 
     [SerializeField] private float cardScale = 80f;
 
-    private bool isDeckWindowCreated = false;
-    private bool canOpenPopUp = false;
     private bool hasListBeenFilled = false;
 
     private GameObject deckWindowInstance;
 
-    private float deckCardPosX = 100;
-    private float deckCardPosY = -300;
+    // you would probably only need one set of positional values
+    // but this would allow more control for now (dev phase)
+    private float deckAttackCardPosX = 100;
+    private float deckAttackCardPosY = -200;
+
+    private float deckSkillCardPosX = 100;
+    private float deckSkillCardPosY = -200;
+
+    private int attackCount = 0;
+    private int skillCount = 0;
 
     // private float availableCardPosX = 100;
     // private float availableCardPosY = -100;
 
     private void Start()
     {
-        // instantiate only one pop up if one is not already open
-        if (!isDeckWindowCreated)
-        {
-            deckWindowInstance = Instantiate(popUpPrefab, new Vector3(0, 0, 0), Quaternion.identity);
-            isDeckWindowCreated = true;
-            canOpenPopUp = true;
-        }
+        PopulateUI();
     }
 
-    // close deck ui pop up when clicking outside of it
-    public void OnDeselect(BaseEventData eventData)
+    private void Update()
     {
-        Debug.Log(eventData.selectedObject);
-        deckWindowInstance.SetActive(false);
-        canOpenPopUp = true;
     }
 
-    public void OnButtonClick()
+    private void PopulateUI()
     {
-        // this might re-instantiate its child prefabs (cardInstance), do we want that?
-        if (canOpenPopUp)
-        {
-            deckWindowInstance.SetActive(true);
-            canOpenPopUp = false;
-        }
-        else
-        {
-            deckWindowInstance.SetActive(false);
-            canOpenPopUp = true;
-        }
+        // get total amount of card in current deck
+        totalCardCount.GetComponent<TextMeshProUGUI>().text = "Deck - Total " + deckSystem.deckList.Count.ToString() + " Cards";
 
-        // necessary?
-        // deckWindowInstance.GetComponentInChildren<Canvas>().planeDistance = 3;
-
-        // make deck/map scene camera "see" the card prefab instances WHY?
-        deckWindowInstance.transform.GetComponentInChildren<Canvas>().worldCamera = camera;
-
-        // get specific child, content in this case (this is weird)
-        Transform currentDeckPanel =
-            deckWindowInstance.transform.GetChild(0).GetChild(1).GetChild(0).GetChild(0).transform;
-        // Transform availableCardsPanel =
-        //     deckWindowInstance.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(0).transform;
-
-        // deck cards tab (right)
+        // deck cards tab
         if (!hasListBeenFilled)
         {
             foreach (CardData card in deckSystem.deckList)
             {
-                cardPrefab.GetComponentInChildren<CardVisual>().cardData = card;
-
-                GameObject cardInstance = Instantiate(cardPrefab, currentDeckPanel, false);
-
-                // cardInstance.GetComponent<NonBattleCard>().OnClick += deckSystem.HandleCardOnClick;
-
-                cardInstance.transform.localScale = new Vector3(cardScale, cardScale, cardScale);
-                cardInstance.transform.localPosition = new Vector3(deckCardPosX, deckCardPosY, -1f);
-
-                deckCardPosX += 150;
-
-                if (deckCardPosX >= 1700)
+                if (card.cardType == CardType.Attack)
                 {
-                    deckCardPosX = 100;
-                    deckCardPosY -= 200;
+                    // get amount of attack cards
+                    attackCount++;
+                    attackCardCount.GetComponent<TextMeshProUGUI>().text = attackCount.ToString() + " Cards";
+
+                    cardPrefab.GetComponentInChildren<CardVisual>().cardData = card;
+
+                    GameObject cardInstance = Instantiate(cardPrefab, attackCardContent.transform, false);
+
+                    // cardInstance.GetComponent<NonBattleCard>().OnClick += deckSystem.HandleCardOnClick;
+
+                    cardInstance.transform.localScale = new Vector3(cardScale, cardScale, cardScale);
+                    cardInstance.transform.localPosition = new Vector3(deckAttackCardPosX, deckAttackCardPosY, -1f);
+
+                    deckAttackCardPosX += 150;
+
+                    if (deckAttackCardPosX >= 1700)
+                    {
+                        deckAttackCardPosX = 100;
+                        deckAttackCardPosY -= 200;
+                    }
+                }
+
+                if (card.cardType == CardType.Skill)
+                {
+                    // get amount of skill cards
+                    skillCount++;
+                    skillCardCount.GetComponent<TextMeshProUGUI>().text = skillCount.ToString() + " Cards";
+
+                    cardPrefab.GetComponentInChildren<CardVisual>().cardData = card;
+
+                    GameObject cardInstance = Instantiate(cardPrefab, skillCardContent.transform, false);
+
+                    // cardInstance.GetComponent<NonBattleCard>().OnClick += deckSystem.HandleCardOnClick;
+
+                    cardInstance.transform.localScale = new Vector3(cardScale, cardScale, cardScale);
+                    cardInstance.transform.localPosition = new Vector3(deckSkillCardPosX, deckSkillCardPosY, -1f);
+
+                    deckSkillCardPosX += 150;
+
+                    if (deckSkillCardPosX >= 1700)
+                    {
+                        deckSkillCardPosX = 100;
+                        deckSkillCardPosY -= 200;
+                    }
                 }
             }
-
+            
+            // prevent filling the ui multiple times causing duplicates
             hasListBeenFilled = true;
         }
 
-        // available cards tab (left)
+        // available cards tab
         // foreach (CardData card in deckSystem.availableList)
         // {
         //     cardPrefab.GetComponentInChildren<NonBattleCard>().data = card;

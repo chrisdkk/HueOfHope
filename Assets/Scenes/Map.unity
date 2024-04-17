@@ -519,7 +519,7 @@ GameObject:
   - component: {fileID: 1871733691}
   - component: {fileID: 1871733690}
   - component: {fileID: 1871733689}
-  - component: {fileID: 1871733693}
+  - component: {fileID: 1871733694}
   m_Layer: 5
   m_Name: DeckPopUpButton
   m_TagString: Untagged
@@ -591,8 +591,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1871733693}
-        m_TargetAssemblyTypeName: ToggleDeckPopUpUI, Assembly-CSharp
+      - m_Target: {fileID: 1871733694}
+        m_TargetAssemblyTypeName: TogglePopUpUI, Assembly-CSharp
         m_MethodName: OnButtonClick
         m_Mode: 1
         m_Arguments:
@@ -641,7 +641,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1871733686}
   m_CullTransparentMesh: 1
---- !u!114 &1871733693
+--- !u!114 &1871733694
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -650,7 +650,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1871733686}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e2f910a85f10fc449a95026a10b0a4c, type: 3}
+  m_Script: {fileID: 11500000, guid: 9ec4e39f6e7bee240af03cca1f31b247, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   deckSystem: {fileID: 1050785215}
@@ -659,7 +659,6 @@ MonoBehaviour:
   cardPrefab: {fileID: 197478084497947527, guid: ca26986165e66cf4e92da62b9feb94c4,
     type: 3}
   camera: {fileID: 1256729818}
-  cardScale: 80
 --- !u!1 &1904094328
 GameObject:
   m_ObjectHideFlags: 0

@@ -7,7 +7,7 @@ public class ViewDeckButtonUI : MonoBehaviour
 {
     [SerializeField] private GameObject deckWindow;
     [SerializeField] private GameObject cardPrefab;
-    [SerializeField] private Camera camera;
+    [SerializeField] private new Camera camera; // new is required because of old unity code
 
     public void OnButtonClick()
     {
