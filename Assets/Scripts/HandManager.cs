@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class HandManager : MonoBehaviour
 {
@@ -11,8 +10,9 @@ public class HandManager : MonoBehaviour
     [SerializeField] private float horizontalSpacing;
     [SerializeField] private int maxHandSize;
     private DeckManager deck;
+    private Stats stats;
     private List<GameObject> cardsInHand = new List<GameObject>();
-
+    
     public void Initialize(DeckManager deckManager)
     {
         deck = deckManager;
@@ -34,7 +34,6 @@ public class HandManager : MonoBehaviour
             Destroy(cardsInHand[i]);
         }
         cardsInHand = new List<GameObject>();
-        UpdateHandVisuals();
     }
 
     public void AddCardToHand(CardData cardData)
@@ -43,9 +42,15 @@ public class HandManager : MonoBehaviour
         GameObject newCard = Instantiate(cardPrefab, handTransform.position, Quaternion.identity, handTransform);
         cardsInHand.Add(newCard);
 
+        // Set card visuals
         CardVisual cardVisual = newCard.GetComponent<CardVisual>();
         cardVisual.cardData = cardData;
         cardVisual.UpdateCardVisual();
+        
+        // Set card movement
+        CardMovement cardMovement = newCard.GetComponent<CardMovement>();
+        cardMovement.OnPlay += DiscardCard;
+        cardMovement.Initialize(cardData);
 
         UpdateHandVisuals();
     }
@@ -56,6 +61,8 @@ public class HandManager : MonoBehaviour
         deck.DiscardCard(cardData);
         cardsInHand.Remove(card);
         Destroy(card);
+        
+        UpdateHandVisuals();
     }
 
     private void UpdateHandVisuals()
