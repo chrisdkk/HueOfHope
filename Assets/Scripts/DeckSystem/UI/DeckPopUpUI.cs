@@ -34,9 +34,6 @@ public class DeckPopUpUI : MonoBehaviour
     private int attackCount = 0;
     private int skillCount = 0;
 
-    // private float availableCardPosX = 100;
-    // private float availableCardPosY = -100;
-
     private void Start()
     {
         PopulateUI();
@@ -108,27 +105,5 @@ public class DeckPopUpUI : MonoBehaviour
             // prevent filling the ui multiple times causing duplicates
             hasListBeenFilled = true;
         }
-
-        // available cards tab
-        // foreach (CardData card in deckSystem.availableList)
-        // {
-        //     cardPrefab.GetComponentInChildren<NonBattleCard>().data = card;
-        //
-        //     // if item gets "moved" from one list to another, remove prefab instance so visual reflects data
-        //     GameObject cardInstance = Instantiate(cardPrefab, availableCardsPanel, false);
-        //     
-        //     cardInstance.GetComponent<NonBattleCard>().OnClick += deckSystem.HandleCardOnClick;
-        //     
-        //     cardInstance.transform.localScale = new Vector3(50, 50, 50);
-        //     cardInstance.transform.localPosition = new Vector3(availableCardPosX, availableCardPosY, -1f);
-        //
-        //     availableCardPosX += 100;
-        //
-        //     if (availableCardPosX >= 700)
-        //     {
-        //         availableCardPosX = 100;
-        //         availableCardPosY -= 150;
-        //     }
-        // }
     }
 }
