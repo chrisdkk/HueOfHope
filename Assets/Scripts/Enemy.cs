@@ -1,10 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Random = System.Random;
 
-public class Enemy : MonoBehaviour
+public class Enemy : Character
 {
     [SerializeField]
     private int maxHealth = 30;
@@ -14,8 +15,6 @@ public class Enemy : MonoBehaviour
     private GameObject healthBarUI;
     [SerializeField]
     private EnemyActionTypes[] possibleEnemyAction;
-    
-    public Stats stats;
 
     private EnemyPattern enemyPattern;
     private int actionSize = 3;
@@ -30,10 +29,12 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         // Initialize variables for the enemy
-        stats.health = maxHealth;
+        CharacterStats.Health = maxHealth;
         enemyPattern = new EnemyPattern(possibleEnemyAction);
         currentAction = enemyPattern.GetCurrentActionPattern();
         cardPower = random.Next(actionSize);
+
+        CharacterStats.OnChange += UpdateHealthBar;
         
         // Load and sort all available enemy cards
         EnemyCard[] enemyCards = Resources.LoadAll<EnemyCard>("EnemyCards/");
@@ -67,22 +68,72 @@ public class Enemy : MonoBehaviour
         if (currentAction == EnemyActionTypes.Attack)
         {
             enemyCard = attackActions.ElementAt(cardPower);
-            GameStateManager.Instance.BattleManager.PlayCard(stats, false, 0, enemyCard.effects, ref GameStateManager.Instance.BattleManager.PlayerStats);
         }
         else
         {
             enemyCard = blockActions.ElementAt(cardPower);
-            GameStateManager.Instance.BattleManager.PlayCard(stats, false, 0, enemyCard.effects, ref stats);
         }
         
-
+        
+        foreach (CardEffect effect in enemyCard.effects)
+        {
+            List<Character> targets = new List<Character>();
+            // Add event for the effect + Set targets
+            switch (effect.effectType)
+            {
+                case CardEffectType.Damage:
+                    targets.Add(GameStateManager.Instance.BattleManager.PlayerScript);
+                    GameStateManager.Instance.BattleManager.AddEventToQueue(()=>CardEffectActions.DamageAction(this, effect.payload, effect.ignoreBlock, ref targets));
+                    break;
+                
+                case CardEffectType.Block:
+                    if (effect.multipleTargets)
+                    {
+                        targets.AddRange(GameStateManager.Instance.BattleManager.EnemiesInBattle);
+                    }
+                    else
+                    {
+                        targets.Add(this);
+                    }
+                    GameStateManager.Instance.BattleManager.AddEventToQueue(()=>CardEffectActions.BlockAction(effect.payload, ref targets));
+                    break;
+                
+                case CardEffectType.Burn:
+                    targets.Add(GameStateManager.Instance.BattleManager.PlayerScript);
+                    GameStateManager.Instance.BattleManager.AddEventToQueue(()=>CardEffectActions.BurnAction(effect.payload, ref targets));
+                    break;
+                
+                case CardEffectType.Insight:
+                    if (effect.multipleTargets)
+                    {
+                        targets.AddRange(GameStateManager.Instance.BattleManager.EnemiesInBattle);
+                    }
+                    else
+                    {
+                        targets.Add(this);
+                    }
+                    GameStateManager.Instance.BattleManager.AddEventToQueue(()=>CardEffectActions.InsightAction(effect.payload, ref targets));
+                    break;
+                
+                case CardEffectType.AttackDebuff:
+                    targets.Add(GameStateManager.Instance.BattleManager.PlayerScript);
+                    GameStateManager.Instance.BattleManager.AddEventToQueue(()=>CardEffectActions.AttackDebuff(effect.payload, ref targets));
+                    break;
+            }
+            // Check if player died
+            if (GameStateManager.Instance.BattleManager.PlayerScript.CharacterStats.Health<=0)
+            {
+                GameStateManager.Instance.BattleManager.EndBattle();
+            }
+        }
+        // Get next action
         currentAction = enemyPattern.GetCurrentActionPattern();
         cardPower = random.Next(actionSize);
     }
 
     /*Update the healthbar of the enemy*/
-    public void UpdateHealthBar()
+    public new void UpdateHealthBar()
     {
-        healthBarUI.transform.localScale = new Vector3((float)stats.health / (float)maxHealth, 0.04f, 0.5f);
+        healthBarUI.transform.localScale = new Vector3((float)CharacterStats.Health / (float)maxHealth, 0.04f, 0.5f);
     }
 }

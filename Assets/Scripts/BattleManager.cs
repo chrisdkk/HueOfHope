@@ -1,36 +1,60 @@
+using System;
 using System.Collections.Generic;
+using System.Threading;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 using Random = System.Random;
 
 public class BattleManager: MonoBehaviour
 {
+    private EventQueue eventQueue = new EventQueue();
+    private bool battleEnded = false;
+    
     [SerializeField] private GameObject playerCharacterPrefab;
     [SerializeField] private GameObject rewardWindow;
     private DeckManager deckManager;
     private HandManager handManager;
-    private List<Enemy> enemiesInBattle;
+    public List<Enemy> EnemiesInBattle;
     private GameObject playerCharacter;
     private Transform handDisplay;
-    public int CurrentActionPoints { get; private set; }
-    
-    public Stats PlayerStats;
 
+    public Player PlayerScript;
+
+    void Update()
+    {
+        if (!battleEnded)
+        {
+            if (eventQueue.HasEvents())
+            {
+                Action currentEvent = eventQueue.GetNextEvent();
+                currentEvent?.Invoke();
+            }
+        }
+        else
+        {
+            // Load next scene
+        }
+    }
+    
+    public void AddEventToQueue(Action newEvent){
+        eventQueue.AddEvent(newEvent);
+    }
+    
     public void Initialize(List<CardData> deck, List<Enemy> enemies)
     {
         // Find Manager Objects in Scene
         deckManager = new DeckManager(deck);
         handManager = FindObjectOfType<HandManager>();
         handManager.Initialize(deckManager);
-        CurrentActionPoints = GameStateManager.Instance.MaxActionPoints;
-        PlayerStats = new Stats
-        {
-            health = GameStateManager.Instance.CurrentPlayerHealth
-        };
 
         playerCharacter = Instantiate(playerCharacterPrefab, new Vector3(-4.5f, 0, 0), quaternion.identity);
-
-        enemiesInBattle = new List<Enemy>();
+        PlayerScript = playerCharacter.GetComponent<Player>();
+        GetComponent<SubscribePlayerUIToStats>().Subscribe();
+        PlayerScript.MaxActionPoints = GameStateManager.Instance.MaxActionPoints;
+        PlayerScript.ResetActionPoints();
+        PlayerScript.CharacterStats.Health = GameStateManager.Instance.CurrentPlayerHealth;
+        EnemiesInBattle = new List<Enemy>();
 
         GenerateEnemies(enemies);
         StartPlayerTurn();
@@ -40,7 +64,7 @@ public class BattleManager: MonoBehaviour
     {
         foreach (Enemy enemy in enemies)
         {
-            enemiesInBattle.Add(Instantiate(enemy, new Vector3(4.5f, 0, 0), quaternion.identity));
+            EnemiesInBattle.Add(Instantiate(enemy, new Vector3(4.5f, 0, 0), quaternion.identity));
         }
     }
 
@@ -49,30 +73,30 @@ public class BattleManager: MonoBehaviour
      */
     private void EnemyTurn()
     {
-        foreach (Enemy enemy in enemiesInBattle)
+        foreach (Enemy enemy in EnemiesInBattle)
         {
-            // Apply and reduce status effects of enemy
-            enemy.stats.defense = 0;
-            if (enemy.stats.burn > 0)
+            // Add event to apply and reduce status effects of enemy
+            AddEventToQueue(() =>
             {
-                enemy.stats.health -= 4;
-                enemy.stats.burn--;
-            }
+                enemy.CharacterStats.Block = 0;
+                if (enemy.CharacterStats.Burn > 0)
+                {
+                    enemy.CharacterStats.Health-=4;
+                    enemy.CharacterStats.Burn-=1;
+                }
+            });
 
             // Do action
             enemy.PlayEnemyCard();
 
-            if (PlayerStats.health <= 0)
+            // Add event to reduce insight
+            AddEventToQueue(() =>
             {
-                EndBattle();
-            }
-
-            // Show action for next turn
-            // Reduce insight
-            if (enemy.stats.insight > 0)
-            {
-                enemy.stats.insight--;
-            }
+                if (enemy.CharacterStats.Insight > 0)
+                {
+                    enemy.CharacterStats.Insight-=1;
+                }
+            });
         }
 
         StartPlayerTurn();
@@ -83,97 +107,55 @@ public class BattleManager: MonoBehaviour
      */
     private void StartPlayerTurn()
     {
-        // Apply and reduce status effects of player
-        PlayerStats.defense = 0;
-        if (PlayerStats.burn > 0)
+        PlayerScript.ResetActionPoints();
+        
+        // Add event to apply and reduce status effects of player
+        AddEventToQueue(() =>
         {
-            PlayerStats.health -= 4;
-            PlayerStats.burn--;
-        }
+            PlayerScript.CharacterStats.Block = 0;
+            if (PlayerScript.CharacterStats.Burn > 0)
+            {
+                PlayerScript.CharacterStats.Health -= 4;
+                PlayerScript.CharacterStats.Burn -= 1;
+            }
+        });
 
-        handManager.DrawHand();
-
-        CurrentActionPoints = GameStateManager.Instance.MaxActionPoints;
+        eventQueue.AddEvent(()=> handManager.DrawHand());
     }
 
     public void EndPlayerTurn()
     {
-        // Reduce insight of player
-        if (PlayerStats.insight > 0)
+        // Add event to reduce insight of player
+        AddEventToQueue(() =>
         {
-            PlayerStats.insight--;
-        }
+            if (PlayerScript.CharacterStats.Insight > 0)
+            {
+                PlayerScript.CharacterStats.Insight -= 1;
+            }
+        });
 
-        handManager.DiscardHand();
+        AddEventToQueue(()=>handManager.DiscardHand());
+        
         EnemyTurn();
     }
 
     /*
      * Battle has ended, either the player has won or died
      */
-    private void EndBattle()
+    public void EndBattle()
     {
-        if (PlayerStats.health <= 0)
+        battleEnded = true;
+        handManager.gameObject.SetActive(false);
+        //Disable buttons for UI
+        
+        if (PlayerScript.CharacterStats.Health <= 0)
         {
             // You lost
             return;
         }
 
         // You won
-        GameStateManager.Instance.CurrentPlayerHealth = PlayerStats.health;
+        GameStateManager.Instance.CurrentPlayerHealth = PlayerScript.CharacterStats.Health;
         rewardWindow.GetComponent<RewardManager>().ShowReward();
     }
-
-    /* Determine if the card can be played and if so apply all effects*/
-    public bool PlayCard(Stats user, bool isPlayer, int cardCost, CardEffect[] cardEffects, ref Stats target)
-    {
-        // Reduce action points
-        if (cardCost > CurrentActionPoints)
-        {
-            return false;
-        }
-        CurrentActionPoints -= cardCost;
-
-        // Apply all effects
-        foreach (CardEffect effect in cardEffects)
-        {
-            switch (effect.effectType)
-            {
-                case CardEffectType.Damage:
-                case CardEffectType.AttackDebuff:
-                case CardEffectType.BlockDebuff:
-                case CardEffectType.Burn:
-                    // Only player can damage multiple enemies
-                    if (isPlayer && effect.multipleTargets)
-                    {
-                        for(int i=0;i<enemiesInBattle.Count;i++)
-                        {
-                            effect.Apply(user, ref enemiesInBattle[i].stats);
-                        }
-                    }
-                    else
-                    { 
-                        effect.Apply(user, ref target);
-                    }
-                    break;
-                case CardEffectType.Block:
-                case CardEffectType.Insight:
-                    // Player can only buff self
-                    if (effect.multipleTargets && !isPlayer)
-                    {
-                        for(int i=0;i<enemiesInBattle.Count;i++)
-                        {
-                            effect.Apply(user, ref enemiesInBattle[i].stats);
-                        }
-                    }
-                    else
-                    {
-                        effect.Apply(user, ref target);
-                    }
-                    break;
-            }
-        }
-        return true;
-    }
-    
 }

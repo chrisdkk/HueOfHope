@@ -13,9 +13,12 @@ MonoBehaviour:
   m_Name: Test Attack
   m_EditorClassIdentifier: 
   cardName: Test Attack
+  description: Deal 6 damage to one enemy
   apCost: 1
   cardType: 0
   multiTarget: 0
   effects:
   - effectType: 0
-    payload: 06000000
+    payload: 6
+    multipleTargets: 0
+    ignoresBlock: 0
