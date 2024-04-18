@@ -11,6 +11,7 @@ public class Enemy : Character
     [SerializeField] private int maxHealth = 30;
     [SerializeField] private int enemyTier = 1;
     [SerializeField] private GameObject healthBarUI;
+    [SerializeField] private GameObject blockBarUI;
     [SerializeField] private EnemyActionTypes[] possibleEnemyAction;
     [SerializeField] private GameObject actionIndication;
     [SerializeField] private List<Material> actionIndicationMaterial;
@@ -45,6 +46,7 @@ public class Enemy : Character
         }
 
         CharacterStats.OnStatChange += UpdateHealthBar;
+        CharacterStats.OnStatChange += UpdateBlockBar;
         
         // Load and sort all available enemy cards
         EnemyCard[] enemyCards = Resources.LoadAll<EnemyCard>("EnemyCards/");
@@ -154,6 +156,12 @@ public class Enemy : Character
     /*Update the healthbar of the enemy*/
     public new void UpdateHealthBar()
     {
-        healthBarUI.transform.localScale = new Vector3((float)CharacterStats.Health / (float)maxHealth, 0.04f, 0.5f);
+        healthBarUI.transform.localScale = new Vector3((float)CharacterStats.Health/maxHealth, 0.04f, 0.5f);
+    }
+    
+    /*Update the blockbar of the enemy*/
+    public new void UpdateBlockBar()
+    {
+        blockBarUI.transform.localScale = new Vector3((float)CharacterStats.Block/30, 0.04f, 0.5f);
     }
 }

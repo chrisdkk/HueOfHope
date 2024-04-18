@@ -26,6 +26,7 @@ public static class CardEffectActions
                     difference = 0;
                 }
                 target.CharacterStats.Health -= difference;
+                target.CharacterStats.Block=0;
             }
             else
             {
