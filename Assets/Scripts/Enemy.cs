@@ -2,19 +2,18 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using Random = System.Random;
 
 public class Enemy : Character
 {
-    [SerializeField]
-    private int maxHealth = 30;
-    [SerializeField]
-    private int enemyTier = 1;
-    [SerializeField]
-    private GameObject healthBarUI;
-    [SerializeField]
-    private EnemyActionTypes[] possibleEnemyAction;
+    [SerializeField] private int maxHealth = 30;
+    [SerializeField] private int enemyTier = 1;
+    [SerializeField] private GameObject healthBarUI;
+    [SerializeField] private EnemyActionTypes[] possibleEnemyAction;
+    [SerializeField] private GameObject actionIndication;
+    [SerializeField] private List<Material> actionIndicationMaterial;
 
     private EnemyPattern enemyPattern;
     private int actionSize = 3;
@@ -31,10 +30,21 @@ public class Enemy : Character
         // Initialize variables for the enemy
         CharacterStats.Health = maxHealth;
         enemyPattern = new EnemyPattern(possibleEnemyAction);
+        
         currentAction = enemyPattern.GetCurrentActionPattern();
         cardPower = random.Next(actionSize);
+        if (currentAction == EnemyActionTypes.Attack)
+        {
+            actionIndication.GetComponent<MeshRenderer>().material = actionIndicationMaterial.Find(material => material.name == "Attack");
+            actionIndication.GetComponentInChildren<TextMeshPro>().text = (cardPower+1).ToString();
+        }
+        else
+        {
+            actionIndication.GetComponent<MeshRenderer>().material = actionIndicationMaterial.Find(material => material.name == "Block");
+            actionIndication.GetComponentInChildren<TextMeshPro>().text = (cardPower+1).ToString();
+        }
 
-        CharacterStats.OnChange += UpdateHealthBar;
+        CharacterStats.OnStatChange += UpdateHealthBar;
         
         // Load and sort all available enemy cards
         EnemyCard[] enemyCards = Resources.LoadAll<EnemyCard>("EnemyCards/");
@@ -129,6 +139,16 @@ public class Enemy : Character
         // Get next action
         currentAction = enemyPattern.GetCurrentActionPattern();
         cardPower = random.Next(actionSize);
+        if (currentAction == EnemyActionTypes.Attack)
+        {
+            actionIndication.GetComponent<MeshRenderer>().material = actionIndicationMaterial.Find(material => material.name == "Attack");
+            actionIndication.GetComponentInChildren<TextMeshPro>().text = (cardPower+1).ToString();
+        }
+        else
+        {
+            actionIndication.GetComponent<MeshRenderer>().material = actionIndicationMaterial.Find(material => material.name == "Block");
+            actionIndication.GetComponentInChildren<TextMeshPro>().text = (cardPower+1).ToString();
+        }
     }
 
     /*Update the healthbar of the enemy*/

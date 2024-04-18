@@ -21,6 +21,10 @@ public class BattleManager: MonoBehaviour
 
     public Player PlayerScript;
 
+    public delegate void TurnChangedEventHandler(string turnText, bool isEnemyTurn);
+
+    public event TurnChangedEventHandler OnTurnChange;
+    
     void Update()
     {
         if (!battleEnded)
@@ -73,6 +77,7 @@ public class BattleManager: MonoBehaviour
      */
     private void EnemyTurn()
     {
+        AddEventToQueue(()=>OnTurnChange?.Invoke("Enemy Turn", true));
         foreach (Enemy enemy in EnemiesInBattle)
         {
             // Add event to apply and reduce status effects of enemy
@@ -107,6 +112,7 @@ public class BattleManager: MonoBehaviour
      */
     private void StartPlayerTurn()
     {
+        AddEventToQueue(()=>OnTurnChange?.Invoke("Player Turn",false));
         PlayerScript.ResetActionPoints();
         
         // Add event to apply and reduce status effects of player
@@ -135,7 +141,6 @@ public class BattleManager: MonoBehaviour
         });
 
         AddEventToQueue(()=>handManager.DiscardHand());
-        
         EnemyTurn();
     }
 

@@ -7,8 +7,9 @@ public class SubscribePlayerUIToStats : MonoBehaviour
 
     public void Subscribe()
     {
-        GameStateManager.Instance.BattleManager.PlayerScript.CharacterStats.OnChange += GameObject.Find("PlayerBlock").GetComponent<PlayerBlockUI>().UpdateBlock;
-        GameStateManager.Instance.BattleManager.PlayerScript.CharacterStats.OnChange += GameObject.Find("PlayerHealth").GetComponent<PlayerHealthUI>().UpdateHealthBar;
-        GameStateManager.Instance.BattleManager.PlayerScript.OnChange += GameObject.Find("PlayerActionPoints").GetComponent<PlayerActionPointsUI>().UpdateActionPoints;
+        GameStateManager.Instance.BattleManager.PlayerScript.CharacterStats.OnStatChange += GameObject.Find("PlayerBlock").GetComponent<PlayerBlockUI>().UpdateBlock;
+        GameStateManager.Instance.BattleManager.PlayerScript.CharacterStats.OnStatChange += GameObject.Find("PlayerHealth").GetComponent<PlayerHealthUI>().UpdateHealthBar;
+        GameStateManager.Instance.BattleManager.PlayerScript.OnActionPointChange += GameObject.Find("PlayerActionPoints").GetComponent<PlayerActionPointsUI>().UpdateActionPoints;
+        GameStateManager.Instance.BattleManager.OnTurnChange += GameObject.Find("TurnIndication").GetComponent<TurnIndication>().UpdateTurnIndicator;
     }
 }

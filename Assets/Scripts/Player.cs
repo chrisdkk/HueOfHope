@@ -14,14 +14,14 @@ public class Player : Character
     
     public delegate void ActionPointsChangedEventHandler();
 
-    public event ActionPointsChangedEventHandler OnChange;
+    public event ActionPointsChangedEventHandler OnActionPointChange;
     
     public int CurrentActionPoints {
         get { return currentActionPoints; }
         set {
             if (currentActionPoints != value) {
                 currentActionPoints = value;
-                OnChange?.Invoke();
+                OnActionPointChange?.Invoke();
             }
         }
     }

@@ -14,14 +14,14 @@ public struct Stats
   
   public delegate void StatsChangedEventHandler();
 
-  public event StatsChangedEventHandler OnChange;
+  public event StatsChangedEventHandler OnStatChange;
   
   public int Health {
     get { return health; }
     set {
       if (health != value) {
         health = value;
-        OnChange?.Invoke();
+        OnStatChange?.Invoke();
       }
     }
   }
@@ -31,7 +31,7 @@ public struct Stats
     set {
       if (block != value) {
         block = value;
-        OnChange?.Invoke();
+        OnStatChange?.Invoke();
       }
     }
   }
@@ -41,7 +41,7 @@ public struct Stats
     set {
       if (insight != value) {
         insight = value;
-        OnChange?.Invoke();
+        OnStatChange?.Invoke();
       }
     }
   }
@@ -51,7 +51,7 @@ public struct Stats
     set {
       if (burn != value) {
         burn = value;
-        OnChange?.Invoke();
+        OnStatChange?.Invoke();
       }
     }
   }
@@ -61,7 +61,7 @@ public struct Stats
     set {
       if (attackDebuff != value) {
         attackDebuff = value;
-        OnChange?.Invoke();
+        OnStatChange?.Invoke();
       }
     }
   }
