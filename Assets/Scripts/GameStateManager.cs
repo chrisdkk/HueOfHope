@@ -21,12 +21,9 @@ public class GameStateManager : MonoBehaviour
 
     public int CurrentPlayerHealth { get; set; }
     public int maxPlayerHealth;
-    public int MaxActionPoints { get; private set; }
-
+    public int MaxActionPoints { get; set; }
     public List<CardData> deck;
-
     public CardData[] allAvailableCards;
-
     private List<Enemy> Enemies = new List<Enemy>();
 
     // Start is called before the first frame update
@@ -36,14 +33,13 @@ public class GameStateManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-
             maxPlayerHealth = 30;
             MaxActionPoints = 3;
             CurrentPlayerHealth = maxPlayerHealth;
             deck = new List<CardData>();
 
             Enemies.Add(prototypeEnemy);
-
+            
             allAvailableCards = Resources.LoadAll<CardData>("Cards/");
 
             //Add standard deck for prototype
@@ -60,10 +56,10 @@ public class GameStateManager : MonoBehaviour
 
     private void StartBattle()
     {
-        // BattleManager = Instantiate(battleManagerPrefab, new Vector3(0, 0, 0), Quaternion.identity);
-        // BattleManager.Initialize(deck, Enemies);
+        BattleManager = Instantiate(battleManagerPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+        BattleManager.Initialize(deck, Enemies);
     }
-
+    
     // Add this specific card to the deck
     public void AddCardToDeck(CardData card)
     {
@@ -75,4 +71,5 @@ public class GameStateManager : MonoBehaviour
     {
         return deck.Remove(card);
     }
+
 }
