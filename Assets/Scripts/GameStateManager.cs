@@ -17,11 +17,7 @@ public class GameStateManager : MonoBehaviour
 
     [SerializeField] private BattleManager battleManagerPrefab;
     [SerializeField] public Enemy prototypeEnemy;
-
-    // DECK SYSTEM
     [SerializeField] private DeckSystem deckSystem;
-    // public List<CardData> availableCardsForDeck = new List<CardData>();
-    // DECK SYSTEM
 
     public int CurrentPlayerHealth { get; set; }
     public int maxPlayerHealth;
@@ -54,11 +50,10 @@ public class GameStateManager : MonoBehaviour
             for (int i = 0; i < 15; i++)
             {
                 deck.Add(allAvailableCards[i % 2]);
-
-                // this is done for dev purposes
-                // availableCardsForDeck.Add(allAvailableCards[i % 2]);
             }
-
+            
+            // deck system
+            deckSystem.InitializeDeck(deck);
             StartBattle();
         }
     }
@@ -67,11 +62,6 @@ public class GameStateManager : MonoBehaviour
     {
         // BattleManager = Instantiate(battleManagerPrefab, new Vector3(0, 0, 0), Quaternion.identity);
         // BattleManager.Initialize(deck, Enemies);
-
-        // DECK SYSTEM
-        deckSystem.InitializeDeck(deck);
-        // deckSystem.InitializeAvailable(availableCardsForDeck);
-        // DECK SYSTEM
     }
 
     // Add this specific card to the deck
