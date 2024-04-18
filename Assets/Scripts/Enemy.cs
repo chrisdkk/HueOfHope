@@ -31,19 +31,6 @@ public class Enemy : Character
         // Initialize variables for the enemy
         CharacterStats.Health = maxHealth;
         enemyPattern = new EnemyPattern(possibleEnemyAction);
-        
-        currentAction = enemyPattern.GetCurrentActionPattern();
-        cardPower = random.Next(actionSize);
-        if (currentAction == EnemyActionTypes.Attack)
-        {
-            actionIndication.GetComponent<MeshRenderer>().material = actionIndicationMaterial.Find(material => material.name == "Attack");
-            actionIndication.GetComponentInChildren<TextMeshPro>().text = (cardPower+1).ToString();
-        }
-        else
-        {
-            actionIndication.GetComponent<MeshRenderer>().material = actionIndicationMaterial.Find(material => material.name == "Block");
-            actionIndication.GetComponentInChildren<TextMeshPro>().text = (cardPower+1).ToString();
-        }
 
         CharacterStats.OnStatChange += UpdateHealthBar;
         CharacterStats.OnStatChange += UpdateBlockBar;
@@ -51,6 +38,7 @@ public class Enemy : Character
         // Load and sort all available enemy cards
         EnemyCard[] enemyCards = Resources.LoadAll<EnemyCard>("EnemyCards/");
 
+        // Get card of enemy
         foreach (EnemyCard enemyCard in enemyCards)
         {
             if (enemyCard.tier == enemyTier)
@@ -69,6 +57,29 @@ public class Enemy : Character
                         break;
                 }
             }
+        }
+        
+        // Get current action and indicate it
+        currentAction = enemyPattern.GetCurrentActionPattern();
+        cardPower = random.Next(actionSize);
+        EnemyCard card;
+        if (currentAction == EnemyActionTypes.Attack)
+        {
+            card = attackActions.ElementAt(cardPower);
+        }
+        else
+        {
+            card = blockActions.ElementAt(cardPower);
+        }
+        if (currentAction == EnemyActionTypes.Attack)
+        {
+            actionIndication.GetComponent<MeshRenderer>().material = actionIndicationMaterial.Find(material => material.name == "Attack");
+            actionIndication.GetComponentInChildren<TextMeshPro>().text = card.effects[0].payload.ToString();
+        }
+        else
+        {
+            actionIndication.GetComponent<MeshRenderer>().material = actionIndicationMaterial.Find(material => material.name == "Block");
+            actionIndication.GetComponentInChildren<TextMeshPro>().text = card.effects[0].payload.ToString();
         }
     }
 
@@ -143,13 +154,21 @@ public class Enemy : Character
         cardPower = random.Next(actionSize);
         if (currentAction == EnemyActionTypes.Attack)
         {
+            enemyCard = attackActions.ElementAt(cardPower);
+        }
+        else
+        {
+            enemyCard = blockActions.ElementAt(cardPower);
+        }
+        if (currentAction == EnemyActionTypes.Attack)
+        {
             actionIndication.GetComponent<MeshRenderer>().material = actionIndicationMaterial.Find(material => material.name == "Attack");
-            actionIndication.GetComponentInChildren<TextMeshPro>().text = (cardPower+1).ToString();
+            actionIndication.GetComponentInChildren<TextMeshPro>().text = enemyCard.effects[0].payload.ToString();
         }
         else
         {
             actionIndication.GetComponent<MeshRenderer>().material = actionIndicationMaterial.Find(material => material.name == "Block");
-            actionIndication.GetComponentInChildren<TextMeshPro>().text = (cardPower+1).ToString();
+            actionIndication.GetComponentInChildren<TextMeshPro>().text = enemyCard.effects[0].payload.ToString();
         }
     }
 
