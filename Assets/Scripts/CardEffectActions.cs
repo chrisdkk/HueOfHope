@@ -32,6 +32,24 @@ public static class CardEffectActions
             {
                 target.CharacterStats.Health -= damage;
             }
+            if (target.CharacterStats.Health < 0)
+            {
+                target.CharacterStats.Health = 0;
+            }
+        }
+    }
+    
+    public static void ShieldBreakAction(Character user, int payload, ref List<Character> targets)
+    {
+
+        int damage = payload+user.CharacterStats.Insight-user.CharacterStats.AttackDebuff;
+        // Damage can not be negative
+        damage = damage < 0 ? 0 : damage;
+
+        foreach (Character target in targets)
+        {
+            target.CharacterStats.Block=0;
+            target.CharacterStats.Health -= damage;
         }
     }
     
@@ -64,6 +82,15 @@ public static class CardEffectActions
         foreach (Character target in targets)
         {
             target.CharacterStats.AttackDebuff += payload;
+        }
+    }
+    
+    public static void Cleanse(ref List<Character> targets)
+    {
+        foreach (Character target in targets)
+        {
+            target.CharacterStats.AttackDebuff =0;
+            target.CharacterStats.Burn =0;
         }
     }
 }

@@ -114,7 +114,6 @@ public class BattleManager: MonoBehaviour
     {
         AddEventToQueue(()=>OnTurnChange?.Invoke("Player Turn",false));
         PlayerScript.ResetActionPoints();
-        
         // Add event to apply and reduce status effects of player
         AddEventToQueue(() =>
         {
