@@ -16,15 +16,15 @@ public class GameStateManager : MonoBehaviour
     public BattleManager BattleManager { get; private set; }
 
     [SerializeField] private BattleManager battleManagerPrefab;
-    
+    [SerializeField] public Enemy prototypeEnemy;
+    [SerializeField] private DeckSystem deckSystem;
+
     public int CurrentPlayerHealth { get; set; }
     public int maxPlayerHealth;
     public int MaxActionPoints { get; set; }
     public List<CardData> deck;
     public CardData[] allAvailableCards;
     private List<Enemy> Enemies = new List<Enemy>();
-
-    [SerializeField] public Enemy prototypeEnemy;
 
     // Start is called before the first frame update
     void Start()
@@ -47,6 +47,9 @@ public class GameStateManager : MonoBehaviour
             {
                 deck.Add(allAvailableCards[i % 2]);
             }
+            
+            // deck system
+            deckSystem.InitializeDeck(deck);
             StartBattle();
         }
     }
