@@ -22,5 +22,4 @@ public class CardEffect
     public int payload;
     public bool multipleTargets;
     public bool ignoreBlock;
-    public bool targetSelf;
 }
