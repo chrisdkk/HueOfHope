@@ -16,15 +16,22 @@ public class GameStateManager : MonoBehaviour
     public BattleManager BattleManager { get; private set; }
 
     [SerializeField] private BattleManager battleManagerPrefab;
-    
+    [SerializeField] public Enemy prototypeEnemy;
+
+    // DECK SYSTEM
+    [SerializeField] private DeckSystem deckSystem;
+    // public List<CardData> availableCardsForDeck = new List<CardData>();
+    // DECK SYSTEM
+
     public int CurrentPlayerHealth { get; set; }
     public int maxPlayerHealth;
-    public int MaxActionPoints { get; set; }
-    public List<CardData> deck;
-    public CardData[] allAvailableCards;
-    private List<Enemy> Enemies = new List<Enemy>();
+    public int MaxActionPoints { get; private set; }
 
-    [SerializeField] public Enemy prototypeEnemy;
+    public List<CardData> deck;
+
+    public CardData[] allAvailableCards;
+
+    private List<Enemy> Enemies = new List<Enemy>();
 
     // Start is called before the first frame update
     void Start()
@@ -33,31 +40,40 @@ public class GameStateManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+
             maxPlayerHealth = 30;
             MaxActionPoints = 3;
             CurrentPlayerHealth = maxPlayerHealth;
             deck = new List<CardData>();
 
             Enemies.Add(prototypeEnemy);
-            
+
             allAvailableCards = Resources.LoadAll<CardData>("Cards/");
 
             //Add standard deck for prototype
             for (int i = 0; i < 15; i++)
             {
                 deck.Add(allAvailableCards[i % 2]);
+
+                // this is done for dev purposes
+                // availableCardsForDeck.Add(allAvailableCards[i % 2]);
             }
-            Debug.Log(deck.Count);
+
             StartBattle();
         }
     }
 
     private void StartBattle()
     {
-        BattleManager = Instantiate(battleManagerPrefab, new Vector3(0, 0, 0), Quaternion.identity);
-        BattleManager.Initialize(deck, Enemies);
+        // BattleManager = Instantiate(battleManagerPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+        // BattleManager.Initialize(deck, Enemies);
+
+        // DECK SYSTEM
+        deckSystem.InitializeDeck(deck);
+        // deckSystem.InitializeAvailable(availableCardsForDeck);
+        // DECK SYSTEM
     }
-    
+
     // Add this specific card to the deck
     public void AddCardToDeck(CardData card)
     {
@@ -69,5 +85,4 @@ public class GameStateManager : MonoBehaviour
     {
         return deck.Remove(card);
     }
-
 }

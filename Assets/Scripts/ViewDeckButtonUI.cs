@@ -7,11 +7,12 @@ public class ViewDeckButtonUI : MonoBehaviour
 {
     [SerializeField] private GameObject deckWindow;
     [SerializeField] private GameObject cardPrefab;
-    [SerializeField] private Camera camera;
+    [SerializeField] private new Camera camera; // new is required because of old unity code
 
     public void OnButtonClick()
     {
         GameObject instDeckWindow = Instantiate(deckWindow, new Vector3(0, 0, 0), Quaternion.identity);
+        
         instDeckWindow.GetComponentInChildren<Canvas>().planeDistance = 3;
         instDeckWindow.transform.GetComponentInChildren<Canvas>().worldCamera = camera;
         Transform contentPanel = instDeckWindow.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(0).transform;
@@ -25,7 +26,7 @@ public class ViewDeckButtonUI : MonoBehaviour
             GameObject instCard = Instantiate(cardPrefab, contentPanel, false);
             instCard.transform.localScale = new Vector3(50, 50, 50);
             instCard.transform.localPosition = new Vector3(cardPosX, cardPosY, -0.1f);
-            cardPosX +=  100;
+            cardPosX += 100;
             if (cardPosX >= 800)
             {
                 cardPosX = 100;
