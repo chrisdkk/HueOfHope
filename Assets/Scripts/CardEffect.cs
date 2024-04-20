@@ -13,7 +13,12 @@ public enum CardEffectType
     Burn,
     AttackDebuff,
     Draw,
-    Discard
+    DiscardHand,
+    BlockToDamage,
+    Cleanse,
+    ShieldBreak,
+    MultipliedInsightDamage,
+    IgnoreBlockOnNextAttacks
 }
 [Serializable]
 public class CardEffect
@@ -22,4 +27,5 @@ public class CardEffect
     public int payload;
     public bool multipleTargets;
     public bool ignoreBlock;
+    public int insightMultiplier;
 }

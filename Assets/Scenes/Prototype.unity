@@ -724,9 +724,7 @@ MonoBehaviour:
   deckSystem: {fileID: 87950868}
   maxPlayerHealth: 20
   deck: []
-  allAvailableCards:
-  - {fileID: 11400000, guid: 2c7a899fb24b04001b416db918cb37c0, type: 2}
-  - {fileID: 11400000, guid: a15b1eb6d84b65444b30d8bb4ef970bb, type: 2}
+  AllAvailableCards: []
 --- !u!4 &1183654472
 Transform:
   m_ObjectHideFlags: 0

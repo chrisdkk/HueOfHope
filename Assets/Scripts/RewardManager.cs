@@ -32,12 +32,12 @@ public class RewardManager : MonoBehaviour
         Random r = new Random();
         while (rewards.Count < 3)
         {
-            int index = r.Next(GameStateManager.Instance.allAvailableCards.Length);
+            int index = r.Next(GameStateManager.Instance.AllAvailableCards.Count);
             // Prevent duplicates
-            //if (!rewards.Contains(GameStateManager.AllAvailableCards[index]))
-            //{
-            rewards.Add(GameStateManager.Instance.allAvailableCards[index]);
-            //}
+            if (!rewards.Contains(GameStateManager.Instance.AllAvailableCards[index]))
+            {
+            rewards.Add(GameStateManager.Instance.AllAvailableCards[index]);
+            }
         }
 
         // Register for onclick on button
