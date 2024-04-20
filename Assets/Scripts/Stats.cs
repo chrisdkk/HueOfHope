@@ -11,6 +11,7 @@ public struct Stats
   
   private int burn;
   private int attackDebuff;
+  private int ignoreBlockNextAttacks;
   
   public delegate void StatsChangedEventHandler();
 
@@ -65,4 +66,15 @@ public struct Stats
       }
     }
   }
+  
+  public int IgnoreBlockOnNext {
+    get { return ignoreBlockNextAttacks; }
+    set {
+      if (ignoreBlockNextAttacks != value) {
+        ignoreBlockNextAttacks = value;
+        OnStatChange?.Invoke();
+      }
+    }
+  }
+  
 }

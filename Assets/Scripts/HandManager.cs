@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.XR;
 
 public class HandManager : MonoBehaviour
 {
@@ -63,6 +65,7 @@ public class HandManager : MonoBehaviour
     {
         CardData cardData = card.GetComponent<CardVisual>().cardData;
         bool cardPlayed=true;
+        bool alreadyDiscarded = false;
 
         if (cardData.apCost > GameStateManager.Instance.BattleManager.PlayerScript.CurrentActionPoints)
         {
@@ -92,7 +95,67 @@ public class HandManager : MonoBehaviour
             switch (effect.effectType)
             {
                 case CardEffectType.Damage:
-                    GameStateManager.Instance.BattleManager.AddEventToQueue(()=>CardEffectActions.DamageAction(GameStateManager.Instance.BattleManager.PlayerScript, effect.payload, effect.ignoreBlock, ref targets));
+                    // Add event to deal damage
+                    GameStateManager.Instance.BattleManager.AddEventToQueue(()=>
+                    {
+                        CardEffectActions.DamageAction(GameStateManager.Instance.BattleManager.PlayerScript,
+                                effect.payload,
+                                effect.ignoreBlock || GameStateManager.Instance.BattleManager.PlayerScript.CharacterStats.IgnoreBlockOnNext > 0,
+                                ref targets);
+                        
+                        // Reduce buff ignore block on next attack
+                        if (GameStateManager.Instance.BattleManager.PlayerScript.CharacterStats.IgnoreBlockOnNext > 0)
+                        {
+                            GameStateManager.Instance.BattleManager.PlayerScript.CharacterStats.IgnoreBlockOnNext--;
+                        }
+                    });
+                    break;
+             
+                case CardEffectType.ShieldBreak:
+                    GameStateManager.Instance.BattleManager.AddEventToQueue(()=>CardEffectActions.ShieldBreakAction(GameStateManager.Instance.BattleManager.PlayerScript, effect.payload, ref targets));
+                    break;
+                
+                case CardEffectType.BlockToDamage:
+                    // Use block as damage
+                    effect.payload = GameStateManager.Instance.BattleManager.PlayerScript.CharacterStats.Block;
+                    GameStateManager.Instance.BattleManager.PlayerScript.CharacterStats.Block = 0;
+                    
+                    // Add event to deal damage
+                    GameStateManager.Instance.BattleManager.AddEventToQueue(()=>
+                    {
+                        CardEffectActions.DamageAction(GameStateManager.Instance.BattleManager.PlayerScript,
+                                effect.payload,
+                                effect.ignoreBlock || GameStateManager.Instance.BattleManager.PlayerScript.CharacterStats.IgnoreBlockOnNext > 0, 
+                                ref targets);
+                        
+                        // Reduce buff ignore block on next attack
+                        if (GameStateManager.Instance.BattleManager.PlayerScript.CharacterStats.IgnoreBlockOnNext > 0)
+                        {
+                            GameStateManager.Instance.BattleManager.PlayerScript.CharacterStats.IgnoreBlockOnNext--;
+                        }
+                    });
+                    break;
+                
+                case CardEffectType.MultipliedInsightDamage:
+                    // Multiply insight for one attack
+                    GameStateManager.Instance.BattleManager.PlayerScript.CharacterStats.Insight*=effect.insightMultiplier;
+                    // Add event to deal damage
+                    GameStateManager.Instance.BattleManager.AddEventToQueue(()=>
+                    {
+                        CardEffectActions.DamageAction(GameStateManager.Instance.BattleManager.PlayerScript, 
+                            effect.payload, 
+                            effect.ignoreBlock || GameStateManager.Instance.BattleManager.PlayerScript.CharacterStats.IgnoreBlockOnNext>0, 
+                            ref targets);
+                        
+                        // Reset insight
+                        GameStateManager.Instance.BattleManager.PlayerScript.CharacterStats.Insight/=effect.insightMultiplier;
+                        
+                        // Reduce buff ignore block on next attack
+                        if (GameStateManager.Instance.BattleManager.PlayerScript.CharacterStats.IgnoreBlockOnNext > 0)
+                        {
+                            GameStateManager.Instance.BattleManager.PlayerScript.CharacterStats.IgnoreBlockOnNext--;
+                        }
+                    });
                     break;
                 
                 case CardEffectType.Block:
@@ -111,27 +174,50 @@ public class HandManager : MonoBehaviour
                 case CardEffectType.AttackDebuff:
                     GameStateManager.Instance.BattleManager.AddEventToQueue(()=>CardEffectActions.AttackDebuff(effect.payload, ref targets));
                     break;
+                
+                case CardEffectType.Cleanse:
+                    GameStateManager.Instance.BattleManager.AddEventToQueue(()=>CardEffectActions.Cleanse(ref targets));
+                    break;
+                
+                case CardEffectType.IgnoreBlockOnNextAttacks:
+                    GameStateManager.Instance.BattleManager.AddEventToQueue(()=>GameStateManager.Instance.BattleManager.PlayerScript.CharacterStats.IgnoreBlockOnNext+=effect.payload);
+                    break;
+                
+                case CardEffectType.Draw:
+                    for (int i = 0; i < effect.payload; i++)
+                    {
+                        GameStateManager.Instance.BattleManager.AddEventToQueue(()=>AddCardToHand(deck.DrawCard()));
+                    }
+                    break;
+                
+                case CardEffectType.DiscardHand:
+                    alreadyDiscarded = true;
+                    GameStateManager.Instance.BattleManager.AddEventToQueue(()=>DiscardHand());
+                    break;
             }
-
+            
             // Check if an enemy died -> Add event to remove it
-            foreach (Enemy enemy in GameStateManager.Instance.BattleManager.EnemiesInBattle)
+            GameStateManager.Instance.BattleManager.AddEventToQueue(()=>
             {
-                if (enemy.CharacterStats.Health <= 0)
+                foreach (Enemy enemy in GameStateManager.Instance.BattleManager.EnemiesInBattle)
                 {
-                    GameStateManager.Instance.BattleManager.AddEventToQueue(()=>
+                    if (enemy.CharacterStats.Health <= 0)
                     {
                         Destroy(enemy.gameObject);
-                        GameStateManager.Instance.BattleManager.EnemiesInBattle.RemoveAll(enemy => enemy.CharacterStats.Health <= 0);
-                        if (GameStateManager.Instance.BattleManager.EnemiesInBattle.Count==0)
-                        {
-                            GameStateManager.Instance.BattleManager.EndBattle();
-                        }
-                    });
+                            GameStateManager.Instance.BattleManager.EnemiesInBattle.RemoveAll(enemy => enemy.CharacterStats.Health <= 0);
+                            if (GameStateManager.Instance.BattleManager.EnemiesInBattle.Count==0)
+                            {
+                                GameStateManager.Instance.BattleManager.EndBattle();
+                            }
+                    }
                 }
-            }
+            });
         }
         // Add event to discard used card
-        GameStateManager.Instance.BattleManager.AddEventToQueue(()=> DiscardCard(card));
+        if (!alreadyDiscarded)
+        {
+            GameStateManager.Instance.BattleManager.AddEventToQueue(()=> DiscardCard(card));
+        }
     }
     
     private void DiscardCard(GameObject card)

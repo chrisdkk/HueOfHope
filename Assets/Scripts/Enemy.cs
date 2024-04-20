@@ -173,13 +173,13 @@ public class Enemy : Character
     }
 
     /*Update the healthbar of the enemy*/
-    public new void UpdateHealthBar()
+    public void UpdateHealthBar()
     {
         healthBarUI.transform.localScale = new Vector3((float)CharacterStats.Health/maxHealth, 0.04f, 0.5f);
     }
     
     /*Update the blockbar of the enemy*/
-    public new void UpdateBlockBar()
+    public void UpdateBlockBar()
     {
         blockBarUI.transform.localScale = new Vector3((float)CharacterStats.Block/30, 0.04f, 0.5f);
     }
