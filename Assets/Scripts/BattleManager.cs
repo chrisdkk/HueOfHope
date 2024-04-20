@@ -17,8 +17,7 @@ public class BattleManager: MonoBehaviour
     private HandManager handManager;
     public List<Enemy> EnemiesInBattle;
     private GameObject playerCharacter;
-
-    private Card selectedCard;
+    
     private Transform handDisplay;
 
     public Player PlayerScript;

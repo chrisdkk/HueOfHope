@@ -9,5 +9,6 @@ public class PlayerHealthUI : MonoBehaviour
     {
         GetComponent<TextMeshProUGUI>().text = "HP: " + GameStateManager.Instance.BattleManager.PlayerScript.CharacterStats.Health +
                                                " / " + GameStateManager.Instance.maxPlayerHealth;
+        GetComponentInChildren<HealthMonitor>().UpdatePlayerAnimation(GameStateManager.Instance.BattleManager.PlayerScript.CharacterStats.Health);
     }
 }
