@@ -14,5 +14,5 @@ public class EnemyCard : ScriptableObject
     public int power = 1; //0-3 determines the strength of the card
     public int tier = 1; // 1-5 determines which enemies uses it
     public EnemyCardTypes cardType = EnemyCardTypes.Attack;
-    public CardEffect[] effects;
+    public List<CardEffect> effects;
 }

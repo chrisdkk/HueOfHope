@@ -20,20 +20,6 @@ public class CardVisual : MonoBehaviour
     {
         title.SetText(cardData.cardName);
         cost.SetText(cardData.apCost.ToString());
-        string effectText = "";
-        foreach (CardEffect effect in cardData.effects)
-        {
-            switch (effect.effectType)
-            {
-                case CardEffectType.Damage:
-                    effectText += $"Deal {effect.payload[0]} damage";
-                    break;
-                case CardEffectType.Defend:
-                    effectText += $"Block {effect.payload[0]} damage";
-                    break;
-                default: break;
-            }
-        }
-        description.SetText(effectText);
+        description.SetText(cardData.description);
     }
 }

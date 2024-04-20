@@ -17,4 +17,5 @@ MonoBehaviour:
   cardType: 1
   effects:
   - effectType: 1
-    payload: 03000000
+    payload: 3
+    multipleTargets: 0
