@@ -17,6 +17,7 @@ public class BattleManager: MonoBehaviour
     private HandManager handManager;
     public List<Enemy> EnemiesInBattle;
     private GameObject playerCharacter;
+    
     private Transform handDisplay;
 
     public Player PlayerScript;
@@ -162,4 +163,5 @@ public class BattleManager: MonoBehaviour
         GameStateManager.Instance.CurrentPlayerHealth = PlayerScript.CharacterStats.Health;
         rewardWindow.GetComponent<RewardManager>().ShowReward();
     }
+
 }
