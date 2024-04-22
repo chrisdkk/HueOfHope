@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9220846328889030896}
   - component: {fileID: 1664872816408922863}
+  - component: {fileID: 4678742921143358027}
   m_Layer: 0
   m_Name: BattleManager
   m_TagString: Untagged
@@ -48,6 +49,20 @@ MonoBehaviour:
   playerCharacterPrefab: {fileID: 1464804301999399639, guid: 6da63e39e85092248b1f8b78cf172dbb,
     type: 3}
   rewardWindow: {fileID: 5659153181166308222}
+  EnemiesInBattle: []
+  PlayerScript: {fileID: 0}
+--- !u!114 &4678742921143358027
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3687798953733962873}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50ccd6bb535932b4e8fc4a64a54a8b80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &291220386706299150
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -56,6 +71,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 9220846328889030896}
     m_Modifications:
+    - target: {fileID: 175277780828044837, guid: 9a2d24763520edf4bae4dd3833abc9a9,
+        type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1775040089465808758, guid: 9a2d24763520edf4bae4dd3833abc9a9,
         type: 3}
       propertyPath: m_LocalPosition.x

@@ -1,37 +1,65 @@
+using System;
 using System.Collections.Generic;
+using System.Threading;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 using Random = System.Random;
 
 public class BattleManager: MonoBehaviour
 {
+    private EventQueue eventQueue = new EventQueue();
+    private bool battleEnded = false;
+    
     [SerializeField] private GameObject playerCharacterPrefab;
     [SerializeField] private GameObject rewardWindow;
     private DeckManager deckManager;
     private HandManager handManager;
-    private List<Enemy> enemiesInBattle;
-    public int CurrentActionPoints { get; set; }
-    public Stats PlayerStats;
+    public List<Enemy> EnemiesInBattle;
     private GameObject playerCharacter;
-
-    private Card selectedCard;
+    
     private Transform handDisplay;
 
+    public Player PlayerScript;
+
+    public delegate void TurnChangedEventHandler(string turnText, bool isEnemyTurn);
+
+    public event TurnChangedEventHandler OnTurnChange;
+    
+    void Update()
+    {
+        if (!battleEnded)
+        {
+            if (eventQueue.HasEvents())
+            {
+                Action currentEvent = eventQueue.GetNextEvent();
+                currentEvent?.Invoke();
+            }
+        }
+        else
+        {
+            // Load next scene
+        }
+    }
+    
+    public void AddEventToQueue(Action newEvent){
+        eventQueue.AddEvent(newEvent);
+    }
+    
     public void Initialize(List<CardData> deck, List<Enemy> enemies)
     {
         // Find Manager Objects in Scene
         deckManager = new DeckManager(deck);
         handManager = FindObjectOfType<HandManager>();
         handManager.Initialize(deckManager);
-        CurrentActionPoints = GameStateManager.Instance.MaxActionPoints;
-        PlayerStats = new Stats
-        {
-            health = GameStateManager.Instance.CurrentPlayerHealth
-        };
 
         playerCharacter = Instantiate(playerCharacterPrefab, new Vector3(-4.5f, 0, 0), quaternion.identity);
-
-        enemiesInBattle = new List<Enemy>();
+        PlayerScript = playerCharacter.GetComponent<Player>();
+        GetComponent<SubscribePlayerUIToStats>().Subscribe();
+        PlayerScript.MaxActionPoints = GameStateManager.Instance.MaxActionPoints;
+        PlayerScript.ResetActionPoints();
+        PlayerScript.CharacterStats.Health = GameStateManager.Instance.CurrentPlayerHealth;
+        EnemiesInBattle = new List<Enemy>();
 
         GenerateEnemies(enemies);
         StartPlayerTurn();
@@ -41,7 +69,7 @@ public class BattleManager: MonoBehaviour
     {
         foreach (Enemy enemy in enemies)
         {
-            enemiesInBattle.Add(Instantiate(enemy, new Vector3(4.5f, 0, 0), quaternion.identity));
+            EnemiesInBattle.Add(Instantiate(enemy, new Vector3(4.5f, 0, 0), quaternion.identity));
         }
     }
 
@@ -50,36 +78,31 @@ public class BattleManager: MonoBehaviour
      */
     private void EnemyTurn()
     {
-        foreach (Enemy enemy in enemiesInBattle)
+        AddEventToQueue(()=>OnTurnChange?.Invoke("Enemy Turn", true));
+        foreach (Enemy enemy in EnemiesInBattle)
         {
-            // Apply and reduce status effects of enemy
-            enemy.stats.defense = 0;
-            if (enemy.stats.burn > 0)
+            // Add event to apply and reduce status effects of enemy
+            AddEventToQueue(() =>
             {
-                enemy.stats.health -= 4;
-                enemy.stats.burn--;
-            }
-
-            if (enemy.stats.wound > 0)
-            {
-                enemy.stats.health -= 5;
-                enemy.stats.wound--;
-            }
+                enemy.CharacterStats.Block = 0;
+                if (enemy.CharacterStats.Burn > 0)
+                {
+                    enemy.CharacterStats.Health-=4;
+                    enemy.CharacterStats.Burn-=1;
+                }
+            });
 
             // Do action
             enemy.PlayEnemyCard();
 
-            if (PlayerStats.health <= 0)
+            // Add event to reduce insight
+            AddEventToQueue(() =>
             {
-                EndBattle();
-            }
-
-            // Show action for next turn
-            // Reduce insight
-            if (enemy.stats.insight > 0)
-            {
-                enemy.stats.insight--;
-            }
+                if (enemy.CharacterStats.Insight > 0)
+                {
+                    enemy.CharacterStats.Insight-=1;
+                }
+            });
         }
 
         StartPlayerTurn();
@@ -90,50 +113,54 @@ public class BattleManager: MonoBehaviour
      */
     private void StartPlayerTurn()
     {
-        // Apply and reduce status effects of player
-        PlayerStats.defense = 0;
-        if (PlayerStats.burn > 0)
+        AddEventToQueue(()=>OnTurnChange?.Invoke("Player Turn",false));
+        PlayerScript.ResetActionPoints();
+        // Add event to apply and reduce status effects of player
+        AddEventToQueue(() =>
         {
-            PlayerStats.health -= 4;
-            PlayerStats.burn--;
-        }
+            PlayerScript.CharacterStats.Block = 0;
+            if (PlayerScript.CharacterStats.Burn > 0)
+            {
+                PlayerScript.CharacterStats.Health -= 4;
+                PlayerScript.CharacterStats.Burn -= 1;
+            }
+        });
 
-        if (PlayerStats.wound > 0)
-        {
-            PlayerStats.health -= 5;
-            PlayerStats.wound--;
-        }
-
-        handManager.DrawHand();
-
-        CurrentActionPoints = GameStateManager.Instance.MaxActionPoints;
+        eventQueue.AddEvent(()=> handManager.DrawHand());
     }
 
     public void EndPlayerTurn()
     {
-        // Reduce insight of player
-        if (PlayerStats.insight > 0)
+        // Add event to reduce insight of player
+        AddEventToQueue(() =>
         {
-            PlayerStats.insight--;
-        }
+            if (PlayerScript.CharacterStats.Insight > 0)
+            {
+                PlayerScript.CharacterStats.Insight -= 1;
+            }
+        });
 
-        handManager.DiscardHand();
+        AddEventToQueue(()=>handManager.DiscardHand());
         EnemyTurn();
     }
 
     /*
      * Battle has ended, either the player has won or died
      */
-    private void EndBattle()
+    public void EndBattle()
     {
-        if (PlayerStats.health <= 0)
+        battleEnded = true;
+        handManager.gameObject.SetActive(false);
+        //Disable buttons for UI
+        
+        if (PlayerScript.CharacterStats.Health <= 0)
         {
             // You lost
             return;
         }
 
         // You won
-        GameStateManager.Instance.CurrentPlayerHealth = PlayerStats.health;
+        GameStateManager.Instance.CurrentPlayerHealth = PlayerScript.CharacterStats.Health;
         rewardWindow.GetComponent<RewardManager>().ShowReward();
     }
 

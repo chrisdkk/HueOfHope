@@ -5,15 +5,10 @@ using TMPro;
 
 public class PlayerHealthUI : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public void UpdateHealthBar()
     {
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        GetComponent<TextMeshProUGUI>().text = "HP: " + GameStateManager.Instance.BattleManager.PlayerStats.health +
+        GetComponent<TextMeshProUGUI>().text = "HP: " + GameStateManager.Instance.BattleManager.PlayerScript.CharacterStats.Health +
                                                " / " + GameStateManager.Instance.maxPlayerHealth;
+        GetComponentInChildren<HealthMonitor>().UpdatePlayerAnimation(GameStateManager.Instance.BattleManager.PlayerScript.CharacterStats.Health);
     }
 }

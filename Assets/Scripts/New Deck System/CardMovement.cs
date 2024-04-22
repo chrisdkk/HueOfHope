@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
 
 public enum CardState {
@@ -36,7 +37,7 @@ public class CardMovement : MonoBehaviour
     [SerializeField] private GameObject playArrow;
 
     // Event for handling a play attempt
-    public delegate void PlayEventHandler(GameObject playedCard);
+    public delegate void PlayEventHandler(GameObject playedCard, [CanBeNull] GameObject enemy);
 
     public event PlayEventHandler OnPlay;
 
@@ -168,7 +169,7 @@ public class CardMovement : MonoBehaviour
                 if (Physics.Raycast(ray, out var hit, 100, layerMask))
                 {
                     selectedCard = null;
-                    OnPlay?.Invoke(gameObject);
+                    OnPlay?.Invoke(gameObject, hit.transform.gameObject);
                 } 
             }
             else
@@ -176,7 +177,7 @@ public class CardMovement : MonoBehaviour
                 if (transform.localPosition.y > cardPlay.y)
                 {
                     selectedCard = null;
-                    OnPlay?.Invoke(gameObject);
+                    OnPlay?.Invoke(gameObject, null);
                 }
             }
         }

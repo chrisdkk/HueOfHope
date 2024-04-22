@@ -13,9 +13,9 @@ public enum CardType
 public class CardData : ScriptableObject
 {
     public string cardName;
+    public string description;
     public int apCost = 0;
     public CardType cardType = CardType.Attack;
     public bool multiTarget;
-    public bool targetSelf;
-    public CardEffect[] effects;
+    public List<CardEffect> effects;
 }

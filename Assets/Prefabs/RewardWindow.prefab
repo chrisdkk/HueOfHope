@@ -343,6 +343,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: NonBattleCard (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 197478084497947527, guid: ca26986165e66cf4e92da62b9feb94c4,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 544302040365199648, guid: ca26986165e66cf4e92da62b9feb94c4,
         type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -487,6 +492,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: NonBattleCard (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 197478084497947527, guid: ca26986165e66cf4e92da62b9feb94c4,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1215996347140393854, guid: ca26986165e66cf4e92da62b9feb94c4,
         type: 3}
       propertyPath: increasedScale.x
@@ -629,6 +639,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: NonBattleCard
+      objectReference: {fileID: 0}
+    - target: {fileID: 197478084497947527, guid: ca26986165e66cf4e92da62b9feb94c4,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 544302040365199648, guid: ca26986165e66cf4e92da62b9feb94c4,
         type: 3}

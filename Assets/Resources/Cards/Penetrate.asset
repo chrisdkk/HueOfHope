@@ -10,13 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b6f279a1cc38142b48cf348f369e6de0, type: 3}
-  m_Name: Test Block
+  m_Name: Penetrate
   m_EditorClassIdentifier: 
-  cardName: Test Block
+  cardName: Penetrate
+  description: Deal 4 direct damage to a target, ignoring their block
   apCost: 1
-  cardType: 1
+  cardType: 0
   multiTarget: 0
-  targetSelf: 1
   effects:
-  - effectType: 1
-    payload: 06000000
+  - effectType: 0
+    payload: 4
+    multipleTargets: 0
+    ignoreBlock: 1

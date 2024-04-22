@@ -10,12 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b6f279a1cc38142b48cf348f369e6de0, type: 3}
-  m_Name: Test Attack
+  m_Name: InsightfulStrike
   m_EditorClassIdentifier: 
-  cardName: Test Attack
-  apCost: 1
+  cardName: Insightful Strike
+  description: Deal 5 times damage equal to your current insight level plus 5 base
+    damage.
+  apCost: 3
   cardType: 0
   multiTarget: 0
   effects:
-  - effectType: 0
-    payload: 06000000
+  - effectType: 10
+    payload: 5
+    multipleTargets: 0
+    ignoreBlock: 0
+    insightMultiplier: 5
