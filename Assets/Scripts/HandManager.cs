@@ -163,7 +163,6 @@ public class HandManager : MonoBehaviour
                     break;
                 
                 case CardEffectType.Burn:
-                    targets.Add(GameStateManager.Instance.BattleManager.PlayerScript);
                     GameStateManager.Instance.BattleManager.AddEventToQueue(()=>CardEffectActions.BurnAction(effect.payload, ref targets));
                     break;
                 
