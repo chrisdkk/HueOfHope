@@ -55,7 +55,7 @@ public class BattleManager: MonoBehaviour
 
         playerCharacter = Instantiate(playerCharacterPrefab, new Vector3(-4.5f, 0, 0), quaternion.identity);
         PlayerScript = playerCharacter.GetComponent<Player>();
-        GetComponent<SubscribePlayerUIToStats>().Subscribe();
+        GetComponent<SubscribePlayerUIToStats>().Subscribe(playerCharacter);
         PlayerScript.MaxActionPoints = GameStateManager.Instance.MaxActionPoints;
         PlayerScript.ResetActionPoints();
         PlayerScript.CharacterStats.Health = GameStateManager.Instance.CurrentPlayerHealth;
