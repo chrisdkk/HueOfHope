@@ -204,13 +204,14 @@ public class HandManager : MonoBehaviour
                     if (enemy.CharacterStats.Health <= 0)
                     {
                         Destroy(enemy.gameObject);
-                            GameStateManager.Instance.BattleManager.EnemiesInBattle.RemoveAll(enemy => enemy.CharacterStats.Health <= 0);
-                            if (GameStateManager.Instance.BattleManager.EnemiesInBattle.Count==0)
-                            {
-                                GameStateManager.Instance.BattleManager.EndBattle();
-                            }
                     }
                 }
+                GameStateManager.Instance.BattleManager.EnemiesInBattle.RemoveAll(enemy => enemy.CharacterStats.Health <= 0);
+                if (GameStateManager.Instance.BattleManager.EnemiesInBattle.Count==0)
+                {
+                    GameStateManager.Instance.BattleManager.EndBattle();
+                }
+                
             });
         }
         // Add event to discard used card
