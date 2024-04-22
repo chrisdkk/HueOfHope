@@ -22,3 +22,4 @@ MonoBehaviour:
     payload: 2
     multipleTargets: 1
     ignoreBlock: 0
+    insightMultiplier: 0
