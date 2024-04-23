@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class NonBattleCard: MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,IPointerClickHandler
+public class RewardCard: MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,IPointerClickHandler
 {
     [SerializeField] private Vector3 increasedScale;
     [SerializeField] private Sprite hightlightSprite;
@@ -12,7 +12,7 @@ public class NonBattleCard: MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     
     private Vector3 baseScale;
 
-    public delegate void NonBattleCardClickedEventHandler(NonBattleCard clickedCard);
+    public delegate void NonBattleCardClickedEventHandler(RewardCard clickedCard);
 
     public event NonBattleCardClickedEventHandler OnClick;
     
