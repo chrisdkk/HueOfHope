@@ -15,15 +15,6 @@ public class RewardManager : MonoBehaviour
     {
         buttonButtonComponent = chooseRewardButton.GetComponent<Button>();
     }
-    
-    void Update()
-    {
-        // Enable the button if a card is selected
-        if (selectedReward != null)
-        {
-            buttonButtonComponent.interactable = true;
-        }
-    }
 
     public void ShowReward()
     {
@@ -62,17 +53,16 @@ public class RewardManager : MonoBehaviour
     /* Remove the highlighting, if another card was clicked */
     void HandleCardOnClick(NonBattleCard clickedCard)
     {
-        if (!chooseRewardButton.activeSelf)
-        {
-            chooseRewardButton.SetActive(true);
-        }
-        
+
         if (selectedReward!=null && selectedReward != clickedCard)
         {
             selectedReward.OnOtherRewardChosen();
         }
         selectedReward = clickedCard;
         clickedCard.OnRewardChosen();
+        
+        // Enable the button if a card is selected
+        buttonButtonComponent.interactable = true;
     }
 
     /* Select the reward, add it to the deck and remove the reward window */
@@ -81,7 +71,13 @@ public class RewardManager : MonoBehaviour
         if (selectedReward != null)
         {
             GameStateManager.Instance.deck.Add(selectedReward.GetComponent<CardVisual>().cardData);
-            Destroy(transform.gameObject);
+            selectedReward.OnOtherRewardChosen();
+            selectedReward = null;
+            buttonButtonComponent.interactable = false;
+            for(int i=0; i < transform.childCount;i++)
+            {
+                transform.GetChild(i).gameObject.SetActive(false);
+            }
         }
     }
 }
