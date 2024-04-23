@@ -390,6 +390,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6862736319232291775, guid: 1a729ac6608928f468242ea51f4fa022,
+        type: 3}
+      propertyPath: m_Interactable
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7675876095535610084, guid: 1a729ac6608928f468242ea51f4fa022,
         type: 3}
       propertyPath: m_PresetInfoIsWorld
