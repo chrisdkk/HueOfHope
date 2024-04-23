@@ -36,6 +36,7 @@ public class Enemy : Character
         CharacterStats.OnStatChange += UpdateBlockBar;
         CharacterStats.OnStatChange += GetComponent<UpdateCharacterEffectIndicationsUI>().UpdateBurnIndicator;
         CharacterStats.OnStatChange += GetComponent<UpdateCharacterEffectIndicationsUI>().UpdateInsightIndicator;
+        CharacterStats.OnStatChange += GetComponent<UpdateCharacterEffectIndicationsUI>().UpdateIgnoreBlockIndicator;
         
         // Load and sort all available enemy cards
         EnemyCard[] enemyCards = Resources.LoadAll<EnemyCard>("EnemyCards/");
