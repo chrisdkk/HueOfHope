@@ -8,16 +8,17 @@ using Random = System.Random;
 
 public class BattleManager: MonoBehaviour
 {
+    public static BattleManager Instance;
+    
     private EventQueue eventQueue = new EventQueue();
     private bool battleEnded = false;
     
-    [SerializeField] private GameObject playerCharacterPrefab;
+    [SerializeField] private GameObject playerCharacter;
     [SerializeField] private GameObject rewardWindow;
     private DeckManager deckManager;
     private HandManager handManager;
     public List<Enemy> EnemiesInBattle;
-    private GameObject playerCharacter;
-    
+
     private Transform handDisplay;
 
     public Player PlayerScript;
@@ -26,6 +27,15 @@ public class BattleManager: MonoBehaviour
 
     public event TurnChangedEventHandler OnTurnChange;
     
+    void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            PlayerScript = playerCharacter.GetComponent<Player>();
+        }    
+    }
+
     void Update()
     {
         if (!battleEnded)
@@ -36,10 +46,6 @@ public class BattleManager: MonoBehaviour
                 currentEvent?.Invoke();
             }
         }
-        else
-        {
-            // Load next scene
-        }
     }
     
     public void AddEventToQueue(Action newEvent){
@@ -48,14 +54,13 @@ public class BattleManager: MonoBehaviour
     
     public void Initialize(List<CardData> deck, List<Enemy> enemies)
     {
+        OnTurnChange += GameObject.Find("TurnIndication").GetComponent<TurnIndication>().UpdateTurnIndicator;
+        
         // Find Manager Objects in Scene
         deckManager = new DeckManager(deck);
         handManager = FindObjectOfType<HandManager>();
         handManager.Initialize(deckManager);
 
-        playerCharacter = Instantiate(playerCharacterPrefab, new Vector3(-4.5f, 0, 0), quaternion.identity);
-        PlayerScript = playerCharacter.GetComponent<Player>();
-        GetComponent<SubscribePlayerUIToStats>().Subscribe(playerCharacter);
         PlayerScript.MaxActionPoints = GameStateManager.Instance.MaxActionPoints;
         PlayerScript.ResetActionPoints();
         PlayerScript.CharacterStats.Health = GameStateManager.Instance.CurrentPlayerHealth;

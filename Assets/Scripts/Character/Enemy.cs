@@ -36,6 +36,7 @@ public class Enemy : Character
         CharacterStats.OnStatChange += UpdateBlockBar;
         CharacterStats.OnStatChange += GetComponent<UpdateCharacterEffectIndicationsUI>().UpdateBurnIndicator;
         CharacterStats.OnStatChange += GetComponent<UpdateCharacterEffectIndicationsUI>().UpdateInsightIndicator;
+        CharacterStats.OnStatChange += GetComponent<UpdateCharacterEffectIndicationsUI>().UpdateIgnoreBlockIndicator;
         
         // Load and sort all available enemy cards
         EnemyCard[] enemyCards = Resources.LoadAll<EnemyCard>("EnemyCards/");
@@ -107,48 +108,48 @@ public class Enemy : Character
             switch (effect.effectType)
             {
                 case CardEffectType.Damage:
-                    targets.Add(GameStateManager.Instance.BattleManager.PlayerScript);
-                    GameStateManager.Instance.BattleManager.AddEventToQueue(()=>CardEffectActions.DamageAction(this, effect.payload, effect.ignoreBlock, ref targets));
+                    targets.Add(BattleManager.Instance.PlayerScript);
+                    BattleManager.Instance.AddEventToQueue(()=>CardEffectActions.DamageAction(this, effect.payload, effect.ignoreBlock, ref targets));
                     break;
                 
                 case CardEffectType.Block:
                     if (effect.multipleTargets)
                     {
-                        targets.AddRange(GameStateManager.Instance.BattleManager.EnemiesInBattle);
+                        targets.AddRange(BattleManager.Instance.EnemiesInBattle);
                     }
                     else
                     {
                         targets.Add(this);
                     }
-                    GameStateManager.Instance.BattleManager.AddEventToQueue(()=>CardEffectActions.BlockAction(effect.payload, ref targets));
+                    BattleManager.Instance.AddEventToQueue(()=>CardEffectActions.BlockAction(effect.payload, ref targets));
                     break;
                 
                 case CardEffectType.Burn:
-                    targets.Add(GameStateManager.Instance.BattleManager.PlayerScript);
-                    GameStateManager.Instance.BattleManager.AddEventToQueue(()=>CardEffectActions.BurnAction(effect.payload, ref targets));
+                    targets.Add(BattleManager.Instance.PlayerScript);
+                    BattleManager.Instance.AddEventToQueue(()=>CardEffectActions.BurnAction(effect.payload, ref targets));
                     break;
                 
                 case CardEffectType.Insight:
                     if (effect.multipleTargets)
                     {
-                        targets.AddRange(GameStateManager.Instance.BattleManager.EnemiesInBattle);
+                        targets.AddRange(BattleManager.Instance.EnemiesInBattle);
                     }
                     else
                     {
                         targets.Add(this);
                     }
-                    GameStateManager.Instance.BattleManager.AddEventToQueue(()=>CardEffectActions.InsightAction(effect.payload, ref targets));
+                    BattleManager.Instance.AddEventToQueue(()=>CardEffectActions.InsightAction(effect.payload, ref targets));
                     break;
                 
                 case CardEffectType.AttackDebuff:
-                    targets.Add(GameStateManager.Instance.BattleManager.PlayerScript);
-                    GameStateManager.Instance.BattleManager.AddEventToQueue(()=>CardEffectActions.AttackDebuff(effect.payload, ref targets));
+                    targets.Add(BattleManager.Instance.PlayerScript);
+                    BattleManager.Instance.AddEventToQueue(()=>CardEffectActions.AttackDebuff(effect.payload, ref targets));
                     break;
             }
             // Check if player died
-            if (GameStateManager.Instance.BattleManager.PlayerScript.CharacterStats.Health<=0)
+            if (BattleManager.Instance.PlayerScript.CharacterStats.Health<=0)
             {
-                GameStateManager.Instance.BattleManager.EndBattle();
+                BattleManager.Instance.EndBattle();
             }
         }
         // Get next action

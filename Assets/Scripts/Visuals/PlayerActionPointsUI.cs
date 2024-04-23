@@ -1,16 +1,26 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
 public class PlayerActionPointsUI : MonoBehaviour
 {
+    // Update is called once per frame
     public GameObject[] actionPoints;
 
+    
+    private void Awake()
+    {
+        BattleManager.Instance.PlayerScript.OnActionPointChange += UpdateActionPoints;
+    }
+    
     public void UpdateActionPoints()
     {
         var textComponent = GetComponent<TextMeshProUGUI>();
         if (textComponent != null)
         {
-            textComponent.text = "AP: " + GameStateManager.Instance.BattleManager.PlayerScript.CurrentActionPoints +
+            textComponent.text = "AP: " + BattleManager.Instance.PlayerScript.CurrentActionPoints +
                                  " / " + GameStateManager.Instance.MaxActionPoints;
         }
         UpdateActionPointUI(); // Refresh the UI
@@ -18,7 +28,7 @@ public class PlayerActionPointsUI : MonoBehaviour
 
     void UpdateActionPointUI()
     {
-        int currentActionPoints = GameStateManager.Instance.BattleManager.PlayerScript.CurrentActionPoints;
+        int currentActionPoints = BattleManager.Instance.PlayerScript.CurrentActionPoints;
 
         for (int i = 0; i < actionPoints.Length; i++)
         {

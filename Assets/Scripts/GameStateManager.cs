@@ -14,9 +14,8 @@ public struct PlayerGlobalStats
 public class GameStateManager : MonoBehaviour
 {
     public static GameStateManager Instance;
-    public BattleManager BattleManager { get; private set; }
 
-    [SerializeField] private BattleManager battleManagerPrefab;
+    [SerializeField] private BattleManager battleManager;
     [SerializeField] public Enemy prototypeEnemy;
     [SerializeField] private DeckSystem deckSystem;
 
@@ -67,20 +66,7 @@ public class GameStateManager : MonoBehaviour
 
     private void StartBattle()
     {
-        BattleManager = Instantiate(battleManagerPrefab, new Vector3(0, 0, 0), Quaternion.identity);
-        BattleManager.Initialize(deck, Enemies);
-    }
-    
-    // Add this specific card to the deck
-    public void AddCardToDeck(CardData card)
-    {
-        deck.Add(card);
-    }
-
-    // Remove this specific card from the deck and return if it succeeded
-    public bool RemoveCardFromDeck(CardData card)
-    {
-        return deck.Remove(card);
+        battleManager.Initialize(deck, Enemies);
     }
 
 }

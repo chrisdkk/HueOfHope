@@ -8,12 +8,17 @@ public class UpdateCharacterEffectIndicationsUI : MonoBehaviour
 {
     [SerializeField] private GameObject burnIndicator;
     [SerializeField] private GameObject insightIndicator;
+    [SerializeField] private GameObject ignoreBlockIndicator;
     [SerializeField] private Character character;
 
     void Start()
     {
         burnIndicator.SetActive(false);
         insightIndicator.SetActive(false);
+        ignoreBlockIndicator.SetActive(false);
+        BattleManager.Instance.PlayerScript.CharacterStats.OnStatChange += UpdateBurnIndicator;
+        BattleManager.Instance.PlayerScript.CharacterStats.OnStatChange += UpdateInsightIndicator;
+        BattleManager.Instance.PlayerScript.CharacterStats.OnStatChange += UpdateIgnoreBlockIndicator;
     }
 
     /*Update the burn indication of the enemy*/
@@ -41,6 +46,20 @@ public class UpdateCharacterEffectIndicationsUI : MonoBehaviour
         else
         {
             insightIndicator.SetActive(false);
+        }
+    }
+    
+    /*Update the insight indication of the enemy*/
+    public void UpdateIgnoreBlockIndicator()
+    {
+        if (character.CharacterStats.IgnoreBlockOnNext > 0)
+        {
+            ignoreBlockIndicator.SetActive(true);
+            ignoreBlockIndicator.transform.GetChild(0).GetComponent<TextMeshPro>().text = character.CharacterStats.IgnoreBlockOnNext.ToString();
+        }
+        else
+        {
+            ignoreBlockIndicator.SetActive(false);
         }
     }
 }
