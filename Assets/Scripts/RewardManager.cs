@@ -41,7 +41,7 @@ public class RewardManager : MonoBehaviour
         for(int i=0; i < rewards.Count;i++)
         {
             CardVisual cardVisual = cardParent.transform.GetChild(i).GetComponentInChildren<CardVisual>();
-            cardVisual.transform.parent.gameObject.SetActive(true);
+            cardVisual.gameObject.SetActive(true);
             cardVisual.cardData = rewards[i];
             cardVisual.UpdateCardVisual();
         }
