@@ -16,6 +16,9 @@ public class UpdateCharacterEffectIndicationsUI : MonoBehaviour
         burnIndicator.SetActive(false);
         insightIndicator.SetActive(false);
         ignoreBlockIndicator.SetActive(false);
+        BattleManager.Instance.PlayerScript.CharacterStats.OnStatChange += UpdateBurnIndicator;
+        BattleManager.Instance.PlayerScript.CharacterStats.OnStatChange += UpdateInsightIndicator;
+        BattleManager.Instance.PlayerScript.CharacterStats.OnStatChange += UpdateIgnoreBlockIndicator;
     }
 
     /*Update the burn indication of the enemy*/

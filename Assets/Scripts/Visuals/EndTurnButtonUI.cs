@@ -17,6 +17,6 @@ public class EndTurnButtonUI : MonoBehaviour
 
     public void OnButtonClick()
     {
-        GameStateManager.Instance.BattleManager.EndPlayerTurn();
+        BattleManager.Instance.EndPlayerTurn();
     }
 }
