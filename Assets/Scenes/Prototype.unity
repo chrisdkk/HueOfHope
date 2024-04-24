@@ -1015,7 +1015,7 @@ MonoBehaviour:
   cardPrefab: {fileID: 5102065105404934718, guid: 233ea21290818462da6c79081947af88,
     type: 3}
   handTransform: {fileID: 698283384}
-  horizontalSpacing: 1
+  horizontalSpacing: 1.5
   maxHandSize: 5
 --- !u!224 &941074277 stripped
 RectTransform:
