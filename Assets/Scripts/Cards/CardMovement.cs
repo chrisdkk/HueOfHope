@@ -123,7 +123,9 @@ public class CardMovement : MonoBehaviour
     {
         glowEffect.SetActive(true);
         transform.localScale = originalScale * selectScale;
-        transform.localPosition = new Vector3(originalPosition.x, originalPosition.y, -1);
+        RectTransform rectTransform = GetComponentInChildren<RectTransform>();
+        transform.localPosition = new Vector3(originalPosition.x, (rectTransform.rect.height*rectTransform.transform.localScale.y)/4+.1f, -1);
+        transform.localRotation = Quaternion.Euler(0, 0, 0);
     }
 
     private void HandleDragState()

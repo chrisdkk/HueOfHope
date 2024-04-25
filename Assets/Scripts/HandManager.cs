@@ -237,9 +237,9 @@ public class HandManager : MonoBehaviour
 
         int midOfCards = (int)Math.Floor(cardCount / 2.0);
         float offsetY = 0.25f;
-        float y = handTransform.position.y;
+        float y = handTransform.position.y-0.5f;
 
-        float rotation = 20f;
+        float rotation = 15f;
         // Get rotation offset depending on how much cards there are
         float rotationOffset = rotation/midOfCards;
         for (int i = 0; i < cardCount; i++)
