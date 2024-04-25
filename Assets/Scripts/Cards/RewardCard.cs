@@ -7,9 +7,8 @@ using UnityEngine.UI;
 public class RewardCard: MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,IPointerClickHandler
 {
     [SerializeField] private Vector3 increasedScale;
-    [SerializeField] private Sprite hightlightSprite;
-    [SerializeField] private Sprite defaultSprite;
-    
+    [SerializeField] private GameObject highlightBorder;
+
     private Vector3 baseScale;
 
     public delegate void NonBattleCardClickedEventHandler(RewardCard clickedCard);
@@ -38,11 +37,11 @@ public class RewardCard: MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
 
     public void OnOtherRewardChosen()
     {
-        GetComponent<Image>().sprite = defaultSprite;
+        highlightBorder.SetActive(false);
     }
 
     public void OnRewardChosen()
     {
-        GetComponent<Image>().sprite = hightlightSprite;
+        highlightBorder.SetActive(true);
     }
 }

@@ -24,3 +24,4 @@ MonoBehaviour:
     multipleTargets: 0
     ignoreBlock: 0
     insightMultiplier: 5
+  cardImage: {fileID: 2800000, guid: 6b2057531bc5f7944950f9d78d7e1cc8, type: 3}
