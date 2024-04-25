@@ -367,6 +367,18 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 1a729ac6608928f468242ea51f4fa022, type: 3}
+--- !u!114 &447936177 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1664872816408922863, guid: 1a729ac6608928f468242ea51f4fa022,
+    type: 3}
+  m_PrefabInstance: {fileID: 233532041}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 863b7e3dbff201940835e57a5d605432, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &501841534
 GameObject:
   m_ObjectHideFlags: 0
@@ -1105,7 +1117,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2592237ffb7d43549a5f9da8c1e7c6b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  battleManager: {fileID: 0}
+  battleManager: {fileID: 447936177}
   prototypeEnemy: {fileID: 2529766005443298267, guid: cc42545fb2369c04ca21b84e3ddbbceb,
     type: 3}
   deckSystem: {fileID: 87950868}
@@ -2750,8 +2762,31 @@ PrefabInstance:
     - target: {fileID: 2481586220370297915, guid: 92fafd04a1b2be344b2de82cbd1a765a,
         type: 3}
       propertyPath: ChapterList.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2481586220370297915, guid: 92fafd04a1b2be344b2de82cbd1a765a,
+        type: 3}
+      propertyPath: chapterList.Array.size
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2481586220370297915, guid: 92fafd04a1b2be344b2de82cbd1a765a,
+        type: 3}
+      propertyPath: ChapterList.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: a9fbad03a7396c34293caece66bd2299,
+        type: 2}
+    - target: {fileID: 2481586220370297915, guid: 92fafd04a1b2be344b2de82cbd1a765a,
+        type: 3}
+      propertyPath: ChapterList.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: a9fbad03a7396c34293caece66bd2299,
+        type: 2}
+    - target: {fileID: 2481586220370297915, guid: 92fafd04a1b2be344b2de82cbd1a765a,
+        type: 3}
+      propertyPath: chapterList.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: a9fbad03a7396c34293caece66bd2299,
+        type: 2}
     - target: {fileID: 2952052698596643387, guid: 92fafd04a1b2be344b2de82cbd1a765a,
         type: 3}
       propertyPath: m_Name

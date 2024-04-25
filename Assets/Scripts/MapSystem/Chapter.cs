@@ -2,15 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Chapter : MonoBehaviour
+[CreateAssetMenu(fileName = "Chapter", menuName = "ScriptableObjects/Chapter", order = 1)]
+public class Chapter : ScriptableObject
 {
-    [SerializeField]
-    private List<Stage> StageList = new List<Stage>();
+    public List<Stage> stageList;
     
     // Start is called before the first frame update
     void Start()
     {
-        LoadStageList(StageList); 
+        // LoadStageList(stageList); 
     }
 
     // Update is called once per frame
