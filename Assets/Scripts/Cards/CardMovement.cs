@@ -177,15 +177,18 @@ public class CardMovement : MonoBehaviour
                 Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
                 if (Physics.Raycast(ray, out var hit, 100, layerMask))
                 {
-                    selectedCard = null;
-                    OnPlay?.Invoke(gameObject, hit.transform.gameObject);
-                    currentState = CardState.Played;
-                    originPlayedPosition = playPosition;
+                    if (BattleManager.Instance.PlayerScript.CurrentActionPoints >= GetComponent<CardVisual>().cardData.apCost)
+                    {
+                        selectedCard = null;
+                        OnPlay?.Invoke(gameObject, hit.transform.gameObject);
+                        currentState = CardState.Played;
+                        originPlayedPosition = playPosition;   
+                    }
                 } 
             }
             else
             {
-                if (transform.localPosition.y > cardPlayBorder.y)
+                if (transform.localPosition.y > cardPlayBorder.y && BattleManager.Instance.PlayerScript.CurrentActionPoints >= GetComponent<CardVisual>().cardData.apCost)
                 {
                     selectedCard = null;
                     OnPlay?.Invoke(gameObject, null);
