@@ -22,5 +22,4 @@ public class EventQueue
     {
         return events.Count > 0;
     }
-    
 }

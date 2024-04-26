@@ -1,33 +1,98 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class MapSystem : MonoBehaviour
 {
-    [SerializeField] private List<Chapter> chapterList;
-    
-    // Start is called before the first frame update
-    void Start()
-    {
-        InitializeMapSystem(); 
-    }
+    [SerializeField] public List<Chapter> chapterList;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    [SerializeField] public int currentChapterIndex;
+    [SerializeField] public int currentStageIndex;
+
+    [SerializeField] private RewardManager rewardManager;
 
     public void InitializeMapSystem()
     {
-        foreach (Chapter chapter in chapterList)
+        // THIS FUNCTION MIGHT NOT BE NECESSARY
+        Debug.Log("Map-System Initialized");
+
+        rewardManager.OnBattleEnd += EndCurrentStage;
+
+        // default values
+        currentChapterIndex = 0;
+        currentStageIndex = 0;
+    }
+
+    public String GetName()
+    {
+        return chapterList[currentChapterIndex].stageList[currentStageIndex].stageName;
+    }
+
+    public List<Enemy> GetEnemies()
+    {
+        return chapterList[currentChapterIndex].stageList[currentStageIndex].stageEnemies;
+    }
+
+    public Sprite GetBackground()
+    {
+        return chapterList[currentChapterIndex].stageList[currentStageIndex].stageBackground;
+    }
+
+    public void LoadStage()
+    {
+        chapterList[currentChapterIndex].stageList[currentStageIndex].StartStage();
+    }
+
+    public void EndCurrentStage()
+    {
+        // ReturnToMap();
+        chapterList[currentChapterIndex].stageList[currentStageIndex].EndStage();
+        
+        AdvanceToNextStage();
+        GameStateManager.Instance.StartBattle();
+
+        // // advance one stage forward
+        // currentStageIndex++;
+        //
+        // if (currentStageIndex == chapterList[currentChapterIndex].stageList.Count())
+        // {
+        //     // advance one chapter forward
+        //     currentChapterIndex++;
+        //
+        //     if (currentChapterIndex == chapterList.Count())
+        //     {
+        //         // completed every chapter and stage
+        //     }
+        // }
+    }
+
+    public void AdvanceToNextStage()
+    {
+        // advance one stage forward
+        currentStageIndex++;
+
+        if (currentStageIndex == chapterList[currentChapterIndex].stageList.Count())
         {
-            foreach (Stage stage in chapter.stageList)
-            {
-                // for now, this start every stage in the stage list
-                // ideally what you want is that one stage starts, and only after it has ended, the next one starts
-                stage.StartStage();
-            }
-        } 
+            AdvanceToNextChapter();
+        }
+    }
+
+    public void AdvanceToNextChapter()
+    {
+        // advance one chapter forward
+        currentChapterIndex++;
+
+        if (currentChapterIndex == chapterList.Count())
+        {
+            // completed every chapter and stage
+        }
+    }
+
+    public void ReturnToMap()
+    {
+        Debug.Log("hioio");
+        Debug.Log("ddfdffff");
     }
 }

@@ -6,10 +6,9 @@ using UnityEngine;
 public class Stage : ScriptableObject
 {
     public string stageName = "Unnamed";
-    public int stageId = 0;
     public Sprite stageBackground;
-    public bool hasFightFinished = false;
-    public List<Enemy> enemies;
+    public bool hasStageFinished = false;
+    public List<Enemy> stageEnemies;
     
     public void InitializeStage()
     {
@@ -22,7 +21,8 @@ public class Stage : ScriptableObject
 
     public void EndStage()
     {
-        hasFightFinished = true;
         Debug.Log("Ended Stage With Name: " + stageName);
+    
+        hasStageFinished = true;
     }
 }

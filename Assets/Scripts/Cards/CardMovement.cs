@@ -4,7 +4,8 @@ using System.Collections.Generic;
 using JetBrains.Annotations;
 using UnityEngine;
 
-public enum CardState {
+public enum CardState
+{
     Idle,
     Hover,
     Dragging,
@@ -20,7 +21,7 @@ public enum CardPlayType
 public class CardMovement : MonoBehaviour
 {
     private static CardMovement selectedCard;
-    
+
     private CardPlayType playType;
     private Vector3 originalLocalPointerPosition;
     private Vector3 originalPosition;
@@ -116,7 +117,7 @@ public class CardMovement : MonoBehaviour
         {
             currentState = CardState.Dragging;
             selectedCard = this;
-        } 
+        }
     }
 
     private void HandleHoverState()
@@ -130,12 +131,12 @@ public class CardMovement : MonoBehaviour
     {
         // Set the card's rotation to zero
         transform.localRotation = Quaternion.identity;
-        
+
         Vector3 mousePos = Input.mousePosition;
         Vector3 worldMousePos = mainCamera.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, 5f));
 
         transform.localPosition = transform.parent.InverseTransformPoint(worldMousePos);
-        
+
         if (transform.localPosition.y > cardPlay.y)
         {
             currentState = CardState.Play;
@@ -150,7 +151,7 @@ public class CardMovement : MonoBehaviour
         Vector3 mousePos = Input.mousePosition;
         Vector3 worldMousePos = mainCamera.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, 5f));
         Vector3 localMousePos = transform.parent.InverseTransformPoint(worldMousePos);
-                 
+
         if (playType == CardPlayType.Arrow)
         {
             transform.localPosition = playPosition;
@@ -170,7 +171,7 @@ public class CardMovement : MonoBehaviour
                 {
                     selectedCard = null;
                     OnPlay?.Invoke(gameObject, hit.transform.gameObject);
-                } 
+                }
             }
             else
             {

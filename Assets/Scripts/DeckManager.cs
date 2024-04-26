@@ -32,8 +32,8 @@ public class DeckManager
     public void DiscardCard(CardData card)
     {
         discardPile.Add(card);
-    } 
-    
+    }
+
     public List<CardData> Shuffle(List<CardData> cards)
     {
         Random r = new Random();

@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e456709eb317a2b4d819ce1ae06af829, type: 3}
   m_Name: TesttStage2
   m_EditorClassIdentifier: 
-  stageName: Test2
   stageId: 2
+  stageName: Test2
   stageBackground: {fileID: 21300000, guid: 4d969aeb7cc0dc44185ff17c8de0198c, type: 3}
-  hasFightFinished: 0
-  enemies:
+  hasStageFinished: 0
+  stageEnemies:
   - {fileID: 2529766005443298267, guid: cc42545fb2369c04ca21b84e3ddbbceb, type: 3}
   - {fileID: 2529766005443298267, guid: cc42545fb2369c04ca21b84e3ddbbceb, type: 3}
   - {fileID: 2529766005443298267, guid: cc42545fb2369c04ca21b84e3ddbbceb, type: 3}

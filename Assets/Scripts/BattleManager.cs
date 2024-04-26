@@ -6,13 +6,13 @@ using UnityEngine;
 using UnityEngine.PlayerLoop;
 using Random = System.Random;
 
-public class BattleManager: MonoBehaviour
+public class BattleManager : MonoBehaviour
 {
     public static BattleManager Instance;
-    
+
     private EventQueue eventQueue = new EventQueue();
     private bool battleEnded = false;
-    
+
     [SerializeField] private GameObject playerCharacter;
     [SerializeField] private GameObject rewardWindow;
     private DeckManager deckManager;
@@ -26,14 +26,14 @@ public class BattleManager: MonoBehaviour
     public delegate void TurnChangedEventHandler(string turnText, bool isEnemyTurn);
 
     public event TurnChangedEventHandler OnTurnChange;
-    
+
     void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
             PlayerScript = playerCharacter.GetComponent<Player>();
-        }    
+        }
     }
 
     void Update()
@@ -47,15 +47,19 @@ public class BattleManager: MonoBehaviour
             }
         }
     }
-    
-    public void AddEventToQueue(Action newEvent){
+
+    public void AddEventToQueue(Action newEvent)
+    {
         eventQueue.AddEvent(newEvent);
     }
-    
+
     public void Initialize(List<CardData> deck, List<Enemy> enemies)
     {
         OnTurnChange += GameObject.Find("TurnIndication").GetComponent<TurnIndication>().UpdateTurnIndicator;
-        
+
+        // un-end battle when advancing to the next stage
+        battleEnded = false;
+
         // Find Manager Objects in Scene
         deckManager = new DeckManager(deck);
         handManager = FindObjectOfType<HandManager>();
@@ -83,7 +87,7 @@ public class BattleManager: MonoBehaviour
      */
     private void EnemyTurn()
     {
-        AddEventToQueue(()=>OnTurnChange?.Invoke("Enemy Turn", true));
+        AddEventToQueue(() => OnTurnChange?.Invoke("Enemy Turn", true));
         foreach (Enemy enemy in EnemiesInBattle)
         {
             // Add event to apply and reduce status effects of enemy
@@ -92,8 +96,8 @@ public class BattleManager: MonoBehaviour
                 enemy.CharacterStats.Block = 0;
                 if (enemy.CharacterStats.Burn > 0)
                 {
-                    enemy.CharacterStats.Health-=4;
-                    enemy.CharacterStats.Burn-=1;
+                    enemy.CharacterStats.Health -= 4;
+                    enemy.CharacterStats.Burn -= 1;
                 }
             });
 
@@ -105,7 +109,7 @@ public class BattleManager: MonoBehaviour
             {
                 if (enemy.CharacterStats.Insight > 0)
                 {
-                    enemy.CharacterStats.Insight-=1;
+                    enemy.CharacterStats.Insight -= 1;
                 }
             });
         }
@@ -118,7 +122,7 @@ public class BattleManager: MonoBehaviour
      */
     private void StartPlayerTurn()
     {
-        AddEventToQueue(()=>OnTurnChange?.Invoke("Player Turn",false));
+        AddEventToQueue(() => OnTurnChange?.Invoke("Player Turn", false));
         PlayerScript.ResetActionPoints();
         // Add event to apply and reduce status effects of player
         AddEventToQueue(() =>
@@ -131,7 +135,7 @@ public class BattleManager: MonoBehaviour
             }
         });
 
-        eventQueue.AddEvent(()=> handManager.DrawHand());
+        eventQueue.AddEvent(() => handManager.DrawHand());
     }
 
     public void EndPlayerTurn()
@@ -145,7 +149,7 @@ public class BattleManager: MonoBehaviour
             }
         });
 
-        AddEventToQueue(()=>handManager.DiscardHand());
+        AddEventToQueue(() => handManager.DiscardHand());
         EnemyTurn();
     }
 
@@ -155,9 +159,10 @@ public class BattleManager: MonoBehaviour
     public void EndBattle()
     {
         battleEnded = true;
-        handManager.gameObject.SetActive(false);
+        // handManager.gameObject.SetActive(false);
+        handManager.DiscardHand();
         //Disable buttons for UI
-        
+
         if (PlayerScript.CharacterStats.Health <= 0)
         {
             // You lost
@@ -168,5 +173,4 @@ public class BattleManager: MonoBehaviour
         GameStateManager.Instance.CurrentPlayerHealth = PlayerScript.CharacterStats.Health;
         rewardWindow.GetComponent<RewardManager>().ShowReward();
     }
-
 }
