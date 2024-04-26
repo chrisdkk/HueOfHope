@@ -102,7 +102,7 @@ public class HandManager : MonoBehaviour
                                 effect.payload,
                                 effect.ignoreBlock || BattleManager.Instance.PlayerScript.CharacterStats.IgnoreBlockOnNext > 0,
                                 ref targets);
-                        
+
                         // Reduce buff ignore block on next attack
                         if (BattleManager.Instance.PlayerScript.CharacterStats.IgnoreBlockOnNext > 0)
                         {
@@ -194,7 +194,12 @@ public class HandManager : MonoBehaviour
                     BattleManager.Instance.AddEventToQueue(()=>DiscardHand());
                     break;
             }
-            
+
+            if (effect.vfxEffect != null)
+            {
+                BattleManager.Instance.AddEventToQueue(()=>StartCoroutine(VfxEffects.PlayEffects(effect.vfxEffect, targets.ToArray())));   
+            }
+
             // Check if an enemy died -> Add event to remove it
             BattleManager.Instance.AddEventToQueue(()=>
             {
@@ -219,7 +224,7 @@ public class HandManager : MonoBehaviour
             BattleManager.Instance.AddEventToQueue(()=> DiscardCard(card));
         }
     }
-    
+
     private void DiscardCard(GameObject card)
     {
         CardData cardData = card.GetComponent<CardVisual>().cardData;

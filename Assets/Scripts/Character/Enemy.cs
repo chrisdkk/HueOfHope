@@ -146,6 +146,10 @@ public class Enemy : Character
                     BattleManager.Instance.AddEventToQueue(()=>CardEffectActions.AttackDebuff(effect.payload, ref targets));
                     break;
             }
+            if (effect.vfxEffect != null)
+            {
+                BattleManager.Instance.AddEventToQueue(()=>StartCoroutine(VfxEffects.PlayEffects(effect.vfxEffect, targets.ToArray())));   
+            }
             // Check if player died
             if (BattleManager.Instance.PlayerScript.CharacterStats.Health<=0)
             {

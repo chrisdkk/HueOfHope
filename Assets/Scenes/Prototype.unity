@@ -370,6 +370,12 @@ PrefabInstance:
       propertyPath: m_PresetInfoIsWorld
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1664872816408922863, guid: 1a729ac6608928f468242ea51f4fa022,
+        type: 3}
+      propertyPath: burnVFX
+      value: 
+      objectReference: {fileID: 6294508013172393196, guid: 043176b6a68be2b43b073aaaa4782c7d,
+        type: 3}
     - target: {fileID: 1677412503476777855, guid: 1a729ac6608928f468242ea51f4fa022,
         type: 3}
       propertyPath: m_IsActive
@@ -1016,7 +1022,7 @@ MonoBehaviour:
     type: 3}
   handTransform: {fileID: 698283384}
   horizontalSpacing: 1.5
-  maxHandSize: 6
+  maxHandSize: 5
 --- !u!224 &941074277 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1133678693812119055, guid: 106961503c2cfb54081b6beb35eeca7c,
@@ -1359,6 +1365,9 @@ MonoBehaviour:
   maxPlayerHealth: 20
   deck: []
   AllAvailableCards: []
+  blueEnabled: 0
+  redEnabled: 0
+  greenEnabled: 0
 --- !u!4 &1183654472
 Transform:
   m_ObjectHideFlags: 0
