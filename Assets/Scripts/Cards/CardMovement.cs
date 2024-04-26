@@ -8,7 +8,8 @@ public enum CardState {
     Idle,
     Hover,
     Dragging,
-    Play
+    Play,
+    Played
 }
 
 public enum CardPlayType
@@ -28,11 +29,15 @@ public class CardMovement : MonoBehaviour
     private Quaternion originalRotation;
     private CardState currentState = 0;
     private Camera mainCamera;
+    private float timeSincePlayed = 0f;
+    private Vector3 originPlayedPosition;
 
     [SerializeField] private LayerMask layerMask;
     [SerializeField] private float selectScale = 1.1f;
-    [SerializeField] private Vector2 cardPlay;
+    [SerializeField] private float playedScale = 0.9f;
+    [SerializeField] private Vector2 cardPlayBorder;
     [SerializeField] private Vector3 playPosition;
+    [SerializeField] private Vector3 playedPosition;
     [SerializeField] private GameObject glowEffect;
     [SerializeField] private GameObject playArrow;
 
@@ -77,6 +82,9 @@ public class CardMovement : MonoBehaviour
                 break;
             case CardState.Play:
                 HandlePlayState();
+                break;
+            case CardState.Played:
+                HandlePlayedState();
                 break;
         }
     }
@@ -138,12 +146,11 @@ public class CardMovement : MonoBehaviour
 
         transform.localPosition = transform.parent.InverseTransformPoint(worldMousePos);
         
-        if (transform.localPosition.y > cardPlay.y)
+        if (transform.localPosition.y > cardPlayBorder.y)
         {
             currentState = CardState.Play;
             if (playType == CardPlayType.Arrow)
                 playArrow.SetActive(true);
-            transform.localPosition = playPosition;
         }
     }
 
@@ -172,14 +179,18 @@ public class CardMovement : MonoBehaviour
                 {
                     selectedCard = null;
                     OnPlay?.Invoke(gameObject, hit.transform.gameObject);
+                    currentState = CardState.Played;
+                    originPlayedPosition = playPosition;
                 } 
             }
             else
             {
-                if (transform.localPosition.y > cardPlay.y)
+                if (transform.localPosition.y > cardPlayBorder.y)
                 {
                     selectedCard = null;
                     OnPlay?.Invoke(gameObject, null);
+                    currentState = CardState.Played;
+                    originPlayedPosition = transform.position;
                 }
             }
         }
@@ -190,5 +201,15 @@ public class CardMovement : MonoBehaviour
             selectedCard = null;
             TransitionToIdleState();
         }
+    }
+
+    private void HandlePlayedState()
+    {
+        timeSincePlayed += Time.deltaTime*6;
+        playArrow.SetActive(false);
+        selectedCard = null;
+        transform.localScale = originalScale * playedScale;
+        transform.localPosition = Vector3.Lerp(originPlayedPosition, playedPosition, timeSincePlayed);
+        transform.localRotation = Quaternion.identity;
     }
 }
