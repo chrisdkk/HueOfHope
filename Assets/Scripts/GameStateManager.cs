@@ -26,6 +26,10 @@ public class GameStateManager : MonoBehaviour
     public List<CardData> AllAvailableCards;
     private List<Enemy> Enemies = new List<Enemy>();
 
+    public bool blueEnabled = false;
+    public bool redEnabled = false;
+    public bool greenEnabled = false;
+    
     // Start is called before the first frame update
     void Start()
     {
