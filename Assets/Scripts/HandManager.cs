@@ -15,15 +15,6 @@ public class HandManager : MonoBehaviour
     private Stats stats;
     private List<GameObject> cardsInHand = new List<GameObject>();
 
-    private bool isHandVisible = true;
-    private GameObject preventCardPlay;
-
-    private void Start()
-    {
-        preventCardPlay = transform.Find("PreventCardPlay").gameObject;
-        preventCardPlay.SetActive(false);
-    }
-
     public void Initialize(DeckManager deckManager)
     {
         deck = deckManager;
@@ -307,11 +298,5 @@ public class HandManager : MonoBehaviour
                 rotation -= rotationOffset;
             }
         }
-    }
-
-    public void ToggleHandVisibility()
-    {
-        preventCardPlay.SetActive(isHandVisible);
-        isHandVisible = !isHandVisible;
     }
 }
