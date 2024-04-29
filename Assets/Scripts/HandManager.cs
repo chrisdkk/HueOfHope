@@ -14,7 +14,7 @@ public class HandManager : MonoBehaviour
     private DeckManager deck;
     private Stats stats;
     private List<GameObject> cardsInHand = new List<GameObject>();
-    
+
     public void Initialize(DeckManager deckManager)
     {
         deck = deckManager;
@@ -32,7 +32,7 @@ public class HandManager : MonoBehaviour
     {
         for (int i = 0; i < cardsInHand.Count; i++)
         {
-            deck.DiscardCard(cardsInHand[i].GetComponent<CardVisual>().cardData);
+            deck.DiscardCard(cardsInHand[i].GetComponent<CardVisual>().CardData);
                 Destroy(cardsInHand[i]);
         }
         cardsInHand = new List<GameObject>();
@@ -48,8 +48,7 @@ public class HandManager : MonoBehaviour
 
             // Set card visuals
             CardVisual cardVisual = newCard.GetComponent<CardVisual>();
-            cardVisual.cardData = cardData;
-            cardVisual.UpdateCardVisual();
+            cardVisual.LoadCardData(cardData);
         
             // Set card movement
             CardMovement cardMovement = newCard.GetComponent<CardMovement>();
@@ -63,7 +62,7 @@ public class HandManager : MonoBehaviour
 
     private void PlayCard(GameObject card, GameObject targetedEnemy)
     {
-        CardData cardData = card.GetComponent<CardVisual>().cardData;
+        CardData cardData = card.GetComponent<CardVisual>().CardData;
         bool cardPlayed=true;
         bool alreadyDiscarded = false;
 
@@ -227,7 +226,7 @@ public class HandManager : MonoBehaviour
 
     private void DiscardCard(GameObject card)
     {
-        CardData cardData = card.GetComponent<CardVisual>().cardData;
+        CardData cardData = card.GetComponent<CardVisual>().CardData;
         deck.DiscardCard(cardData);
         cardsInHand.Remove(card);
         Destroy(card);
@@ -298,7 +297,6 @@ public class HandManager : MonoBehaviour
             {
                 rotation -= rotationOffset;
             }
-            
         }
     }
 }
