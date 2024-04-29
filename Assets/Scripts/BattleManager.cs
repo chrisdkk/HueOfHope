@@ -5,6 +5,7 @@ using System.Threading;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
+using UnityEngine.Serialization;
 using Random = System.Random;
 
 public class BattleManager: MonoBehaviour
@@ -18,8 +19,9 @@ public class BattleManager: MonoBehaviour
     [SerializeField] private GameObject playerCharacter;
     [SerializeField] private GameObject rewardWindow;
     [SerializeField] private GameObject burnVFX;
-    private DeckManager deckManager;
-    private HandManager handManager;
+    public DeckManager DeckManager { get; private set; }
+    public HandManager HandManager { get; private set; }
+    
     public List<Enemy> EnemiesInBattle;
 
     private Transform handDisplay;
@@ -58,13 +60,10 @@ public class BattleManager: MonoBehaviour
         OnTurnChange += GameObject.Find("TurnIndication").GetComponent<TurnIndication>().UpdateTurnIndicator;
         
         // Find Manager Objects in Scene
-        deckManager = new DeckManager(deck);
-        handManager = FindObjectOfType<HandManager>();
-        handManager.Initialize(deckManager);
+        DeckManager = new DeckManager(deck);
+        HandManager = FindObjectOfType<HandManager>();
+        HandManager.Initialize(DeckManager);
 
-        eventQueue.ClearEvents();
-        battleEnded = false;
-        
         PlayerScript.MaxActionPoints = GameStateManager.Instance.MaxActionPoints;
         PlayerScript.ResetActionPoints();
         PlayerScript.CharacterStats.Health = GameStateManager.Instance.CurrentPlayerHealth;
@@ -127,7 +126,7 @@ public class BattleManager: MonoBehaviour
             PlayerScript.CharacterStats.Burn -= 1;
             AddEventToQueue(()=>StartCoroutine(VfxEffects.PlayEffects(burnVFX, PlayerScript)));
         }
-        eventQueue.AddEvent(()=> handManager.DrawHand());
+        eventQueue.AddEvent(()=> HandManager.DrawHand());
     }
 
     public void EndPlayerTurn()
@@ -138,7 +137,7 @@ public class BattleManager: MonoBehaviour
             PlayerScript.CharacterStats.Insight -= 1;
         }
 
-        AddEventToQueue(()=>handManager.DiscardHand());
+        AddEventToQueue(()=>HandManager.DiscardHand());
         AddEventToQueue(()=>EnemyTurn());
     }
 
@@ -148,7 +147,7 @@ public class BattleManager: MonoBehaviour
     public void EndBattle()
     {
         battleEnded = true;
-        handManager.gameObject.SetActive(false);
+        HandManager.gameObject.SetActive(false);
         //Disable buttons for UI
         
         if (PlayerScript.CharacterStats.Health <= 0)

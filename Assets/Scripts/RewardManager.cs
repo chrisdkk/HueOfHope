@@ -29,7 +29,7 @@ public class RewardManager : MonoBehaviour
             // Prevent duplicates
             if (!rewards.Contains(GameStateManager.Instance.AllAvailableCards[index]))
             {
-            rewards.Add(GameStateManager.Instance.AllAvailableCards[index]);
+                rewards.Add(GameStateManager.Instance.AllAvailableCards[index]);
             }
         }
 
@@ -42,8 +42,7 @@ public class RewardManager : MonoBehaviour
         {
             CardVisual cardVisual = cardParent.transform.GetChild(i).GetComponentInChildren<CardVisual>();
             cardVisual.gameObject.SetActive(true);
-            cardVisual.cardData = rewards[i];
-            cardVisual.UpdateCardVisual();
+            cardVisual.LoadCardData(rewards[i]);
         }
 
         // Register for onclick on cards
@@ -73,7 +72,7 @@ public class RewardManager : MonoBehaviour
     {
         if (selectedReward != null)
         {
-            GameStateManager.Instance.deck.Add(selectedReward.GetComponent<CardVisual>().cardData);
+            GameStateManager.Instance.deck.Add(selectedReward.GetComponent<CardVisual>().CardData);
             selectedReward.OnOtherRewardChosen();
             selectedReward = null;
             buttonButtonComponent.interactable = false;

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class CardVisual : MonoBehaviour
@@ -11,18 +12,14 @@ public class CardVisual : MonoBehaviour
     [SerializeField] private TextMeshProUGUI description;
     [SerializeField] private TextMeshProUGUI cost;
     [SerializeField] private RawImage cardImage;
-    public CardData cardData;
+    public CardData CardData { get; private set; }
 
-    private void Start()
+    public void LoadCardData(CardData newData)
     {
-        UpdateCardVisual();
-    }
-
-    public void UpdateCardVisual()
-    {
-        title.SetText(cardData.cardName);
-        description.SetText(cardData.description);
-        cost.SetText(cardData.apCost.ToString());
-        cardImage.texture = cardData.cardImage;
+        CardData = newData;
+        title.SetText(CardData.cardName);
+        description.SetText(CardData.description);
+        cost.SetText(CardData.apCost.ToString());
+        cardImage.texture = CardData.cardImage;
     }
 }
