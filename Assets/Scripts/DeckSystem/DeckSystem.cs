@@ -23,7 +23,7 @@ public class DeckSystem : MonoBehaviour
         }
     }
 
-    public void HandleCardOnClick(NonBattleCard clickedCard)
+    public void HandleCardOnClick(RewardCard clickedCard)
     {
         GameObject clickedList = clickedCard.transform.parent.transform.parent.transform.parent.gameObject;
     }
