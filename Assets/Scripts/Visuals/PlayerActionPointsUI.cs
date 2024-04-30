@@ -48,12 +48,6 @@ public class PlayerActionPointsUI : MonoBehaviour
                 }
 
                 spriteRenderer.color = currentColor; // Apply updated color
-
-                Debug.Log($"Adjusted opacity of action point {i} to {currentColor.a}");
-            }
-            else
-            {
-                Debug.LogWarning($"GameObject at index {i} does not have a SpriteRenderer component.");
             }
         }
     }
