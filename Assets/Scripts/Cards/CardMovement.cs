@@ -199,32 +199,30 @@ public class CardMovement : MonoBehaviour
     }
 
     /* Move card from one position to another, rotate and scale it accordingly*/
-    public IEnumerator HandleMovementFromPositionToPositionState(Vector3 targetPos, Quaternion targetRotation, Vector3 targetScale, float speed)
+    public IEnumerator HandleMovementFromPositionToPositionState(Vector3 targetPos, Quaternion targetRotation, Vector3 targetScale, float duration)
     {
         BattleManager.Instance.eventRunning = true;
-        Vector3 localTargetPos = transform.parent.InverseTransformPoint(targetPos), startingPos = transform.localPosition, startingScale = transform.localScale;
+        Vector3 startingPos = transform.position, startingScale = transform.localScale;
         Quaternion startingRot = transform.localRotation;
-
-        float distance = Vector3.Distance(startingPos, targetPos);
+        
         float elapsedTime = 0f;
-        while (elapsedTime < distance / speed && currentState!=CardState.Hover && currentState!=CardState.Dragging && currentState!=CardState.Play)
+        while (elapsedTime < duration && currentState!=CardState.Hover && currentState!=CardState.Dragging && currentState!=CardState.Play)
         {
-            float t = elapsedTime / (distance / speed);
+            float t = elapsedTime / duration;
             playArrow.SetActive(false);
             selectedCard = null;
-            transform.localPosition = Vector3.Lerp(startingPos, localTargetPos, t);
+            transform.position = Vector3.Lerp(startingPos, targetPos, t);
             transform.localScale = Vector3.Lerp(startingScale, targetScale, t);
             transform.localRotation = Quaternion.Slerp(startingRot, targetRotation, t);
             elapsedTime += Time.deltaTime;
             yield return null;
         }
-
         if (currentState == CardState.Spawned)
         {
             currentState = CardState.Idle;
         }
         BattleManager.Instance.eventRunning = false;
-        originalPosition = localTargetPos;
+        originalPosition = transform.parent.InverseTransformPoint(targetPos);
         originalRotation = targetRotation;
         originalScale = targetScale;
     }

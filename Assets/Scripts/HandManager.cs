@@ -31,15 +31,14 @@ public class HandManager : MonoBehaviour
         {
             AddCardToHand(deck.DrawCard(), true);
         }
-        BattleManager.Instance.AddEventToQueue(()=>StartCoroutine(UpdateHandVisuals(20f)));
+        BattleManager.Instance.AddEventToQueue(()=>StartCoroutine(UpdateHandVisuals(0.25f)));
     }
 
     public void DiscardHand()
     {
         for (int i = 0; i < cardsInHand.Count; i++)
         {
-            deck.DiscardCard(cardsInHand[i].GetComponent<CardVisual>().CardData);
-                Destroy(cardsInHand[i]);
+            DiscardCard(cardsInHand[i]);
         }
         cardsInHand = new List<GameObject>();
     }
@@ -51,7 +50,7 @@ public class HandManager : MonoBehaviour
         newCard.transform.localScale = cardInactiveScale;
         cardsInHand.Add(newCard);
 
-        // Set card visuals
+        // Set card visuals,
         CardVisual cardVisual = newCard.GetComponent<CardVisual>();
         cardVisual.LoadCardData(cardData);
         
@@ -61,7 +60,7 @@ public class HandManager : MonoBehaviour
         cardMovement.Initialize(cardData);
         if (!drewHand)
         {
-            BattleManager.Instance.AddEventToQueue(()=>StartCoroutine(UpdateHandVisuals(20f)));
+            BattleManager.Instance.AddEventToQueue(()=>StartCoroutine(UpdateHandVisuals(0.25f)));
         }
     }
 
@@ -76,7 +75,7 @@ public class HandManager : MonoBehaviour
         }
 
         BattleManager.Instance.PlayerScript.CurrentActionPoints -= cardData.apCost;
-        BattleManager.Instance.AddEventToQueue(()=>StartCoroutine(card.GetComponent<CardMovement>().HandleMovementFromPositionToPositionState(cardPlayedPos, Quaternion.identity, cardPlayedScale, 10f)));
+        BattleManager.Instance.AddEventToQueue(()=>StartCoroutine(card.GetComponent<CardMovement>().HandleMovementFromPositionToPositionState(cardPlayedPos, Quaternion.identity, cardPlayedScale, 0.1f)));
         
         foreach (CardEffect effect in cardData.effects)
         {
@@ -235,17 +234,17 @@ public class HandManager : MonoBehaviour
         deck.DiscardCard(cardData);
         Quaternion rotation = Quaternion.Euler(0,0,180);
         rotation.Normalize();
-        BattleManager.Instance.AddEventToQueue(()=>StartCoroutine(card.GetComponent<CardMovement>().HandleMovementFromPositionToPositionState(cardDiscardPos, rotation, cardInactiveScale, 20f)));
+        BattleManager.Instance.AddEventToQueue(()=>StartCoroutine(card.GetComponent<CardMovement>().HandleMovementFromPositionToPositionState(cardDiscardPos, rotation, cardInactiveScale, 0.25f)));
         BattleManager.Instance.AddEventToQueue(() =>
         {
             cardsInHand.Remove(card);
             Destroy(card);
         
-            BattleManager.Instance.AddEventToQueue(()=>StartCoroutine(UpdateHandVisuals(50f)));
+            BattleManager.Instance.AddEventToQueue(()=>StartCoroutine(UpdateHandVisuals(0.1f)));
         });
     }
     
-    private IEnumerator UpdateHandVisuals(float speed)
+    private IEnumerator UpdateHandVisuals(float duration)
     {
         int cardCount = cardsInHand.Count;
         float offset = cardPrefab.transform.localScale.x * this.horizontalSpacing;
@@ -265,10 +264,7 @@ public class HandManager : MonoBehaviour
             // Offset the card (position and rotation)
             Quaternion targetRot = Quaternion.Euler(0f, 0f, rotation);
             targetRot.Normalize();
-            yield return card.GetComponent<CardMovement>().HandleMovementFromPositionToPositionState(new Vector3(x, y, i), targetRot, Vector3.one, speed);
-            //card.transform.position = new Vector3(x, y, i);
-            //card.transform.eulerAngles = new Vector3(0,0,rotation);
-            
+            yield return card.GetComponent<CardMovement>().HandleMovementFromPositionToPositionState(new Vector3(x, y, i), targetRot, Vector3.one, duration);
             // Offset changes are depended on even or odd card number
             if (cardCount % 2 == 0)
             {
