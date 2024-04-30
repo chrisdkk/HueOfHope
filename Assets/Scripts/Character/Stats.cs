@@ -16,13 +16,19 @@ public struct Stats
   public delegate void StatsChangedEventHandler();
 
   public event StatsChangedEventHandler OnStatChange;
+
+  public delegate void HealthChangedEventHandler(int current, int max);
+
+  public event HealthChangedEventHandler OnHealthChange;
+
+
   
   public int Health {
     get { return health; }
     set {
       if (health != value) {
         health = value;
-        OnStatChange?.Invoke();
+        OnHealthChange?.Invoke(health, GameStateManager.Instance.maxPlayerHealth);
       }
     }
   }

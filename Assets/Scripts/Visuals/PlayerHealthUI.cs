@@ -3,18 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.Rendering.UI;
+using UnityEngine.UI;
 
 public class PlayerHealthUI : MonoBehaviour
 {
-    void Awake()
+    [SerializeField] private Character characterScript;
+    [SerializeField] private Image healthImage;
+    [SerializeField] private TextMeshProUGUI healthNumber;
+    private Image healthBar;
+   
+
+    void Start()
     {
-        BattleManager.Instance.PlayerScript.CharacterStats.OnStatChange += UpdateHealthBar;
+        characterScript.CharacterStats.OnHealthChange += UpdateHealthBar;
+
     }
     
-    public void UpdateHealthBar()
+    public void UpdateHealthBar(int currentHealth, int maxHealth)
     {
-        GetComponent<TextMeshProUGUI>().text = "HP: " + BattleManager.Instance.PlayerScript.CharacterStats.Health +
-                                               " / " + GameStateManager.Instance.maxPlayerHealth;
-        GetComponentInChildren<HealthMonitor>().UpdatePlayerAnimation(BattleManager.Instance.PlayerScript.CharacterStats.Health);
+        healthImage.fillAmount = (float)currentHealth / maxHealth;
+        healthNumber.text = currentHealth + "/" + maxHealth;
     }
 }
