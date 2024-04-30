@@ -50,9 +50,6 @@ public class GameStateManager : MonoBehaviour
             mapSystem.currentChapterIndex = 0;
             mapSystem.currentStageIndex = 0;
 
-            // start stage depending on indices set
-            // mapSystem.LoadStage();
-
             AllAvailableCards = Resources.LoadAll<CardData>("Cards/").ToList();
 
             // add available cards to deck

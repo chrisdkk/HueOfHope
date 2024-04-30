@@ -51,7 +51,9 @@ public class MapSystem : MonoBehaviour
         chapterList[currentChapterIndex].stageList[currentStageIndex].EndStage();
         
         AdvanceToNextStage();
-        GameStateManager.Instance.StartBattle();
+        // GameStateManager.Instance.StartBattle();
+        BattleManager.Instance.Initialize(GameStateManager.Instance.deck,
+            chapterList[currentChapterIndex].stageList[currentStageIndex].stageEnemies);
 
         // // advance one stage forward
         // currentStageIndex++;

@@ -26,9 +26,7 @@ public class EnemyPattern
         {
             int k = random.Next(n--);
             
-            EnemyActionTypes temp = typesArray[n];
-            typesArray[n] = typesArray[k];
-            typesArray[k] = temp;
+            (typesArray[n], typesArray[k]) = (typesArray[k], typesArray[n]);
         }
 
         patternArray = new List<EnemyActionTypes>(typesArray);

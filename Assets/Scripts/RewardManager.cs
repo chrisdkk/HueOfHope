@@ -7,11 +7,13 @@ using Random = System.Random;
 
 public class RewardManager : MonoBehaviour
 {
-    
     [SerializeField] private GameObject chooseRewardButton;
     [SerializeField] private GameObject cardParent;
     private RewardCard selectedReward;
     private Button buttonButtonComponent;
+
+    public delegate void BattleEndedEventHandler();
+    public event BattleEndedEventHandler OnBattleEnd;
 
     void Start()
     {
@@ -36,9 +38,9 @@ public class RewardManager : MonoBehaviour
         // Register for onclick on button
         chooseRewardButton.GetComponent<ChooseRewardButtonUI>().OnClick += HandleButtonOnClick;
         chooseRewardButton.SetActive(true);
-        
+
         // Load card data into card game object
-        for(int i=0; i < rewards.Count;i++)
+        for (int i = 0; i < rewards.Count; i++)
         {
             CardVisual cardVisual = cardParent.transform.GetChild(i).GetComponentInChildren<CardVisual>();
             cardVisual.gameObject.SetActive(true);
@@ -51,18 +53,18 @@ public class RewardManager : MonoBehaviour
             nonBattleCard.OnClick += HandleCardOnClick;
         }
     }
-    
+
     /* Remove the highlighting, if another card was clicked */
     void HandleCardOnClick(RewardCard clickedCard)
     {
-
-        if (selectedReward!=null && selectedReward != clickedCard)
+        if (selectedReward != null && selectedReward != clickedCard)
         {
             selectedReward.OnOtherRewardChosen();
         }
+
         selectedReward = clickedCard;
         clickedCard.OnRewardChosen();
-        
+
         // Enable the button if a card is selected
         buttonButtonComponent.interactable = true;
     }
@@ -76,10 +78,13 @@ public class RewardManager : MonoBehaviour
             selectedReward.OnOtherRewardChosen();
             selectedReward = null;
             buttonButtonComponent.interactable = false;
-            for(int i=0; i < transform.childCount;i++)
+            for (int i = 0; i < transform.childCount; i++)
             {
                 transform.GetChild(i).gameObject.SetActive(false);
             }
+            
+            // after rewards have been chosen, invoke
+            OnBattleEnd?.Invoke();
         }
     }
 }
