@@ -28,6 +28,10 @@ public class GameStateManager : MonoBehaviour
     public List<CardData> deck;
     public List<CardData> AllAvailableCards;
 
+    public bool blueEnabled = false;
+    public bool redEnabled = false;
+    public bool greenEnabled = false;
+    
     // Start is called before the first frame update
     void Start()
     {

@@ -22,4 +22,10 @@ public class EventQueue
     {
         return events.Count > 0;
     }
+    
+    public void ClearEvents()
+    {
+        events.Clear();
+    }
+    
 }

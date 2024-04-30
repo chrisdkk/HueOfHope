@@ -9,25 +9,41 @@ public class UpdateCharacterEffectIndicationsUI : MonoBehaviour
     [SerializeField] private GameObject burnIndicator;
     [SerializeField] private GameObject insightIndicator;
     [SerializeField] private GameObject ignoreBlockIndicator;
-    [SerializeField] private Character character;
+    [SerializeField] private Character characterScript;
+    [SerializeField] private float y;
+    [SerializeField] private float baseX;
+    [SerializeField] private float offsetX;
 
     void Start()
     {
+
         burnIndicator.SetActive(false);
         insightIndicator.SetActive(false);
         ignoreBlockIndicator.SetActive(false);
-        BattleManager.Instance.PlayerScript.CharacterStats.OnStatChange += UpdateBurnIndicator;
-        BattleManager.Instance.PlayerScript.CharacterStats.OnStatChange += UpdateInsightIndicator;
-        BattleManager.Instance.PlayerScript.CharacterStats.OnStatChange += UpdateIgnoreBlockIndicator;
+        characterScript.CharacterStats.OnStatChange += UpdateIndications;
+       
+    }
+
+    public void UpdateIndications()
+    {
+
+        float x = baseX;
+        
+        UpdateIgnoreBlockIndicator(ref x, offsetX);
+        UpdateBurnIndicator(ref x, offsetX);
+        UpdateInsightIndicator(ref x, offsetX);
+
     }
 
     /*Update the burn indication of the enemy*/
-    public void UpdateBurnIndicator()
+    public void UpdateBurnIndicator(ref float x, float offsetX)
     {
-        if (character.CharacterStats.Burn > 0)
+        if (characterScript.CharacterStats.Burn > 0)
         {
+            burnIndicator.transform.localPosition = new Vector3(x, y, 0);
+            x += offsetX;
             burnIndicator.SetActive(true);
-            burnIndicator.transform.GetChild(0).GetComponent<TextMeshPro>().text = character.CharacterStats.Burn.ToString();
+            burnIndicator.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = characterScript.CharacterStats.Burn.ToString();
         }
         else
         {
@@ -36,12 +52,14 @@ public class UpdateCharacterEffectIndicationsUI : MonoBehaviour
     }
     
     /*Update the insight indication of the enemy*/
-    public void UpdateInsightIndicator()
+    public void UpdateInsightIndicator(ref float x, float offsetX)
     {
-        if (character.CharacterStats.Insight > 0)
-        {
+        if (characterScript.CharacterStats.Insight > 0)
+        {   
+            insightIndicator.transform.localPosition = new Vector3(x, y, 0);
+            x += offsetX;
             insightIndicator.SetActive(true);
-            insightIndicator.transform.GetChild(0).GetComponent<TextMeshPro>().text = character.CharacterStats.Insight.ToString();
+            insightIndicator.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = characterScript.CharacterStats.Insight.ToString();
         }
         else
         {
@@ -50,16 +68,20 @@ public class UpdateCharacterEffectIndicationsUI : MonoBehaviour
     }
     
     /*Update the insight indication of the enemy*/
-    public void UpdateIgnoreBlockIndicator()
+    public void UpdateIgnoreBlockIndicator(ref float x, float offsetX)
     {
-        if (character.CharacterStats.IgnoreBlockOnNext > 0)
+        if (characterScript.CharacterStats.IgnoreBlockOnNext > 0)
         {
+            ignoreBlockIndicator.transform.localPosition = new Vector3(x, y, 0);
+            x += offsetX;
             ignoreBlockIndicator.SetActive(true);
-            ignoreBlockIndicator.transform.GetChild(0).GetComponent<TextMeshPro>().text = character.CharacterStats.IgnoreBlockOnNext.ToString();
+            ignoreBlockIndicator.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = characterScript.CharacterStats.IgnoreBlockOnNext.ToString();
         }
         else
         {
             ignoreBlockIndicator.SetActive(false);
         }
     }
+
+ 
 }

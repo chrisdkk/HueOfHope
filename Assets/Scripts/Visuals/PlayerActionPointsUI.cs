@@ -6,15 +6,49 @@ using TMPro;
 
 public class PlayerActionPointsUI : MonoBehaviour
 {
+    // Update is called once per frame
+    public GameObject[] actionPoints;
+
+    
     private void Awake()
     {
         BattleManager.Instance.PlayerScript.OnActionPointChange += UpdateActionPoints;
     }
-
-    // Update is called once per frame
+    
     public void UpdateActionPoints()
     {
-        GetComponent<TextMeshProUGUI>().text = "AP: " + BattleManager.Instance.PlayerScript.CurrentActionPoints +
-                                               " / " + GameStateManager.Instance.MaxActionPoints;
+        var textComponent = GetComponent<TextMeshProUGUI>();
+        if (textComponent != null)
+        {
+            textComponent.text = "AP: " + BattleManager.Instance.PlayerScript.CurrentActionPoints +
+                                 " / " + GameStateManager.Instance.MaxActionPoints;
+        }
+        UpdateActionPointUI(); // Refresh the UI
+    }
+
+    void UpdateActionPointUI()
+    {
+        int currentActionPoints = BattleManager.Instance.PlayerScript.CurrentActionPoints;
+
+        for (int i = 0; i < actionPoints.Length; i++)
+        {
+            SpriteRenderer spriteRenderer = actionPoints[i].GetComponent<SpriteRenderer>(); // Get SpriteRenderer component
+
+            if (spriteRenderer != null)
+            {
+                Color currentColor = spriteRenderer.color;
+
+                if (i < currentActionPoints)
+                {
+                    currentColor.a = 1.0f; // Full opacity
+                }
+                else
+                {
+                    currentColor.a = 0.2f; // Less opacity
+                }
+
+                spriteRenderer.color = currentColor; // Apply updated color
+            }
+        }
     }
 }

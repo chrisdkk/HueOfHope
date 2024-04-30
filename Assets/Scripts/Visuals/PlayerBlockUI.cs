@@ -3,17 +3,32 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class PlayerBlockUI : MonoBehaviour
 {
-    private void Awake()
-    {
-        BattleManager.Instance.PlayerScript.CharacterStats.OnStatChange += UpdateBlock;
-    }
+     [SerializeField] private Character characterScript;
+     [SerializeField] private Image blockImage;
+     [SerializeField] private TextMeshProUGUI blockText;
+
+   void Start()
+   {
+        characterScript.CharacterStats.OnStatChange += UpdateBlock;
+        
+   }
 
     // Update is called once per frame
     public void UpdateBlock()
     {
-        GetComponent<TextMeshProUGUI>().text = "Block: " + BattleManager.Instance.PlayerScript.CharacterStats.Block;
+         blockText.text = characterScript.CharacterStats.Block.ToString();
+         
+        if (characterScript.CharacterStats.Block<=0){
+            blockImage.gameObject.SetActive(false);
+            blockText.gameObject.SetActive(false);
+        }else{
+             blockImage.gameObject.SetActive(true);
+            blockText.gameObject.SetActive(true);
+        }
+
     }
 }

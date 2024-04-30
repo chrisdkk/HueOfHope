@@ -18,4 +18,5 @@ public class CardData : ScriptableObject
     public CardType cardType = CardType.Attack;
     public bool multiTarget;
     public List<CardEffect> effects;
+    public Texture cardImage;
 }

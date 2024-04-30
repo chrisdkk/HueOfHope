@@ -10,8 +10,6 @@ public class Enemy : Character
 {
     [SerializeField] private int maxHealth = 30;
     [SerializeField] private int enemyTier = 1;
-    [SerializeField] private GameObject healthBarUI;
-    [SerializeField] private GameObject blockBarUI;
     [SerializeField] private EnemyActionTypes[] possibleEnemyAction;
     [SerializeField] private GameObject actionIndication;
     [SerializeField] private List<Material> actionIndicationMaterial;
@@ -31,12 +29,6 @@ public class Enemy : Character
         // Initialize variables for the enemy
         CharacterStats.Health = maxHealth;
         enemyPattern = new EnemyPattern(possibleEnemyAction);
-
-        CharacterStats.OnStatChange += UpdateHealthBar;
-        CharacterStats.OnStatChange += UpdateBlockBar;
-        CharacterStats.OnStatChange += GetComponent<UpdateCharacterEffectIndicationsUI>().UpdateBurnIndicator;
-        CharacterStats.OnStatChange += GetComponent<UpdateCharacterEffectIndicationsUI>().UpdateInsightIndicator;
-        CharacterStats.OnStatChange += GetComponent<UpdateCharacterEffectIndicationsUI>().UpdateIgnoreBlockIndicator;
         
         // Load and sort all available enemy cards
         EnemyCard[] enemyCards = Resources.LoadAll<EnemyCard>("EnemyCards/");
@@ -146,6 +138,10 @@ public class Enemy : Character
                     BattleManager.Instance.AddEventToQueue(()=>CardEffectActions.AttackDebuff(effect.payload, ref targets));
                     break;
             }
+            if (effect.vfxEffect != null)
+            {
+                BattleManager.Instance.AddEventToQueue(()=>StartCoroutine(VfxEffects.PlayEffects(effect.vfxEffect, targets.ToArray())));   
+            }
             // Check if player died
             if (BattleManager.Instance.PlayerScript.CharacterStats.Health<=0)
             {
@@ -176,14 +172,5 @@ public class Enemy : Character
     }
 
     /*Update the healthbar of the enemy*/
-    public void UpdateHealthBar()
-    {
-        healthBarUI.transform.localScale = new Vector3((float)CharacterStats.Health/maxHealth, 0.04f, 0.5f);
-    }
-    
-    /*Update the blockbar of the enemy*/
-    public void UpdateBlockBar()
-    {
-        blockBarUI.transform.localScale = new Vector3((float)CharacterStats.Block/30, 0.04f, 0.5f);
-    }
+
 }

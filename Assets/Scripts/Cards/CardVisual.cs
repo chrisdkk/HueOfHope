@@ -3,27 +3,23 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class CardVisual : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI title;
+    [SerializeField] public TextMeshProUGUI title;
     [SerializeField] private TextMeshProUGUI description;
-    [SerializeField] private Image[] apCostImages;
-    public CardData cardData;
+    [SerializeField] private TextMeshProUGUI cost;
+    [SerializeField] private RawImage cardImage;
+    public CardData CardData { get; private set; }
 
-    private void Start()
+    public void LoadCardData(CardData newData)
     {
-        UpdateCardVisual();
-    }
-
-    public void UpdateCardVisual()
-    {
-        title.SetText(cardData.cardName);
-        description.SetText(cardData.description);
-        for (int i = 0; i < cardData.apCost; i++)
-        {
-            apCostImages[i].gameObject.SetActive(true);
-        }
+        CardData = newData;
+        title.SetText(CardData.cardName);
+        description.SetText(CardData.description);
+        cost.SetText(CardData.apCost.ToString());
+        cardImage.texture = CardData.cardImage;
     }
 }
