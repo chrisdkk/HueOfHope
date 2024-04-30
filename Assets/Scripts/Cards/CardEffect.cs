@@ -24,6 +24,7 @@ public enum CardEffectType
 public class CardEffect
 {
     public CardEffectType effectType;
+    public GameObject vfxEffect;
     public int payload;
     public bool multipleTargets;
     public bool ignoreBlock;

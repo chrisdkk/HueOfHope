@@ -19,6 +19,9 @@ MonoBehaviour:
   multiTarget: 0
   effects:
   - effectType: 2
+    vfxEffect: {fileID: 0}
     payload: 10
     multipleTargets: 0
     ignoreBlock: 0
+    insightMultiplier: 0
+  cardImage: {fileID: 2800000, guid: 6b2057531bc5f7944950f9d78d7e1cc8, type: 3}

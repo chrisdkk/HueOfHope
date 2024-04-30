@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = System.Random;
@@ -8,7 +9,8 @@ public class RewardManager : MonoBehaviour
 {
     
     [SerializeField] private GameObject chooseRewardButton;
-    private NonBattleCard selectedReward;
+    [SerializeField] private GameObject cardParent;
+    private RewardCard selectedReward;
     private Button buttonButtonComponent;
 
     void Start()
@@ -27,31 +29,31 @@ public class RewardManager : MonoBehaviour
             // Prevent duplicates
             if (!rewards.Contains(GameStateManager.Instance.AllAvailableCards[index]))
             {
-            rewards.Add(GameStateManager.Instance.AllAvailableCards[index]);
+                rewards.Add(GameStateManager.Instance.AllAvailableCards[index]);
             }
         }
 
         // Register for onclick on button
         chooseRewardButton.GetComponent<ChooseRewardButtonUI>().OnClick += HandleButtonOnClick;
+        chooseRewardButton.SetActive(true);
         
         // Load card data into card game object
-        for(int i=0; i < transform.childCount;i++)
+        for(int i=0; i < rewards.Count;i++)
         {
-            CardVisual cardVisual = transform.GetChild(i).GetComponentInChildren<CardVisual>();
-            cardVisual.cardData = rewards[i];
-            cardVisual.UpdateCardVisual();
-            cardVisual.transform.parent.gameObject.SetActive(true);
+            CardVisual cardVisual = cardParent.transform.GetChild(i).GetComponentInChildren<CardVisual>();
+            cardVisual.gameObject.SetActive(true);
+            cardVisual.LoadCardData(rewards[i]);
         }
 
         // Register for onclick on cards
-        foreach (NonBattleCard nonBattleCard in transform.GetComponentsInChildren<NonBattleCard>())
+        foreach (RewardCard nonBattleCard in transform.GetComponentsInChildren<RewardCard>())
         {
             nonBattleCard.OnClick += HandleCardOnClick;
         }
     }
     
     /* Remove the highlighting, if another card was clicked */
-    void HandleCardOnClick(NonBattleCard clickedCard)
+    void HandleCardOnClick(RewardCard clickedCard)
     {
 
         if (selectedReward!=null && selectedReward != clickedCard)
@@ -70,7 +72,7 @@ public class RewardManager : MonoBehaviour
     {
         if (selectedReward != null)
         {
-            GameStateManager.Instance.deck.Add(selectedReward.GetComponent<CardVisual>().cardData);
+            GameStateManager.Instance.deck.Add(selectedReward.GetComponent<CardVisual>().CardData);
             selectedReward.OnOtherRewardChosen();
             selectedReward = null;
             buttonButtonComponent.interactable = false;

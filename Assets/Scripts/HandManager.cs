@@ -14,7 +14,7 @@ public class HandManager : MonoBehaviour
     private DeckManager deck;
     private Stats stats;
     private List<GameObject> cardsInHand = new List<GameObject>();
-    
+
     public void Initialize(DeckManager deckManager)
     {
         deck = deckManager;
@@ -32,7 +32,7 @@ public class HandManager : MonoBehaviour
     {
         for (int i = 0; i < cardsInHand.Count; i++)
         {
-            deck.DiscardCard(cardsInHand[i].GetComponent<CardVisual>().cardData);
+            deck.DiscardCard(cardsInHand[i].GetComponent<CardVisual>().CardData);
                 Destroy(cardsInHand[i]);
         }
         cardsInHand = new List<GameObject>();
@@ -48,8 +48,7 @@ public class HandManager : MonoBehaviour
 
             // Set card visuals
             CardVisual cardVisual = newCard.GetComponent<CardVisual>();
-            cardVisual.cardData = cardData;
-            cardVisual.UpdateCardVisual();
+            cardVisual.LoadCardData(cardData);
         
             // Set card movement
             CardMovement cardMovement = newCard.GetComponent<CardMovement>();
@@ -63,7 +62,7 @@ public class HandManager : MonoBehaviour
 
     private void PlayCard(GameObject card, GameObject targetedEnemy)
     {
-        CardData cardData = card.GetComponent<CardVisual>().cardData;
+        CardData cardData = card.GetComponent<CardVisual>().CardData;
         bool cardPlayed=true;
         bool alreadyDiscarded = false;
 
@@ -102,7 +101,7 @@ public class HandManager : MonoBehaviour
                                 effect.payload,
                                 effect.ignoreBlock || BattleManager.Instance.PlayerScript.CharacterStats.IgnoreBlockOnNext > 0,
                                 ref targets);
-                        
+
                         // Reduce buff ignore block on next attack
                         if (BattleManager.Instance.PlayerScript.CharacterStats.IgnoreBlockOnNext > 0)
                         {
@@ -194,7 +193,12 @@ public class HandManager : MonoBehaviour
                     BattleManager.Instance.AddEventToQueue(()=>DiscardHand());
                     break;
             }
-            
+
+            if (effect.vfxEffect != null)
+            {
+                BattleManager.Instance.AddEventToQueue(()=>StartCoroutine(VfxEffects.PlayEffects(effect.vfxEffect, targets.ToArray())));   
+            }
+
             // Check if an enemy died -> Add event to remove it
             BattleManager.Instance.AddEventToQueue(()=>
             {
@@ -219,10 +223,10 @@ public class HandManager : MonoBehaviour
             BattleManager.Instance.AddEventToQueue(()=> DiscardCard(card));
         }
     }
-    
+
     private void DiscardCard(GameObject card)
     {
-        CardData cardData = card.GetComponent<CardVisual>().cardData;
+        CardData cardData = card.GetComponent<CardVisual>().CardData;
         deck.DiscardCard(cardData);
         cardsInHand.Remove(card);
         Destroy(card);
@@ -234,12 +238,65 @@ public class HandManager : MonoBehaviour
     {
         int cardCount = cardsInHand.Count;
         float offset = cardPrefab.transform.localScale.x * this.horizontalSpacing;
+
+        int midOfCards = (int)Math.Floor(cardCount / 2.0);
+        float offsetY = 0.25f;
+        float y = handTransform.position.y-0.5f;
+
+        float rotation = 15f;
+        // Get rotation offset depending on how much cards there are
+        float rotationOffset = rotation/midOfCards;
         for (int i = 0; i < cardCount; i++)
         {
             GameObject card = cardsInHand[i];
             float x = offset * (i - 0.5f * (cardCount - 1));
+            
+            // Offset the card (position and rotation)
+            card.transform.position = new Vector3(x, y, i);
+            card.transform.eulerAngles = new Vector3(0,0,rotation);
+            
+            // Offset changes are depended on even or odd card number
+            if (cardCount % 2 == 0)
+            {
+                // The middle two cards do not need an offset for y
+                if (i+1 != midOfCards)
+                {
+                    if (i == 0 || i==cardCount-2)
+                    {
+                        y += offsetY*2;
+                    }
+                    else
+                    {
+                        y += offsetY;
+                    }
+                }
+            }
+            else
+            {
+                // Before and after the middle card to offset has to be lower
+                if (i+1 == midOfCards || i == midOfCards)
+                {
+                    y += offsetY;
+                }
+                else
+                {
+                    y += offsetY*2;   
+                }
+            }
+            
+            // Turn the offset around to create a fan
+            if (i+1== midOfCards)
+            {
+                offsetY *= -1;
+            }
+            
+            rotation -= rotationOffset;
 
-            card.transform.position = new Vector3(x, handTransform.position.y, i);
+            // Even cards are all tilted, there is no card with 0 rotation
+            if (cardCount % 2 == 0 && rotation == 0)
+            {
+                rotation -= rotationOffset;
+            }
         }
     }
 }
