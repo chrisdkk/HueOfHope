@@ -5,7 +5,7 @@ using UnityEngine;
 public enum EnemyCardTypes
 {
     Attack,
-    Defense
+    Block
 }
 
 [CreateAssetMenu(fileName = "EnemyCard", menuName = "ScriptableObjects/EnemyCard", order = 1)]

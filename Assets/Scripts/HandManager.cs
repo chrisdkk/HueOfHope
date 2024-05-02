@@ -198,24 +198,6 @@ public class HandManager : MonoBehaviour
             {
                 BattleManager.Instance.AddEventToQueue(()=>StartCoroutine(VfxEffects.PlayEffects(effect.vfxEffect, targets.ToArray())));   
             }
-
-            // Check if an enemy died -> Add event to remove it
-            BattleManager.Instance.AddEventToQueue(()=>
-            {
-                foreach (Enemy enemy in BattleManager.Instance.EnemiesInBattle)
-                {
-                    if (enemy.CharacterStats.Health <= 0)
-                    {
-                        Destroy(enemy.gameObject);
-                    }
-                }
-                BattleManager.Instance.EnemiesInBattle.RemoveAll(enemy => enemy.CharacterStats.Health <= 0);
-                if (BattleManager.Instance.EnemiesInBattle.Count==0)
-                {
-                    BattleManager.Instance.EndBattle();
-                }
-                
-            });
         }
         // Add event to discard used card
         if (!alreadyDiscarded)

@@ -1279,12 +1279,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 30
-  enemyTier: 1
-  possibleEnemyAction: 000000000000000001000000
   actionIndication: {fileID: 1565517427665591200}
   actionIndicationMaterial:
   - {fileID: 2100000, guid: 40af79ecd1569be459a5c11bb069e2fb, type: 2}
   - {fileID: 2100000, guid: c0b3bb2f782cabb42b68a035b786d8e1, type: 2}
+  enemyPattern:
+  - {fileID: 11400000, guid: 059d5a4ba14c6c747bb2f6b3741b3726, type: 2}
+  - {fileID: 11400000, guid: eb2615cfdf8f33e48b5d429f796efdc3, type: 2}
 --- !u!64 &1370826603609879271
 MeshCollider:
   m_ObjectHideFlags: 0
