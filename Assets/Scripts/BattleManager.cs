@@ -87,13 +87,6 @@ public class BattleManager : MonoBehaviour
                 EnemiesInBattle.Add(Instantiate(enemies[i], enemyPositions[i].position, Quaternion.identity)
                     .GetComponent<Enemy>());
         }
-
-        // var enemiesAndPositions = enemies.Zip(enemyPositions, (e, p) => new { GameObject = e, Transform = p });
-        // foreach (var ep in enemiesAndPositions)
-        // {
-        //     EnemiesInBattle.Add(Instantiate(ep.GameObject, ep.Transform.position, quaternion.identity)
-        //         .GetComponent<Enemy>());
-        // }
     }
 
     /*
