@@ -18,15 +18,18 @@ public static class CardEffectActions
         {
             if (!ignoreBlock)
             {
-                int difference = damage - target.CharacterStats.Block;
-                    
-                if (difference <= 0)
+                int difference = target.CharacterStats.Block-damage;
+
+                if (difference >= 0)
                 {
-                    target.CharacterStats.Block=Math.Abs(difference);
+                    target.CharacterStats.Block=difference;
                     difference = 0;
                 }
-                target.CharacterStats.Health -= difference;
-                target.CharacterStats.Block=0;
+                else
+                {
+                    target.CharacterStats.Block=0;
+                }
+                target.CharacterStats.Health += difference;
             }
             else
             {
