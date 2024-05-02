@@ -31,7 +31,7 @@ public class GameStateManager : MonoBehaviour
     public bool blueEnabled = false;
     public bool redEnabled = false;
     public bool greenEnabled = false;
-    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -77,6 +77,6 @@ public class GameStateManager : MonoBehaviour
 
     public void StartBattle()
     {
-        battleManager.Initialize(deck, mapSystem.GetEnemies());
+        battleManager.Initialize(deck, mapSystem.GetEnemies(), mapSystem.GetBackground());
     }
 }

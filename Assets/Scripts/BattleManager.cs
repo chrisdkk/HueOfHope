@@ -7,6 +7,7 @@ using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
 using UnityEngine.Serialization;
+using UnityEngine.UI;
 using Random = System.Random;
 
 public class BattleManager : MonoBehaviour
@@ -21,6 +22,7 @@ public class BattleManager : MonoBehaviour
     [SerializeField] private GameObject rewardWindow;
     [SerializeField] private GameObject burnVFX;
     [SerializeField] private List<Transform> EnemyPositions;
+    [SerializeField] private GameObject backgroundImage;
     public DeckManager DeckManager { get; private set; }
     public HandManager HandManager { get; private set; }
 
@@ -58,9 +60,12 @@ public class BattleManager : MonoBehaviour
         eventQueue.AddEvent(newEvent);
     }
 
-    public void Initialize(List<CardData> deck, List<GameObject> enemies)
+    public void Initialize(List<CardData> deck, List<GameObject> enemies, Sprite background)
     {
         OnTurnChange += GameObject.Find("TurnIndication").GetComponent<TurnIndication>().UpdateTurnIndicator;
+
+        // change background when battle starts
+        backgroundImage.GetComponent<Image>().sprite = background;
 
         // un-end battle when advancing to the next stage
         battleEnded = false;

@@ -53,8 +53,12 @@ public class MapSystem : MonoBehaviour
 
         if (chapterOver == false)
         {
+            // BattleManager.Instance.Initialize(GameStateManager.Instance.deck,
+            //     chapterList[currentChapterIndex].stageList[currentStageIndex].stageEnemies);
+
             BattleManager.Instance.Initialize(GameStateManager.Instance.deck,
-                chapterList[currentChapterIndex].stageList[currentStageIndex].stageEnemies);
+                chapterList[currentChapterIndex].stageList[currentStageIndex].stageEnemies,
+                chapterList[currentChapterIndex].stageList[currentStageIndex].stageBackground);
         }
     }
 
@@ -76,7 +80,7 @@ public class MapSystem : MonoBehaviour
         {
             // completed every chapter and stage
             chapterOver = true;
-            
+
             SceneManager.LoadScene("Menu");
         }
     }
