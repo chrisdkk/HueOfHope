@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MapSystem : MonoBehaviour
 {
@@ -13,11 +14,10 @@ public class MapSystem : MonoBehaviour
 
     [SerializeField] private RewardManager rewardManager;
 
+    private bool chapterOver = false;
+
     public void InitializeMapSystem()
     {
-        // THIS FUNCTION MIGHT NOT BE NECESSARY
-        Debug.Log("Map-System Initialized");
-
         rewardManager.OnBattleEnd += EndCurrentStage;
 
         // default values
@@ -30,7 +30,7 @@ public class MapSystem : MonoBehaviour
         return chapterList[currentChapterIndex].stageList[currentStageIndex].stageName;
     }
 
-    public List<Enemy> GetEnemies()
+    public List<GameObject> GetEnemies()
     {
         return chapterList[currentChapterIndex].stageList[currentStageIndex].stageEnemies;
     }
@@ -47,32 +47,19 @@ public class MapSystem : MonoBehaviour
 
     public void EndCurrentStage()
     {
-        // ReturnToMap();
         chapterList[currentChapterIndex].stageList[currentStageIndex].EndStage();
-        
-        AdvanceToNextStage();
-        // GameStateManager.Instance.StartBattle();
-        BattleManager.Instance.Initialize(GameStateManager.Instance.deck,
-            chapterList[currentChapterIndex].stageList[currentStageIndex].stageEnemies);
 
-        // // advance one stage forward
-        // currentStageIndex++;
-        //
-        // if (currentStageIndex == chapterList[currentChapterIndex].stageList.Count())
-        // {
-        //     // advance one chapter forward
-        //     currentChapterIndex++;
-        //
-        //     if (currentChapterIndex == chapterList.Count())
-        //     {
-        //         // completed every chapter and stage
-        //     }
-        // }
+        AdvanceToNextStage();
+
+        if (chapterOver == false)
+        {
+            BattleManager.Instance.Initialize(GameStateManager.Instance.deck,
+                chapterList[currentChapterIndex].stageList[currentStageIndex].stageEnemies);
+        }
     }
 
     public void AdvanceToNextStage()
     {
-        // advance one stage forward
         currentStageIndex++;
 
         if (currentStageIndex == chapterList[currentChapterIndex].stageList.Count())
@@ -83,18 +70,18 @@ public class MapSystem : MonoBehaviour
 
     public void AdvanceToNextChapter()
     {
-        // advance one chapter forward
         currentChapterIndex++;
 
         if (currentChapterIndex == chapterList.Count())
         {
             // completed every chapter and stage
+            chapterOver = true;
+            
+            SceneManager.LoadScene("Menu");
         }
     }
 
     public void ReturnToMap()
     {
-        Debug.Log("hioio");
-        Debug.Log("ddfdffff");
     }
 }

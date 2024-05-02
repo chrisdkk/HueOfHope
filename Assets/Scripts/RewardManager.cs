@@ -13,6 +13,7 @@ public class RewardManager : MonoBehaviour
     private Button buttonButtonComponent;
 
     public delegate void BattleEndedEventHandler();
+
     public event BattleEndedEventHandler OnBattleEnd;
 
     void Start()
@@ -22,6 +23,8 @@ public class RewardManager : MonoBehaviour
 
     public void ShowReward()
     {
+        transform.GetChild(0).gameObject.SetActive(true);
+        
         // Choose 3 random card datas as reward
         List<CardData> rewards = new List<CardData>();
         Random r = new Random();
@@ -37,13 +40,11 @@ public class RewardManager : MonoBehaviour
 
         // Register for onclick on button
         chooseRewardButton.GetComponent<ChooseRewardButtonUI>().OnClick += HandleButtonOnClick;
-        chooseRewardButton.SetActive(true);
 
         // Load card data into card game object
         for (int i = 0; i < rewards.Count; i++)
         {
             CardVisual cardVisual = cardParent.transform.GetChild(i).GetComponentInChildren<CardVisual>();
-            cardVisual.gameObject.SetActive(true);
             cardVisual.LoadCardData(rewards[i]);
         }
 
@@ -78,11 +79,12 @@ public class RewardManager : MonoBehaviour
             selectedReward.OnOtherRewardChosen();
             selectedReward = null;
             buttonButtonComponent.interactable = false;
-            for (int i = 0; i < transform.childCount; i++)
-            {
-                transform.GetChild(i).gameObject.SetActive(false);
-            }
-            
+            transform.GetChild(0).gameObject.SetActive(false);
+            // for (int i = 0; i < transform.childCount; i++)
+            // {
+            //     transform.GetChild(i).gameObject.SetActive(false);
+            // }
+
             // after rewards have been chosen, invoke
             OnBattleEnd?.Invoke();
         }

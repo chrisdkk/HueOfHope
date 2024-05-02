@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using Unity.Mathematics;
 using UnityEngine;
@@ -19,6 +20,7 @@ public class BattleManager : MonoBehaviour
     [SerializeField] private GameObject playerCharacter;
     [SerializeField] private GameObject rewardWindow;
     [SerializeField] private GameObject burnVFX;
+    [SerializeField] private List<Transform> EnemyPositions;
     public DeckManager DeckManager { get; private set; }
     public HandManager HandManager { get; private set; }
 
@@ -56,7 +58,7 @@ public class BattleManager : MonoBehaviour
         eventQueue.AddEvent(newEvent);
     }
 
-    public void Initialize(List<CardData> deck, List<Enemy> enemies)
+    public void Initialize(List<CardData> deck, List<GameObject> enemies)
     {
         OnTurnChange += GameObject.Find("TurnIndication").GetComponent<TurnIndication>().UpdateTurnIndicator;
 
@@ -73,16 +75,25 @@ public class BattleManager : MonoBehaviour
         PlayerScript.CharacterStats.Health = GameStateManager.Instance.CurrentPlayerHealth;
         EnemiesInBattle = new List<Enemy>();
 
-        AddEventToQueue(() => GenerateEnemies(enemies));
+        AddEventToQueue(() => GenerateEnemies(enemies, EnemyPositions));
         AddEventToQueue(() => StartPlayerTurn());
     }
 
-    private void GenerateEnemies(List<Enemy> enemies)
+    private void GenerateEnemies(List<GameObject> enemies, List<Transform> enemyPositions)
     {
-        foreach (Enemy enemy in enemies)
+        for (int i = 0; i < enemyPositions.Count; i++)
         {
-            EnemiesInBattle.Add(Instantiate(enemy, new Vector3(4.5f, 0, 0), quaternion.identity));
+            if ((enemies.Count - 1) >= i)
+                EnemiesInBattle.Add(Instantiate(enemies[i], enemyPositions[i].position, Quaternion.identity)
+                    .GetComponent<Enemy>());
         }
+
+        // var enemiesAndPositions = enemies.Zip(enemyPositions, (e, p) => new { GameObject = e, Transform = p });
+        // foreach (var ep in enemiesAndPositions)
+        // {
+        //     EnemiesInBattle.Add(Instantiate(ep.GameObject, ep.Transform.position, quaternion.identity)
+        //         .GetComponent<Enemy>());
+        // }
     }
 
     /*
@@ -154,12 +165,15 @@ public class BattleManager : MonoBehaviour
         // battleEnded = true;
         AddEventToQueue(() => battleEnded = true);
         // eventQueue.ClearEvents();
-        
+
         // HandManager.gameObject.SetActive(false);
         HandManager.DiscardHand();
         //Disable buttons for UI
 
-        if (PlayerScript.CharacterStats.Health <= 0)  { return; }
+        if (PlayerScript.CharacterStats.Health <= 0)
+        {
+            return;
+        }
 
         // You won
         GameStateManager.Instance.CurrentPlayerHealth = PlayerScript.CharacterStats.Health;

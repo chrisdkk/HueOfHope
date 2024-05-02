@@ -235,14 +235,12 @@ public class HandManager : MonoBehaviour
         // Add event to discard used card
         if (!alreadyDiscarded)
         {
-            Debug.Log("card " + card);
             BattleManager.Instance.AddEventToQueue(() => DiscardCard(card));
         }
     }
 
     private void DiscardCard(GameObject card)
     {
-        Debug.Log("card2 " + card);
         CardData cardData = card.GetComponent<CardVisual>().CardData;
         deck.DiscardCard(cardData);
         cardsInHand.Remove(card);

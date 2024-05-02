@@ -7,8 +7,7 @@ public class Stage : ScriptableObject
 {
     public string stageName = "Unnamed";
     public Sprite stageBackground;
-    public bool hasStageFinished = false;
-    public List<Enemy> stageEnemies;
+    public List<GameObject> stageEnemies;
     
     public void InitializeStage()
     {
@@ -22,7 +21,5 @@ public class Stage : ScriptableObject
     public void EndStage()
     {
         Debug.Log("Ended Stage With Name: " + stageName);
-    
-        hasStageFinished = true;
     }
 }
