@@ -14,6 +14,7 @@ public class Enemy : Character
     [SerializeField] private List<EnemyCard> enemyPattern = new();
     
     private int currentActionIndex;
+    private bool isDead=false;
 
 
     // Start is called before the first frame update
@@ -99,9 +100,10 @@ public class Enemy : Character
     
     private void CheckForGameOver(int currentHealth, int maxHealth)
     {
-        if (currentHealth <=0)
+        if (currentHealth <=0 && !isDead)
         {
             BattleManager.Instance.AddEventToQueue(()=>BattleManager.Instance.RemoveEnemy(this));
+            isDead = true;
         }
     }
 }
