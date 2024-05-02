@@ -11,10 +11,9 @@ public class PlayerBlockUI : MonoBehaviour
      [SerializeField] private Image blockImage;
      [SerializeField] private TextMeshProUGUI blockText;
 
-   void Start()
+   void Awake()
    {
         characterScript.CharacterStats.OnStatChange += UpdateBlock;
-        
    }
 
     // Update is called once per frame

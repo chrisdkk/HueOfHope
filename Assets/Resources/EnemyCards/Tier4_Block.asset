@@ -17,13 +17,12 @@ MonoBehaviour:
   - effectType: 1
     vfxEffect: {fileID: 5318118474938795680, guid: 69d8f05fda8421849a84b27b8c0d773d,
       type: 3}
-    payload: 6
+    payload: 9
     multipleTargets: 0
     ignoreBlock: 0
     insightMultiplier: 0
   - effectType: 2
-    vfxEffect: {fileID: 5318118474938795680, guid: 69d8f05fda8421849a84b27b8c0d773d,
-      type: 3}
+    vfxEffect: {fileID: 0}
     payload: 2
     multipleTargets: 0
     ignoreBlock: 0

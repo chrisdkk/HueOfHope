@@ -77,7 +77,9 @@ public class BattleManager: MonoBehaviour
     {
         foreach (Enemy enemy in enemies)
         {
-            EnemiesInBattle.Add(Instantiate(enemy, new Vector3(4.5f, 0, 0), quaternion.identity));
+            Enemy instEnemy = Instantiate(enemy, new Vector3(4.5f, 0, 0), quaternion.identity);
+            instEnemy.transform.localScale *= 0.8f;
+            EnemiesInBattle.Add(instEnemy);
         }
     }
 

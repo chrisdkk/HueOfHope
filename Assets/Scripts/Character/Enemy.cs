@@ -21,8 +21,8 @@ public class Enemy : Character
     void Start()
     {
         // Initialize variables for the enemy
-        CharacterStats.Health = maxHealth;
         CharacterStats.OnHealthChange += CheckForGameOver;
+        CharacterStats.Health = maxHealth;
 
         // Load and sort all available enemy cards
         EnemyCard[] enemyCards = Resources.LoadAll<EnemyCard>("EnemyCards/");

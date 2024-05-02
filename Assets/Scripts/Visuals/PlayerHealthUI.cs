@@ -13,7 +13,7 @@ public class PlayerHealthUI : MonoBehaviour
     private Image healthBar;
    
 
-    void Start()
+    void Awake()
     {
         characterScript.CharacterStats.OnHealthChange += UpdateHealthBar;
 
