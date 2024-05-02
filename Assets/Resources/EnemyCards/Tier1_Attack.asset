@@ -12,8 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ca3a106bf5af1d4687fe55b1faa4f99, type: 3}
   m_Name: Tier1_Attack
   m_EditorClassIdentifier: 
-  power: 1
-  tier: 1
   cardType: 0
   effects:
   - effectType: 0
