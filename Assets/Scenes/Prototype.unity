@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028326, g: 0.22571333, b: 0.30692202, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5749,13 +5749,19 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: [{targetCorrespondingSourceObject: {fileID: 3912918249146818020,
-          guid: 1a729ac6608928f468242ea51f4fa022, type: 3}, insertIndex: -1, addedObject: {
-          fileID: 0}}, {targetCorrespondingSourceObject: {fileID: 4401969161418962686,
-          guid: 1a729ac6608928f468242ea51f4fa022, type: 3}, insertIndex: -1, addedObject: {
-          fileID: 0}}, {targetCorrespondingSourceObject: {fileID: 3061325813923786029,
-          guid: 1a729ac6608928f468242ea51f4fa022, type: 3}, insertIndex: -1, addedObject: {
-          fileID: 0}}]
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3912918249146818020, guid: 1a729ac6608928f468242ea51f4fa022,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
+    - targetCorrespondingSourceObject: {fileID: 4401969161418962686, guid: 1a729ac6608928f468242ea51f4fa022,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
+    - targetCorrespondingSourceObject: {fileID: 3061325813923786029, guid: 1a729ac6608928f468242ea51f4fa022,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 1a729ac6608928f468242ea51f4fa022, type: 3}
 --- !u!114 &233532042 stripped
 MonoBehaviour:
@@ -6003,7 +6009,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 1, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: [{fileID: 1119945090}]
+  m_Children:
+  - {fileID: 1119945090}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &592348198
@@ -6257,6 +6264,11 @@ MonoBehaviour:
   handTransform: {fileID: 698283384}
   horizontalSpacing: 1.5
   maxHandSize: 5
+  cardSpawnPos: {x: -6, y: -3, z: 0}
+  cardPlayedPos: {x: 0, y: 0, z: 0}
+  cardDiscardPos: {x: 6, y: -3, z: 0}
+  cardPlayedScale: {x: 0.7, y: 0.7, z: 0.7}
+  cardInactiveScale: {x: 0.2, y: 0.2, z: 0.2}
 --- !u!1 &839096613 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 558649177649665064, guid: 252400ef9132be845b95387238bee7bf,
