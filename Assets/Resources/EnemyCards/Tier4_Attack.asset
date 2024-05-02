@@ -12,14 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ca3a106bf5af1d4687fe55b1faa4f99, type: 3}
   m_Name: Tier4_Attack
   m_EditorClassIdentifier: 
-  power: 3
-  tier: 1
   cardType: 0
   effects:
   - effectType: 0
     vfxEffect: {fileID: 8525990746615576120, guid: b85d21f3b8fed714bacf0c4fd50fa512,
       type: 3}
     payload: 9
+    multipleTargets: 0
+    ignoreBlock: 0
+    insightMultiplier: 0
+  - effectType: 4
+    vfxEffect: {fileID: 8525990746615576120, guid: b85d21f3b8fed714bacf0c4fd50fa512,
+      type: 3}
+    payload: 6
     multipleTargets: 0
     ignoreBlock: 0
     insightMultiplier: 0

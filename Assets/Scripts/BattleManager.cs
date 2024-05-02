@@ -22,7 +22,7 @@ public class BattleManager: MonoBehaviour
     public DeckManager DeckManager { get; private set; }
     public HandManager HandManager { get; private set; }
     
-    public List<Enemy> EnemiesInBattle;
+    public List<Enemy> EnemiesInBattle { get; private set; }
 
     private Transform handDisplay;
 
@@ -92,19 +92,22 @@ public class BattleManager: MonoBehaviour
             // Add event to apply and reduce status effects of enemy
             enemy.CharacterStats.Block = 0;
             if (enemy.CharacterStats.Burn > 0) 
-            { 
-                enemy.CharacterStats.Health-=4; 
-                enemy.CharacterStats.Burn-=1;
+            {
                 AddEventToQueue(()=>StartCoroutine(VfxEffects.PlayEffects(burnVFX, enemy)));
+                enemy.CharacterStats.Health-=4;
+                enemy.CharacterStats.Burn-=1;
             }
 
-                // Do action
-            AddEventToQueue(()=>enemy.PlayEnemyCard());
-
-            // Add event to reduce insight
-            if (enemy.CharacterStats.Insight > 0)
+            if (enemy.CharacterStats.Health > 0)
             {
-                enemy.CharacterStats.Insight-=1;
+                // Do action
+                AddEventToQueue(()=>enemy.PlayEnemyCard());
+
+                // Add event to reduce insight
+                if (enemy.CharacterStats.Insight > 0)
+                {
+                    enemy.CharacterStats.Insight-=1;
+                }
             }
         }
 
@@ -121,10 +124,10 @@ public class BattleManager: MonoBehaviour
         // Add event to apply and reduce status effects of player
         PlayerScript.CharacterStats.Block = 0;
         if (PlayerScript.CharacterStats.Burn > 0)
-        { 
+        {
+            AddEventToQueue(()=>StartCoroutine(VfxEffects.PlayEffects(burnVFX, PlayerScript)));
             PlayerScript.CharacterStats.Health -= 4;
             PlayerScript.CharacterStats.Burn -= 1;
-            AddEventToQueue(()=>StartCoroutine(VfxEffects.PlayEffects(burnVFX, PlayerScript)));
         }
         eventQueue.AddEvent(()=> HandManager.DrawHand());
     }
@@ -161,4 +164,13 @@ public class BattleManager: MonoBehaviour
         rewardWindow.GetComponent<RewardManager>().ShowReward();
     }
 
+    public void RemoveEnemy(Enemy enemy)
+    {
+        EnemiesInBattle.Remove(enemy);
+        Destroy(enemy.gameObject);
+        if (EnemiesInBattle.Count == 0)
+        {
+            AddEventToQueue(EndBattle);
+        }
+    }
 }

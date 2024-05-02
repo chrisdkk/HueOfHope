@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ca3a106bf5af1d4687fe55b1faa4f99, type: 3}
   m_Name: Tier2_Block
   m_EditorClassIdentifier: 
-  power: 2
+  power: 1
   tier: 1
   cardType: 1
   effects:
   - effectType: 1
     vfxEffect: {fileID: 5318118474938795680, guid: 69d8f05fda8421849a84b27b8c0d773d,
       type: 3}
-    payload: 6
+    payload: 3
     multipleTargets: 0
     ignoreBlock: 0
     insightMultiplier: 0

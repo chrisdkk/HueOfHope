@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +7,11 @@ public class Player : Character
 {
     private int currentActionPoints;
     public int MaxActionPoints;
+
+    void Start()
+    {
+        CharacterStats.OnHealthChange += CheckForGameOver;
+    }
 
     public void ResetActionPoints()
     {
@@ -26,5 +32,11 @@ public class Player : Character
         }
     }
 
-     
+    private void CheckForGameOver(int currentHealth, int maxHealth)
+         {
+             if (currentHealth <=0)
+             {
+                 BattleManager.Instance.AddEventToQueue(BattleManager.Instance.EndBattle);
+             }
+         }
 }
