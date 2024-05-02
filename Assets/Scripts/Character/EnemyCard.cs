@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,7 +10,8 @@ public enum EnemyCardTypes
 }
 
 [CreateAssetMenu(fileName = "EnemyCard", menuName = "ScriptableObjects/EnemyCard", order = 1)]
-public class EnemyCard : ScriptableObject
+[Serializable]
+public class EnemyCard
 {
     public EnemyCardTypes cardType = EnemyCardTypes.Attack;
     public List<CardEffect> effects;

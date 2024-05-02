@@ -24,9 +24,6 @@ public class Enemy : Character
         CharacterStats.OnHealthChange += CheckForGameOver;
         CharacterStats.Health = maxHealth;
 
-        // Load and sort all available enemy cards
-        EnemyCard[] enemyCards = Resources.LoadAll<EnemyCard>("EnemyCards/");
-
         // Get current action and indicate it
         currentActionIndex = 0;
         actionIndication.GetComponent<MeshRenderer>().material = actionIndicationMaterial.Find(material => material.name == enemyPattern[currentActionIndex].cardType.ToString());
