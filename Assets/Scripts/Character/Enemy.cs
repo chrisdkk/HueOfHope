@@ -76,6 +76,8 @@ public class Enemy : Character
             actionIndication.GetComponent<MeshRenderer>().material = actionIndicationMaterial.Find(material => material.name == "Block");
             actionIndication.GetComponentInChildren<TextMeshPro>().text = card.effects[0].payload.ToString();
         }
+
+        
     }
 
     /* Play the current selected enemy card*/
