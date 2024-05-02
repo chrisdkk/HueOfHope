@@ -13,7 +13,7 @@ public class VfxEffects : MonoBehaviour
         List<GameObject> instVFXs = new List<GameObject>();
         foreach (Character character in targets)
         {
-            GameObject instGameObject = Instantiate(vfx, character.transform, false);
+            GameObject instGameObject = Instantiate(vfx, character.transform.Find("Visual").transform.position, Quaternion.identity);
             AdaptColor(instGameObject);
             instVFXs.Add(instGameObject);
         }

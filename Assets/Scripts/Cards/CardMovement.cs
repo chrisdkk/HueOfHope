@@ -5,6 +5,7 @@ using JetBrains.Annotations;
 using UnityEngine;
 
 public enum CardState {
+    Spawned,
     Idle,
     Hover,
     Dragging,
@@ -27,17 +28,13 @@ public class CardMovement : MonoBehaviour
     private Vector3 originalPosition;
     private Vector3 originalScale;
     private Quaternion originalRotation;
-    private CardState currentState = 0;
+    private CardState currentState = CardState.Spawned;
     private Camera mainCamera;
-    private float timeSincePlayed = 0f;
-    private Vector3 originPlayedPosition;
 
     [SerializeField] private LayerMask layerMask;
     [SerializeField] private float selectScale = 1.1f;
-    [SerializeField] private float playedScale = 0.9f;
     [SerializeField] private Vector2 cardPlayBorder;
     [SerializeField] private Vector3 playPosition;
-    [SerializeField] private Vector3 playedPosition;
     [SerializeField] private GameObject glowEffect;
     [SerializeField] private GameObject playArrow;
 
@@ -82,9 +79,6 @@ public class CardMovement : MonoBehaviour
                 break;
             case CardState.Play:
                 HandlePlayState();
-                break;
-            case CardState.Played:
-                HandlePlayedState();
                 break;
         }
     }
@@ -182,7 +176,6 @@ public class CardMovement : MonoBehaviour
                         selectedCard = null;
                         OnPlay?.Invoke(gameObject, hit.transform.gameObject);
                         currentState = CardState.Played;
-                        originPlayedPosition = playPosition;   
                     }
                 } 
             }
@@ -193,7 +186,6 @@ public class CardMovement : MonoBehaviour
                     selectedCard = null;
                     OnPlay?.Invoke(gameObject, null);
                     currentState = CardState.Played;
-                    originPlayedPosition = transform.position;
                 }
             }
         }
@@ -206,13 +198,32 @@ public class CardMovement : MonoBehaviour
         }
     }
 
-    private void HandlePlayedState()
+    /* Move card from one position to another, rotate and scale it accordingly*/
+    public IEnumerator HandleMovementFromPositionToPositionState(Vector3 targetPos, Quaternion targetRotation, Vector3 targetScale, float duration)
     {
-        timeSincePlayed += Time.deltaTime*6;
-        playArrow.SetActive(false);
-        selectedCard = null;
-        transform.localScale = originalScale * playedScale;
-        transform.localPosition = Vector3.Lerp(originPlayedPosition, playedPosition, timeSincePlayed);
-        transform.localRotation = Quaternion.identity;
+        BattleManager.Instance.eventRunning = true;
+        Vector3 startingPos = transform.position, startingScale = transform.localScale;
+        Quaternion startingRot = transform.localRotation;
+        
+        float elapsedTime = 0f;
+        while (elapsedTime < duration && currentState!=CardState.Hover && currentState!=CardState.Dragging && currentState!=CardState.Play)
+        {
+            float t = elapsedTime / duration;
+            playArrow.SetActive(false);
+            selectedCard = null;
+            transform.position = Vector3.Lerp(startingPos, targetPos, t);
+            transform.localScale = Vector3.Lerp(startingScale, targetScale, t);
+            transform.localRotation = Quaternion.Slerp(startingRot, targetRotation, t);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        if (currentState == CardState.Spawned)
+        {
+            currentState = CardState.Idle;
+        }
+        BattleManager.Instance.eventRunning = false;
+        originalPosition = transform.parent.InverseTransformPoint(targetPos);
+        originalRotation = targetRotation;
+        originalScale = targetScale;
     }
 }
