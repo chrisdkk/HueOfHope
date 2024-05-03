@@ -592,7 +592,6 @@ MonoBehaviour:
   playPosition: {x: 0, y: 1, z: 0}
   glowEffect: {fileID: 6596201708000344729}
   playArrow: {fileID: 6708614352295726533}
-  cardSpeed: 15
 --- !u!61 &4111712118602202969
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -921,7 +920,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 4885537122438322779}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
