@@ -10,18 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b6f279a1cc38142b48cf348f369e6de0, type: 3}
-  m_Name: CalmDrop
+  m_Name: TwinIntuition
   m_EditorClassIdentifier: 
-  cardName: Calm Drop
-  description: Gain 10 insight
-  apCost: 3
+  cardName: Twin Intuition
+  description: Draw 2 cards
+  apCost: 1
   cardType: 1
   multiTarget: 0
   effects:
-  - effectType: 2
+  - effectType: 5
     vfxEffect: {fileID: 0}
-    payload: 5
-    multipleTargets: 0
+    payload: 2
+    effectTarget: 0
     ignoreBlock: 0
     insightMultiplier: 0
   cardImage: {fileID: 2800000, guid: 6b2057531bc5f7944950f9d78d7e1cc8, type: 3}

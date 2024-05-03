@@ -31,7 +31,8 @@ public class HandManager : MonoBehaviour
         {
             AddCardToHand(deck.DrawCard(), true);
         }
-        BattleManager.Instance.AddEventToQueue(()=>StartCoroutine(UpdateHandVisuals(0.25f)));
+
+        BattleManager.Instance.AddEventToQueue(() => StartCoroutine(UpdateHandVisuals(0.25f)));
     }
 
     public void DiscardHand()
@@ -40,6 +41,7 @@ public class HandManager : MonoBehaviour
         {
             DiscardCard(cardsInHand[i]);
         }
+
         cardsInHand = new List<GameObject>();
     }
 
@@ -53,14 +55,14 @@ public class HandManager : MonoBehaviour
         // Set card visuals,
         CardVisual cardVisual = newCard.GetComponent<CardVisual>();
         cardVisual.LoadCardData(cardData);
-        
+
         // Set card movement
         CardMovement cardMovement = newCard.GetComponent<CardMovement>();
         cardMovement.OnPlay += PlayCard;
         cardMovement.Initialize(cardData);
         if (!drewHand)
         {
-            BattleManager.Instance.AddEventToQueue(()=>StartCoroutine(UpdateHandVisuals(0.25f)));
+            BattleManager.Instance.AddEventToQueue(() => StartCoroutine(UpdateHandVisuals(0.25f)));
         }
     }
 
@@ -75,36 +77,41 @@ public class HandManager : MonoBehaviour
         }
 
         BattleManager.Instance.PlayerScript.CurrentActionPoints -= cardData.apCost;
-        BattleManager.Instance.AddEventToQueue(()=>StartCoroutine(card.GetComponent<CardMovement>().HandleMovementFromPositionToPositionState(cardPlayedPos, Quaternion.identity, cardPlayedScale, 0.1f)));
-        
+        BattleManager.Instance.AddEventToQueue(() =>
+            StartCoroutine(card.GetComponent<CardMovement>()
+                .HandleMovementFromPositionToPositionState(cardPlayedPos, Quaternion.identity, cardPlayedScale, 0.1f)));
+
         foreach (CardEffect effect in cardData.effects)
         {
             List<Character> targets = new List<Character>();
-            
+            List<Character> otherTargets = null;
+
             // Add targets
-            if (effect.multipleTargets)
+            switch (effect.effectTarget)
             {
-                targets.AddRange(BattleManager.Instance.EnemiesInBattle);
-            }else if (targetedEnemy != null)
-            {
-                targets.Add(targetedEnemy.GetComponent<Enemy>());
+                case CardEffectTarget.Player:
+                    targets.Add(BattleManager.Instance.PlayerScript);
+                    break;
+                case CardEffectTarget.SingleEnemy:
+                    targets.Add(targetedEnemy.GetComponent<Enemy>());
+                    break;
+                case CardEffectTarget.MultipleEnemies:
+                    targets.AddRange(BattleManager.Instance.EnemiesInBattle);
+                    break;
             }
-            else
-            {
-                targets.Add(BattleManager.Instance.PlayerScript);
-            }
-            
+
             // Add event for the effect
             switch (effect.effectType)
             {
                 case CardEffectType.Damage:
                     // Add event to deal damage
-                    BattleManager.Instance.AddEventToQueue(()=>
+                    BattleManager.Instance.AddEventToQueue(() =>
                     {
                         CardEffectActions.DamageAction(BattleManager.Instance.PlayerScript,
-                                effect.payload,
-                                effect.ignoreBlock || BattleManager.Instance.PlayerScript.CharacterStats.IgnoreBlockOnNext > 0,
-                                ref targets);
+                            effect.payload,
+                            effect.ignoreBlock ||
+                            BattleManager.Instance.PlayerScript.CharacterStats.IgnoreBlockOnNext > 0,
+                            ref targets);
 
                         // Reduce buff ignore block on next attack
                         if (BattleManager.Instance.PlayerScript.CharacterStats.IgnoreBlockOnNext > 0)
@@ -113,24 +120,24 @@ public class HandManager : MonoBehaviour
                         }
                     });
                     break;
-             
+
                 case CardEffectType.ShieldBreak:
-                    BattleManager.Instance.AddEventToQueue(()=>CardEffectActions.ShieldBreakAction(BattleManager.Instance.PlayerScript, effect.payload, ref targets));
+                    BattleManager.Instance.AddEventToQueue(() =>
+                        CardEffectActions.ShieldBreakAction(BattleManager.Instance.PlayerScript, effect.payload,
+                            ref targets));
                     break;
-                
+
                 case CardEffectType.BlockToDamage:
-                    // Use block as damage
-                    effect.payload = BattleManager.Instance.PlayerScript.CharacterStats.Block;
-                    BattleManager.Instance.PlayerScript.CharacterStats.Block = 0;
-                    
+
                     // Add event to deal damage
-                    BattleManager.Instance.AddEventToQueue(()=>
+                    BattleManager.Instance.AddEventToQueue(() =>
                     {
                         CardEffectActions.DamageAction(BattleManager.Instance.PlayerScript,
-                                effect.payload,
-                                effect.ignoreBlock || BattleManager.Instance.PlayerScript.CharacterStats.IgnoreBlockOnNext > 0, 
-                                ref targets);
-                        
+                            BattleManager.Instance.PlayerScript.CharacterStats.Block,
+                            effect.ignoreBlock ||
+                            BattleManager.Instance.PlayerScript.CharacterStats.IgnoreBlockOnNext > 0,
+                            ref targets);
+
                         // Reduce buff ignore block on next attack
                         if (BattleManager.Instance.PlayerScript.CharacterStats.IgnoreBlockOnNext > 0)
                         {
@@ -138,21 +145,22 @@ public class HandManager : MonoBehaviour
                         }
                     });
                     break;
-                
+
                 case CardEffectType.MultipliedInsightDamage:
                     // Multiply insight for one attack
-                    BattleManager.Instance.PlayerScript.CharacterStats.Insight*=effect.insightMultiplier;
+                    BattleManager.Instance.PlayerScript.CharacterStats.Insight *= effect.insightMultiplier;
                     // Add event to deal damage
-                    BattleManager.Instance.AddEventToQueue(()=>
+                    BattleManager.Instance.AddEventToQueue(() =>
                     {
-                        CardEffectActions.DamageAction(BattleManager.Instance.PlayerScript, 
-                            effect.payload, 
-                            effect.ignoreBlock || BattleManager.Instance.PlayerScript.CharacterStats.IgnoreBlockOnNext>0, 
+                        CardEffectActions.DamageAction(BattleManager.Instance.PlayerScript,
+                            effect.payload,
+                            effect.ignoreBlock ||
+                            BattleManager.Instance.PlayerScript.CharacterStats.IgnoreBlockOnNext > 0,
                             ref targets);
-                        
+
                         // Reset insight
-                        BattleManager.Instance.PlayerScript.CharacterStats.Insight/=effect.insightMultiplier;
-                        
+                        BattleManager.Instance.PlayerScript.CharacterStats.Insight /= effect.insightMultiplier;
+
                         // Reduce buff ignore block on next attack
                         if (BattleManager.Instance.PlayerScript.CharacterStats.IgnoreBlockOnNext > 0)
                         {
@@ -160,53 +168,78 @@ public class HandManager : MonoBehaviour
                         }
                     });
                     break;
-                
+
                 case CardEffectType.Block:
-                    BattleManager.Instance.AddEventToQueue(()=>CardEffectActions.BlockAction(effect.payload, ref targets));
+                    BattleManager.Instance.AddEventToQueue(() =>
+                        CardEffectActions.BlockAction(effect.payload, ref targets));
+                    break;
+
+                case CardEffectType.Burn:
+                    BattleManager.Instance.AddEventToQueue(() =>
+                        CardEffectActions.BurnAction(effect.payload, ref targets));
+                    break;
+
+                case CardEffectType.InstApplyBurn:
+                    BattleManager.Instance.AddEventToQueue(() =>
+                        CardEffectActions.InstantApplyBurnAction(ref targets));
                     break;
                 
-                case CardEffectType.Burn:
-                    BattleManager.Instance.AddEventToQueue(()=>CardEffectActions.BurnAction(effect.payload, ref targets));
+                case CardEffectType.TakeOverBurn:
+                    otherTargets = new List<Character>(BattleManager.Instance.EnemiesInBattle.Where(enemy=>enemy!=targets[0]));
+                    BattleManager.Instance.AddEventToQueue(() =>
+                        CardEffectActions.TakeOverBurn(targets[0], ref otherTargets));
                     break;
                 
                 case CardEffectType.Insight:
-                    BattleManager.Instance.AddEventToQueue(()=>CardEffectActions.InsightAction(effect.payload, ref targets));
+                    BattleManager.Instance.AddEventToQueue(() =>
+                        CardEffectActions.InsightAction(effect.payload, ref targets));
                     break;
-                
+
                 case CardEffectType.AttackDebuff:
-                    BattleManager.Instance.AddEventToQueue(()=>CardEffectActions.AttackDebuff(effect.payload, ref targets));
+                    BattleManager.Instance.AddEventToQueue(() =>
+                        CardEffectActions.AttackDebuff(effect.payload, ref targets));
                     break;
-                
+
                 case CardEffectType.Cleanse:
-                    BattleManager.Instance.AddEventToQueue(()=>CardEffectActions.Cleanse(ref targets));
+                    BattleManager.Instance.AddEventToQueue(() => CardEffectActions.Cleanse(ref targets));
                     break;
-                
+
                 case CardEffectType.IgnoreBlockOnNextAttacks:
-                    BattleManager.Instance.AddEventToQueue(()=>BattleManager.Instance.PlayerScript.CharacterStats.IgnoreBlockOnNext+=effect.payload);
+                    BattleManager.Instance.AddEventToQueue(() =>
+                        BattleManager.Instance.PlayerScript.CharacterStats.IgnoreBlockOnNext += effect.payload);
                     break;
-                
+
                 case CardEffectType.Draw:
                     for (int i = 0; i < effect.payload; i++)
                     {
-                        BattleManager.Instance.AddEventToQueue(()=>AddCardToHand(deck.DrawCard(), false));
+                        BattleManager.Instance.AddEventToQueue(() => AddCardToHand(deck.DrawCard(), false));
                     }
+
                     break;
-                
+
                 case CardEffectType.DiscardHand:
                     alreadyDiscarded = true;
-                    BattleManager.Instance.AddEventToQueue(()=>DiscardHand());
+                    BattleManager.Instance.AddEventToQueue(() => DiscardHand());
                     break;
             }
 
             if (effect.vfxEffect != null)
             {
-                BattleManager.Instance.AddEventToQueue(()=>StartCoroutine(VfxEffects.PlayEffects(effect.vfxEffect, targets.ToArray())));   
+                BattleManager.Instance.AddEventToQueue(() =>
+                    StartCoroutine(VfxEffects.PlayEffects(effect.vfxEffect, targets.ToArray())));
+            }
+
+            if (otherTargets != null)
+            {
+                BattleManager.Instance.AddEventToQueue(() =>
+                    StartCoroutine(VfxEffects.PlayEffects(effect.vfxEffect, otherTargets.ToArray())));
             }
         }
+
         // Add event to discard used card
         if (!alreadyDiscarded)
         {
-            BattleManager.Instance.AddEventToQueue(()=> DiscardCard(card));
+            BattleManager.Instance.AddEventToQueue(() => DiscardCard(card));
         }
     }
 
@@ -214,18 +247,20 @@ public class HandManager : MonoBehaviour
     {
         CardData cardData = card.GetComponent<CardVisual>().CardData;
         deck.DiscardCard(cardData);
-        Quaternion rotation = Quaternion.Euler(0,0,180);
+        Quaternion rotation = Quaternion.Euler(0, 0, 180);
         rotation.Normalize();
-        BattleManager.Instance.AddEventToQueue(()=>StartCoroutine(card.GetComponent<CardMovement>().HandleMovementFromPositionToPositionState(cardDiscardPos, rotation, cardInactiveScale, 0.25f)));
+        BattleManager.Instance.AddEventToQueue(() =>
+            StartCoroutine(card.GetComponent<CardMovement>()
+                .HandleMovementFromPositionToPositionState(cardDiscardPos, rotation, cardInactiveScale, 0.25f)));
         BattleManager.Instance.AddEventToQueue(() =>
         {
             cardsInHand.Remove(card);
             Destroy(card);
-        
-            BattleManager.Instance.AddEventToQueue(()=>StartCoroutine(UpdateHandVisuals(0.1f)));
+
+            BattleManager.Instance.AddEventToQueue(() => StartCoroutine(UpdateHandVisuals(0.1f)));
         });
     }
-    
+
     private IEnumerator UpdateHandVisuals(float duration)
     {
         int cardCount = cardsInHand.Count;
@@ -233,29 +268,30 @@ public class HandManager : MonoBehaviour
 
         int midOfCards = (int)Math.Floor(cardCount / 2.0);
         float offsetY = 0.25f;
-        float y = handTransform.position.y-0.5f;
+        float y = handTransform.position.y - 0.5f;
 
         float rotation = 15f;
         // Get rotation offset depending on how much cards there are
-        float rotationOffset = rotation/midOfCards;
+        float rotationOffset = rotation / midOfCards;
         for (int i = 0; i < cardCount; i++)
         {
             GameObject card = cardsInHand[i];
             float x = offset * (i - 0.5f * (cardCount - 1));
-            
+
             // Offset the card (position and rotation)
             Quaternion targetRot = Quaternion.Euler(0f, 0f, rotation);
             targetRot.Normalize();
-            yield return card.GetComponent<CardMovement>().HandleMovementFromPositionToPositionState(new Vector3(x, y, i), targetRot, Vector3.one, duration);
+            yield return card.GetComponent<CardMovement>()
+                .HandleMovementFromPositionToPositionState(new Vector3(x, y, i), targetRot, Vector3.one, duration);
             // Offset changes are depended on even or odd card number
             if (cardCount % 2 == 0)
             {
                 // The middle two cards do not need an offset for y
-                if (i+1 != midOfCards)
+                if (i + 1 != midOfCards)
                 {
-                    if (i == 0 || i==cardCount-2)
+                    if (i == 0 || i == cardCount - 2)
                     {
-                        y += offsetY*2;
+                        y += offsetY * 2;
                     }
                     else
                     {
@@ -266,22 +302,22 @@ public class HandManager : MonoBehaviour
             else
             {
                 // Before and after the middle card to offset has to be lower
-                if (i+1 == midOfCards || i == midOfCards)
+                if (i + 1 == midOfCards || i == midOfCards)
                 {
                     y += offsetY;
                 }
                 else
                 {
-                    y += offsetY*2;   
+                    y += offsetY * 2;
                 }
             }
-            
+
             // Turn the offset around to create a fan
-            if (i+1== midOfCards)
+            if (i + 1 == midOfCards)
             {
                 offsetY *= -1;
             }
-            
+
             rotation -= rotationOffset;
 
             // Even cards are all tilted, there is no card with 0 rotation

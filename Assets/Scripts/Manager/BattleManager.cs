@@ -80,6 +80,9 @@ public class BattleManager: MonoBehaviour
             Enemy instEnemy = Instantiate(enemy, new Vector3(4.5f, 0, 0), quaternion.identity);
             instEnemy.transform.localScale *= 0.8f;
             EnemiesInBattle.Add(instEnemy);
+            instEnemy = Instantiate(enemy, new Vector3(4.5f, -5, 0), quaternion.identity);
+            instEnemy.transform.localScale *= 0.8f;
+            EnemiesInBattle.Add(instEnemy);
         }
     }
 
@@ -96,7 +99,7 @@ public class BattleManager: MonoBehaviour
             if (enemy.CharacterStats.Burn > 0) 
             {
                 AddEventToQueue(()=>StartCoroutine(VfxEffects.PlayEffects(burnVFX, enemy)));
-                enemy.CharacterStats.Health-=4;
+                enemy.CharacterStats.Health-=GameStateManager.Instance.BurnTickDamage;
                 enemy.CharacterStats.Burn-=1;
             }
 
@@ -128,7 +131,7 @@ public class BattleManager: MonoBehaviour
         if (PlayerScript.CharacterStats.Burn > 0)
         {
             AddEventToQueue(()=>StartCoroutine(VfxEffects.PlayEffects(burnVFX, PlayerScript)));
-            PlayerScript.CharacterStats.Health -= 4;
+            PlayerScript.CharacterStats.Health -= GameStateManager.Instance.BurnTickDamage;
             PlayerScript.CharacterStats.Burn -= 1;
         }
         eventQueue.AddEvent(()=> HandManager.DrawHand());

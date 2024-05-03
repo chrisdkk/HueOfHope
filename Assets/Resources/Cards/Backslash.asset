@@ -10,18 +10,26 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b6f279a1cc38142b48cf348f369e6de0, type: 3}
-  m_Name: CalmDrop
+  m_Name: Backslash
   m_EditorClassIdentifier: 
-  cardName: Calm Drop
-  description: Gain 10 insight
+  cardName: Backslash
+  description: Deal 15 damage & Receive 6 damage
   apCost: 3
-  cardType: 1
+  cardType: 0
   multiTarget: 0
   effects:
-  - effectType: 2
-    vfxEffect: {fileID: 0}
-    payload: 5
-    multipleTargets: 0
+  - effectType: 0
+    vfxEffect: {fileID: 8525990746615576120, guid: b85d21f3b8fed714bacf0c4fd50fa512,
+      type: 3}
+    payload: 15
+    effectTarget: 1
+    ignoreBlock: 0
+    insightMultiplier: 0
+  - effectType: 0
+    vfxEffect: {fileID: 8525990746615576120, guid: b85d21f3b8fed714bacf0c4fd50fa512,
+      type: 3}
+    payload: 6
+    effectTarget: 0
     ignoreBlock: 0
     insightMultiplier: 0
   cardImage: {fileID: 2800000, guid: 6b2057531bc5f7944950f9d78d7e1cc8, type: 3}

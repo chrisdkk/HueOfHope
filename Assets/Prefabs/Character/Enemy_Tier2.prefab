@@ -448,7 +448,7 @@ MonoBehaviour:
       vfxEffect: {fileID: 8525990746615576120, guid: b85d21f3b8fed714bacf0c4fd50fa512,
         type: 3}
       payload: 4
-      multipleTargets: 0
+      effectTarget: 0
       ignoreBlock: 0
       insightMultiplier: 0
   - cardType: 1
@@ -457,7 +457,7 @@ MonoBehaviour:
       vfxEffect: {fileID: 5318118474938795680, guid: 69d8f05fda8421849a84b27b8c0d773d,
         type: 3}
       payload: 8
-      multipleTargets: 0
+      effectTarget: 1
       ignoreBlock: 0
       insightMultiplier: 0
   - cardType: 0
@@ -466,7 +466,7 @@ MonoBehaviour:
       vfxEffect: {fileID: 6710139492206580332, guid: 95b8d3d65b5d7f1409c4ed1723887826,
         type: 3}
       payload: 8
-      multipleTargets: 0
+      effectTarget: 0
       ignoreBlock: 0
       insightMultiplier: 0
 --- !u!65 &379690716693736145
