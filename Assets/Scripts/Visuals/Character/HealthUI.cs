@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine.Rendering.UI;
 using UnityEngine.UI;
 
-public class PlayerHealthUI : MonoBehaviour
+public class HealthUI : MonoBehaviour
 {
     [SerializeField] private Character characterScript;
     [SerializeField] private Image healthImage;

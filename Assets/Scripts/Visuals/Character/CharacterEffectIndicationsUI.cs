@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class UpdateCharacterEffectIndicationsUI : MonoBehaviour
+public class CharacterEffectIndicationsUI : MonoBehaviour
 {
     [SerializeField] private GameObject burnIndicator;
     [SerializeField] private GameObject insightIndicator;

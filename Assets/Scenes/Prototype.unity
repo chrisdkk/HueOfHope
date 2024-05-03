@@ -6351,7 +6351,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   battleManager: {fileID: 233532042}
-  prototypeEnemy: {fileID: 2529766005443298267, guid: cc42545fb2369c04ca21b84e3ddbbceb,
+  prototypeEnemy: {fileID: 2529766005443298267, guid: 29313b9e2ec5b5243aaaa23aea4912d9,
     type: 3}
   deckSystem: {fileID: 87950868}
   maxPlayerHealth: 20

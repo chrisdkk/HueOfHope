@@ -166,6 +166,16 @@ PrefabInstance:
       propertyPath: characterScript
       value: 
       objectReference: {fileID: 1302886396811296798}
+    - target: {fileID: 3165099874661912995, guid: 8b43512c27c3d054c9d37fc8fd1beacb,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3165099874661912995, guid: 8b43512c27c3d054c9d37fc8fd1beacb,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 3910858443712268292, guid: 8b43512c27c3d054c9d37fc8fd1beacb,
         type: 3}
       propertyPath: characterScript

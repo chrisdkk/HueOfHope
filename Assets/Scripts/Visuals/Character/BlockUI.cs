@@ -5,7 +5,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
-public class PlayerBlockUI : MonoBehaviour
+public class BlockUI : MonoBehaviour
 {
      [SerializeField] private Character characterScript;
      [SerializeField] private Image blockImage;
