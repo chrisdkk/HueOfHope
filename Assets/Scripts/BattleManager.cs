@@ -63,9 +63,8 @@ public class BattleManager : MonoBehaviour
     public void Initialize(List<CardData> deck, List<GameObject> enemies, Sprite background)
     {
         OnTurnChange += GameObject.Find("TurnIndication").GetComponent<TurnIndication>().UpdateTurnIndicator;
-
         // change background when battle starts
-        backgroundImage.GetComponent<Image>().sprite = background;
+        backgroundImage.GetComponentInChildren<Image>().sprite = background;
 
         // un-end battle when advancing to the next stage
         battleEnded = false;
@@ -129,7 +128,7 @@ public class BattleManager : MonoBehaviour
      */
     private void StartPlayerTurn()
     {
-        OnTurnChange?.Invoke("Player Turn", false);
+        OnTurnChange?.Invoke("Player Turn", true);
         PlayerScript.ResetActionPoints();
         // Add event to apply and reduce status effects of player
         PlayerScript.CharacterStats.Block = 0;

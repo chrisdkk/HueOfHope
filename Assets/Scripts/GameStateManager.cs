@@ -71,12 +71,8 @@ public class GameStateManager : MonoBehaviour
 
             // deck system
             deckSystem.InitializeDeck(deck);
-            StartBattle();
-        }
-    }
 
-    public void StartBattle()
-    {
-        battleManager.Initialize(deck, mapSystem.GetEnemies(), mapSystem.GetBackground());
+            battleManager.Initialize(deck, mapSystem.GetEnemies(), mapSystem.GetBackground());
+        }
     }
 }

@@ -24,7 +24,7 @@ public class RewardManager : MonoBehaviour
     public void ShowReward()
     {
         transform.GetChild(0).gameObject.SetActive(true);
-        
+
         // Choose 3 random card datas as reward
         List<CardData> rewards = new List<CardData>();
         Random r = new Random();
@@ -76,14 +76,13 @@ public class RewardManager : MonoBehaviour
         if (selectedReward != null)
         {
             GameStateManager.Instance.deck.Add(selectedReward.GetComponent<CardVisual>().CardData);
+            
             selectedReward.OnOtherRewardChosen();
             selectedReward = null;
+            
             buttonButtonComponent.interactable = false;
+            
             transform.GetChild(0).gameObject.SetActive(false);
-            // for (int i = 0; i < transform.childCount; i++)
-            // {
-            //     transform.GetChild(i).gameObject.SetActive(false);
-            // }
 
             // after rewards have been chosen, invoke
             OnBattleEnd?.Invoke();

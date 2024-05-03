@@ -44,3 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f618d85221064a4bbd31a4a1ab3cfa6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  chapterList:
+  - {fileID: 11400000, guid: a9fbad03a7396c34293caece66bd2299, type: 2}
+  currentChapterIndex: 0
+  currentStageIndex: 0
+  rewardManager: {fileID: 0}
