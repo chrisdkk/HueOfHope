@@ -128,7 +128,7 @@ public class BattleManager : MonoBehaviour
      */
     private void StartPlayerTurn()
     {
-        OnTurnChange?.Invoke("Player Turn", true);
+        OnTurnChange?.Invoke("Player Turn", false);
         PlayerScript.ResetActionPoints();
         // Add event to apply and reduce status effects of player
         PlayerScript.CharacterStats.Block = 0;
