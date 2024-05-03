@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Penetrate
   m_EditorClassIdentifier: 
   cardName: Penetrate
-  description: Deal 4 direct damage to a target, ignoring their block
+  description: Deal 4 direct damage to a target
   apCost: 1
   cardType: 0
   multiTarget: 0

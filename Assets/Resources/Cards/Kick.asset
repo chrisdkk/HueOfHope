@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Kick
   m_EditorClassIdentifier: 
   cardName: Kick
-  description: Attack your opponent with a jump kick and deal 3 damage
+  description: Deal 5 damage
   apCost: 1
   cardType: 0
   multiTarget: 0
