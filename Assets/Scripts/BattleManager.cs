@@ -1,27 +1,31 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
 using UnityEngine.Serialization;
+using UnityEngine.UI;
 using Random = System.Random;
 
-public class BattleManager: MonoBehaviour
+public class BattleManager : MonoBehaviour
 {
     public static BattleManager Instance;
-    
+
     private EventQueue eventQueue = new EventQueue();
     public bool eventRunning = false;
     private bool battleEnded = false;
-    
+
     [SerializeField] private GameObject playerCharacter;
     [SerializeField] private GameObject rewardWindow;
     [SerializeField] private GameObject burnVFX;
+    [SerializeField] private List<Transform> EnemyPositions;
+    [SerializeField] private GameObject backgroundImage;
     public DeckManager DeckManager { get; private set; }
     public HandManager HandManager { get; private set; }
-    
+
     public List<Enemy> EnemiesInBattle;
 
     private Transform handDisplay;
@@ -31,34 +35,40 @@ public class BattleManager: MonoBehaviour
     public delegate void TurnChangedEventHandler(string turnText, bool isEnemyTurn);
 
     public event TurnChangedEventHandler OnTurnChange;
-    
+
     void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
             PlayerScript = playerCharacter.GetComponent<Player>();
-        }    
+        }
     }
 
     void Update()
     {
         // If the event queue is not being processed and there are coroutines in the queue
-        if (!eventRunning && eventQueue.HasEvents() && !battleEnded) 
+        while (!eventRunning && eventQueue.HasEvents() && !battleEnded)
         {
             Action currentEvent = eventQueue.GetNextEvent();
             currentEvent?.Invoke();
         }
     }
 
-    public void AddEventToQueue(Action newEvent){
+    public void AddEventToQueue(Action newEvent)
+    {
         eventQueue.AddEvent(newEvent);
     }
-    
-    public void Initialize(List<CardData> deck, List<Enemy> enemies)
+
+    public void Initialize(List<CardData> deck, List<GameObject> enemies, Sprite background)
     {
         OnTurnChange += GameObject.Find("TurnIndication").GetComponent<TurnIndication>().UpdateTurnIndicator;
-        
+        // change background when battle starts
+        backgroundImage.GetComponentInChildren<Image>().sprite = background;
+
+        // un-end battle when advancing to the next stage
+        battleEnded = false;
+
         // Find Manager Objects in Scene
         DeckManager = new DeckManager(deck);
         HandManager = FindObjectOfType<HandManager>();
@@ -69,15 +79,17 @@ public class BattleManager: MonoBehaviour
         PlayerScript.CharacterStats.Health = GameStateManager.Instance.CurrentPlayerHealth;
         EnemiesInBattle = new List<Enemy>();
 
-        eventQueue.AddEvent(()=>GenerateEnemies(enemies));
-        eventQueue.AddEvent(()=>StartPlayerTurn());
+        AddEventToQueue(() => GenerateEnemies(enemies, EnemyPositions));
+        AddEventToQueue(() => StartPlayerTurn());
     }
 
-    private void GenerateEnemies(List<Enemy> enemies)
+    private void GenerateEnemies(List<GameObject> enemies, List<Transform> enemyPositions)
     {
-        foreach (Enemy enemy in enemies)
+        for (int i = 0; i < enemyPositions.Count; i++)
         {
-            EnemiesInBattle.Add(Instantiate(enemy, new Vector3(4.5f, 0, 0), quaternion.identity));
+            if ((enemies.Count - 1) >= i)
+                EnemiesInBattle.Add(Instantiate(enemies[i], enemyPositions[i].position, Quaternion.identity)
+                    .GetComponent<Enemy>());
         }
     }
 
@@ -91,24 +103,24 @@ public class BattleManager: MonoBehaviour
         {
             // Add event to apply and reduce status effects of enemy
             enemy.CharacterStats.Block = 0;
-            if (enemy.CharacterStats.Burn > 0) 
-            { 
-                enemy.CharacterStats.Health-=4; 
-                enemy.CharacterStats.Burn-=1;
-                AddEventToQueue(()=>StartCoroutine(VfxEffects.PlayEffects(burnVFX, enemy)));
+            if (enemy.CharacterStats.Burn > 0)
+            {
+                enemy.CharacterStats.Health -= 4;
+                enemy.CharacterStats.Burn -= 1;
+                AddEventToQueue(() => StartCoroutine(VfxEffects.PlayEffects(burnVFX, enemy)));
             }
 
-                // Do action
-            AddEventToQueue(()=>enemy.PlayEnemyCard());
+            // Do action
+            AddEventToQueue(() => enemy.PlayEnemyCard());
 
             // Add event to reduce insight
             if (enemy.CharacterStats.Insight > 0)
             {
-                enemy.CharacterStats.Insight-=1;
+                enemy.CharacterStats.Insight -= 1;
             }
         }
 
-        AddEventToQueue(()=>StartPlayerTurn());
+        AddEventToQueue(() => StartPlayerTurn());
     }
 
     /*
@@ -116,17 +128,18 @@ public class BattleManager: MonoBehaviour
      */
     private void StartPlayerTurn()
     {
-        OnTurnChange?.Invoke("Player Turn",false);
+        OnTurnChange?.Invoke("Player Turn", false);
         PlayerScript.ResetActionPoints();
         // Add event to apply and reduce status effects of player
         PlayerScript.CharacterStats.Block = 0;
         if (PlayerScript.CharacterStats.Burn > 0)
-        { 
+        {
             PlayerScript.CharacterStats.Health -= 4;
             PlayerScript.CharacterStats.Burn -= 1;
-            AddEventToQueue(()=>StartCoroutine(VfxEffects.PlayEffects(burnVFX, PlayerScript)));
+            AddEventToQueue(() => StartCoroutine(VfxEffects.PlayEffects(burnVFX, PlayerScript)));
         }
-        eventQueue.AddEvent(()=> HandManager.DrawHand());
+
+        AddEventToQueue(() => HandManager.DrawHand());
     }
 
     public void EndPlayerTurn()
@@ -137,8 +150,8 @@ public class BattleManager: MonoBehaviour
             PlayerScript.CharacterStats.Insight -= 1;
         }
 
-        AddEventToQueue(()=>HandManager.DiscardHand());
-        AddEventToQueue(()=>EnemyTurn());
+        AddEventToQueue(() => HandManager.DiscardHand());
+        AddEventToQueue(() => EnemyTurn());
     }
 
     /*
@@ -146,13 +159,16 @@ public class BattleManager: MonoBehaviour
      */
     public void EndBattle()
     {
-        battleEnded = true;
-        HandManager.gameObject.SetActive(false);
+        // battleEnded = true;
+        AddEventToQueue(() => battleEnded = true);
+        // eventQueue.ClearEvents();
+
+        // HandManager.gameObject.SetActive(false);
+        HandManager.DiscardHand();
         //Disable buttons for UI
-        
+
         if (PlayerScript.CharacterStats.Health <= 0)
         {
-            // You lost
             return;
         }
 
@@ -160,5 +176,4 @@ public class BattleManager: MonoBehaviour
         GameStateManager.Instance.CurrentPlayerHealth = PlayerScript.CharacterStats.Health;
         rewardWindow.GetComponent<RewardManager>().ShowReward();
     }
-
 }

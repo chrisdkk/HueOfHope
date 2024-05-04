@@ -1563,7 +1563,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 556fd7805b7f02149962fe224f23dc6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 30
+  maxHealth: 1
   enemyTier: 1
   possibleEnemyAction: 000000000000000001000000
   actionIndication: {fileID: 1565517427665591200}
