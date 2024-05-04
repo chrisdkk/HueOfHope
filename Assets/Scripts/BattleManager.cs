@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using HandSystem;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
@@ -32,7 +33,7 @@ public class BattleManager : MonoBehaviour
 
     public Player PlayerScript;
 
-    public delegate void TurnChangedEventHandler(string turnText, bool isEnemyTurn);
+    public delegate void TurnChangedEventHandler(bool isEnemyTurn);
 
     public event TurnChangedEventHandler OnTurnChange;
 
@@ -62,7 +63,6 @@ public class BattleManager : MonoBehaviour
 
     public void Initialize(List<CardData> deck, List<GameObject> enemies, Sprite background)
     {
-        OnTurnChange += GameObject.Find("TurnIndication").GetComponent<TurnIndication>().UpdateTurnIndicator;
         // change background when battle starts
         backgroundImage.GetComponentInChildren<Image>().sprite = background;
 
@@ -98,7 +98,7 @@ public class BattleManager : MonoBehaviour
      */
     private void EnemyTurn()
     {
-        OnTurnChange?.Invoke("Enemy Turn", true);
+        OnTurnChange?.Invoke(true);
         foreach (Enemy enemy in EnemiesInBattle)
         {
             // Add event to apply and reduce status effects of enemy
@@ -128,7 +128,6 @@ public class BattleManager : MonoBehaviour
      */
     private void StartPlayerTurn()
     {
-        OnTurnChange?.Invoke("Player Turn", false);
         PlayerScript.ResetActionPoints();
         // Add event to apply and reduce status effects of player
         PlayerScript.CharacterStats.Block = 0;
@@ -138,8 +137,7 @@ public class BattleManager : MonoBehaviour
             PlayerScript.CharacterStats.Burn -= 1;
             AddEventToQueue(() => StartCoroutine(VfxEffects.PlayEffects(burnVFX, PlayerScript)));
         }
-
-        AddEventToQueue(() => HandManager.DrawHand());
+        AddEventToQueue(() => OnTurnChange?.Invoke(false));
     }
 
     public void EndPlayerTurn()
@@ -150,7 +148,6 @@ public class BattleManager : MonoBehaviour
             PlayerScript.CharacterStats.Insight -= 1;
         }
 
-        AddEventToQueue(() => HandManager.DiscardHand());
         AddEventToQueue(() => EnemyTurn());
     }
 
