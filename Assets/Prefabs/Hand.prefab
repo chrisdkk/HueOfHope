@@ -199,7 +199,7 @@ Transform:
   m_GameObject: {fileID: 6182792060940035705}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: -3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -219,6 +219,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nodePrefab: {fileID: 6130945922334482319, guid: ee18705248a8640bb9e97915dba45eab,
     type: 3}
-  nodeCount: 5
-  scaleFactor: 1.1
-  origin: {fileID: 4667867544278821096}
+  arrowHeadPrefab: {fileID: 2851600418188258161, guid: e49577b0761394251b800349cbafc223,
+    type: 3}
+  numberOfSegments: 20
+  origin: {fileID: 6670494330887962386}

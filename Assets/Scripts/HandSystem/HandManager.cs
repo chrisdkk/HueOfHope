@@ -21,7 +21,12 @@ namespace HandSystem
 		private void Start()
 		{
 			stateController.OnPlay += PlayCard;
-			BattleManager.Instance.OnTurnChange += HandleTurnChange;
+			BattleManager.Instance.OnTurnChange += (isEnemyTurn) =>
+			{
+				if (isEnemyTurn) DiscardCards(cardsInHand);
+				else DrawCards(maxHandSize);
+			};
+			BattleManager.Instance.OnEndBattle += () => DiscardCards(cardsInHand);
 		}
 
 		public void Initialize(DeckManager deckManager)

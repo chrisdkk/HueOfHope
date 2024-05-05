@@ -1,4 +1,6 @@
+using DG.Tweening;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace HandSystem
 {
@@ -21,6 +23,7 @@ namespace HandSystem
 		private HandState handState;
 		private GameObject selectedCard;
 		private bool useArrowSelection;
+		private EventSystem eventSystem;
 
 		public delegate void CardIdleEventHandler();
 
@@ -34,6 +37,7 @@ namespace HandSystem
 
 		private void Start()
 		{
+			eventSystem = EventSystem.current;
 			playArrow.SetActive(false);
 			handState = HandState.Idle;
 		}
@@ -68,26 +72,22 @@ namespace HandSystem
 			if (Physics.Raycast(ray, out var hit, 100, handLayerMask))
 			{
 				selectedCard = hit.collider.gameObject;
-				selectedCard.GetComponent<BoxCollider>().size = new Vector3(2.2f, 3f, 0.01f);
 				TransitionState(HandState.Hover);
 			}
 		}
 
 		private void HandleHoverState()
 		{
-			RaycastHit hit;
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-			bool isHit = Physics.Raycast(ray, out hit, 100, handLayerMask);
+			bool isHit = Physics.Raycast(ray, out var hit, 100, handLayerMask);
 			if (!isHit || hit.collider.gameObject != selectedCard)
 			{
-				selectedCard.GetComponent<BoxCollider>().size = new Vector3(1.9f, 2.65f, 0.01f);
 				TransitionState(HandState.Idle);
 				return;
 			}
 
 			if (Input.GetMouseButtonDown(0))
 			{
-				selectedCard.GetComponent<BoxCollider>().size = new Vector3(1.9f, 2.65f, 0.01f);
 				TransitionState(HandState.Selected);
 			}
 		}
@@ -96,7 +96,8 @@ namespace HandSystem
 		{
 			Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-			selectedCard.transform.position = new Vector3(mousePos.x, mousePos.y, selectedCard.transform.position.z);
+			Vector3 target = new Vector3(mousePos.x, mousePos.y, selectedCard.transform.position.z);
+			selectedCard.transform.position = Vector3.Lerp(selectedCard.transform.position, target, 20f * Time.deltaTime);
 
 			if (selectedCard.transform.position.y > playYBoundary)
 				TransitionState(HandState.PlayArea);
@@ -126,9 +127,11 @@ namespace HandSystem
 
 			Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-			selectedCard.transform.position = useArrowSelection
-				? playTransform.position
-				: new Vector3(mousePos.x, mousePos.y, selectedCard.transform.position.z);
+			if (!useArrowSelection)
+			{
+				Vector3 target = new Vector3(mousePos.x, mousePos.y, selectedCard.transform.position.z);
+				selectedCard.transform.position = Vector3.Lerp(selectedCard.transform.position, target, 20f * Time.deltaTime);
+			}
 		}
 
 		private void TransitionState(HandState newState)
@@ -137,18 +140,23 @@ namespace HandSystem
 			switch (newState)
 			{
 				case HandState.Idle:
+					selectedCard.GetComponent<BoxCollider>().size = new Vector3(1.9f, 2.65f, 0.01f);
 					selectedCard = null;
 					useArrowSelection = false;
 					playArrow.SetActive(false);
 					OnIdle?.Invoke();
+					eventSystem.enabled = true;
 					break;
 				case HandState.Hover:
+					selectedCard.GetComponent<BoxCollider>().size = new Vector3(2.2f, 3f, 0.01f);
 					OnHover?.Invoke(selectedCard);
 					break;
 				case HandState.PlayArea:
 					CardData data = selectedCard.GetComponent<CardVisual>().CardData;
 					useArrowSelection = data.cardType == CardType.Attack && !data.multiTarget;
+					if (useArrowSelection) selectedCard.transform.DOMove(playTransform.position, 0.2f);
 					playArrow.SetActive(useArrowSelection);
+					eventSystem.enabled = false;
 					break;
 				default: break;
 			}

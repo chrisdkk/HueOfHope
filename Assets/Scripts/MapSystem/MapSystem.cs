@@ -25,11 +25,6 @@ public class MapSystem : MonoBehaviour
         currentStageIndex = 0;
     }
 
-    public String GetName()
-    {
-        return chapterList[currentChapterIndex].stageList[currentStageIndex].stageName;
-    }
-
     public List<GameObject> GetEnemies()
     {
         return chapterList[currentChapterIndex].stageList[currentStageIndex].stageEnemies;
@@ -40,29 +35,19 @@ public class MapSystem : MonoBehaviour
         return chapterList[currentChapterIndex].stageList[currentStageIndex].stageBackground;
     }
 
-    public void LoadStage()
+    private void EndCurrentStage()
     {
-        chapterList[currentChapterIndex].stageList[currentStageIndex].StartStage();
-    }
-
-    public void EndCurrentStage()
-    {
-        chapterList[currentChapterIndex].stageList[currentStageIndex].EndStage();
-
         AdvanceToNextStage();
 
         if (chapterOver == false)
         {
-            // BattleManager.Instance.Initialize(GameStateManager.Instance.deck,
-            //     chapterList[currentChapterIndex].stageList[currentStageIndex].stageEnemies);
-
             BattleManager.Instance.Initialize(GameStateManager.Instance.deck,
                 chapterList[currentChapterIndex].stageList[currentStageIndex].stageEnemies,
                 chapterList[currentChapterIndex].stageList[currentStageIndex].stageBackground);
         }
     }
 
-    public void AdvanceToNextStage()
+    private void AdvanceToNextStage()
     {
         currentStageIndex++;
 
@@ -72,7 +57,7 @@ public class MapSystem : MonoBehaviour
         }
     }
 
-    public void AdvanceToNextChapter()
+    private void AdvanceToNextChapter()
     {
         currentChapterIndex++;
 
@@ -83,9 +68,5 @@ public class MapSystem : MonoBehaviour
 
             SceneManager.LoadScene("Menu");
         }
-    }
-
-    public void ReturnToMap()
-    {
     }
 }
