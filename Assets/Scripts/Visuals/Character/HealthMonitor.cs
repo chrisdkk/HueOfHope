@@ -7,8 +7,6 @@ public class HealthMonitor : MonoBehaviour
 void Start()
     {
         BattleManager.Instance.PlayerScript.CharacterStats.OnHealthChange += UpdatePlayerAnimation;
-
-        
     }
     // Update is called once per frame
     public void UpdatePlayerAnimation(int currentHealth, int maxHealth)
