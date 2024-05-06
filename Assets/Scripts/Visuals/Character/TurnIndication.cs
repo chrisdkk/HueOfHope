@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
@@ -6,12 +7,16 @@ using UnityEngine;
 
 public class TurnIndication : MonoBehaviour
 {
-    public void UpdateTurnIndicator(string turnText, bool isEnemyTurn)
-    {
-        if (!isEnemyTurn)
-        {
-            Thread.Sleep(500);
-        }
-        GetComponent<TextMeshProUGUI>().text = turnText;
-    }
+	private TextMeshProUGUI turnText;
+	
+	private void Start()
+	{
+		BattleManager.Instance.OnTurnChange += UpdateTurnIndicator;
+		turnText = GetComponent<TextMeshProUGUI>();
+	}
+
+	private void UpdateTurnIndicator(bool isEnemyTurn)
+	{
+		turnText.text = isEnemyTurn ? "Enemy Turn" : "Player Turn";
+	}
 }

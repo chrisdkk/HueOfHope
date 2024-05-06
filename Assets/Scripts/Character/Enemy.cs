@@ -37,7 +37,6 @@ public class Enemy : Character
     {
         EnemyCard enemyCard = enemyPattern[currentActionIndex];
 
-
         foreach (CardEffect effect in enemyCard.effects)
         {
             List<Character> targets = new List<Character>();
@@ -55,7 +54,7 @@ public class Enemy : Character
                     break;
             }
             
-            // Add event for the effect + Set targets
+            // Add event for the effect
             switch (effect.effectType)
             {
                 case CardEffectType.Damage:
@@ -107,7 +106,15 @@ public class Enemy : Character
     {
         if (currentHealth <= 0 && !isDead)
         {
-            BattleManager.Instance.AddEventToQueue(() => BattleManager.Instance.RemoveEnemy(this));
+            BattleManager.Instance.AddEventToQueue(() =>
+            {
+                BattleManager.Instance.EnemiesInBattle.Remove(this);
+                Destroy(gameObject);
+                if (BattleManager.Instance.EnemiesInBattle.Count == 0)
+                {
+                    BattleManager.Instance.EndBattle();
+                }
+            });
             isDead = true;
         }
     }

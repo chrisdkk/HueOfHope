@@ -10,7 +10,7 @@ public class PlayerActionPointsUI : MonoBehaviour
     public GameObject[] actionPoints;
 
     
-    private void Awake()
+    private void Start()
     {
         BattleManager.Instance.PlayerScript.OnActionPointChange += UpdateActionPoints;
     }

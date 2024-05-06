@@ -36,7 +36,7 @@ public class Player : Character
          {
              if (currentHealth <=0)
              {
-                 BattleManager.Instance.AddEventToQueue(BattleManager.Instance.EndBattle);
+                 BattleManager.Instance.EndBattle();
              }
          }
 }

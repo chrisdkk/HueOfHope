@@ -16,8 +16,11 @@ public class GameStateManager : MonoBehaviour
     public static GameStateManager Instance;
 
     [SerializeField] private BattleManager battleManager;
-    [SerializeField] public Enemy prototypeEnemy;
+
     [SerializeField] private DeckSystem deckSystem;
+    [SerializeField] private MapSystem mapSystem;
+
+    // [SerializeField] public Enemy prototypeEnemy;
 
     public int CurrentPlayerHealth { get; set; }
     public int maxPlayerHealth;
@@ -25,12 +28,11 @@ public class GameStateManager : MonoBehaviour
     public int BurnTickDamage { get; set; }
     public List<CardData> deck;
     public List<CardData> AllAvailableCards;
-    private List<Enemy> Enemies = new List<Enemy>();
 
     public bool blueEnabled = false;
     public bool redEnabled = false;
     public bool greenEnabled = false;
-    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -44,27 +46,27 @@ public class GameStateManager : MonoBehaviour
             CurrentPlayerHealth = maxPlayerHealth;
             deck = new List<CardData>();
 
-            Enemies.Add(prototypeEnemy);
-            
+            mapSystem.InitializeMapSystem();
+
+            // set/advance these values in the map view (not here), depending on what "button" you click
+            mapSystem.currentChapterIndex = 0;
+            mapSystem.currentStageIndex = 0;
+
             AllAvailableCards = Resources.LoadAll<CardData>("Cards/").ToList();
 
-            //Add standard deck for prototype
+            // add available cards to deck
             for (int i = 0; i < 5; i++)
             {
-                deck.Add(AllAvailableCards.Find(cardData => cardData.cardName=="Cloak Block"));
-                deck.Add(AllAvailableCards.Find(cardData => cardData.cardName=="Kick"));
+                deck.Add(AllAvailableCards.Find(cardData => cardData.cardName == "Cloak Block"));
+                deck.Add(AllAvailableCards.Find(cardData => cardData.cardName == "Kick"));
             }
             deck.AddRange(AllAvailableCards.FindAll(cardData => cardData.cardName!="Cloak Block" && cardData.cardName!="Kick"));
             
             // deck system
             deckSystem.InitializeDeck(deck);
-            StartBattle();
-        }
-    }
 
-    private void StartBattle()
-    {
-        battleManager.Initialize(deck, Enemies);
+            battleManager.Initialize(deck, mapSystem.GetEnemies(), mapSystem.GetBackground());
+        }
     }
 
 }
