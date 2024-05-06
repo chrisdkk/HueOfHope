@@ -8,18 +8,4 @@ public class Stage : ScriptableObject
     public string stageName = "Unnamed";
     public Sprite stageBackground;
     public List<GameObject> stageEnemies;
-    
-    public void InitializeStage()
-    {
-    }
-
-    public void StartStage()
-    {
-        Debug.Log("Started Stage With Name: " + stageName);
-    }
-
-    public void EndStage()
-    {
-        Debug.Log("Ended Stage With Name: " + stageName);
-    }
 }

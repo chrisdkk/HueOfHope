@@ -51,13 +51,12 @@ MonoBehaviour:
   playerCharacter: {fileID: 303197316325718874}
   rewardWindow: {fileID: 5659153181166308222}
   burnVFX: {fileID: 6294508013172393196, guid: 043176b6a68be2b43b073aaaa4782c7d, type: 3}
-  EnemyPositions:
+  enemyPositions:
   - {fileID: 1081694943841828008}
   - {fileID: 3475681415224656134}
   - {fileID: 5542395019969220301}
   backgroundImage: {fileID: 0}
-  EnemiesInBattle: []
-  PlayerScript: {fileID: 0}
+  handManager: {fileID: 0}
 --- !u!1 &7058019857165636379
 GameObject:
   m_ObjectHideFlags: 0
@@ -376,22 +375,22 @@ PrefabInstance:
     - target: {fileID: 8130772943741361446, guid: 9a2d24763520edf4bae4dd3833abc9a9,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8130772943741361446, guid: 9a2d24763520edf4bae4dd3833abc9a9,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8130772943741361446, guid: 9a2d24763520edf4bae4dd3833abc9a9,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 960
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8130772943741361446, guid: 9a2d24763520edf4bae4dd3833abc9a9,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -508.75
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8359189276910367072, guid: 9a2d24763520edf4bae4dd3833abc9a9,
         type: 3}
