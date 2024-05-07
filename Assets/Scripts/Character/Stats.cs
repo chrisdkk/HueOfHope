@@ -6,6 +6,7 @@ using UnityEngine;
 public struct Stats
 {
   private int health;
+  private int maxHealth;
   private int block;
   private int insight;
   
@@ -25,13 +26,19 @@ public struct Stats
   public int Health {
     get { return health; }
     set {
+      // Set maxHealth, if called for the first time
+      if (health == 0)
+      {
+        maxHealth = value;
+      }
       if (health != value) {
         health = value;
-        OnHealthChange?.Invoke(health, GameStateManager.Instance.maxPlayerHealth);
+        OnHealthChange?.Invoke(health, maxHealth);
       }
     }
   }
-
+  
+  
   public int Block {
     get { return block; }
     set {
