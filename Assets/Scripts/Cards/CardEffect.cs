@@ -18,15 +18,25 @@ public enum CardEffectType
     Cleanse,
     ShieldBreak,
     MultipliedInsightDamage,
-    IgnoreBlockOnNextAttacks
+    IgnoreBlockOnNextAttacks,
+    InstApplyBurn,
+    TakeOverBurn
 }
+
+public enum CardEffectTarget
+{
+    Player,
+    SingleEnemy,
+    MultipleEnemies
+}
+
 [Serializable]
 public class CardEffect
 {
     public CardEffectType effectType;
     public GameObject vfxEffect;
     public int payload;
-    public bool multipleTargets;
+    public CardEffectTarget effectTarget;
     public bool ignoreBlock;
     public int insightMultiplier;
 }
