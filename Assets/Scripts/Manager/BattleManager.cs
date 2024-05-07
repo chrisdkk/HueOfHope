@@ -154,7 +154,8 @@ public class BattleManager : MonoBehaviour
 	public void EndBattle()
 	{
 		OnEndBattle?.Invoke();
-		AddEventToQueue(() => battleEnded = true);
+		battleEnded = true;
+		eventQueue.ClearEvents();
 		if (PlayerScript.CharacterStats.Health <= 0)
 		{
 			SceneManager.LoadScene("Menu");
