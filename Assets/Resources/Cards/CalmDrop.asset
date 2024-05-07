@@ -13,12 +13,15 @@ MonoBehaviour:
   m_Name: CalmDrop
   m_EditorClassIdentifier: 
   cardName: Calm Drop
-  description: Gain 10 insight
+  description: Gain 5 insight
   apCost: 3
   cardType: 1
   multiTarget: 0
   effects:
   - effectType: 2
-    payload: 10
-    multipleTargets: 0
+    vfxEffect: {fileID: 0}
+    payload: 5
+    effectTarget: 0
     ignoreBlock: 0
+    insightMultiplier: 0
+  cardImage: {fileID: 2800000, guid: 51b505460efada1419938cb71d0ce708, type: 3}

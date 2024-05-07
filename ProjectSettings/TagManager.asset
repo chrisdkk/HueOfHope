@@ -11,7 +11,7 @@ TagManager:
   - Enemy
   - Water
   - UI
-  - 
+  - Hand
   - 
   - 
   - 
@@ -38,6 +38,12 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Background
+    uniqueID: 1059121113
+    locked: 0
+  - name: Enemy
+    uniqueID: 1068888779
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0

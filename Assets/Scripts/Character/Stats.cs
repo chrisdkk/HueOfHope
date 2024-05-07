@@ -6,6 +6,7 @@ using UnityEngine;
 public struct Stats
 {
   private int health;
+  private int maxHealth;
   private int block;
   private int insight;
   
@@ -16,17 +17,28 @@ public struct Stats
   public delegate void StatsChangedEventHandler();
 
   public event StatsChangedEventHandler OnStatChange;
+
+  public delegate void HealthChangedEventHandler(int current, int max);
+
+  public event HealthChangedEventHandler OnHealthChange;
+
   
   public int Health {
     get { return health; }
     set {
+      // Set maxHealth, if called for the first time
+      if (health == 0)
+      {
+        maxHealth = value;
+      }
       if (health != value) {
         health = value;
-        OnStatChange?.Invoke();
+        OnHealthChange?.Invoke(health, maxHealth);
       }
     }
   }
-
+  
+  
   public int Block {
     get { return block; }
     set {

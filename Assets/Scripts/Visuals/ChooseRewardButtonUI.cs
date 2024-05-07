@@ -17,5 +17,6 @@ public class ChooseRewardButtonUI : MonoBehaviour
     public void OnButtonClick()
     {
         OnClick?.Invoke();
+        FindObjectOfType<AudioManager>().Play("ButtonClick");
     }
 }

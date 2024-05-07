@@ -13,12 +13,16 @@ MonoBehaviour:
   m_Name: Penetrate
   m_EditorClassIdentifier: 
   cardName: Penetrate
-  description: Deal 4 direct damage to a target, ignoring their block
+  description: Deal 4 direct damage
   apCost: 1
   cardType: 0
   multiTarget: 0
   effects:
   - effectType: 0
+    vfxEffect: {fileID: 4553287630450876385, guid: 15483e51212e3d74886ea57291f4639a,
+      type: 3}
     payload: 4
-    multipleTargets: 0
+    effectTarget: 1
     ignoreBlock: 1
+    insightMultiplier: 0
+  cardImage: {fileID: 2800000, guid: 020bb40817bdb214da27455e085d69f3, type: 3}

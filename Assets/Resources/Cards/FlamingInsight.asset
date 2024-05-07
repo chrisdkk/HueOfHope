@@ -13,18 +13,22 @@ MonoBehaviour:
   m_Name: FlamingInsight
   m_EditorClassIdentifier: 
   cardName: Flaming Insight
-  description: Burn yourself and gain 5 insight
+  description: Burn yourself and gain 3 insight
   apCost: 1
   cardType: 1
   multiTarget: 0
   effects:
   - effectType: 3
+    vfxEffect: {fileID: 6294508013172393196, guid: 043176b6a68be2b43b073aaaa4782c7d,
+      type: 3}
     payload: 1
-    multipleTargets: 0
+    effectTarget: 0
     ignoreBlock: 0
     insightMultiplier: 0
   - effectType: 2
-    payload: 5
-    multipleTargets: 0
+    vfxEffect: {fileID: 0}
+    payload: 3
+    effectTarget: 0
     ignoreBlock: 0
     insightMultiplier: 0
+  cardImage: {fileID: 2800000, guid: dce81a9c54ff3b74fbdcc6bdc1672f70, type: 3}
