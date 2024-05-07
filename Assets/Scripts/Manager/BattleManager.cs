@@ -146,6 +146,7 @@ public class BattleManager : MonoBehaviour
 		}
 
 		AddEventToQueue(() => EnemyTurn());
+		FindObjectOfType<AudioManager>().Play("ButtonClick");
 	}
 
 	/*
