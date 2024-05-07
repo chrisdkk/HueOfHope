@@ -52,6 +52,8 @@ public class MapSystem : MonoBehaviour
         BattleManager.Instance.Initialize(GameStateManager.Instance.deck,
             chapterList[currentChapterIndex].stageList[currentStageIndex].stageEnemies,
             chapterList[currentChapterIndex].stageList[currentStageIndex].stageBackground);
+        if (currentStageIndex % 3 == 0)
+            BattleManager.Instance.PlayerScript.CharacterStats.Health = GameStateManager.Instance.maxPlayerHealth;
     }
 
     private void AdvanceToNextStage()

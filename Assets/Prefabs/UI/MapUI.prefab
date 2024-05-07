@@ -934,11 +934,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d64ac37d900a49718315fb2dafdeeeb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canvas: {fileID: 6458434990494713071}
   mapSystem: {fileID: 0}
-  stageSprite: {fileID: 0}
-  stageCompleteSprite: {fileID: 0}
-  stageActiveSprite: {fileID: 0}
-  stageGroup: {fileID: 0}
+  stageSprite: {fileID: 21300000, guid: 56766dc1f35ed4c8691c6ab4f39169b4, type: 3}
+  stageCompleteSprite: {fileID: 21300000, guid: 5e7ab939651f745019c648dbcd72cc55,
+    type: 3}
+  stageActiveSprite: {fileID: 21300000, guid: 75b4bf24fe3e24c17a12e07d5581ce55, type: 3}
+  stageGroup: {fileID: 361018147925944485}
 --- !u!1 &2448501686893355548
 GameObject:
   m_ObjectHideFlags: 0
@@ -2846,7 +2848,31 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7426897399019168607}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: MapSystem, Assembly-CSharp
+        m_MethodName: StartNextStage
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 6458434990494713071}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &8502917618183743578
 GameObject:
   m_ObjectHideFlags: 0
