@@ -79,6 +79,7 @@ namespace HandSystem
 		{
 			int hoverID = cards.FindIndex(card => card == hoveredCard);
 			if (hoverID == -1) return;
+			FindObjectOfType<AudioManager>().Play("CardHover1");
 
 			for (int i = 0; i < cards.Count; i++)
 			{

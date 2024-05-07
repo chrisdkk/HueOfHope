@@ -18,6 +18,8 @@ namespace HandSystem
 
         public event CardCallback OnDrawCard;
         public event CardCallback OnDiscardCard;
+        
+        private bool soundPlayed = false;
 
         private void Start()
         {
@@ -89,7 +91,15 @@ namespace HandSystem
 
             player.CurrentActionPoints -= cardData.apCost;
 
-            BattleManager.Instance.AddEventToQueue(() => DiscardCards(new List<GameObject>() { card }));
+            BattleManager.Instance.AddEventToQueue(() =>
+            {
+                if (!soundPlayed)
+                {
+                    FindObjectOfType<AudioManager>().Play("CardPlayed");
+                    soundPlayed = true; // Markiere den Sound als bereits abgespielt
+                }
+                DiscardCards(new List<GameObject>() { card });
+            });
 
             foreach (CardEffect effect in cardData.effects)
             {

@@ -23,6 +23,7 @@ public class RewardCard: MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
      public void OnPointerEnter(PointerEventData eventData)
     {
         transform.localScale = increasedScale;
+        FindObjectOfType<AudioManager>().Play("Hover3");
     }
 
     public void OnPointerExit(PointerEventData eventData)
@@ -43,5 +44,6 @@ public class RewardCard: MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     public void OnRewardChosen()
     {
         highlightBorder.SetActive(true);
+        FindObjectOfType<AudioManager>().Play("Hover2");
     }
 }

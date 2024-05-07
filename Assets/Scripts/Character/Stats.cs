@@ -22,7 +22,6 @@ public struct Stats
 
   public event HealthChangedEventHandler OnHealthChange;
 
-
   
   public int Health {
     get { return health; }

@@ -6,6 +6,13 @@ using UnityEngine;
 [Serializable]
 public static class CardEffectActions
 {
+    private static AudioManager audioManagerInstance;
+    
+    public static void SetAudioManager(AudioManager audioManager)
+    {
+        audioManagerInstance = audioManager;
+    }
+
     public static void DamageAction(Character user, int payload, bool ignoreBlock, ref List<Character> targets)
     {
         int damage = payload + user.CharacterStats.Insight - user.CharacterStats.AttackDebuff;
@@ -29,6 +36,11 @@ public static class CardEffectActions
                 }
 
                 target.CharacterStats.Health += difference;
+                if (audioManagerInstance != null)
+                {
+                    audioManagerInstance.Play("Attack1");
+                }
+                
             }
             else
             {
@@ -54,23 +66,31 @@ public static class CardEffectActions
             target.CharacterStats.Health -= damage;
         }
     }
-
+    
     public static void BlockAction(int payload, ref List<Character> targets)
     {
         foreach (Character target in targets)
         {
             target.CharacterStats.Block += payload;
+            if (audioManagerInstance != null)
+            {
+                audioManagerInstance.Play("Block1");
+            }
         }
     }
-
+    
     public static void BurnAction(int payload, ref List<Character> targets)
     {
         foreach (Character target in targets)
         {
             target.CharacterStats.Burn += payload;
+            if (audioManagerInstance != null)
+            {
+                audioManagerInstance.Play("Fire1");
+            }
         }
     }
-
+    
     public static void InsightAction(int payload, ref List<Character> targets)
     {
         foreach (Character target in targets)
@@ -78,7 +98,7 @@ public static class CardEffectActions
             target.CharacterStats.Insight += payload;
         }
     }
-
+    
     public static void AttackDebuff(int payload, ref List<Character> targets)
     {
         foreach (Character target in targets)

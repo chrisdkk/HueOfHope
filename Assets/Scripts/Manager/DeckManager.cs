@@ -20,7 +20,7 @@ public class DeckManager
 			DrawPile = Shuffle(DiscardPile);
 			DiscardPile = new List<CardData>();
 		}
-
+		
 		CardData nextCard = DrawPile[0];
 		DrawPile.RemoveAt(0);
 		return nextCard;
