@@ -25,6 +25,7 @@ public class HandManager : MonoBehaviour
         for (int i = 0; i < maxHandSize; i++)
         {
             AddCardToHand(deck.DrawCard());
+            FindObjectOfType<AudioManager>().Play("ShuffleCard");
         }
     }
 
@@ -34,6 +35,7 @@ public class HandManager : MonoBehaviour
         {
             deck.DiscardCard(cardsInHand[i].GetComponent<CardVisual>().CardData);
                 Destroy(cardsInHand[i]);
+                FindObjectOfType<AudioManager>().Play("CardWoosh2");
         }
         cardsInHand = new List<GameObject>();
     }

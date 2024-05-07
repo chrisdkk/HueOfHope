@@ -17,6 +17,8 @@ public class EndTurnButtonUI : MonoBehaviour
 
     public void OnButtonClick()
     {
+        FindObjectOfType<AudioManager>().Play("ButtonClick");
         BattleManager.Instance.EndPlayerTurn();
+
     }
 }

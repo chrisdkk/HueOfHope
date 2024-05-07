@@ -6,6 +6,12 @@ using UnityEngine;
 [Serializable]
 public static class CardEffectActions
 {
+    private static AudioManager audioManagerInstance;
+    
+    public static void SetAudioManager(AudioManager audioManager)
+    {
+        audioManagerInstance = audioManager;
+    }
 
     public static void DamageAction(Character user, int payload, bool ignoreBlock, ref List<Character> targets)
     {
@@ -27,6 +33,11 @@ public static class CardEffectActions
                 }
                 target.CharacterStats.Health -= difference;
                 target.CharacterStats.Block=0;
+                if (audioManagerInstance != null)
+                {
+                    audioManagerInstance.Play("Attack1");
+                }
+                
             }
             else
             {
@@ -41,7 +52,6 @@ public static class CardEffectActions
     
     public static void ShieldBreakAction(Character user, int payload, ref List<Character> targets)
     {
-
         int damage = payload+user.CharacterStats.Insight-user.CharacterStats.AttackDebuff;
         // Damage can not be negative
         damage = damage < 0 ? 0 : damage;
@@ -58,6 +68,10 @@ public static class CardEffectActions
         foreach (Character target in targets)
         {
             target.CharacterStats.Block += payload;
+            if (audioManagerInstance != null)
+            {
+                audioManagerInstance.Play("Block1");
+            }
         }
     }
     
@@ -66,6 +80,10 @@ public static class CardEffectActions
         foreach (Character target in targets)
         {
             target.CharacterStats.Burn += payload;
+            if (audioManagerInstance != null)
+            {
+                audioManagerInstance.Play("Fire1");
+            }
         }
     }
     

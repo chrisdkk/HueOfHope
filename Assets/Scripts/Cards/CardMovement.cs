@@ -31,6 +31,8 @@ public class CardMovement : MonoBehaviour
     private Camera mainCamera;
     private float timeSincePlayed = 0f;
     private Vector3 originPlayedPosition;
+    
+    private bool soundPlayed = false;
 
     [SerializeField] private LayerMask layerMask;
     [SerializeField] private float selectScale = 1.1f;
@@ -107,6 +109,7 @@ public class CardMovement : MonoBehaviour
             originalRotation = transform.localRotation;
             originalScale = transform.localScale;
             currentState = CardState.Hover;
+            FindObjectOfType<AudioManager>().Play("CardHover1");
         }
     }
 
@@ -182,7 +185,8 @@ public class CardMovement : MonoBehaviour
                         selectedCard = null;
                         OnPlay?.Invoke(gameObject, hit.transform.gameObject);
                         currentState = CardState.Played;
-                        originPlayedPosition = playPosition;   
+                        originPlayedPosition = playPosition;
+                        //FindObjectOfType<AudioManager>().Play("CardPlayed");
                     }
                 } 
             }
@@ -214,5 +218,10 @@ public class CardMovement : MonoBehaviour
         transform.localScale = originalScale * playedScale;
         transform.localPosition = Vector3.Lerp(originPlayedPosition, playedPosition, timeSincePlayed);
         transform.localRotation = Quaternion.identity;
+        if (!soundPlayed)
+        {
+            FindObjectOfType<AudioManager>().Play("CardPlayed");
+            soundPlayed = true; // Markiere den Sound als bereits abgespielt
+        }
     }
 }
