@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028326, g: 0.22571333, b: 0.30692202, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5251,11 +5251,16 @@ PrefabInstance:
     - target: {fileID: 1469277064218220086, guid: cc5b013f1f9d34856897ff726f5c004c,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1469277064218220086, guid: cc5b013f1f9d34856897ff726f5c004c,
         type: 3}
       propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1489329328554313130, guid: cc5b013f1f9d34856897ff726f5c004c,
+        type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2693869309007347462, guid: cc5b013f1f9d34856897ff726f5c004c,
@@ -5346,7 +5351,7 @@ PrefabInstance:
     - target: {fileID: 6142158643716920035, guid: cc5b013f1f9d34856897ff726f5c004c,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: -273.99997
       objectReference: {fileID: 0}
     - target: {fileID: 6142158643716920035, guid: cc5b013f1f9d34856897ff726f5c004c,
         type: 3}
@@ -5383,6 +5388,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 474326462972138352, guid: 1a729ac6608928f468242ea51f4fa022,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 474326462972138352, guid: 1a729ac6608928f468242ea51f4fa022,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1140674113204757160, guid: 1a729ac6608928f468242ea51f4fa022,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1140674113204757160, guid: 1a729ac6608928f468242ea51f4fa022,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1664872816408922863, guid: 1a729ac6608928f468242ea51f4fa022,
         type: 3}
       propertyPath: handManager
@@ -5393,15 +5418,55 @@ PrefabInstance:
       propertyPath: backgroundImage
       value: 
       objectReference: {fileID: 121926306}
+    - target: {fileID: 2620710045685525707, guid: 1a729ac6608928f468242ea51f4fa022,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2620710045685525707, guid: 1a729ac6608928f468242ea51f4fa022,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2966455920344404652, guid: 1a729ac6608928f468242ea51f4fa022,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2966455920344404652, guid: 1a729ac6608928f468242ea51f4fa022,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2966455920344404652, guid: 1a729ac6608928f468242ea51f4fa022,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3364255249915340523, guid: 1a729ac6608928f468242ea51f4fa022,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3364255249915340523, guid: 1a729ac6608928f468242ea51f4fa022,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3687798953733962873, guid: 1a729ac6608928f468242ea51f4fa022,
         type: 3}
       propertyPath: m_Name
       value: BattleManager
       objectReference: {fileID: 0}
-    - target: {fileID: 9065423118354547015, guid: 1a729ac6608928f468242ea51f4fa022,
+    - target: {fileID: 5644576164481872216, guid: 1a729ac6608928f468242ea51f4fa022,
         type: 3}
-      propertyPath: m_ConstrainProportionsScale
-      value: 1
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8065528403651912254, guid: 1a729ac6608928f468242ea51f4fa022,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9220846328889030896, guid: 1a729ac6608928f468242ea51f4fa022,
         type: 3}

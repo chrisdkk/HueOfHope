@@ -17,3 +17,5 @@ MonoBehaviour:
   stageEnemies:
   - {fileID: 5565386576038879824, guid: 97008fee1bf31224ab159c4a35a61017, type: 3}
   - {fileID: 5565386576038879824, guid: cc42545fb2369c04ca21b84e3ddbbceb, type: 3}
+  storyText: Siuuuuuuuuu Heal
+  healingAfterStage: 1

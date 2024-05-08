@@ -18,3 +18,5 @@ MonoBehaviour:
   - {fileID: 5565386576038879824, guid: cc42545fb2369c04ca21b84e3ddbbceb, type: 3}
   - {fileID: 5565386576038879824, guid: cc42545fb2369c04ca21b84e3ddbbceb, type: 3}
   - {fileID: 5565386576038879824, guid: 06643386fd605274a959f74dfe44de0a, type: 3}
+  storyText: UIUIUI Boss Battle
+  healingAfterStage: 1

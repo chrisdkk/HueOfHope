@@ -55,7 +55,7 @@ public class BattleManager : MonoBehaviour
 		eventQueue.AddEvent(newEvent);
 	}
 
-	public void Initialize(List<CardData> deck, List<GameObject> enemies, Sprite background)
+	public void Initialize(List<CardData> deck, List<GameObject> enemies, Sprite background, string storyText, bool healingOption)
 	{
 		// change background when battle starts
 		backgroundImage.GetComponentInChildren<Image>().sprite = background;
@@ -66,6 +66,8 @@ public class BattleManager : MonoBehaviour
 		// Find Manager Objects in Scene
 		DeckManager = new DeckManager(deck);
 		handManager.Initialize(DeckManager);
+
+		rewardWindow.GetComponent<RewardManager>().Initialize(storyText, healingOption);
 
 		PlayerScript.MaxActionPoints = GameStateManager.Instance.MaxActionPoints;
 		PlayerScript.ResetActionPoints();
@@ -163,6 +165,6 @@ public class BattleManager : MonoBehaviour
 			return;
 		};
 		GameStateManager.Instance.CurrentPlayerHealth = PlayerScript.CharacterStats.Health;
-		rewardWindow.GetComponent<RewardManager>().ShowReward();
+		rewardWindow.GetComponent<RewardManager>().StartRewardManager();
 	}
 }
