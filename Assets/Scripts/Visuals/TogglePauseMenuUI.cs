@@ -7,7 +7,7 @@ public class TogglePauseMenuUI : MonoBehaviour
 {
     [SerializeField] private GameObject PauseMenuCanvas;
 
-    private bool canPopUpOpen = false;
+    public bool canPopUpOpen = false;
 
     // Start is called before the first frame update
     void Start()
@@ -19,14 +19,13 @@ public class TogglePauseMenuUI : MonoBehaviour
 
     private void Update()
     {
-        // this is probably very inefficient
-        // toggle pause menu with ESC
-        if (Input.GetKeyDown(KeyCode.Escape) && canPopUpOpen == true)
+        // can this be done in a better way?
+        if (Input.GetKeyDown(KeyCode.Escape) && canPopUpOpen)
         {
             PauseMenuCanvas.SetActive(true);
             canPopUpOpen = false;
         }
-        else if (Input.GetKeyDown(KeyCode.Escape) && PauseMenuCanvas.activeSelf == true)
+        else if (Input.GetKeyDown(KeyCode.Escape) && PauseMenuCanvas.activeSelf)
         {
             PauseMenuCanvas.SetActive(false);
             canPopUpOpen = true;
