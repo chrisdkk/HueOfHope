@@ -19,7 +19,8 @@ MonoBehaviour:
   multiTarget: 0
   effects:
   - effectType: 8
-    vfxEffect: {fileID: 0}
+    vfxEffect: {fileID: 1590415177872986601, guid: acdb90624a404aa438447006f1026065,
+      type: 3}
     payload: 0
     effectTarget: 0
     ignoreBlock: 0

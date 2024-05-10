@@ -54,6 +54,13 @@ public class Enemy : Character
                     break;
             }
             
+            // Add vfx to queue -> for status effects
+            if (effect.vfxEffect != null  && VfxEffects.beforeActionVFX.Contains(effect.effectType))
+            {
+                BattleManager.Instance.AddEventToQueue(() =>
+                    StartCoroutine(VfxEffects.PlayEffects(effect.vfxEffect, effect.payload, targets.ToArray())));
+            }
+            
             // Add event for the effect
             switch (effect.effectType)
             {
@@ -83,10 +90,11 @@ public class Enemy : Character
                     break;
             }
 
-            if (effect.vfxEffect != null)
+            // Add vfx to queue -> for damage effects
+            if (effect.vfxEffect != null  && !VfxEffects.beforeActionVFX.Contains(effect.effectType))
             {
                 BattleManager.Instance.AddEventToQueue(() =>
-                    StartCoroutine(VfxEffects.PlayEffects(effect.vfxEffect, targets.ToArray())));
+                    StartCoroutine(VfxEffects.PlayEffects(effect.vfxEffect, effect.payload, targets.ToArray())));
             }
         }
 

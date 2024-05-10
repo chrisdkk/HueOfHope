@@ -430,9 +430,10 @@ MonoBehaviour:
       ignoreBlock: 0
       insightMultiplier: 0
     - effectType: 2
-      vfxEffect: {fileID: 0}
+      vfxEffect: {fileID: 4315291248629269559, guid: 12c871f3079e2484bb424cc133aca4dc,
+        type: 3}
       payload: 2
-      effectTarget: 0
+      effectTarget: 1
       ignoreBlock: 0
       insightMultiplier: 0
   - cardType: 0
@@ -445,7 +446,8 @@ MonoBehaviour:
       ignoreBlock: 0
       insightMultiplier: 0
     - effectType: 4
-      vfxEffect: {fileID: 0}
+      vfxEffect: {fileID: 4315291248629269559, guid: f23c65e8e57670f49801c6204e599dd3,
+        type: 3}
       payload: 4
       effectTarget: 0
       ignoreBlock: 0
@@ -642,6 +644,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6896663056793405031, guid: 8b43512c27c3d054c9d37fc8fd1beacb,
+        type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7068521817337149896, guid: 8b43512c27c3d054c9d37fc8fd1beacb,
         type: 3}

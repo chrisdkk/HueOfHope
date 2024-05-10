@@ -19,6 +19,7 @@ public class BattleManager : MonoBehaviour
 	[SerializeField] private List<Transform> enemyPositions;
 	[SerializeField] private GameObject backgroundImage;
 	[SerializeField] private HandManager handManager;
+	[SerializeField] private int burnValue;
 	
 	public DeckManager DeckManager { get; private set; }
 	public List<Enemy> EnemiesInBattle { get; private set; }
@@ -97,19 +98,20 @@ public class BattleManager : MonoBehaviour
 		OnTurnChange?.Invoke(true);
 		foreach (Enemy enemy in EnemiesInBattle)
 		{
-			// Add event to apply and reduce status effects of enemy
+			// Reduce status effects of enemy
 			enemy.CharacterStats.Block = 0;
 			if (enemy.CharacterStats.Burn > 0)
 			{
-				enemy.CharacterStats.Health -= 4;
+				enemy.CharacterStats.Health -= burnValue;
 				enemy.CharacterStats.Burn -= 1;
-				StartCoroutine(VfxEffects.PlayEffects(burnVFX, enemy));
+				StartCoroutine(VfxEffects.PlayEffects(burnVFX, burnValue, enemy));
 			}
 
 			// Do action
 			enemy.PlayEnemyCard();
 
-			// Add event to reduce insight
+			// Reduce enemy status effects
+			enemy.CharacterStats.AttackDebuff = 0;
 			if (enemy.CharacterStats.Insight > 0)
 			{
 				enemy.CharacterStats.Insight -= 1;
@@ -125,13 +127,13 @@ public class BattleManager : MonoBehaviour
 	private void StartPlayerTurn()
 	{
 		PlayerScript.ResetActionPoints();
-		// Add event to apply and reduce status effects of player
+		// Reduce status effects of player
 		PlayerScript.CharacterStats.Block = 0;
 		if (PlayerScript.CharacterStats.Burn > 0)
 		{
-			PlayerScript.CharacterStats.Health -= 4;
+			PlayerScript.CharacterStats.Health -= burnValue;
 			PlayerScript.CharacterStats.Burn -= 1;
-			AddEventToQueue(() => StartCoroutine(VfxEffects.PlayEffects(burnVFX, PlayerScript)));
+			AddEventToQueue(() => StartCoroutine(VfxEffects.PlayEffects(burnVFX, burnValue, PlayerScript)));
 		}
 
 		AddEventToQueue(() => OnTurnChange?.Invoke(false));
@@ -139,7 +141,8 @@ public class BattleManager : MonoBehaviour
 
 	public void EndPlayerTurn()
 	{
-		// Add event to reduce insight of player
+		// Reduce status effects of player
+		PlayerScript.CharacterStats.AttackDebuff = 0;
 		if (PlayerScript.CharacterStats.Insight > 0)
 		{
 			PlayerScript.CharacterStats.Insight -= 1;
