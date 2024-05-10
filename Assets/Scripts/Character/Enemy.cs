@@ -12,6 +12,7 @@ public class Enemy : Character
     [SerializeField] private GameObject actionIndication;
     [SerializeField] private List<Material> actionIndicationMaterial;
     [SerializeField] private List<EnemyCard> enemyPattern = new();
+    [SerializeField] private GameObject deathVFX;
 
     private int currentActionIndex;
     private bool isDead = false;
@@ -116,6 +117,7 @@ public class Enemy : Character
         {
             BattleManager.Instance.AddEventToQueue(() =>
             {
+                StartCoroutine(VfxEffects.PlayEffects(deathVFX, 0, this));
                 BattleManager.Instance.EnemiesInBattle.Remove(this);
                 Destroy(gameObject);
                 if (BattleManager.Instance.EnemiesInBattle.Count == 0)

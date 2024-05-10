@@ -63,6 +63,7 @@ public class BattleManager : MonoBehaviour
 
 		// un-end battle when advancing to the next stage
 		battleEnded = false;
+		eventRunning = false;
 
 		// Find Manager Objects in Scene
 		DeckManager = new DeckManager(deck);
@@ -72,7 +73,6 @@ public class BattleManager : MonoBehaviour
 		PlayerScript.ResetActionPoints();
 		PlayerScript.CharacterStats.Health = GameStateManager.Instance.CurrentPlayerHealth;
 		EnemiesInBattle = new List<Enemy>();
-
 		AddEventToQueue(() => GenerateEnemies(enemies));
 		AddEventToQueue(StartPlayerTurn);
 	}
@@ -81,6 +81,7 @@ public class BattleManager : MonoBehaviour
 	{
 		for (int i = 0; i < enemyPositions.Count; i++)
 		{
+			
 			if ((enemies.Count - 1) >= i)
 			{
 				GameObject instEnemy = Instantiate(enemies[i], enemyPositions[i].position, Quaternion.identity);

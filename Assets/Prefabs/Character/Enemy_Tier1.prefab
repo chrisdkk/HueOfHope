@@ -460,6 +460,8 @@ MonoBehaviour:
       effectTarget: 1
       ignoreBlock: 0
       insightMultiplier: 0
+  deathVFX: {fileID: 7226888052703040409, guid: 7ec363c8df426644ea85f8d6d570561c,
+    type: 3}
 --- !u!65 &379690716693736145
 BoxCollider:
   m_ObjectHideFlags: 0
