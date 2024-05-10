@@ -8,11 +8,7 @@ using UnityEngine.UI;
 public class BattleManager : MonoBehaviour
 {
 	public static BattleManager Instance;
-
-	private EventQueue eventQueue = new EventQueue();
-	public bool eventRunning = false;
-	private bool battleEnded = false;
-
+	
 	[SerializeField] private GameObject playerCharacter;
 	[SerializeField] private GameObject rewardWindow;
 	[SerializeField] private GameObject burnVFX;
@@ -21,16 +17,18 @@ public class BattleManager : MonoBehaviour
 	[SerializeField] private HandManager handManager;
 	[SerializeField] private int burnValue;
 	
+	private EventQueue eventQueue = new EventQueue();
+	private bool battleEnded = false;
+	public bool eventRunning = false;
+	
+	
 	public DeckManager DeckManager { get; private set; }
 	public List<Enemy> EnemiesInBattle { get; private set; }
 	public Player PlayerScript { get; private set; }
 
-	public delegate void TurnChangedEventHandler(bool isEnemyTurn);
-
-	public delegate void BattleEndedEventHandler();
-
-	public event TurnChangedEventHandler OnTurnChange;
-	public event BattleEndedEventHandler OnEndBattle;
+	public event Action OnStartPlayerTurn;
+	public event Action OnStartEnemyTurn;
+	public event Action OnEndBattle;
 
 	void Awake()
 	{
@@ -63,7 +61,6 @@ public class BattleManager : MonoBehaviour
 
 		// un-end battle when advancing to the next stage
 		battleEnded = false;
-		eventRunning = false;
 
 		// Find Manager Objects in Scene
 		DeckManager = new DeckManager(deck);
@@ -73,6 +70,7 @@ public class BattleManager : MonoBehaviour
 		PlayerScript.ResetActionPoints();
 		PlayerScript.CharacterStats.Health = GameStateManager.Instance.CurrentPlayerHealth;
 		EnemiesInBattle = new List<Enemy>();
+
 		AddEventToQueue(() => GenerateEnemies(enemies));
 		AddEventToQueue(StartPlayerTurn);
 	}
@@ -81,7 +79,6 @@ public class BattleManager : MonoBehaviour
 	{
 		for (int i = 0; i < enemyPositions.Count; i++)
 		{
-			
 			if ((enemies.Count - 1) >= i)
 			{
 				GameObject instEnemy = Instantiate(enemies[i], enemyPositions[i].position, Quaternion.identity);
@@ -96,7 +93,7 @@ public class BattleManager : MonoBehaviour
 	 */
 	private void EnemyTurn()
 	{
-		OnTurnChange?.Invoke(true);
+		OnStartEnemyTurn?.Invoke();
 		foreach (Enemy enemy in EnemiesInBattle)
 		{
 			// Reduce status effects of enemy
@@ -119,7 +116,7 @@ public class BattleManager : MonoBehaviour
 			}
 		}
 
-		AddEventToQueue(() => StartPlayerTurn());
+		AddEventToQueue(StartPlayerTurn);
 	}
 
 	/*
@@ -137,7 +134,7 @@ public class BattleManager : MonoBehaviour
 			AddEventToQueue(() => VfxEffects.PlayEffects(burnVFX, burnValue, PlayerScript));
 		}
 
-		AddEventToQueue(() => OnTurnChange?.Invoke(false));
+		AddEventToQueue(() => OnStartPlayerTurn?.Invoke());
 	}
 
 	public void EndPlayerTurn()
@@ -149,7 +146,7 @@ public class BattleManager : MonoBehaviour
 			PlayerScript.CharacterStats.Insight -= 1;
 		}
 
-		AddEventToQueue(() => EnemyTurn());
+		EnemyTurn();
 		FindObjectOfType<AudioManager>().Play("ButtonClick");
 	}
 
