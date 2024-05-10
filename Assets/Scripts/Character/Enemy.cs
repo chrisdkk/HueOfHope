@@ -15,7 +15,7 @@ public class Enemy : Character
     [SerializeField] private GameObject deathVFX;
 
     private int currentActionIndex;
-    private bool isDead = false;
+    public bool isDead = false;
 
 
     // Start is called before the first frame update
