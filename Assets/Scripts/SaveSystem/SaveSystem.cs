@@ -65,9 +65,4 @@ public class SaveSystem : MonoBehaviour
 
         return SavedDeck;
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-    }
 }

@@ -29,8 +29,8 @@ public class SceneChanger : MonoBehaviour
         }
         else
         {
-            // pop up telling you there is no save data
             // hide this button if no previous save data?
+            // pop up telling you there is no save data
             Debug.Log("no savedata");
         }
     }

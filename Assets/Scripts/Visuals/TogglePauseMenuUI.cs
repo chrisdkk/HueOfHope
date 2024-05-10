@@ -12,7 +12,6 @@ public class TogglePauseMenuUI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // temp: disable pop up in game start?
         PauseMenuCanvas.SetActive(false);
     }
 

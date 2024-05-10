@@ -39,14 +39,7 @@ public class GameStateManager : MonoBehaviour
             MaxActionPoints = 3;
             BurnTickDamage = 4;
 
-            // CurrentPlayerHealth = maxPlayerHealth;
-            // deck = new List<CardData>();
-
             mapSystem.InitializeMapSystem();
-
-            // set/advance these values in the map view (not here), depending on what "button" you click
-            // mapSystem.currentChapterIndex = 0;
-            // mapSystem.currentStageIndex = 0;
 
             AllAvailableCards = Resources.LoadAll<CardData>("Cards/").ToList();
 
@@ -56,8 +49,6 @@ public class GameStateManager : MonoBehaviour
 
                 CurrentPlayerHealth = maxPlayerHealth;
                 
-                // deck = new List<CardData>();
-
                 mapSystem.currentChapterIndex = 0;
                 mapSystem.currentStageIndex = 0;
 
@@ -68,8 +59,6 @@ public class GameStateManager : MonoBehaviour
                 Debug.Log(type);
 
                 CurrentPlayerHealth = SaveSystem.Instance.GetSavedPlayerHealth();
-                
-                // deck = new List<CardData>();
                 
                 mapSystem.currentChapterIndex = SaveSystem.Instance.GetSavedChapterProgress();
                 mapSystem.currentStageIndex = SaveSystem.Instance.GetSavedStageProgress();
