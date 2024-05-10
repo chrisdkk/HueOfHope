@@ -22,7 +22,8 @@ namespace HandSystem
 		[SerializeField] private float focusScale = 1.5f;
 
 		private readonly List<GameObject> cards = new List<GameObject>();
-		private Sequence lastSequence;
+		private Sequence lastDrawSequence;
+		private Sequence lastDiscardSequence;
 
 		private void Start()
 		{
@@ -39,7 +40,7 @@ namespace HandSystem
 			cards.Add(card);
 
 			Sequence sequence = DOTween.Sequence();
-			if (lastSequence.IsActive()) sequence.Append(lastSequence);
+			if (lastDrawSequence.IsActive()) sequence.Append(lastDrawSequence);
 			sequence.Append(card.transform.DOScale(Vector3.one, moveDuration));
 			for (int i = 0; i < cards.Count; i++)
 			{
@@ -49,8 +50,8 @@ namespace HandSystem
 
 			sequence.AppendCallback(() => onFinishAnimation?.Invoke());
 			sequence.AppendInterval(moveDuration);
-			sequence.OnKill(() => lastSequence = null);
-			lastSequence = sequence;
+			sequence.OnKill(() => lastDrawSequence = null);
+			lastDrawSequence = sequence;
 		}
 
 		private void HandleDiscard(GameObject card, Action onFinishAnimation)
@@ -58,7 +59,7 @@ namespace HandSystem
 			cards.Remove(card);
 
 			Sequence sequence = DOTween.Sequence();
-			if (lastSequence.IsActive()) sequence.Append(lastSequence);
+			if (lastDiscardSequence.IsActive()) sequence.Append(lastDiscardSequence);
 			sequence.Append(card.transform.DOMove(discardTransform.position, moveDuration));
 			sequence.Join(card.transform.DOScale(Vector3.zero, moveDuration));
 			for (int i = 0; i < cards.Count; i++)
@@ -71,8 +72,8 @@ namespace HandSystem
 			}
 
 			sequence.AppendCallback(() => { onFinishAnimation?.Invoke(); });
-			sequence.OnKill(() => lastSequence = null);
-			lastSequence = sequence;
+			sequence.OnKill(() => lastDiscardSequence = null);
+			lastDiscardSequence = sequence;
 		}
 
 		private void HandleHover(GameObject hoveredCard)
