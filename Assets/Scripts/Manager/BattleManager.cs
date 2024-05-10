@@ -105,7 +105,7 @@ public class BattleManager : MonoBehaviour
 			{
 				enemy.CharacterStats.Health -= burnValue;
 				enemy.CharacterStats.Burn -= 1;
-				StartCoroutine(VfxEffects.PlayEffects(burnVFX, burnValue, enemy));
+				AddEventToQueue(()=>VfxEffects.PlayEffects(burnVFX, burnValue, enemy));
 			}
 
 			// Do action
@@ -134,7 +134,7 @@ public class BattleManager : MonoBehaviour
 		{
 			PlayerScript.CharacterStats.Health -= burnValue;
 			PlayerScript.CharacterStats.Burn -= 1;
-			AddEventToQueue(() => StartCoroutine(VfxEffects.PlayEffects(burnVFX, burnValue, PlayerScript)));
+			AddEventToQueue(() => VfxEffects.PlayEffects(burnVFX, burnValue, PlayerScript));
 		}
 
 		AddEventToQueue(() => OnTurnChange?.Invoke(false));

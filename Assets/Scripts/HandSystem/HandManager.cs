@@ -125,7 +125,7 @@ namespace HandSystem
                 if (effect.vfxEffect != null && VfxEffects.beforeActionVFX.Contains(effect.effectType))
                 {
                     BattleManager.Instance.AddEventToQueue(() =>
-                        StartCoroutine(VfxEffects.PlayEffects(effect.vfxEffect, effect.payload, targets.ToArray())));
+                        VfxEffects.PlayEffects(effect.vfxEffect, effect.payload, targets.ToArray()));
                 }
 
                 // Add event for the effect
@@ -236,7 +236,12 @@ namespace HandSystem
                 if (effect.vfxEffect != null && !VfxEffects.beforeActionVFX.Contains(effect.effectType))
                 {
                     BattleManager.Instance.AddEventToQueue(() =>
-                        StartCoroutine(VfxEffects.PlayEffects(effect.vfxEffect, effect.payload, targets.ToArray())));
+                        VfxEffects.PlayEffects(effect.vfxEffect, effect.payload, targets.ToArray()));
+                }
+                if (otherTargets != null)
+                {
+                    BattleManager.Instance.AddEventToQueue(() =>
+                        VfxEffects.PlayEffects(effect.vfxEffect, effect.payload, otherTargets.ToArray()));
                 }
             }
         }
