@@ -124,6 +124,7 @@ public class Enemy : Character
                 {
                     BattleManager.Instance.EndBattle();
                 }
+                BattleManager.Instance.eventRunning = false;
             });
             isDead = true;
         }

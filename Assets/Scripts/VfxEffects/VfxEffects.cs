@@ -51,7 +51,6 @@ public class VfxEffects : MonoBehaviour
         {
             Destroy(instVFX);
         }
-
         BattleManager.Instance.eventRunning = false;
     }
 }
