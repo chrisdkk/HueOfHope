@@ -69,7 +69,9 @@ public class BattleManager : MonoBehaviour
 
 		PlayerScript.MaxActionPoints = GameStateManager.Instance.MaxActionPoints;
 		PlayerScript.ResetActionPoints();
+		PlayerScript.CharacterStats.MaxHealth = GameStateManager.Instance.maxPlayerHealth;
 		PlayerScript.CharacterStats.Health = GameStateManager.Instance.CurrentPlayerHealth;
+		
 		EnemiesInBattle = new List<Enemy>();
 
 		AddEventToQueue(() => GenerateEnemies(enemies));

@@ -1,26 +1,20 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-public struct PlayerGlobalStats
+public enum GameType
 {
-    public int maxHealth;
-    public int currentHealth;
-    public int maxActionPoints;
+    NewGame,
+    OldGame
 }
 
 public class GameStateManager : MonoBehaviour
 {
     public static GameStateManager Instance;
 
-    [SerializeField] private BattleManager battleManager;
-
-    [SerializeField] private DeckSystem deckSystem;
     [SerializeField] private MapSystem mapSystem;
 
-    // [SerializeField] public Enemy prototypeEnemy;
+    private static GameType type;
 
     public int CurrentPlayerHealth { get; set; }
     public int maxPlayerHealth;
@@ -40,33 +34,72 @@ public class GameStateManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+
             maxPlayerHealth = 30;
             MaxActionPoints = 3;
             BurnTickDamage = 4;
-            CurrentPlayerHealth = maxPlayerHealth;
-            deck = new List<CardData>();
+
+            // CurrentPlayerHealth = maxPlayerHealth;
+            // deck = new List<CardData>();
 
             mapSystem.InitializeMapSystem();
 
             // set/advance these values in the map view (not here), depending on what "button" you click
-            mapSystem.currentChapterIndex = 0;
-            mapSystem.currentStageIndex = 0;
+            // mapSystem.currentChapterIndex = 0;
+            // mapSystem.currentStageIndex = 0;
 
             AllAvailableCards = Resources.LoadAll<CardData>("Cards/").ToList();
 
-            // add available cards to deck
-            for (int i = 0; i < 5; i++)
+            if (type == GameType.NewGame)
             {
-                deck.Add(AllAvailableCards.Find(cardData => cardData.cardName == "Cloak Block"));
-                deck.Add(AllAvailableCards.Find(cardData => cardData.cardName == "Kick"));
-            }
-            deck.AddRange(AllAvailableCards.FindAll(cardData => cardData.cardName!="Cloak Block" && cardData.cardName!="Kick"));
-            
-            // deck system
-            deckSystem.InitializeDeck(deck);
+                Debug.Log(type);
 
-            battleManager.Initialize(deck, mapSystem.GetEnemies(), mapSystem.GetBackground());
+                CurrentPlayerHealth = maxPlayerHealth;
+                
+                // deck = new List<CardData>();
+
+                mapSystem.currentChapterIndex = 0;
+                mapSystem.currentStageIndex = 0;
+
+                deck.AddRange(GetStarterDeck());
+            }
+            else if (type == GameType.OldGame)
+            {
+                Debug.Log(type);
+
+                CurrentPlayerHealth = SaveSystem.Instance.GetSavedPlayerHealth();
+                
+                // deck = new List<CardData>();
+                
+                mapSystem.currentChapterIndex = SaveSystem.Instance.GetSavedChapterProgress();
+                mapSystem.currentStageIndex = SaveSystem.Instance.GetSavedStageProgress();
+                
+                deck.AddRange(SaveSystem.Instance.GetSavedPlayerDeck());
+            }
+
+            BattleManager.Instance.Initialize(deck, mapSystem.GetEnemies(), mapSystem.GetBackground());
         }
     }
 
+    private List<CardData> GetStarterDeck()
+    {
+        List<CardData> starterDeck = new List<CardData>();
+
+        // add available cards to deck
+        for (int i = 0; i < 5; i++)
+        {
+            starterDeck.Add(AllAvailableCards.Find(cardData => cardData.cardName == "Cloak Block"));
+            starterDeck.Add(AllAvailableCards.Find(cardData => cardData.cardName == "Kick"));
+        }
+
+        starterDeck.AddRange(AllAvailableCards.FindAll(cardData =>
+            cardData.cardName != "Cloak Block" && cardData.cardName != "Kick"));
+
+        return starterDeck;
+    }
+
+    public static void SetGameType(GameType newType)
+    {
+        type = newType;
+    }
 }

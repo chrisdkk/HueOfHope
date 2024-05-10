@@ -4,31 +4,48 @@ using UnityEngine.SceneManagement;
 
 public class SceneChanger : MonoBehaviour
 {
-    public void ChangeToPrototypeScene()
+    public void StartNewGame()
     {
         AudioManager audioManager = FindObjectOfType<AudioManager>();
         if (audioManager != null)
         {
             audioManager.Stop("Theme");
         }
-        
+
         FindObjectOfType<AudioManager>().Play("ButtonClick");
         FindObjectOfType<AudioManager>().Play("FirstBattleMusic");
-        SceneManager.LoadScene("Prototype");
-        
+
+        GameStateManager.SetGameType(GameType.NewGame);
+        SceneManager.LoadScene("Battle");
+    }
+
+    public void LoadPreviousGame()
+    {
+        if (PlayerPrefs.HasKey("PlayerHealth") && PlayerPrefs.HasKey("ChapterProgress") &&
+            PlayerPrefs.HasKey("StageProgress") && PlayerPrefs.HasKey("PlayerDeck"))
+        {
+            GameStateManager.SetGameType(GameType.OldGame);
+            SceneManager.LoadScene("Battle");
+        }
+        else
+        {
+            // pop up telling you there is no save data
+            // hide this button if no previous save data?
+            Debug.Log("no savedata");
+        }
     }
 
     public void QuitGame()
     {
         FindObjectOfType<AudioManager>().Play("ButtonClick");
+
+        // add confirmation
         
-        #if UNITY_EDITOR
-            // This will stop the game in the Unity Editor
-            UnityEditor.EditorApplication.isPlaying = false;
-        #else
-            // This will quit the application in a built game
-            Application.Quit();
-        #endif
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
     }
 
     void Start()

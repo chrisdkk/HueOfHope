@@ -7,42 +7,34 @@ public class TogglePauseMenuUI : MonoBehaviour
 {
     [SerializeField] private GameObject PauseMenuCanvas;
 
-    public bool canPopUpOpen = false;
+    public bool isPaused;
 
     // Start is called before the first frame update
     void Start()
     {
         // temp: disable pop up in game start?
         PauseMenuCanvas.SetActive(false);
-        canPopUpOpen = true;
     }
 
     private void Update()
     {
-        // can this be done in a better way?
-        if (Input.GetKeyDown(KeyCode.Escape) && canPopUpOpen)
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            PauseMenuCanvas.SetActive(true);
-            canPopUpOpen = false;
+            isPaused = !isPaused;
+            PauseMenuCanvas.SetActive(isPaused);
+            Time.timeScale = 0;
         }
-        else if (Input.GetKeyDown(KeyCode.Escape) && PauseMenuCanvas.activeSelf)
+
+        if (!isPaused)
         {
-            PauseMenuCanvas.SetActive(false);
-            canPopUpOpen = true;
+            Time.timeScale = 1;
         }
     }
 
     public void OnButtonClick()
     {
-        if (canPopUpOpen)
-        {
-            PauseMenuCanvas.SetActive(true);
-            canPopUpOpen = false;
-        }
-        else
-        {
-            PauseMenuCanvas.SetActive(false);
-            canPopUpOpen = true;
-        }
+        isPaused = !isPaused;
+        PauseMenuCanvas.SetActive(isPaused);
+        Time.timeScale = 0;
     }
 }
