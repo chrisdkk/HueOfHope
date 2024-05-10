@@ -8,28 +8,25 @@ using UnityEngine.UI;
 public class BattleManager : MonoBehaviour
 {
 	public static BattleManager Instance;
-
-	private EventQueue eventQueue = new EventQueue();
-	public bool eventRunning = false;
-	private bool battleEnded = false;
-
+	
 	[SerializeField] private GameObject playerCharacter;
 	[SerializeField] private GameObject rewardWindow;
 	[SerializeField] private GameObject burnVFX;
 	[SerializeField] private List<Transform> enemyPositions;
 	[SerializeField] private GameObject backgroundImage;
 	[SerializeField] private HandManager handManager;
+
+	private EventQueue eventQueue = new EventQueue();
+	private bool battleEnded = false;
+	public bool eventRunning = false;
 	
 	public DeckManager DeckManager { get; private set; }
 	public List<Enemy> EnemiesInBattle { get; private set; }
 	public Player PlayerScript { get; private set; }
 
-	public delegate void TurnChangedEventHandler(bool isEnemyTurn);
-
-	public delegate void BattleEndedEventHandler();
-
-	public event TurnChangedEventHandler OnTurnChange;
-	public event BattleEndedEventHandler OnEndBattle;
+	public event Action OnStartPlayerTurn;
+	public event Action OnStartEnemyTurn;
+	public event Action OnEndBattle;
 
 	void Awake()
 	{
@@ -94,7 +91,7 @@ public class BattleManager : MonoBehaviour
 	 */
 	private void EnemyTurn()
 	{
-		OnTurnChange?.Invoke(true);
+		OnStartEnemyTurn?.Invoke();
 		foreach (Enemy enemy in EnemiesInBattle)
 		{
 			// Add event to apply and reduce status effects of enemy
@@ -116,7 +113,7 @@ public class BattleManager : MonoBehaviour
 			}
 		}
 
-		AddEventToQueue(() => StartPlayerTurn());
+		AddEventToQueue(StartPlayerTurn);
 	}
 
 	/*
@@ -134,7 +131,7 @@ public class BattleManager : MonoBehaviour
 			AddEventToQueue(() => StartCoroutine(VfxEffects.PlayEffects(burnVFX, PlayerScript)));
 		}
 
-		AddEventToQueue(() => OnTurnChange?.Invoke(false));
+		AddEventToQueue(() => OnStartPlayerTurn?.Invoke());
 	}
 
 	public void EndPlayerTurn()
@@ -145,7 +142,7 @@ public class BattleManager : MonoBehaviour
 			PlayerScript.CharacterStats.Insight -= 1;
 		}
 
-		AddEventToQueue(() => EnemyTurn());
+		EnemyTurn();
 		FindObjectOfType<AudioManager>().Play("ButtonClick");
 	}
 

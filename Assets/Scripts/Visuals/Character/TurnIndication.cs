@@ -11,12 +11,8 @@ public class TurnIndication : MonoBehaviour
 	
 	private void Start()
 	{
-		BattleManager.Instance.OnTurnChange += UpdateTurnIndicator;
+		BattleManager.Instance.OnStartPlayerTurn += () => turnText.text = "Player turn";
+		BattleManager.Instance.OnStartEnemyTurn += () => turnText.text = "Enemy turn";
 		turnText = GetComponent<TextMeshProUGUI>();
-	}
-
-	private void UpdateTurnIndicator(bool isEnemyTurn)
-	{
-		turnText.text = isEnemyTurn ? "Enemy Turn" : "Player Turn";
 	}
 }
