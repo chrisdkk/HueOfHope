@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -12,7 +13,13 @@ public class CardVisual : MonoBehaviour
     [SerializeField] private TextMeshProUGUI description;
     [SerializeField] private TextMeshProUGUI cost;
     [SerializeField] private RawImage cardImage;
+    [SerializeField] private GameObject effectDetail;
+    [SerializeField] private float yStart;
+    [SerializeField] private float yOffset;
+    [SerializeField] private float x;
     public CardData CardData { get; private set; }
+
+    private List<GameObject> effectDetails = new List<GameObject>();
 
     public void LoadCardData(CardData newData)
     {
@@ -21,5 +28,56 @@ public class CardVisual : MonoBehaviour
         description.SetText(CardData.description);
         cost.SetText(CardData.apCost.ToString());
         cardImage.texture = CardData.cardImage;
+        GenerateEffectExplanations();
+    }
+
+    public void GenerateEffectExplanations()
+    {
+        float currY = yStart;
+        // Loop through list containing each effect type only once
+        foreach (var effect in CardData.effects.GroupBy(effect => effect.effectType).Select(e => e.First()))
+        {
+            GameObject instObject = null;
+            switch (effect.effectType)
+            {
+                case CardEffectType.Insight:
+                    instObject = Instantiate(effectDetail, transform, false);
+                    break;
+                case CardEffectType.Burn:
+                    instObject = Instantiate(effectDetail, transform, false);
+                    break;
+                case CardEffectType.IgnoreBlockOnNextAttacks:
+                    instObject = Instantiate(effectDetail, transform, false);
+                    break;
+            }
+
+            if (effect.ignoreBlock)
+            {
+                instObject = Instantiate(effectDetail, transform, false);
+            }
+
+            if (instObject != null)
+            {
+                instObject.transform.localScale *= .2f;
+                instObject.transform.localPosition = new Vector3(x, currY, 0);
+                currY += yOffset;
+                instObject.SetActive(false);
+
+                if (effect.effectData != null)
+                {
+                    instObject.transform.Find("Title").GetComponent<TextMeshProUGUI>().text = effect.effectData.title;
+                    instObject.transform.Find("Description").GetComponent<TextMeshProUGUI>().text = effect.effectData.effectDescription;
+                }
+                effectDetails.Add(instObject);
+            }
+        }
+    }
+
+    public void ToggleDetails()
+    {
+        foreach (GameObject effectDetail in effectDetails)
+        {
+            effectDetail.SetActive(!effectDetail.activeSelf);
+        }
     }
 }

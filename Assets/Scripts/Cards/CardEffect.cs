@@ -36,6 +36,7 @@ public class CardEffect
     public CardEffectType effectType;
     public GameObject vfxEffect;
     public int payload;
+    public EffectData effectData;
     public CardEffectTarget effectTarget;
     public bool ignoreBlock;
     public int insightMultiplier;

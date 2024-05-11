@@ -571,6 +571,11 @@ MonoBehaviour:
   description: {fileID: 3627001825771031791}
   cost: {fileID: 6562120803509210204}
   cardImage: {fileID: 1912596493679587473}
+  effectDetail: {fileID: 1937280000517734562, guid: 72814612b5ef6ff46b8c25a5c52c9a6d,
+    type: 3}
+  yStart: 0.775
+  yOffset: -1
+  x: 1.66
 --- !u!65 &2542138737775456137
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -844,8 +849,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nodePrefab: {fileID: 6130945922334482319, guid: ee18705248a8640bb9e97915dba45eab,
     type: 3}
-  nodeCount: 10
-  scaleFactor: 1.1
+  arrowHeadPrefab: {fileID: 0}
+  numberOfSegments: 10
   origin: {fileID: 3728212116655822798}
 --- !u!1 &8625541033112341324
 GameObject:
