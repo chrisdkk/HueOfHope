@@ -33,6 +33,9 @@ public enum CardEffectTarget
 [Serializable]
 public class CardEffect
 {
+    public static List<CardEffectType> insightAffectedEffects = new List<CardEffectType>()
+        { CardEffectType.Damage, CardEffectType.BlockToDamage, CardEffectType.MultipliedInsightDamage };
+
     public CardEffectType effectType;
     public GameObject vfxEffect;
     public int payload;

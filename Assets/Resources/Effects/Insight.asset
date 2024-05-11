@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Insight
   m_EditorClassIdentifier: 
   title: Insight
-  text: Gain [NUMBER] insight
+  text: '[Gain/Apply] [NUMBER] insight'
   effectDescription: Insight buffs your damage according to your current insight
     stacks

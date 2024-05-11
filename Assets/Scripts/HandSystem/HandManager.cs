@@ -230,5 +230,13 @@ namespace HandSystem
                 }
             }
         }
+
+        public void UpdateCardsInHandVisuals()
+        {
+            foreach (GameObject card in cardsInHand)
+            {
+                card.GetComponent<CardVisual>().LoadCardData(card.GetComponent<CardVisual>().CardData);
+            }
+        }
     }
 }

@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Burn
   m_EditorClassIdentifier: 
   title: Burn
-  text: Add [NUMBER] burn stacks
+  text: '[Gain/Apply] [NUMBER] burn stack(s)'
   effectDescription: Burn deals 4 damage per round and decreases by one

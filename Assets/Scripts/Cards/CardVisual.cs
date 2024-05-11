@@ -25,7 +25,29 @@ public class CardVisual : MonoBehaviour
     {
         CardData = newData;
         title.SetText(CardData.cardName);
-        description.SetText(CardData.description);
+        
+        // Build card text
+        string text = "";
+        foreach (CardEffect effect in CardData.effects)
+        {
+            int actualPayload = effect.payload;
+            bool damageUpdated = false;
+
+            if (CardEffect.insightAffectedEffects.Contains(effect.effectType) &&
+                BattleManager.Instance.PlayerScript.CharacterStats.Insight > 0)
+            {
+                actualPayload += BattleManager.Instance.PlayerScript.CharacterStats.Insight;
+                damageUpdated = true;
+            }
+
+            if (effect.effectData != null)
+            {
+                text += effect.effectData.GetText(actualPayload, damageUpdated, effect.insightMultiplier, effect.effectTarget);
+                text += "\n";
+            }
+        }
+
+        description.SetText(text);
         cost.SetText(CardData.apCost.ToString());
         cardImage.texture = CardData.cardImage;
         GenerateEffectExplanations();
@@ -44,6 +66,7 @@ public class CardVisual : MonoBehaviour
                     instObject = Instantiate(effectDetail, transform, false);
                     break;
                 case CardEffectType.Burn:
+                    // After merging with new vfx effects -> Burn description should get [NUMBER] and replace it here with BattleManager.Instance.BurnValue
                     instObject = Instantiate(effectDetail, transform, false);
                     break;
                 case CardEffectType.IgnoreBlockOnNextAttacks:
@@ -66,8 +89,10 @@ public class CardVisual : MonoBehaviour
                 if (effect.effectData != null)
                 {
                     instObject.transform.Find("Title").GetComponent<TextMeshProUGUI>().text = effect.effectData.title;
-                    instObject.transform.Find("Description").GetComponent<TextMeshProUGUI>().text = effect.effectData.effectDescription;
+                    instObject.transform.Find("Description").GetComponent<TextMeshProUGUI>().text =
+                        effect.effectData.effectDescription;
                 }
+
                 effectDetails.Add(instObject);
             }
         }
