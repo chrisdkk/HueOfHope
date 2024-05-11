@@ -35,11 +35,6 @@ public class ParticleSystemProgress : MonoBehaviour
 
 public class VfxEffects : MonoBehaviour
 {
-    public static List<CardEffectType> beforeActionVFX = new List<CardEffectType>()
-    {
-        CardEffectType.Insight, CardEffectType.AttackDebuff, CardEffectType.IgnoreBlockOnNextAttacks,
-        CardEffectType.TakeOverBurn
-    };
 
     public static void PlayEffects(GameObject vfx, int payload, params Character[] targets)
     {

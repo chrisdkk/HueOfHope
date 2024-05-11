@@ -116,7 +116,7 @@ namespace HandSystem
 				}
 
                 // Add vfx to queue
-                if (effect.vfxEffect != null && VfxEffects.beforeActionVFX.Contains(effect.effectType))
+                if (effect.vfxEffect != null && CardEffect.beforeActionVFX.Contains(effect.effectType))
                 {
                     BattleManager.Instance.AddEventToQueue(() =>
                         VfxEffects.PlayEffects(effect.vfxEffect, effect.payload, targets.ToArray()));
@@ -227,7 +227,7 @@ namespace HandSystem
 				}
 
                 // Add vfx to queue
-                if (effect.vfxEffect != null && !VfxEffects.beforeActionVFX.Contains(effect.effectType))
+                if (effect.vfxEffect != null && !CardEffect.beforeActionVFX.Contains(effect.effectType))
                 {
                     BattleManager.Instance.AddEventToQueue(() =>
                         VfxEffects.PlayEffects(effect.vfxEffect, effect.payload, targets.ToArray()));
