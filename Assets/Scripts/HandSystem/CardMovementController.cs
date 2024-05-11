@@ -84,8 +84,11 @@ namespace HandSystem
             if (!isHit || hit.collider.gameObject != selectedCard)
             {
                 TransitionState(HandState.Idle);
-                hoveredCard.GetComponent<CardVisual>().ToggleDetails();
-                hoveredCard = null;
+                if (hoveredCard != null)
+                {
+                    hoveredCard.GetComponent<CardVisual>().ToggleDetails();
+                    hoveredCard = null;
+                }
                 return;
             }
 
