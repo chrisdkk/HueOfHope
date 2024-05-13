@@ -14,9 +14,10 @@ public class CardVisual : MonoBehaviour
     [SerializeField] private TextMeshProUGUI cost;
     [SerializeField] private RawImage cardImage;
     [SerializeField] private GameObject effectDetail;
-    [SerializeField] private float yStart;
-    [SerializeField] private float yOffset;
-    [SerializeField] private float x;
+    [SerializeField] private float effectDetailYStart;
+    [SerializeField] private float effectDetailYOffset;
+    [SerializeField] private float effectDetailX;
+    [SerializeField] private float effectDetailScale;
     public CardData CardData { get; private set; }
 
     private List<GameObject> effectDetails = new List<GameObject>();
@@ -55,7 +56,7 @@ public class CardVisual : MonoBehaviour
 
     public void GenerateEffectExplanations()
     {
-        float currY = yStart;
+        float currY = effectDetailYStart;
         // Loop through list containing each effect type only once
         foreach (var effect in CardData.effects.GroupBy(effect => effect.effectType).Select(e => e.First()))
         {
@@ -81,9 +82,9 @@ public class CardVisual : MonoBehaviour
 
             if (instObject != null)
             {
-                instObject.transform.localScale *= .2f;
-                instObject.transform.localPosition = new Vector3(x, currY, 0);
-                currY += yOffset;
+                instObject.transform.localScale *= effectDetailScale;
+                instObject.transform.localPosition = new Vector3(effectDetailX, currY, 0);
+                currY += effectDetailYOffset;
                 instObject.SetActive(false);
 
                 if (effect.effectData != null)

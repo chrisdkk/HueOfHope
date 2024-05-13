@@ -61,9 +61,10 @@ MonoBehaviour:
   cardImage: {fileID: 5202285869533318208}
   effectDetail: {fileID: 1937280000517734562, guid: 72814612b5ef6ff46b8c25a5c52c9a6d,
     type: 3}
-  yStart: 0
-  yOffset: 0
-  x: 0
+  effectDetailYStart: 38.7
+  effectDetailYOffset: -50
+  effectDetailX: 83
+  effectDetailScale: 10
 --- !u!1 &889792474994991634
 GameObject:
   m_ObjectHideFlags: 0

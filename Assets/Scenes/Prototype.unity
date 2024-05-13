@@ -5351,7 +5351,7 @@ PrefabInstance:
     - target: {fileID: 6142158643716920035, guid: cc5b013f1f9d34856897ff726f5c004c,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.000015258789
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7312291398215916095, guid: cc5b013f1f9d34856897ff726f5c004c,
         type: 3}
@@ -5363,6 +5363,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cc5b013f1f9d34856897ff726f5c004c, type: 3}
+--- !u!114 &213207984 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3602604339441105140, guid: cc5b013f1f9d34856897ff726f5c004c,
+    type: 3}
+  m_PrefabInstance: {fileID: 213207983}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b199001569494be7909881c4a975aab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &233532041
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6042,7 +6054,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!82 &1539305403
 AudioSource:
   m_ObjectHideFlags: 0
@@ -6367,6 +6379,36 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4012590991736291123, guid: f852b1466c52445e18569ff4ce5130af,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 592348199}
+    - target: {fileID: 4012590991736291123, guid: f852b1466c52445e18569ff4ce5130af,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 213207984}
+    - target: {fileID: 4012590991736291123, guid: f852b1466c52445e18569ff4ce5130af,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ToggleMouseBlocker
+      objectReference: {fileID: 0}
+    - target: {fileID: 4012590991736291123, guid: f852b1466c52445e18569ff4ce5130af,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: OpenDeck
+      objectReference: {fileID: 0}
+    - target: {fileID: 4012590991736291123, guid: f852b1466c52445e18569ff4ce5130af,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: MouseBlockController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4012590991736291123, guid: f852b1466c52445e18569ff4ce5130af,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: CardListUIController, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 4646955904233220607, guid: f852b1466c52445e18569ff4ce5130af,
         type: 3}
