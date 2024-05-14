@@ -20,6 +20,7 @@ public class BattleManager : MonoBehaviour
 	private EventQueue eventQueue = new EventQueue();
 	private bool battleEnded = false;
 	public bool eventRunning = false;
+	public bool isPaused = false;
 	
 	
 	public DeckManager DeckManager { get; private set; }
@@ -167,5 +168,15 @@ public class BattleManager : MonoBehaviour
 		};
 		GameStateManager.Instance.CurrentPlayerHealth = PlayerScript.CharacterStats.Health;
 		rewardWindow.GetComponent<RewardManager>().ShowReward();
+	}
+
+	public void Pause()
+	{
+		isPaused = true;
+	}
+
+	public void Resume()
+	{
+		isPaused = false;
 	}
 }
