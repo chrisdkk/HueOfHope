@@ -1,17 +1,15 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using TMPro;
 using UnityEngine;
-using Random = System.Random;
+using UnityEngine.UI;
 
 public class Enemy : Character
 {
     [SerializeField] private int maxHealth = 30;
     [SerializeField] private GameObject actionIndication;
-    [SerializeField] private List<Material> actionIndicationMaterial;
+    [SerializeField] private List<Sprite> actionIndicationMaterial;
     [SerializeField] private List<EnemyCard> enemyPattern = new();
+    [SerializeField] private GameObject deathVFX;
 
     private int currentActionIndex;
     public bool isDead = false;
@@ -26,9 +24,9 @@ public class Enemy : Character
 
         // Get current action and indicate it
         currentActionIndex = 0;
-        actionIndication.GetComponent<MeshRenderer>().material = actionIndicationMaterial.Find(material =>
-            material.name == enemyPattern[currentActionIndex].cardType.ToString());
-        actionIndication.GetComponentInChildren<TextMeshPro>().text =
+        actionIndication.GetComponent<Image>().sprite = actionIndicationMaterial.Find(sprite =>
+            sprite.name == enemyPattern[currentActionIndex].cardType.ToString());
+        actionIndication.GetComponentInChildren<TextMeshProUGUI>().text =
             enemyPattern[currentActionIndex].effects[0].payload.ToString();
     }
 
@@ -40,7 +38,7 @@ public class Enemy : Character
         foreach (CardEffect effect in enemyCard.effects)
         {
             List<Character> targets = new List<Character>();
-            
+
             switch (effect.effectTarget)
             {
                 case CardEffectTarget.Player:
@@ -53,7 +51,14 @@ public class Enemy : Character
                     targets.AddRange(BattleManager.Instance.EnemiesInBattle);
                     break;
             }
-            
+
+            // Add vfx to queue -> for status effects
+            if (effect.vfxEffect != null && CardEffect.beforeActionVFX.Contains(effect.effectType))
+            {
+                BattleManager.Instance.AddEventToQueue(() =>
+                    VfxEffects.PlayEffects(effect.vfxEffect, effect.payload, targets.ToArray()));
+            }
+
             // Add event for the effect
             switch (effect.effectType)
             {
@@ -83,10 +88,11 @@ public class Enemy : Character
                     break;
             }
 
-            if (effect.vfxEffect != null)
+            // Add vfx to queue -> for damage effects
+            if (effect.vfxEffect != null && !CardEffect.beforeActionVFX.Contains(effect.effectType))
             {
                 BattleManager.Instance.AddEventToQueue(() =>
-                    StartCoroutine(VfxEffects.PlayEffects(effect.vfxEffect, targets.ToArray())));
+                    VfxEffects.PlayEffects(effect.vfxEffect, effect.payload, targets.ToArray()));
             }
         }
 
@@ -96,9 +102,9 @@ public class Enemy : Character
             currentActionIndex = 0;
         }
 
-        actionIndication.GetComponent<MeshRenderer>().material = actionIndicationMaterial.Find(material =>
-            material.name == enemyPattern[currentActionIndex].cardType.ToString());
-        actionIndication.GetComponentInChildren<TextMeshPro>().text =
+        actionIndication.GetComponent<Image>().sprite = actionIndicationMaterial.Find(sprite =>
+            sprite.name == enemyPattern[currentActionIndex].cardType.ToString());
+        actionIndication.GetComponentInChildren<TextMeshProUGUI>().text =
             enemyPattern[currentActionIndex].effects[0].payload.ToString();
     }
 
@@ -108,12 +114,14 @@ public class Enemy : Character
         {
             BattleManager.Instance.AddEventToQueue(() =>
             {
+                VfxEffects.PlayEffects(deathVFX, 0, this);
                 BattleManager.Instance.EnemiesInBattle.Remove(this);
                 Destroy(gameObject);
                 if (BattleManager.Instance.EnemiesInBattle.Count == 0)
                 {
                     BattleManager.Instance.EndBattle();
                 }
+                //BattleManager.Instance.eventRunning = false;
             });
             isDead = true;
         }

@@ -7,29 +7,29 @@ using UnityEngine.UI;
 
 public class BattleManager : MonoBehaviour
 {
-    public static BattleManager Instance;
+	public static BattleManager Instance;
+	
+	[SerializeField] private GameObject playerCharacter;
+	[SerializeField] private GameObject rewardWindow;
+	[SerializeField] private GameObject burnVFX;
+	[SerializeField] private List<Transform> enemyPositions;
+	[SerializeField] private GameObject backgroundImage;
+	[SerializeField] private HandManager handManager;
+	[SerializeField] private int burnValue;
+	
+	private EventQueue eventQueue = new EventQueue();
+	private bool battleEnded = false;
+	public bool eventRunning = false;
+	public bool isPaused = false;
+	
+	
+	public DeckManager DeckManager { get; private set; }
+	public List<Enemy> EnemiesInBattle { get; private set; }
+	public Player PlayerScript { get; private set; }
 
-    private EventQueue eventQueue = new EventQueue();
-    public bool eventRunning = false;
-    private bool battleEnded = false;
-
-    [SerializeField] private GameObject playerCharacter;
-    [SerializeField] private GameObject rewardWindow;
-    [SerializeField] private GameObject burnVFX;
-    [SerializeField] private List<Transform> enemyPositions;
-    [SerializeField] private GameObject backgroundImage;
-    [SerializeField] private HandManager handManager;
-
-    public DeckManager DeckManager { get; private set; }
-    public List<Enemy> EnemiesInBattle { get; private set; }
-    public Player PlayerScript { get; private set; }
-
-    public delegate void TurnChangedEventHandler(bool isEnemyTurn);
-
-    public delegate void BattleEndedEventHandler();
-
-    public event TurnChangedEventHandler OnTurnChange;
-    public event BattleEndedEventHandler OnEndBattle;
+	public event Action OnStartPlayerTurn;
+	public event Action OnStartEnemyTurn;
+	public event Action OnEndBattle;
 
     void Awake()
     {
@@ -92,85 +92,94 @@ public class BattleManager : MonoBehaviour
         }
     }
 
-    /*
-     * Execute a turn for each enemy
-     */
-    private void EnemyTurn()
-    {
-        OnTurnChange?.Invoke(true);
-        foreach (Enemy enemy in EnemiesInBattle)
-        {
-            // Add event to apply and reduce status effects of enemy
-            enemy.CharacterStats.Block = 0;
-            if (enemy.CharacterStats.Burn > 0)
-            {
-                enemy.CharacterStats.Health -= 4;
-                enemy.CharacterStats.Burn -= 1;
-                StartCoroutine(VfxEffects.PlayEffects(burnVFX, enemy));
-            }
+	/*
+	 * Execute a turn for each enemy
+	 */
+	private void EnemyTurn()
+	{
+		OnStartEnemyTurn?.Invoke();
+		foreach (Enemy enemy in EnemiesInBattle)
+		{
+			// Reduce status effects of enemy
+			enemy.CharacterStats.Block = 0;
+			if (enemy.CharacterStats.Burn > 0 && !enemy.isDead)
+			{
+				AddEventToQueue(()=>VfxEffects.PlayEffects(burnVFX, burnValue, enemy));
+				enemy.CharacterStats.Health -= burnValue;
+				enemy.CharacterStats.Burn -= 1;
+			}
+			
+			if(enemy.isDead) continue;
+			
+			// Do action
+			enemy.PlayEnemyCard();
 
-            if (!enemy.isDead)
-            {
-                // Do action
-                enemy.PlayEnemyCard();
+			// Reduce enemy status effects
+			enemy.CharacterStats.AttackDebuff = 0;
+			if (enemy.CharacterStats.Insight > 0)
+			{
+				enemy.CharacterStats.Insight -= 1;
+			}
+		}
 
-                // Add event to reduce insight
-                if (enemy.CharacterStats.Insight > 0)
-                {
-                    enemy.CharacterStats.Insight -= 1;
-                }
-            }
-        }
+		AddEventToQueue(StartPlayerTurn);
+	}
 
-        AddEventToQueue(() => StartPlayerTurn());
-    }
+	/*
+	 * Start the turn for the player
+	 */
+	private void StartPlayerTurn()
+	{
+		PlayerScript.ResetActionPoints();
+		// Reduce status effects of player
+		PlayerScript.CharacterStats.Block = 0;
+		if (PlayerScript.CharacterStats.Burn > 0)
+		{
+			PlayerScript.CharacterStats.Health -= burnValue;
+			PlayerScript.CharacterStats.Burn -= 1;
+			AddEventToQueue(() => VfxEffects.PlayEffects(burnVFX, burnValue, PlayerScript));
+		}
 
-    /*
-     * Start the turn for the player
-     */
-    private void StartPlayerTurn()
-    {
-        PlayerScript.ResetActionPoints();
-        // Add event to apply and reduce status effects of player
-        PlayerScript.CharacterStats.Block = 0;
-        if (PlayerScript.CharacterStats.Burn > 0)
-        {
-            PlayerScript.CharacterStats.Health -= 4;
-            PlayerScript.CharacterStats.Burn -= 1;
-            AddEventToQueue(() => StartCoroutine(VfxEffects.PlayEffects(burnVFX, PlayerScript)));
-        }
+		AddEventToQueue(() => OnStartPlayerTurn?.Invoke());
+	}
 
-        AddEventToQueue(() => OnTurnChange?.Invoke(false));
-    }
+	public void EndPlayerTurn()
+	{
+		// Reduce status effects of player
+		PlayerScript.CharacterStats.AttackDebuff = 0;
+		if (PlayerScript.CharacterStats.Insight > 0)
+		{
+			PlayerScript.CharacterStats.Insight -= 1;
+		}
 
-    public void EndPlayerTurn()
-    {
-        // Add event to reduce insight of player
-        if (PlayerScript.CharacterStats.Insight > 0)
-        {
-            PlayerScript.CharacterStats.Insight -= 1;
-        }
+		EnemyTurn();
+		FindObjectOfType<AudioManager>().Play("ButtonClick");
+	}
 
-        AddEventToQueue(() => EnemyTurn());
-        FindObjectOfType<AudioManager>().Play("ButtonClick");
-    }
+	/*
+	 * Battle has ended, either the player has won or died
+	 */
+	public void EndBattle()
+	{
+		OnEndBattle?.Invoke();
+		battleEnded = true;
+		eventQueue.ClearEvents();
+		if (PlayerScript.CharacterStats.Health <= 0)
+		{
+			SceneManager.LoadScene("Menu");
+			return;
+		};
+		GameStateManager.Instance.CurrentPlayerHealth = PlayerScript.CharacterStats.Health;
+		rewardWindow.GetComponent<RewardManager>().StartRewardManager();
+	}
 
-    /*
-     * Battle has ended, either the player has won or died
-     */
-    public void EndBattle()
-    {
-        OnEndBattle?.Invoke();
-        battleEnded = true;
-        eventQueue.ClearEvents();
-        if (PlayerScript.CharacterStats.Health <= 0)
-        {
-            SceneManager.LoadScene("Menu");
-            return;
-        }
+	public void Pause()
+	{
+		isPaused = true;
+	}
 
-        ;
-        GameStateManager.Instance.CurrentPlayerHealth = PlayerScript.CharacterStats.Health;
-        rewardWindow.GetComponent<RewardManager>().StartRewardManager();
-    }
+	public void Resume()
+	{
+		isPaused = false;
+	}
 }

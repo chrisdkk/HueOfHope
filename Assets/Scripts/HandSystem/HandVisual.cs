@@ -9,8 +9,8 @@ namespace HandSystem
 	{
 		[SerializeField] private HandManager handManager;
 		[SerializeField] private CardMovementController stateController;
-		[SerializeField] private Transform drawTransform;
-		[SerializeField] private Transform discardTransform;
+		[SerializeField] private RectTransform drawTransform;
+		[SerializeField] private RectTransform discardTransform;
 
 		[Header("Card arrangement variables")]
 		[SerializeField] private float fanAngle = 90f;
@@ -22,7 +22,8 @@ namespace HandSystem
 		[SerializeField] private float focusScale = 1.5f;
 
 		private readonly List<GameObject> cards = new List<GameObject>();
-		private Sequence lastSequence;
+		private Sequence lastDrawSequence;
+		private Sequence lastDiscardSequence;
 
 		private void Start()
 		{
@@ -34,12 +35,12 @@ namespace HandSystem
 
 		private void HandleDraw(GameObject card, Action onFinishAnimation)
 		{
-			card.transform.position = drawTransform.position;
+			card.transform.position = Camera.main.ScreenToWorldPoint(drawTransform.position);
 			card.transform.localScale = Vector3.zero;
 			cards.Add(card);
 
 			Sequence sequence = DOTween.Sequence();
-			if (lastSequence.IsActive()) sequence.Append(lastSequence);
+			if (lastDrawSequence.IsActive()) sequence.Append(lastDrawSequence);
 			sequence.Append(card.transform.DOScale(Vector3.one, moveDuration));
 			for (int i = 0; i < cards.Count; i++)
 			{
@@ -49,8 +50,8 @@ namespace HandSystem
 
 			sequence.AppendCallback(() => onFinishAnimation?.Invoke());
 			sequence.AppendInterval(moveDuration);
-			sequence.OnKill(() => lastSequence = null);
-			lastSequence = sequence;
+			sequence.OnKill(() => lastDrawSequence = null);
+			lastDrawSequence = sequence;
 		}
 
 		private void HandleDiscard(GameObject card, Action onFinishAnimation)
@@ -58,8 +59,9 @@ namespace HandSystem
 			cards.Remove(card);
 
 			Sequence sequence = DOTween.Sequence();
-			if (lastSequence.IsActive()) sequence.Append(lastSequence);
-			sequence.Append(card.transform.DOMove(discardTransform.position, moveDuration));
+			if (lastDiscardSequence.IsActive()) sequence.Append(lastDiscardSequence);
+			sequence.Append(card.transform.DOMove(Camera.main.ScreenToWorldPoint(discardTransform.position), 
+				moveDuration));
 			sequence.Join(card.transform.DOScale(Vector3.zero, moveDuration));
 			for (int i = 0; i < cards.Count; i++)
 			{
@@ -71,8 +73,8 @@ namespace HandSystem
 			}
 
 			sequence.AppendCallback(() => { onFinishAnimation?.Invoke(); });
-			sequence.OnKill(() => lastSequence = null);
-			lastSequence = sequence;
+			sequence.OnKill(() => lastDiscardSequence = null);
+			lastDiscardSequence = sequence;
 		}
 
 		private void HandleHover(GameObject hoveredCard)

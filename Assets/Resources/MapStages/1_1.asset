@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: 1_1
   m_EditorClassIdentifier: 
   stageName: 1_1
-  stageBackground: {fileID: 21300000, guid: 30d321777ca44c0448c8fc9ea69c5028, type: 3}
+  stageBackground: {fileID: 21300000, guid: 52fe9de21ca05844a8783104dd8b5c4c, type: 3}
   stageEnemies:
   - {fileID: 5565386576038879824, guid: cc42545fb2369c04ca21b84e3ddbbceb, type: 3}
   storyText: What is this place? I feel to empty....
