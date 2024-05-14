@@ -6,49 +6,39 @@ using TMPro;
 
 public class PlayerActionPointsUI : MonoBehaviour
 {
-    // Update is called once per frame
-    public GameObject[] actionPoints;
+	// Update is called once per frame
+	public GameObject[] actionPoints;
 
-    
-    private void Start()
-    {
-        BattleManager.Instance.PlayerScript.OnActionPointChange += UpdateActionPoints;
-    }
-    
-    public void UpdateActionPoints()
-    {
-        var textComponent = GetComponent<TextMeshProUGUI>();
-        if (textComponent != null)
-        {
-            textComponent.text = "AP: " + BattleManager.Instance.PlayerScript.CurrentActionPoints +
-                                 " / " + GameStateManager.Instance.MaxActionPoints;
-        }
-        UpdateActionPointUI(); // Refresh the UI
-    }
+	private void Start()
+	{
+		BattleManager.Instance.PlayerScript.OnActionPointChange += UpdateActionPoints;
+	}
 
-    void UpdateActionPointUI()
-    {
-        int currentActionPoints = BattleManager.Instance.PlayerScript.CurrentActionPoints;
+	private void UpdateActionPoints()
+	{
+		var textComponent = GetComponent<TextMeshProUGUI>();
+		if (textComponent != null)
+		{
+			textComponent.text = "AP: " + BattleManager.Instance.PlayerScript.CurrentActionPoints + " / " +
+			                     GameStateManager.Instance.MaxActionPoints;
+		}
 
-        for (int i = 0; i < actionPoints.Length; i++)
-        {
-            SpriteRenderer spriteRenderer = actionPoints[i].GetComponent<SpriteRenderer>(); // Get SpriteRenderer component
+		UpdateActionPointUI(); // Refresh the UI
+	}
 
-            if (spriteRenderer != null)
-            {
-                Color currentColor = spriteRenderer.color;
+	private void UpdateActionPointUI()
+	{
+		int currentActionPoints = BattleManager.Instance.PlayerScript.CurrentActionPoints;
 
-                if (i < currentActionPoints)
-                {
-                    currentColor.a = 1.0f; // Full opacity
-                }
-                else
-                {
-                    currentColor.a = 0.2f; // Less opacity
-                }
-
-                spriteRenderer.color = currentColor; // Apply updated color
-            }
-        }
-    }
+		for (int i = 0; i < actionPoints.Length; i++)
+		{
+			SpriteRenderer
+				spriteRenderer = actionPoints[i].GetComponent<SpriteRenderer>(); // Get SpriteRenderer component
+			if (spriteRenderer != null)
+			{
+				spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b,
+					i < currentActionPoints ? 1.0f : 0.2f); // Set alpha based on condition
+			}
+		}
+	}
 }

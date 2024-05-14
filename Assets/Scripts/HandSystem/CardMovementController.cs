@@ -44,6 +44,7 @@ namespace HandSystem
 
 		private void Update()
 		{
+			if (BattleManager.Instance.isPaused) return;
 			switch (handState)
 			{
 				case HandState.Idle:
