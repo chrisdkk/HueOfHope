@@ -31,9 +31,9 @@ public class CardPool : MonoBehaviour
 
 	public void Populate(List<CardData> cards)
 	{
-		if (cards.Count > pool.Count)
+		while (cards.Count > pool.Count)
 		{
-			AddStep();
+				AddStep();
 		}
 
 		for (int i = 0; i < cards.Count; i++)
