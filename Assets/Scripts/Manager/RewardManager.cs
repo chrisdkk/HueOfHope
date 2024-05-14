@@ -20,6 +20,7 @@ public class RewardManager : MonoBehaviour
     [SerializeField] private GameObject cardParent;
     [SerializeField] private int healingAmount = 0;
     private RewardCard selectedReward;
+    private List<CardData> rewards = new List<CardData>();
     private bool healing;
 
     public delegate void BattleEndedEventHandler();
@@ -69,15 +70,17 @@ public class RewardManager : MonoBehaviour
     public void ShowAddCard()
     {
         // Choose 3 random card datas as reward
-        List<CardData> rewards = new List<CardData>();
-        Random r = new Random();
-        while (rewards.Count < 3)
+        if (rewards.Count == 0)
         {
-            int index = r.Next(GameStateManager.Instance.AllAvailableCards.Count);
-            // Prevent duplicates
-            if (!rewards.Contains(GameStateManager.Instance.AllAvailableCards[index]))
+            Random r = new Random();
+            while (rewards.Count < 3)
             {
-                rewards.Add(GameStateManager.Instance.AllAvailableCards[index]);
+                int index = r.Next(GameStateManager.Instance.AllAvailableCards.Count);
+                // Prevent duplicates
+                if (!rewards.Contains(GameStateManager.Instance.AllAvailableCards[index]))
+                {
+                    rewards.Add(GameStateManager.Instance.AllAvailableCards[index]);
+                }
             }
         }
 
@@ -128,6 +131,7 @@ public class RewardManager : MonoBehaviour
 
             selectedReward.OnOtherRewardChosen();
             selectedReward = null;
+            rewards.RemoveRange(0,rewards.Count);
 
             addCardButton.interactable = false;
             removeCardButton.interactable = false;
@@ -150,12 +154,14 @@ public class RewardManager : MonoBehaviour
 
             selectedReward.OnOtherRewardChosen();
             selectedReward = null;
+            rewards.RemoveRange(0,rewards.Count);
 
             addCardButton.interactable = false;
             removeCardButton.interactable = false;
 
             background.SetActive(false);
             removeCardVerticalGroup.SetActive(false);
+            removeCardVerticalGroup.GetComponent<RewardCardListUIController>().Close();
             backToSelectionButton.SetActive(false);
 
             // after rewards have been chosen, invoke

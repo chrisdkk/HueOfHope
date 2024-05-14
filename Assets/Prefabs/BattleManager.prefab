@@ -47,7 +47,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 863b7e3dbff201940835e57a5d605432, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eventRunning: 0
   playerCharacter: {fileID: 303197316325718874}
   rewardWindow: {fileID: 5659153181166308222}
   burnVFX: {fileID: 6294508013172393196, guid: 043176b6a68be2b43b073aaaa4782c7d, type: 3}
@@ -57,6 +56,9 @@ MonoBehaviour:
   - {fileID: 1081694943841828008}
   backgroundImage: {fileID: 0}
   handManager: {fileID: 0}
+  burnValue: 0
+  eventRunning: 0
+  isPaused: 0
 --- !u!1 &7058019857165636379
 GameObject:
   m_ObjectHideFlags: 0
@@ -82,7 +84,7 @@ Transform:
   m_GameObject: {fileID: 7058019857165636379}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1, y: -0.3, z: 0}
+  m_LocalPosition: {x: 1, y: -0.8, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -147,7 +149,7 @@ Transform:
   m_GameObject: {fileID: 8323791626816768538}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 7, y: -0.3, z: 0}
+  m_LocalPosition: {x: 7, y: -0.8, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -178,7 +180,7 @@ Transform:
   m_GameObject: {fileID: 8822689302929007475}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4, y: -1, z: 0}
+  m_LocalPosition: {x: 4, y: -1.2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
