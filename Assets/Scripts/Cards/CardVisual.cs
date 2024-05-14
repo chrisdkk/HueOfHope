@@ -22,11 +22,17 @@ public class CardVisual : MonoBehaviour
 
     private List<GameObject> effectDetails = new List<GameObject>();
 
+    void Start()
+    {
+        // Register to update text on stat changes
+        BattleManager.Instance.PlayerScript.CharacterStats.OnStatChange += () => LoadCardData(CardData);
+    }
+
     public void LoadCardData(CardData newData)
     {
         CardData = newData;
         title.SetText(CardData.cardName);
-        
+
         // Build card text
         string text = "";
         foreach (CardEffect effect in CardData.effects)
@@ -43,7 +49,8 @@ public class CardVisual : MonoBehaviour
 
             if (effect.effectData != null)
             {
-                text += effect.effectData.GetText(actualPayload, damageUpdated, effect.insightMultiplier, effect.effectTarget);
+                text += effect.effectData.GetText(actualPayload, damageUpdated, effect.insightMultiplier,
+                    effect.effectTarget);
                 text += "\n";
             }
         }

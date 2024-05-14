@@ -12,7 +12,6 @@ public class Player : Character
     void Start()
     {
         CharacterStats.OnHealthChange += CheckForGameOver;
-        CharacterStats.OnStatChange += UpdateDamageOfCards;
     }
 
     public void ResetActionPoints()
@@ -43,10 +42,5 @@ public class Player : Character
         {
             BattleManager.Instance.EndBattle();
         }
-    }
-    
-    private void UpdateDamageOfCards()
-    {
-        GameObject.Find("Hand").GetComponent<HandManager>().UpdateCardsInHandVisuals();
     }
 }
