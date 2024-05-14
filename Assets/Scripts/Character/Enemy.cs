@@ -14,7 +14,7 @@ public class Enemy : Character
     [SerializeField] private List<EnemyCard> enemyPattern = new();
 
     private int currentActionIndex;
-    private bool isDead = false;
+    public bool isDead = false;
 
 
     // Start is called before the first frame update

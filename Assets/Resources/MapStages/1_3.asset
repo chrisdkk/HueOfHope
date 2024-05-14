@@ -16,5 +16,5 @@ MonoBehaviour:
   stageBackground: {fileID: 21300000, guid: e6d49d959ebbc264b810829a2e670d7f, type: 3}
   stageEnemies:
   - {fileID: 5565386576038879824, guid: 97008fee1bf31224ab159c4a35a61017, type: 3}
-  storyText: 
+  storyText: What are those things? Why do they attack me?
   healingAfterStage: 0

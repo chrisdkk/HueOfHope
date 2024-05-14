@@ -16,3 +16,7 @@ MonoBehaviour:
   stageBackground: {fileID: 21300000, guid: e6d49d959ebbc264b810829a2e670d7f, type: 3}
   stageEnemies:
   - {fileID: 5565386576038879824, guid: 29313b9e2ec5b5243aaaa23aea4912d9, type: 3}
+  storyText: 'Joy: Thanks for saving me. These things started appearing and corrupting
+    our world./u000A You need to rescue our friends, before they are lost forever.
+    But you are not alone, I will help you!'
+  healingAfterStage: 0

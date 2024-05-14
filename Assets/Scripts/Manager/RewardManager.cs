@@ -18,8 +18,7 @@ public class RewardManager : MonoBehaviour
     [SerializeField] private Button addCardButton;
     [SerializeField] private Button removeCardButton;
     [SerializeField] private GameObject cardParent;
-    [SerializeField] private CardPool cardPool;
-    [SerializeField] private int healingAmount=0;
+    [SerializeField] private int healingAmount = 0;
     private RewardCard selectedReward;
     private bool healing;
 
@@ -62,6 +61,7 @@ public class RewardManager : MonoBehaviour
         {
             healingVerticalGroup.SetActive(false);
         }
+
         backToSelectionButton.SetActive(false);
         chooseRewardVerticalGroup.SetActive(true);
     }
@@ -84,10 +84,9 @@ public class RewardManager : MonoBehaviour
         // Load card data into card game object and register onclick
         for (int i = 0; i < rewards.Count; i++)
         {
-            GameObject instCard = cardPool.GetCard(rewards[i]);
-            instCard.transform.localScale *= 3;
-            instCard.GetComponent<RewardCard>().OnClick+=HandleCardOnClick;
-            
+            GameObject instCard = cardParent.transform.GetChild(i).gameObject;
+            instCard.GetComponent<CardVisual>().LoadCardData(rewards[i]);
+            instCard.GetComponent<RewardCard>().OnClick += HandleCardOnClick;
         }
 
         chooseRewardVerticalGroup.SetActive(false);
@@ -139,11 +138,6 @@ public class RewardManager : MonoBehaviour
 
             // after rewards have been chosen, invoke
             OnBattleEnd?.Invoke();
-
-            for (int i=0;i<cardParent.transform.childCount;i++)
-            {
-                cardPool.ReleaseCard(cardParent.transform.GetChild(i).gameObject);
-            }
         }
     }
 
@@ -168,7 +162,7 @@ public class RewardManager : MonoBehaviour
             OnBattleEnd?.Invoke();
         }
     }
-    
+
     public void HandleBackToSelectionButtonOnClick()
     {
         if (addCardVerticalGroup.activeSelf)
@@ -179,6 +173,14 @@ public class RewardManager : MonoBehaviour
         {
             removeCardVerticalGroup.SetActive(false);
             removeCardVerticalGroup.GetComponent<RewardCardListUIController>().Close();
+        }
+
+        if (selectedReward != null)
+        {
+            selectedReward.OnOtherRewardChosen();
+            selectedReward = null;
+            addCardButton.interactable = false;
+            removeCardButton.interactable = false;
         }
         backToSelectionButton.SetActive(false);
         chooseRewardVerticalGroup.SetActive(true);
