@@ -96,16 +96,17 @@ public class BattleManager : MonoBehaviour
 		OnStartEnemyTurn?.Invoke();
 		foreach (Enemy enemy in EnemiesInBattle)
 		{
-			if(enemy.isDead) continue;
 			// Reduce status effects of enemy
 			enemy.CharacterStats.Block = 0;
-			if (enemy.CharacterStats.Burn > 0)
+			if (enemy.CharacterStats.Burn > 0 && !enemy.isDead)
 			{
+				AddEventToQueue(()=>VfxEffects.PlayEffects(burnVFX, burnValue, enemy));
 				enemy.CharacterStats.Health -= burnValue;
 				enemy.CharacterStats.Burn -= 1;
-				AddEventToQueue(()=>VfxEffects.PlayEffects(burnVFX, burnValue, enemy));
 			}
-
+			
+			if(enemy.isDead) continue;
+			
 			// Do action
 			enemy.PlayEnemyCard();
 
