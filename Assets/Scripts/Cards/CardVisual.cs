@@ -13,7 +13,7 @@ public class CardVisual : MonoBehaviour
     [SerializeField] private TextMeshProUGUI description;
     [SerializeField] private TextMeshProUGUI cost;
     [SerializeField] private RawImage cardImage;
-    [SerializeField] private GameObject effectDetail;
+    [SerializeField] private GameObject effectDetailPrefab;
     [SerializeField] private float effectDetailYStart;
     [SerializeField] private float effectDetailYOffset;
     [SerializeField] private float effectDetailX;
@@ -30,6 +30,17 @@ public class CardVisual : MonoBehaviour
 
     public void LoadCardData(CardData newData)
     {
+        // Clear old effect details if existing
+        if (effectDetails.Count > 0)
+        {
+            foreach (GameObject effectDetail in effectDetails)
+            {
+                Destroy(effectDetail);
+            }
+
+            effectDetails.RemoveRange(0, effectDetails.Count);
+        }
+
         CardData = newData;
         title.SetText(CardData.cardName);
 
@@ -71,20 +82,20 @@ public class CardVisual : MonoBehaviour
             switch (effect.effectType)
             {
                 case CardEffectType.Insight:
-                    instObject = Instantiate(effectDetail, transform, false);
+                    instObject = Instantiate(effectDetailPrefab, transform, false);
                     break;
                 case CardEffectType.Burn:
                     // After merging with new vfx effects -> Burn description should get [NUMBER] and replace it here with BattleManager.Instance.BurnValue
-                    instObject = Instantiate(effectDetail, transform, false);
+                    instObject = Instantiate(effectDetailPrefab, transform, false);
                     break;
                 case CardEffectType.IgnoreBlockOnNextAttacks:
-                    instObject = Instantiate(effectDetail, transform, false);
+                    instObject = Instantiate(effectDetailPrefab, transform, false);
                     break;
             }
 
             if (effect.ignoreBlock)
             {
-                instObject = Instantiate(effectDetail, transform, false);
+                instObject = Instantiate(effectDetailPrefab, transform, false);
             }
 
             if (instObject != null)
