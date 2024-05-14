@@ -126,7 +126,6 @@ MonoBehaviour:
   description: {fileID: 7033130970220620637}
   cost: {fileID: 3100620950118065068}
   cardImage: {fileID: 1825532780798805248}
-  cardData: {fileID: 11400000, guid: 2c7a899fb24b04001b416db918cb37c0, type: 2}
 --- !u!114 &5188207640578210040
 MonoBehaviour:
   m_ObjectHideFlags: 0
