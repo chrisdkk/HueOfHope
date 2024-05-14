@@ -33,6 +33,12 @@ public enum CardEffectTarget
 [Serializable]
 public class CardEffect
 {
+    public static List<CardEffectType> beforeActionVFX = new List<CardEffectType>()
+    {
+        CardEffectType.Insight, CardEffectType.AttackDebuff, CardEffectType.IgnoreBlockOnNextAttacks,
+        CardEffectType.TakeOverBurn
+    };
+    
     public CardEffectType effectType;
     public GameObject vfxEffect;
     public int payload;
