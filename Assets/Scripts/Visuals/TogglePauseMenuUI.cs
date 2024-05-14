@@ -5,14 +5,14 @@ using UnityEngine;
 
 public class TogglePauseMenuUI : MonoBehaviour
 {
-    [SerializeField] private GameObject PauseMenuCanvas;
+    [SerializeField] private GameObject pauseMenuCanvas;
 
     public bool isPaused;
 
     // Start is called before the first frame update
     void Start()
     {
-        PauseMenuCanvas.SetActive(false);
+        pauseMenuCanvas.SetActive(false);
     }
 
     private void Update()
@@ -20,7 +20,7 @@ public class TogglePauseMenuUI : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             isPaused = !isPaused;
-            PauseMenuCanvas.SetActive(isPaused);
+            pauseMenuCanvas.SetActive(isPaused);
             Time.timeScale = 0;
         }
 
@@ -33,7 +33,7 @@ public class TogglePauseMenuUI : MonoBehaviour
     public void OnButtonClick()
     {
         isPaused = !isPaused;
-        PauseMenuCanvas.SetActive(isPaused);
+        pauseMenuCanvas.SetActive(isPaused);
         Time.timeScale = 0;
     }
 }

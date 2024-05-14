@@ -31,7 +31,7 @@ public class SceneChanger : MonoBehaviour
         {
             // hide this button if no previous save data?
             // pop up telling you there is no save data
-            Debug.Log("no savedata");
+            Debug.Log("No Save Data");
         }
     }
 
@@ -39,8 +39,6 @@ public class SceneChanger : MonoBehaviour
     {
         FindObjectOfType<AudioManager>().Play("ButtonClick");
 
-        // add confirmation
-        
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #else

@@ -115,7 +115,6 @@ GameObject:
   - component: {fileID: 1624355462490090038}
   - component: {fileID: 1647735603233378005}
   - component: {fileID: 5963493317191216039}
-  - component: {fileID: 6692502782801309143}
   m_Layer: 5
   m_Name: QuitMainMenuButton
   m_TagString: Untagged
@@ -225,8 +224,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6692502782801309143}
-        m_TargetAssemblyTypeName: PauseMenuButtonAction, Assembly-CSharp
+      - m_Target: {fileID: 7651826668406273116}
+        m_TargetAssemblyTypeName: PauseMenuButtonActions, Assembly-CSharp
         m_MethodName: OnQuitMainMenuButton
         m_Mode: 1
         m_Arguments:
@@ -237,18 +236,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &6692502782801309143
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 969911478302897927}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bcd497494fc8e9944a5906bfc24e088e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1029925873160611045
 GameObject:
   m_ObjectHideFlags: 0
@@ -770,7 +757,6 @@ GameObject:
   - component: {fileID: 3395893310186294642}
   - component: {fileID: 7517466018375096306}
   - component: {fileID: 2219180512338816605}
-  - component: {fileID: 7572591458268108233}
   m_Layer: 5
   m_Name: QuitDesktopButton
   m_TagString: Untagged
@@ -880,8 +866,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7572591458268108233}
-        m_TargetAssemblyTypeName: PauseMenuButtonAction, Assembly-CSharp
+      - m_Target: {fileID: 7651826668406273116}
+        m_TargetAssemblyTypeName: PauseMenuButtonActions, Assembly-CSharp
         m_MethodName: OnQuitDesktopButton
         m_Mode: 1
         m_Arguments:
@@ -892,18 +878,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &7572591458268108233
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6603175293893552685}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bcd497494fc8e9944a5906bfc24e088e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &6725985487567319891
 GameObject:
   m_ObjectHideFlags: 0
@@ -1050,7 +1024,6 @@ GameObject:
   - component: {fileID: 1415084494318827742}
   - component: {fileID: 8456518522137343382}
   - component: {fileID: 2032514814316881316}
-  - component: {fileID: 4273798039579518915}
   m_Layer: 5
   m_Name: SettingsButton
   m_TagString: Untagged
@@ -1160,8 +1133,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4273798039579518915}
-        m_TargetAssemblyTypeName: PauseMenuButtonAction, Assembly-CSharp
+      - m_Target: {fileID: 7651826668406273116}
+        m_TargetAssemblyTypeName: PauseMenuButtonActions, Assembly-CSharp
         m_MethodName: OnSettingsButton
         m_Mode: 1
         m_Arguments:
@@ -1172,18 +1145,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &4273798039579518915
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6790261397398848368}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bcd497494fc8e9944a5906bfc24e088e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &6994527715771360724
 GameObject:
   m_ObjectHideFlags: 0
@@ -1196,7 +1157,6 @@ GameObject:
   - component: {fileID: 292085012452947733}
   - component: {fileID: 8506316167599975191}
   - component: {fileID: 369150951948559100}
-  - component: {fileID: 5234969203589993027}
   m_Layer: 5
   m_Name: SaveButton
   m_TagString: Untagged
@@ -1306,8 +1266,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5234969203589993027}
-        m_TargetAssemblyTypeName: PauseMenuButtonAction, Assembly-CSharp
+      - m_Target: {fileID: 7651826668406273116}
+        m_TargetAssemblyTypeName: PauseMenuButtonActions, Assembly-CSharp
         m_MethodName: OnSaveButton
         m_Mode: 1
         m_Arguments:
@@ -1318,18 +1278,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &5234969203589993027
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6994527715771360724}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bcd497494fc8e9944a5906bfc24e088e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &7021319542473267703
 GameObject:
   m_ObjectHideFlags: 0
@@ -1473,6 +1421,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4972314154620183456}
+  - component: {fileID: 7651826668406273116}
   m_Layer: 5
   m_Name: ButtonWrapper
   m_TagString: Untagged
@@ -1504,6 +1453,25 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &7651826668406273116
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7248354697657113139}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf74bd8f5e4d7724f95b69c3e5974aaf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  togglePauseMenuButton: {fileID: 0}
+  ConfirmationUI: {fileID: 0}
+  resumeButton: {fileID: 8719678368160623988}
+  saveButton: {fileID: 6994527715771360724}
+  settingsButton: {fileID: 6790261397398848368}
+  quitMainMenuButton: {fileID: 969911478302897927}
+  quitDesktopButton: {fileID: 6603175293893552685}
 --- !u!1 &8719678368160623988
 GameObject:
   m_ObjectHideFlags: 0
@@ -1516,7 +1484,6 @@ GameObject:
   - component: {fileID: 7011805771460171234}
   - component: {fileID: 4680885840401651069}
   - component: {fileID: 77256936070899907}
-  - component: {fileID: 8305487061763261457}
   m_Layer: 5
   m_Name: ResumeButton
   m_TagString: Untagged
@@ -1626,8 +1593,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8305487061763261457}
-        m_TargetAssemblyTypeName: PauseMenuButtonAction, Assembly-CSharp
+      - m_Target: {fileID: 7651826668406273116}
+        m_TargetAssemblyTypeName: PauseMenuButtonActions, Assembly-CSharp
         m_MethodName: OnResumeButton
         m_Mode: 1
         m_Arguments:
@@ -1638,15 +1605,3 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &8305487061763261457
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8719678368160623988}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bcd497494fc8e9944a5906bfc24e088e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

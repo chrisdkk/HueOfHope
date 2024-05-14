@@ -31,6 +31,8 @@ public class SaveSystem : MonoBehaviour
         PlayerPrefs.SetString("PlayerDeck", deckCardNames);
 
         PlayerPrefs.Save();
+        
+        Debug.Log("Saved Game");
     }
 
     public int GetSavedPlayerHealth()
