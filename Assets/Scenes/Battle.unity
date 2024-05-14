@@ -6307,12 +6307,12 @@ PrefabInstance:
     - target: {fileID: 1392471885411708019, guid: a9d5d46afada7fb4e83c806d2093a6c2,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 960
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1392471885411708019, guid: a9d5d46afada7fb4e83c806d2093a6c2,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 540
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1392471885411708019, guid: a9d5d46afada7fb4e83c806d2093a6c2,
         type: 3}
@@ -6423,6 +6423,11 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 233532042}
+    - target: {fileID: 5004190864816045340, guid: d08f45a77f41048c7b0e9af47430538b,
+        type: 3}
+      propertyPath: confirmationUI
+      value: 
+      objectReference: {fileID: 1839001920}
     - target: {fileID: 5004190864816045340, guid: d08f45a77f41048c7b0e9af47430538b,
         type: 3}
       propertyPath: PauseMenuCanvas

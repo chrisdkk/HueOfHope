@@ -13,9 +13,16 @@ public enum QuitType
 
 public class ToggleConfirmationUI : MonoBehaviour
 {
-    public bool isPaused;
-
     private QuitType quitType;
+
+    // private void Update()
+    // {
+    //     if (Input.GetKeyDown(KeyCode.Escape))
+    //     {
+    //         isPaused = !isPaused;
+    //         gameObject.SetActive(isPaused);
+    //     }
+    // }
 
     public void ShowConfirmationPopUp(QuitType type)
     {

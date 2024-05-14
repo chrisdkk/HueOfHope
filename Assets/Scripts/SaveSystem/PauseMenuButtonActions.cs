@@ -21,11 +21,6 @@ public class PauseMenuButtonActions : MonoBehaviour
         SaveSystem.Instance.SaveGame();
     }
 
-    public void OnSettingsButton()
-    {
-        Debug.Log("Open Settings");
-    }
-
     public void OnQuitMainMenuButton()
     {
         confirmationUI.GetComponent<ToggleConfirmationUI>().ShowConfirmationPopUp(QuitType.MainMenu);

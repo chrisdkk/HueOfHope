@@ -6,6 +6,7 @@ using UnityEngine;
 public class TogglePauseMenuUI : MonoBehaviour
 {
     [SerializeField] private GameObject pauseMenuCanvas;
+    [SerializeField] private GameObject confirmationUI;
 
     public bool isPaused;
 
@@ -21,7 +22,13 @@ public class TogglePauseMenuUI : MonoBehaviour
         {
             isPaused = !isPaused;
             pauseMenuCanvas.SetActive(isPaused);
+
             Time.timeScale = 0;
+        }
+
+        if (!isPaused)
+        {
+            confirmationUI.SetActive(isPaused);
         }
 
         if (!isPaused)
