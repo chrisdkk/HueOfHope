@@ -10,13 +10,12 @@ public class Enemy : Character
 {
     [SerializeField] private int maxHealth = 30;
     [SerializeField] private GameObject actionIndication;
-    [SerializeField] private List<Material> actionIndicationMaterial;
+    [SerializeField] private List<Sprite> actionIndicationSprites; // List of sprites for indication
     [SerializeField] private List<EnemyCard> enemyPattern = new();
     [SerializeField] private GameObject deathVFX;
 
     private int currentActionIndex;
     public bool isDead = false;
-
 
     // Start is called before the first frame update
     void Start()
@@ -27,10 +26,7 @@ public class Enemy : Character
 
         // Get current action and indicate it
         currentActionIndex = 0;
-        actionIndication.GetComponent<MeshRenderer>().material = actionIndicationMaterial.Find(material =>
-            material.name == enemyPattern[currentActionIndex].cardType.ToString());
-        actionIndication.GetComponentInChildren<TextMeshPro>().text =
-            enemyPattern[currentActionIndex].effects[0].payload.ToString();
+        SetActionIndicationSprite();
     }
 
     /* Play the current selected enemy card*/
@@ -105,10 +101,7 @@ public class Enemy : Character
             currentActionIndex = 0;
         }
 
-        actionIndication.GetComponent<MeshRenderer>().material = actionIndicationMaterial.Find(material =>
-            material.name == enemyPattern[currentActionIndex].cardType.ToString());
-        actionIndication.GetComponentInChildren<TextMeshPro>().text =
-            enemyPattern[currentActionIndex].effects[0].payload.ToString();
+        SetActionIndicationSprite();
     }
 
     private void CheckForGameOver(int currentHealth, int maxHealth)
@@ -129,4 +122,20 @@ public class Enemy : Character
             isDead = true;
         }
     }
+
+    // Helper method to set the action indication sprite
+    private void SetActionIndicationSprite()
+{
+    // Ensure currentActionIndex is within bounds
+    if (currentActionIndex >= 0 && currentActionIndex < actionIndicationSprites.Count)
+    {
+        actionIndication.GetComponent<SpriteRenderer>().sprite = actionIndicationSprites[currentActionIndex];
+        actionIndication.GetComponentInChildren<TextMeshPro>().text =
+            enemyPattern[currentActionIndex].effects[0].payload.ToString();
+    }
+    else
+    {
+        Debug.LogError($"Current action index {currentActionIndex} is out of range for action indication sprites.");
+    }
+}
 }
