@@ -64,8 +64,8 @@ public class GameStateManager : MonoBehaviour
             
             // deck system
             deckSystem.InitializeDeck(deck);
-
-            battleManager.Initialize(deck, mapSystem.GetEnemies(), mapSystem.GetBackground());
+            
+            battleManager.Initialize(deck, mapSystem.GetEnemies(), mapSystem.GetBackground(), mapSystem.GetStory(), mapSystem.GetHealingOption());
         }
     }
 

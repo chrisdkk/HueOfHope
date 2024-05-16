@@ -115,15 +115,22 @@ namespace HandSystem
 					targets.Add(player);
 				}
 
-				// Add event for the effect
-				switch (effect.effectType)
-				{
-					case CardEffectType.Damage:
-						// Add event to deal damage
-						BattleManager.Instance.AddEventToQueue(() =>
-						{
-							CardEffectActions.DamageAction(player, effect.payload,
-								effect.ignoreBlock || player.CharacterStats.IgnoreBlockOnNext > 0, ref targets);
+                // Add vfx to queue
+                if (effect.vfxEffect != null && CardEffect.beforeActionVFX.Contains(effect.effectType))
+                {
+                    BattleManager.Instance.AddEventToQueue(() =>
+                        VfxEffects.PlayEffects(effect.vfxEffect, effect.payload, targets.ToArray()));
+                }
+
+                // Add event for the effect
+                switch (effect.effectType)
+                {
+                    case CardEffectType.Damage:
+                        // Add event to deal damage
+                        BattleManager.Instance.AddEventToQueue(() =>
+                        {
+                            CardEffectActions.DamageAction(player, effect.payload,
+                                effect.ignoreBlock || player.CharacterStats.IgnoreBlockOnNext > 0, ref targets);
 
 							// Reduce buff ignore block on next attack
 							if (player.CharacterStats.IgnoreBlockOnNext > 0)
@@ -219,12 +226,18 @@ namespace HandSystem
 						break;
 				}
 
-				if (effect.vfxEffect != null)
-				{
-					BattleManager.Instance.AddEventToQueue(() =>
-						StartCoroutine(VfxEffects.PlayEffects(effect.vfxEffect, targets.ToArray())));
-				}
-			}
-		}
-	}
+                // Add vfx to queue
+                if (effect.vfxEffect != null && !CardEffect.beforeActionVFX.Contains(effect.effectType))
+                {
+                    BattleManager.Instance.AddEventToQueue(() =>
+                        VfxEffects.PlayEffects(effect.vfxEffect, effect.payload, targets.ToArray()));
+                }
+                if (otherTargets != null)
+                {
+                    BattleManager.Instance.AddEventToQueue(() =>
+                        VfxEffects.PlayEffects(effect.vfxEffect, effect.payload, otherTargets.ToArray()));
+                }
+            }
+        }
+    }
 }

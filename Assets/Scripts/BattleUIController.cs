@@ -11,7 +11,7 @@ public class BattleUIController : MonoBehaviour
 	[SerializeField] private HandManager handManager;
 	[SerializeField] private Button endTurnButton;
 	[SerializeField] private TextMeshProUGUI turnIndicator;
-	[SerializeField] private Animator playerHealthAnimator;
+	[SerializeField] private TextMeshProUGUI playerHealth;
 
 	private void Start()
 	{
@@ -28,11 +28,9 @@ public class BattleUIController : MonoBehaviour
 		endTurnButton.interactable = false;
 		BattleManager.Instance.EndPlayerTurn();
 	}
-	
-	private static readonly int PlayerHealth = Animator.StringToHash("PlayerHealth");
-    private void UpdatePlayerHealthAnimation(int currentHealth, int maxHealth)
-    {
-        // Set the health parameter in the Animator
-        playerHealthAnimator.SetInteger(PlayerHealth, currentHealth);
-    }
+	private void UpdatePlayerHealthAnimation(int currentHealth, int maxHealth)
+	{
+		// Set the health parameter in the Animator
+		playerHealth.text = "HP: " + currentHealth + "/" + maxHealth;
+	}
 }
