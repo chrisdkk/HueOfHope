@@ -4,6 +4,8 @@ using UnityEngine.SceneManagement;
 
 public class SceneChanger : MonoBehaviour
 {
+    [SerializeField] private GameObject continueButton;
+
     public void StartNewGame()
     {
         AudioManager audioManager = FindObjectOfType<AudioManager>();
@@ -27,12 +29,6 @@ public class SceneChanger : MonoBehaviour
             GameStateManager.SetGameType(GameType.OldGame);
             SceneManager.LoadScene("Battle");
         }
-        else
-        {
-            // hide this button if no previous save data?
-            // pop up telling you there is no save data
-            Debug.Log("No Save Data");
-        }
     }
 
     public void QuitGame()
@@ -49,5 +45,11 @@ public class SceneChanger : MonoBehaviour
     void Start()
     {
         FindObjectOfType<AudioManager>().Play("Theme");
+
+        if (!PlayerPrefs.HasKey("PlayerHealth") && !PlayerPrefs.HasKey("ChapterProgress") &&
+            !PlayerPrefs.HasKey("StageProgress") && !PlayerPrefs.HasKey("PlayerDeck"))
+        {
+            continueButton.SetActive(false);
+        }
     }
 }

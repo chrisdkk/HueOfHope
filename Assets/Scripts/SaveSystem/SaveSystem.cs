@@ -37,24 +37,24 @@ public class SaveSystem : MonoBehaviour
 
     public int GetSavedPlayerHealth()
     {
-        return PlayerPrefs.GetInt("PlayerHealth");
+        return PlayerPrefs.GetInt("PlayerHealth", -1);
     }
 
     public int GetSavedChapterProgress()
     {
-        return PlayerPrefs.GetInt("ChapterProgress");
+        return PlayerPrefs.GetInt("ChapterProgress", -1);
     }
 
     public int GetSavedStageProgress()
     {
-        return PlayerPrefs.GetInt("StageProgress");
+        return PlayerPrefs.GetInt("StageProgress", -1);
     }
 
     public List<CardData> GetSavedPlayerDeck()
     {
         List<CardData> SavedDeck = new List<CardData>();
 
-        String PlayerDeck = PlayerPrefs.GetString("PlayerDeck");
+        String PlayerDeck = PlayerPrefs.GetString("PlayerDeck", "-1");
         String[] CardNames = PlayerDeck.Split(new[] { ',' });
 
         foreach (String name in CardNames)
