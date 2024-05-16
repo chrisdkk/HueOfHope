@@ -2013,6 +2013,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: RewardCard
       objectReference: {fileID: 0}
+    - target: {fileID: 2614393407694439345, guid: b0af3561ab53a24438d0c7509040bfd6,
+        type: 3}
+      propertyPath: layoutGroup
+      value: 
+      objectReference: {fileID: 875829530034225950}
     - target: {fileID: 6313764240238311083, guid: b0af3561ab53a24438d0c7509040bfd6,
         type: 3}
       propertyPath: m_Pivot.x
@@ -2318,6 +2323,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: RewardCard (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 2614393407694439345, guid: b0af3561ab53a24438d0c7509040bfd6,
+        type: 3}
+      propertyPath: layoutGroup
+      value: 
+      objectReference: {fileID: 875829530034225950}
     - target: {fileID: 6313764240238311083, guid: b0af3561ab53a24438d0c7509040bfd6,
         type: 3}
       propertyPath: m_Pivot.x
@@ -2601,6 +2611,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: RewardCard (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 2614393407694439345, guid: b0af3561ab53a24438d0c7509040bfd6,
+        type: 3}
+      propertyPath: layoutGroup
+      value: 
+      objectReference: {fileID: 875829530034225950}
     - target: {fileID: 6313764240238311083, guid: b0af3561ab53a24438d0c7509040bfd6,
         type: 3}
       propertyPath: m_Pivot.x

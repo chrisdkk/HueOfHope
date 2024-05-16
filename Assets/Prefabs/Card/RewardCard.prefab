@@ -60,6 +60,12 @@ MonoBehaviour:
   description: {fileID: 7033130970220620637}
   cost: {fileID: 3100620950118065068}
   cardImage: {fileID: 5202285869533318208}
+  effectDetailPrefab: {fileID: 1937280000517734562, guid: 72814612b5ef6ff46b8c25a5c52c9a6d,
+    type: 3}
+  effectDetailYStart: 40.5
+  effectDetailYOffset: -50
+  effectDetailX: 90
+  effectDetailScale: 10
 --- !u!114 &2614393407694439345
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -74,6 +80,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   increasedScale: 1.3
   highlightBorder: {fileID: 8029606809339823935}
+  layoutGroup: {fileID: 0}
 --- !u!1 &889792474994991634
 GameObject:
   m_ObjectHideFlags: 0

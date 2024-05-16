@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5539,11 +5539,6 @@ PrefabInstance:
     - target: {fileID: 6142158643716920035, guid: cc5b013f1f9d34856897ff726f5c004c,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -26.240967
-      objectReference: {fileID: 0}
-    - target: {fileID: 6142158643716920035, guid: cc5b013f1f9d34856897ff726f5c004c,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7312291398215916095, guid: cc5b013f1f9d34856897ff726f5c004c,
@@ -6896,17 +6891,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 213207984}
-    - target: {fileID: 4012590991736291123, guid: f852b1466c52445e18569ff4ce5130af,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
-      value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 4012590991736291123, guid: f852b1466c52445e18569ff4ce5130af,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 592348199}
     - target: {fileID: 4012590991736291123, guid: f852b1466c52445e18569ff4ce5130af,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
@@ -7173,15 +7158,19 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 213207984}
     m_RemovedComponents: []
-    m_RemovedGameObjects: [{fileID: 4890926573646854751, guid: f852b1466c52445e18569ff4ce5130af,
-        type: 3}, {fileID: 7892113580340913137, guid: f852b1466c52445e18569ff4ce5130af,
-        type: 3}, {fileID: 2112014877138380756, guid: f852b1466c52445e18569ff4ce5130af,
-        type: 3}]
-    m_AddedGameObjects: [{targetCorrespondingSourceObject: {fileID: 8215803044718828729,
-          guid: f852b1466c52445e18569ff4ce5130af, type: 3}, insertIndex: 2, addedObject: {
-          fileID: 1655843579}}, {targetCorrespondingSourceObject: {fileID: 8215803044718828729,
-          guid: f852b1466c52445e18569ff4ce5130af, type: 3}, insertIndex: 3, addedObject: {
-          fileID: 74578571}}]
+    m_RemovedGameObjects:
+    - {fileID: 4890926573646854751, guid: f852b1466c52445e18569ff4ce5130af, type: 3}
+    - {fileID: 7892113580340913137, guid: f852b1466c52445e18569ff4ce5130af, type: 3}
+    - {fileID: 2112014877138380756, guid: f852b1466c52445e18569ff4ce5130af, type: 3}
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 8215803044718828729, guid: f852b1466c52445e18569ff4ce5130af,
+        type: 3}
+      insertIndex: 2
+      addedObject: {fileID: 1655843579}
+    - targetCorrespondingSourceObject: {fileID: 8215803044718828729, guid: f852b1466c52445e18569ff4ce5130af,
+        type: 3}
+      insertIndex: 3
+      addedObject: {fileID: 74578571}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f852b1466c52445e18569ff4ce5130af, type: 3}
 --- !u!224 &5082273702696790288 stripped

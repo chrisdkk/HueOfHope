@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class RewardCardPool : MonoBehaviour
 {
@@ -41,8 +42,10 @@ public class RewardCardPool : MonoBehaviour
 			GameObject card = pool.Dequeue();
 			card.SetActive(true);
 			card.GetComponent<CardVisual>().LoadCardData(cards[i]);
-			card.GetComponent<RewardCard>().OnClick+=onClickFunction;
-			card.GetComponent<RewardCard>().increasedScale=1.1f;
+			RewardCard rewardCard = card.GetComponent<RewardCard>();
+			rewardCard.OnClick+=onClickFunction;
+			rewardCard.increasedScale=1.1f;
+			rewardCard.layoutGroup = GetComponent<GridLayoutGroup>();
 		}
 	}
 
