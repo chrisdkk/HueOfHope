@@ -9,8 +9,7 @@ namespace HandSystem
 	{
 		Idle,
 		Hover,
-		Selected,
-		PlayArea
+		Selected
 	}
 
 	public class CardMovementController : MonoBehaviour
@@ -24,6 +23,8 @@ namespace HandSystem
 		private HandState handState;
 		private GameObject selectedCard;
 		private bool useArrowSelection;
+		private bool isTargetHovered;
+		private Collider targetCollider;
 		private EventSystem eventSystem;
 		private Camera mainCamera;
 
@@ -31,6 +32,9 @@ namespace HandSystem
 
 		public event Action OnIdle;
 		public event Action<GameObject> OnHover;
+		public event Action<CardData> OnSelect;
+		public event Action<GameObject> OnHoverTarget;
+		public event Action OnLeaveTarget;
 		public event CardPlayHandler OnPlay;
 
 		private void Start()
@@ -92,30 +96,45 @@ namespace HandSystem
 		{
 			if (Input.GetMouseButtonDown(0))
 			{
-				if (useArrowSelection)
+				if (isTargetHovered)
 				{
-					Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-					if (Physics.Raycast(ray, out var hit, 100, targetLayerMask))
-					{
-						OnPlay?.Invoke(selectedCard, hit.transform.gameObject);
-						TransitionState(HandState.Idle);
-						return;
-					}
+					OnPlay?.Invoke(selectedCard, targetCollider.gameObject);
+					TransitionState(HandState.Idle);
 				}
 				else
 				{
 					OnPlay?.Invoke(selectedCard, null);
 					TransitionState(HandState.Idle);
-					return;
 				}
+				return;
 			}
+			
+			if (useArrowSelection) UpdateArrowSelection();
+			else UpdateCardPosition();
+		}
 
-			if (!useArrowSelection)
+		private void UpdateArrowSelection()
+		{
+			Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+			if (Physics.Raycast(ray, out var hit, 100, targetLayerMask))
 			{
-				Vector3 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
-				Vector3 target = new Vector3(mousePos.x, mousePos.y, selectedCard.transform.position.z);
-				selectedCard.transform.position = Vector3.Lerp(selectedCard.transform.position, target, 20f * Time.deltaTime);
+				isTargetHovered = true;
+				targetCollider = hit.collider;
+				OnHoverTarget?.Invoke(targetCollider.gameObject);
 			}
+			else if (isTargetHovered)
+			{
+				isTargetHovered = false;
+				targetCollider = null;
+				OnLeaveTarget?.Invoke();
+			}
+		}
+
+		private void UpdateCardPosition()
+		{
+			Vector3 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+			Vector3 target = new Vector3(mousePos.x, mousePos.y, selectedCard.transform.position.z);
+			selectedCard.transform.position = Vector3.Lerp(selectedCard.transform.position, target, 20f * Time.deltaTime);
 		}
 
 		private void TransitionState(HandState newState)
@@ -137,12 +156,12 @@ namespace HandSystem
 					break;
 				case HandState.Selected:
 					CardData data = selectedCard.GetComponent<CardVisual>().CardData;
+					OnSelect?.Invoke(data);
 					useArrowSelection = data.cardType == CardType.Attack && !data.multiTarget;
 					if (useArrowSelection) selectedCard.transform.DOMove(playTransform.position, 0.2f);
 					playArrow.SetActive(useArrowSelection);
 					eventSystem.enabled = false;
 					break;
-				default: break;
 			}
 		}
 	}
