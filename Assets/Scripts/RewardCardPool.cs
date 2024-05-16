@@ -45,7 +45,6 @@ public class RewardCardPool : MonoBehaviour
 			RewardCard rewardCard = card.GetComponent<RewardCard>();
 			rewardCard.OnClick+=onClickFunction;
 			rewardCard.increasedScale=1.1f;
-			rewardCard.layoutGroup = GetComponent<GridLayoutGroup>();
 		}
 	}
 

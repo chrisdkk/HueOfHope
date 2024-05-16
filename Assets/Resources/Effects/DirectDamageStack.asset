@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: DirectDamageStack
   m_EditorClassIdentifier: 
   title: Direct Damage
-  text: 'Next [NUMBER] attack(s) deal direct damage '
+  text: 'Next [NUMBER] damage(s) deal(s) direct damage '
   effectDescription: 'Direct damage ignores the target''s block '
