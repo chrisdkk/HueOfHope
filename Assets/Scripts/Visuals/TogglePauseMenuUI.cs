@@ -8,8 +8,6 @@ public class TogglePauseMenuUI : MonoBehaviour
     [SerializeField] private GameObject pauseMenuCanvas;
     [SerializeField] private GameObject confirmationUI;
 
-    public bool isPaused;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -20,27 +18,25 @@ public class TogglePauseMenuUI : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            isPaused = !isPaused;
-            pauseMenuCanvas.SetActive(isPaused);
-
-            Time.timeScale = 0;
-        }
-
-        if (!isPaused)
-        {
-            confirmationUI.SetActive(isPaused);
-        }
-
-        if (!isPaused)
-        {
-            Time.timeScale = 1;
+            OnEscapeDown();
         }
     }
 
-    public void OnButtonClick()
+    private void OnEscapeDown()
     {
-        isPaused = !isPaused;
-        pauseMenuCanvas.SetActive(isPaused);
-        Time.timeScale = 0;
+        if (pauseMenuCanvas.activeSelf)
+        {
+            pauseMenuCanvas.SetActive(false);
+            confirmationUI.SetActive(false);
+            
+            BattleManager.Instance.Resume();
+            
+            return;
+        }
+        if (!pauseMenuCanvas.activeSelf && !BattleManager.Instance.isPaused)
+        {
+            BattleManager.Instance.Pause();
+            pauseMenuCanvas.SetActive(true);
+        }
     }
 }

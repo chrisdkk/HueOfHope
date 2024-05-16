@@ -13,32 +13,30 @@ public enum QuitType
 
 public class ToggleConfirmationUI : MonoBehaviour
 {
+    [SerializeField] private GameObject confirmationUI;
+    
     private QuitType quitType;
-
-    // private void Update()
-    // {
-    //     if (Input.GetKeyDown(KeyCode.Escape))
-    //     {
-    //         isPaused = !isPaused;
-    //         gameObject.SetActive(isPaused);
-    //     }
-    // }
-
-    public void ShowConfirmationPopUp(QuitType type)
+    
+    private void Start()
     {
-        quitType = type;
-
-        gameObject.SetActive(true);
+        confirmationUI.SetActive(false);     
     }
 
-    public void HideConfirmationPopUp()
+    public void ShowConfirmQuitToMenu()
     {
-        gameObject.SetActive(false);
+        quitType = QuitType.MainMenu;
+        confirmationUI.SetActive(true);
     }
-
+    
+    public void ShowConfirmQuitToDesktop()
+    {
+        quitType = QuitType.Desktop;
+        confirmationUI.SetActive(true);
+    }
+    
     public void OnSaveQuit()
     {
-        HideConfirmationPopUp();
+        confirmationUI.SetActive(false);
 
         if (quitType == QuitType.MainMenu)
         {
@@ -59,7 +57,7 @@ public class ToggleConfirmationUI : MonoBehaviour
 
     public void OnOnlyQuit()
     {
-        HideConfirmationPopUp();
+        confirmationUI.SetActive(false);
 
         if (quitType == QuitType.MainMenu)
         {

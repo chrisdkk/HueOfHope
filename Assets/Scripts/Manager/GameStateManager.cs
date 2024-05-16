@@ -20,6 +20,7 @@ public class GameStateManager : MonoBehaviour
     public int maxPlayerHealth;
     public int MaxActionPoints { get; set; }
     public int BurnTickDamage { get; set; }
+    
     public List<CardData> deck;
     public List<CardData> AllAvailableCards;
 
@@ -45,8 +46,6 @@ public class GameStateManager : MonoBehaviour
 
             if (type == GameType.NewGame)
             {
-                Debug.Log(type);
-
                 CurrentPlayerHealth = maxPlayerHealth;
                 
                 mapSystem.currentChapterIndex = 0;
@@ -56,8 +55,6 @@ public class GameStateManager : MonoBehaviour
             }
             else if (type == GameType.OldGame)
             {
-                Debug.Log(type);
-
                 CurrentPlayerHealth = SaveSystem.Instance.GetSavedPlayerHealth();
                 
                 mapSystem.currentChapterIndex = SaveSystem.Instance.GetSavedChapterProgress();
@@ -66,7 +63,7 @@ public class GameStateManager : MonoBehaviour
                 deck.AddRange(SaveSystem.Instance.GetSavedPlayerDeck());
             }
 
-            BattleManager.Instance.Initialize(deck, mapSystem.GetEnemies(), mapSystem.GetBackground());
+            BattleManager.Instance.Initialize(deck, mapSystem.GetEnemies(), mapSystem.GetBackground(), mapSystem.GetStory(), mapSystem.GetHealingOption());
         }
     }
 

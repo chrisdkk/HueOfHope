@@ -2832,6 +2832,51 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3086662090905567431, guid: d45c8dd60ba773b4991ad0d2e2776c6f,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3086662090905567431, guid: d45c8dd60ba773b4991ad0d2e2776c6f,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3086662090905567431, guid: d45c8dd60ba773b4991ad0d2e2776c6f,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 6458434990494713071}
+    - target: {fileID: 3086662090905567431, guid: d45c8dd60ba773b4991ad0d2e2776c6f,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3086662090905567431, guid: d45c8dd60ba773b4991ad0d2e2776c6f,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: StartNextStage
+      objectReference: {fileID: 0}
+    - target: {fileID: 3086662090905567431, guid: d45c8dd60ba773b4991ad0d2e2776c6f,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: SetActive
+      objectReference: {fileID: 0}
+    - target: {fileID: 3086662090905567431, guid: d45c8dd60ba773b4991ad0d2e2776c6f,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: MapSystem, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3086662090905567431, guid: d45c8dd60ba773b4991ad0d2e2776c6f,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: UnityEngine.GameObject, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 3086662090905567431, guid: d45c8dd60ba773b4991ad0d2e2776c6f,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
