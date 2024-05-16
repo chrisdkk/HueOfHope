@@ -31,6 +31,6 @@ public class BattleUIController : MonoBehaviour
 	private void UpdatePlayerHealthAnimation(int currentHealth, int maxHealth)
 	{
 		// Set the health parameter in the Animator
-		playerHealth.text = currentHealth + "/" + maxHealth;
+		playerHealth.text = "HP: " + currentHealth + "/" + maxHealth;
 	}
 }

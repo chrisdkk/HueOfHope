@@ -37,6 +37,16 @@ public class MapSystem : MonoBehaviour
         return chapterList[currentChapterIndex].stageList[currentStageIndex].stageBackground;
     }
 
+    public string GetStory()
+    {
+        return chapterList[currentChapterIndex].stageList[currentStageIndex].storyText;
+    }
+    
+    public bool GetHealingOption()
+    {
+        return chapterList[currentChapterIndex].stageList[currentStageIndex].healingAfterStage;
+    }
+    
     private void EndCurrentStage()
     {
         AdvanceToNextStage();
@@ -49,11 +59,13 @@ public class MapSystem : MonoBehaviour
 
     public void StartNextStage()
     {
+        Stage currentStage = chapterList[currentChapterIndex].stageList[currentStageIndex];
         BattleManager.Instance.Initialize(GameStateManager.Instance.deck,
-            chapterList[currentChapterIndex].stageList[currentStageIndex].stageEnemies,
-            chapterList[currentChapterIndex].stageList[currentStageIndex].stageBackground);
-        if (currentStageIndex % 3 == 0)
-            BattleManager.Instance.PlayerScript.CharacterStats.Health = GameStateManager.Instance.maxPlayerHealth;
+            currentStage.stageEnemies,
+            currentStage.stageBackground,
+            currentStage.storyText,
+            currentStage.healingAfterStage
+            );
     }
 
     private void AdvanceToNextStage()

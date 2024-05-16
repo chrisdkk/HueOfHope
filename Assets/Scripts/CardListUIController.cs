@@ -12,12 +12,6 @@ public class CardListUIController : MonoBehaviour
     [SerializeField] private CardPool cardPool;
 
     private List<GameObject> cardsInList;
-    
-    // Start is called before the first frame update
-    void Start()
-    {
-        cardListCanvas.SetActive(false);
-    }
 
     public void OpenDeck()
     {

@@ -1,4 +1,4 @@
-using System;
+    using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class RewardCard: MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,IPointerClickHandler
 {
-    [SerializeField] private Vector3 increasedScale;
+    [SerializeField] public float increasedScale;
     [SerializeField] private GameObject highlightBorder;
 
     private Vector3 baseScale;
@@ -18,11 +18,12 @@ public class RewardCard: MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
      void Start()
      {
          baseScale = transform.localScale;
+         highlightBorder.SetActive(false);
      }
 
      public void OnPointerEnter(PointerEventData eventData)
     {
-        transform.localScale = increasedScale;
+        transform.localScale *= increasedScale;
         FindObjectOfType<AudioManager>().Play("Hover3");
     }
 
