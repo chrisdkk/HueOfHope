@@ -74,6 +74,7 @@ public class MapSystem : MonoBehaviour
     private void AdvanceToNextChapter()
     {
         currentChapterIndex++;
+        currentStageIndex = 0;
 
         if (currentChapterIndex == chapterList.Count())
         {

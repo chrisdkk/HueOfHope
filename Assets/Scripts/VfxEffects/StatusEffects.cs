@@ -23,8 +23,8 @@ public class StatusEffects : MonoBehaviour
 
     private void PlayAnimation()
     {
-        image.DOFade(255, duration);
-        textObject.DOFade(255, duration);
+        image.DOFade(1, duration/500);
+        textObject.DOFade(1, duration/500);
         transform.DOMoveY(transform.position.y - 1, duration);
         image.DOFade(0, duration);
         textObject.DOFade(0, duration);

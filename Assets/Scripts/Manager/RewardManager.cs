@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem.HID;
@@ -9,9 +10,9 @@ using Random = System.Random;
 
 public class RewardManager : MonoBehaviour
 {
+    [SerializeField] private CanvasGroup canvasGroup;
     [SerializeField] private GameObject background;
     [SerializeField] private GameObject additionalBackgroundItems;
-    [SerializeField] private GameObject healingVerticalGroup;
     [SerializeField] private GameObject chooseRewardVerticalGroup;
     [SerializeField] private GameObject addCardVerticalGroup;
     [SerializeField] private GameObject removeCardVerticalGroup;
@@ -22,7 +23,7 @@ public class RewardManager : MonoBehaviour
     [SerializeField] private int healingAmount = 0;
     private RewardCard selectedReward;
     private List<CardData> rewards = new List<CardData>();
-    private bool backToFirstDecision = true;
+    private float fadeDuration = 0.5f;
 
     public delegate void BattleEndedEventHandler();
 
@@ -35,9 +36,11 @@ public class RewardManager : MonoBehaviour
 
     public void StartRewardManager()
     {
+        canvasGroup.gameObject.SetActive(true);
         background.SetActive(true);
         additionalBackgroundItems.SetActive(true);
-        healingVerticalGroup.SetActive(true);
+        chooseRewardVerticalGroup.SetActive(true);
+        canvasGroup.DOFade(1f, fadeDuration);
     }
 
     public void HealPlayer()
@@ -52,24 +55,19 @@ public class RewardManager : MonoBehaviour
 
         background.SetActive(false);
         additionalBackgroundItems.SetActive(false);
-        healingVerticalGroup.SetActive(false);
+        chooseRewardVerticalGroup.SetActive(false);
         backToSelectionButton.SetActive(false);
 
         // after rewards have been chosen, invoke
+        canvasGroup.DOFade(0f, fadeDuration).OnComplete(()=>canvasGroup.gameObject.SetActive(false));
         OnBattleEnd?.Invoke();
-    }
-
-    public void ShowRewardSelection()
-    {
-        healingVerticalGroup.SetActive(false);
-        backToSelectionButton.SetActive(true);
-        chooseRewardVerticalGroup.SetActive(true);
     }
 
     public void ShowAddCard()
     {
         additionalBackgroundItems.SetActive(false);
-        backToFirstDecision = false;
+        chooseRewardVerticalGroup.SetActive(false);
+        backToSelectionButton.SetActive(true);
         // Choose 3 random card datas as reward
         if (rewards.Count == 0)
         {
@@ -92,15 +90,13 @@ public class RewardManager : MonoBehaviour
             instCard.GetComponent<CardVisual>().LoadCardData(rewards[i]);
             instCard.GetComponent<RewardCard>().OnClick += HandleCardOnClick;
         }
-
-        chooseRewardVerticalGroup.SetActive(false);
         addCardVerticalGroup.SetActive(true);
     }
 
     public void ShowRemoveCard()
     {
         additionalBackgroundItems.SetActive(false);
-        backToFirstDecision = false;
+        backToSelectionButton.SetActive(true);
         chooseRewardVerticalGroup.SetActive(false);
         removeCardVerticalGroup.SetActive(true);
         removeCardVerticalGroup.GetComponent<RewardCardListUIController>().OpenDeck(HandleCardOnClick);
@@ -142,6 +138,7 @@ public class RewardManager : MonoBehaviour
             backToSelectionButton.SetActive(false);
 
             // after rewards have been chosen, invoke
+            canvasGroup.DOFade(0f, fadeDuration).OnComplete(()=>canvasGroup.gameObject.SetActive(false));
             OnBattleEnd?.Invoke();
         }
     }
@@ -166,41 +163,33 @@ public class RewardManager : MonoBehaviour
             backToSelectionButton.SetActive(false);
 
             // after rewards have been chosen, invoke
+            canvasGroup.DOFade(0f, fadeDuration).OnComplete(()=>canvasGroup.gameObject.SetActive(false));
             OnBattleEnd?.Invoke();
         }
     }
 
     public void HandleBackToSelectionButtonOnClick()
     {
-
-        if (backToFirstDecision)
+        if (addCardVerticalGroup.activeSelf)
         {
-            chooseRewardVerticalGroup.SetActive(false);
-            healingVerticalGroup.SetActive(true);
-            backToSelectionButton.SetActive(false);
+            addCardVerticalGroup.SetActive(false);
         }
         else
         {
-            if (addCardVerticalGroup.activeSelf)
-            {
-                addCardVerticalGroup.SetActive(false);
-            }
-            else
-            {
-                removeCardVerticalGroup.SetActive(false);
-                removeCardVerticalGroup.GetComponent<RewardCardListUIController>().Close();
-            }
-
-            if (selectedReward != null)
-            {
-                selectedReward.OnOtherRewardChosen();
-                selectedReward = null;
-                addCardButton.interactable = false;
-                removeCardButton.interactable = false;
-            }
-            chooseRewardVerticalGroup.SetActive(true);
-            backToFirstDecision = true;
+            removeCardVerticalGroup.SetActive(false);
+            removeCardVerticalGroup.GetComponent<RewardCardListUIController>().Close();
         }
+
+        if (selectedReward != null)
+        {
+            selectedReward.OnOtherRewardChosen();
+            selectedReward = null;
+            addCardButton.interactable = false;
+            removeCardButton.interactable = false;
+        }
+
+        chooseRewardVerticalGroup.SetActive(true);
         additionalBackgroundItems.SetActive(true);
+        backToSelectionButton.SetActive(false);
     }
 }
