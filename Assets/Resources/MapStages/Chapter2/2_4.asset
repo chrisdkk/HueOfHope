@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e456709eb317a2b4d819ce1ae06af829, type: 3}
-  m_Name: 1_9
+  m_Name: 2_4
   m_EditorClassIdentifier: 
-  stageName: 1_9
-  stageBackground: {fileID: 21300000, guid: 57d4b03edaffee14e80147f8e435d81a, type: 3}
+  stageName: 2_4
+  stageBackground: {fileID: 21300000, guid: 52fe9de21ca05844a8783104dd8b5c4c, type: 3}
   stageEnemies:
-  - {fileID: 5565386576038879824, guid: 29313b9e2ec5b5243aaaa23aea4912d9, type: 3}
-  storyText: 'Joy: Thanks for saving me. These things started appearing and corrupting
-    our world. You need to rescue our friends, before they are lost forever. But
-    you are not alone, I will help you!'
+  - {fileID: 5565386576038879824, guid: 78a0f307ef8f2ac48abaa2dc7f010264, type: 3}
+  - {fileID: 5565386576038879824, guid: d6f7f6dc12575954ea2c124a7c15d3d8, type: 3}
+  - {fileID: 0}
+  storyText: 
   healingAfterStage: 0

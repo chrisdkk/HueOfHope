@@ -10,10 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e456709eb317a2b4d819ce1ae06af829, type: 3}
-  m_Name: 1_7
+  m_Name: 2_7
   m_EditorClassIdentifier: 
-  stageName: 1_7
-  stageBackground: {fileID: 21300000, guid: 52fe9de21ca05844a8783104dd8b5c4c, type: 3}
+  stageName: 2_7
+  stageBackground: {fileID: 21300000, guid: 57d4b03edaffee14e80147f8e435d81a, type: 3}
   stageEnemies:
-  - {fileID: 5565386576038879824, guid: 97008fee1bf31224ab159c4a35a61017, type: 3}
-  - {fileID: 5565386576038879824, guid: 97008fee1bf31224ab159c4a35a61017, type: 3}
+  - {fileID: 5565386576038879824, guid: 9aece7b270bacfa45b7b1a707b15ffc6, type: 3}
+  storyText: 
+  healingAfterStage: 0

@@ -48,7 +48,7 @@ public class GameStateManager : MonoBehaviour
             {
                 CurrentPlayerHealth = maxPlayerHealth;
                 
-                mapSystem.currentChapterIndex = 0;
+                mapSystem.currentChapterIndex = 1;
                 mapSystem.currentStageIndex = 0;
 
                 deck.AddRange(GetStarterDeck());
