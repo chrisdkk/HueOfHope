@@ -13,8 +13,6 @@ MonoBehaviour:
   m_Name: Blockbuster
   m_EditorClassIdentifier: 
   cardName: Blockbuster
-  description: Your next played attack ignores the target's block and deals direct
-    damage
   apCost: 1
   cardType: 1
   multiTarget: 0
@@ -23,6 +21,7 @@ MonoBehaviour:
     vfxEffect: {fileID: 4315291248629269559, guid: 88dcca3c8dbf7644faf8521019f71089,
       type: 3}
     payload: 1
+    effectData: {fileID: 11400000, guid: 1e25729a806841d4b91fececf2053f60, type: 2}
     effectTarget: 0
     ignoreBlock: 0
     insightMultiplier: 0
