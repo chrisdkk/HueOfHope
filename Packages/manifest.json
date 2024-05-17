@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.esotericsoftware.spine.urp-shaders": "file:C:/Users/flofu/Downloads/com.esotericsoftware.spine.urp-shaders-4.2-Unity2019.3-2024-04-17/com.esotericsoftware.spine.urp-shaders-4.2-2019.1",
     "com.unity.2d.animation": "9.1.0",
     "com.unity.ide.rider": "3.0.28",
     "com.unity.inputsystem": "1.7.0",
