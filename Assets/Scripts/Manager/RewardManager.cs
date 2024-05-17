@@ -10,6 +10,7 @@ using Random = System.Random;
 public class RewardManager : MonoBehaviour
 {
     [SerializeField] private GameObject background;
+    [SerializeField] private GameObject additionalBackgroundItems;
     [SerializeField] private GameObject healingVerticalGroup;
     [SerializeField] private GameObject chooseRewardVerticalGroup;
     [SerializeField] private GameObject addCardVerticalGroup;
@@ -21,30 +22,22 @@ public class RewardManager : MonoBehaviour
     [SerializeField] private int healingAmount = 0;
     private RewardCard selectedReward;
     private List<CardData> rewards = new List<CardData>();
-    private bool healing;
+    private bool backToFirstDecision = true;
 
     public delegate void BattleEndedEventHandler();
 
     public event BattleEndedEventHandler OnBattleEnd;
 
-    public void Initialize(string storyText, bool receivesHealing)
+    public void Initialize(string storyText)
     {
-        chooseRewardVerticalGroup.transform.Find("Story").GetComponent<TextMeshProUGUI>().text = storyText;
-        healing = receivesHealing;
+        additionalBackgroundItems.transform.Find("Story").GetComponent<TextMeshProUGUI>().text = storyText;
     }
 
     public void StartRewardManager()
     {
         background.SetActive(true);
-
-        if (healing)
-        {
-            healingVerticalGroup.SetActive(true);
-        }
-        else
-        {
-            ShowRewardSelection();
-        }
+        additionalBackgroundItems.SetActive(true);
+        healingVerticalGroup.SetActive(true);
     }
 
     public void HealPlayer()
@@ -53,22 +46,30 @@ public class RewardManager : MonoBehaviour
             GameStateManager.Instance.CurrentPlayerHealth + healingAmount > GameStateManager.Instance.maxPlayerHealth
                 ? GameStateManager.Instance.maxPlayerHealth
                 : GameStateManager.Instance.CurrentPlayerHealth + healingAmount;
-        ShowRewardSelection();
+
+        addCardButton.interactable = false;
+        removeCardButton.interactable = false;
+
+        background.SetActive(false);
+        additionalBackgroundItems.SetActive(false);
+        healingVerticalGroup.SetActive(false);
+        backToSelectionButton.SetActive(false);
+
+        // after rewards have been chosen, invoke
+        OnBattleEnd?.Invoke();
     }
 
     public void ShowRewardSelection()
     {
-        if (healing)
-        {
-            healingVerticalGroup.SetActive(false);
-        }
-
-        backToSelectionButton.SetActive(false);
+        healingVerticalGroup.SetActive(false);
+        backToSelectionButton.SetActive(true);
         chooseRewardVerticalGroup.SetActive(true);
     }
 
     public void ShowAddCard()
     {
+        additionalBackgroundItems.SetActive(false);
+        backToFirstDecision = false;
         // Choose 3 random card datas as reward
         if (rewards.Count == 0)
         {
@@ -93,14 +94,14 @@ public class RewardManager : MonoBehaviour
         }
 
         chooseRewardVerticalGroup.SetActive(false);
-        backToSelectionButton.SetActive(true);
         addCardVerticalGroup.SetActive(true);
     }
 
     public void ShowRemoveCard()
     {
+        additionalBackgroundItems.SetActive(false);
+        backToFirstDecision = false;
         chooseRewardVerticalGroup.SetActive(false);
-        backToSelectionButton.SetActive(true);
         removeCardVerticalGroup.SetActive(true);
         removeCardVerticalGroup.GetComponent<RewardCardListUIController>().OpenDeck(HandleCardOnClick);
     }
@@ -131,7 +132,7 @@ public class RewardManager : MonoBehaviour
 
             selectedReward.OnOtherRewardChosen();
             selectedReward = null;
-            rewards.RemoveRange(0,rewards.Count);
+            rewards.RemoveRange(0, rewards.Count);
 
             addCardButton.interactable = false;
             removeCardButton.interactable = false;
@@ -154,7 +155,7 @@ public class RewardManager : MonoBehaviour
 
             selectedReward.OnOtherRewardChosen();
             selectedReward = null;
-            rewards.RemoveRange(0,rewards.Count);
+            rewards.RemoveRange(0, rewards.Count);
 
             addCardButton.interactable = false;
             removeCardButton.interactable = false;
@@ -171,24 +172,35 @@ public class RewardManager : MonoBehaviour
 
     public void HandleBackToSelectionButtonOnClick()
     {
-        if (addCardVerticalGroup.activeSelf)
+
+        if (backToFirstDecision)
         {
-            addCardVerticalGroup.SetActive(false);
+            chooseRewardVerticalGroup.SetActive(false);
+            healingVerticalGroup.SetActive(true);
+            backToSelectionButton.SetActive(false);
         }
         else
         {
-            removeCardVerticalGroup.SetActive(false);
-            removeCardVerticalGroup.GetComponent<RewardCardListUIController>().Close();
-        }
+            if (addCardVerticalGroup.activeSelf)
+            {
+                addCardVerticalGroup.SetActive(false);
+            }
+            else
+            {
+                removeCardVerticalGroup.SetActive(false);
+                removeCardVerticalGroup.GetComponent<RewardCardListUIController>().Close();
+            }
 
-        if (selectedReward != null)
-        {
-            selectedReward.OnOtherRewardChosen();
-            selectedReward = null;
-            addCardButton.interactable = false;
-            removeCardButton.interactable = false;
+            if (selectedReward != null)
+            {
+                selectedReward.OnOtherRewardChosen();
+                selectedReward = null;
+                addCardButton.interactable = false;
+                removeCardButton.interactable = false;
+            }
+            chooseRewardVerticalGroup.SetActive(true);
+            backToFirstDecision = true;
         }
-        backToSelectionButton.SetActive(false);
-        chooseRewardVerticalGroup.SetActive(true);
+        additionalBackgroundItems.SetActive(true);
     }
 }

@@ -18,6 +18,7 @@ public class CardVisual : MonoBehaviour
     [SerializeField] private float effectDetailYOffset;
     [SerializeField] private float effectDetailX;
     [SerializeField] private float effectDetailScale;
+    [SerializeField] private bool addInsight;
     public CardData CardData { get; private set; }
 
     private List<GameObject> effectDetails = new List<GameObject>();
@@ -52,7 +53,7 @@ public class CardVisual : MonoBehaviour
             bool damageUpdated = false;
 
             if (CardEffect.insightAffectedEffects.Contains(effect.effectType) &&
-                BattleManager.Instance.PlayerScript.CharacterStats.Insight > 0)
+                BattleManager.Instance.PlayerScript.CharacterStats.Insight > 0 && addInsight)
             {
                 actualPayload += BattleManager.Instance.PlayerScript.CharacterStats.Insight;
                 damageUpdated = true;

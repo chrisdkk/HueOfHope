@@ -40,7 +40,7 @@ public class CardEffect
     };
     
     public static List<CardEffectType> insightAffectedEffects = new List<CardEffectType>()
-        { CardEffectType.Damage, CardEffectType.BlockToDamage, CardEffectType.MultipliedInsightDamage };
+        { CardEffectType.Damage, CardEffectType.MultipliedInsightDamage };
 
     public CardEffectType effectType;
     public GameObject vfxEffect;

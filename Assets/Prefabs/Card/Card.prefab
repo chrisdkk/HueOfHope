@@ -577,6 +577,7 @@ MonoBehaviour:
   effectDetailYOffset: -1
   effectDetailX: 1.66
   effectDetailScale: 0.2
+  addInsight: 1
 --- !u!65 &2542138737775456137
 BoxCollider:
   m_ObjectHideFlags: 0

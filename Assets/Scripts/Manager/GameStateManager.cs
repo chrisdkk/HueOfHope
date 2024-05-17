@@ -61,11 +61,13 @@ public class GameStateManager : MonoBehaviour
                 deck.Add(AllAvailableCards.Find(cardData => cardData.cardName == "Kick"));
             }
             deck.AddRange(AllAvailableCards.FindAll(cardData => cardData.cardName!="Cloak Block" && cardData.cardName!="Kick"));
+
+            AllAvailableCards = AllAvailableCards.Where(cardData => cardData.cardName != "Kick" && cardData.cardName != "Cloak Block").ToList();
             
             // deck system
             deckSystem.InitializeDeck(deck);
             
-            battleManager.Initialize(deck, mapSystem.GetEnemies(), mapSystem.GetBackground(), mapSystem.GetStory(), mapSystem.GetHealingOption());
+            battleManager.Initialize(deck, mapSystem.GetEnemies(), mapSystem.GetBackground(), mapSystem.GetStory());
         }
     }
 

@@ -29,17 +29,16 @@ public class MapUIController : MonoBehaviour
             image.sprite = stageSprite;
         }
 
+        stageImages[0].sprite = stageActiveSprite;
+
         for (int i = 0; i < stageNames.Length; i++)
         {
             stageNames[i].text = "S -" + (i + 1);
         }
-        
-        canvas.SetActive(false);
     }
 
     private void UpdateMapUI(Chapter currentChapter, int stageIndex)
     {
-        canvas.SetActive(true);
         for (int i = 0; i < stageImages.Length; i++)
         {
             if (i < stageIndex)

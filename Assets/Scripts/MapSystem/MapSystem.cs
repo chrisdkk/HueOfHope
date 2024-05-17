@@ -41,12 +41,7 @@ public class MapSystem : MonoBehaviour
     {
         return chapterList[currentChapterIndex].stageList[currentStageIndex].storyText;
     }
-    
-    public bool GetHealingOption()
-    {
-        return chapterList[currentChapterIndex].stageList[currentStageIndex].healingAfterStage;
-    }
-    
+
     private void EndCurrentStage()
     {
         AdvanceToNextStage();
@@ -63,9 +58,7 @@ public class MapSystem : MonoBehaviour
         BattleManager.Instance.Initialize(GameStateManager.Instance.deck,
             currentStage.stageEnemies,
             currentStage.stageBackground,
-            currentStage.storyText,
-            currentStage.healingAfterStage
-            );
+            currentStage.storyText);
     }
 
     private void AdvanceToNextStage()

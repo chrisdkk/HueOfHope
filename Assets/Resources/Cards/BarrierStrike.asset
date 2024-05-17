@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: BarrierStrike
   m_EditorClassIdentifier: 
   cardName: Barrier Strike
-  description: Deal 2x your block as damage
   apCost: 1
   cardType: 0
   multiTarget: 0

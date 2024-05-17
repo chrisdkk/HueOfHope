@@ -19,6 +19,15 @@ public class Player : Character
         CurrentActionPoints = MaxActionPoints;
     }
 
+    public void ResetBuffsAndDebuffs()
+    {
+        CharacterStats.Block = 0;
+        CharacterStats.AttackDebuff = 0;
+        CharacterStats.IgnoreBlockOnNext = 0;
+        CharacterStats.Insight = 0;
+        CharacterStats.Burn = 0;
+    }
+    
     public delegate void ActionPointsChangedEventHandler();
 
     public event ActionPointsChangedEventHandler OnActionPointChange;

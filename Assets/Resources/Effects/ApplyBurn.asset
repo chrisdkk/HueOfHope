@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: ApplyBurn
   m_EditorClassIdentifier: 
   title: 
-  text: '[Gain/Deal] burn stack damage'
+  text: '[Gain/Apply] burn stack damage'
   effectDescription: 
