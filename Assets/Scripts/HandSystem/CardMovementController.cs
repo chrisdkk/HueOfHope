@@ -86,7 +86,7 @@ namespace HandSystem
 				return;
 			}
 
-			if (Input.GetMouseButtonDown(0))
+			if (Input.GetMouseButtonDown(0) && selectedCard.GetComponent<CardVisual>().isEnabled)
 			{
 				TransitionState(HandState.Selected);
 			}
@@ -96,14 +96,14 @@ namespace HandSystem
 		{
 			if (Input.GetMouseButtonDown(0))
 			{
-				if (isTargetHovered)
-				{
-					OnPlay?.Invoke(selectedCard, targetCollider.gameObject);
-					TransitionState(HandState.Idle);
-				}
-				else
+				if (!useArrowSelection)
 				{
 					OnPlay?.Invoke(selectedCard, null);
+					TransitionState(HandState.Idle);
+				}
+				else if (isTargetHovered)
+				{
+					OnPlay?.Invoke(selectedCard, targetCollider.gameObject);
 					TransitionState(HandState.Idle);
 				}
 				return;
@@ -118,6 +118,7 @@ namespace HandSystem
 			Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
 			if (Physics.Raycast(ray, out var hit, 100, targetLayerMask))
 			{
+				if (isTargetHovered) return;
 				isTargetHovered = true;
 				targetCollider = hit.collider;
 				OnHoverTarget?.Invoke(targetCollider.gameObject);
@@ -143,7 +144,7 @@ namespace HandSystem
 			switch (newState)
 			{
 				case HandState.Idle:
-					selectedCard.GetComponent<BoxCollider>().size = new Vector3(1.9f, 2.65f, 0.01f);
+					if (selectedCard != null) selectedCard.GetComponent<BoxCollider>().size = new Vector3(1.9f, 2.65f, 0.01f);
 					selectedCard = null;
 					useArrowSelection = false;
 					playArrow.SetActive(false);
@@ -156,7 +157,7 @@ namespace HandSystem
 					break;
 				case HandState.Selected:
 					CardData data = selectedCard.GetComponent<CardVisual>().CardData;
-					OnSelect?.Invoke(data);
+					if (data != null) OnSelect?.Invoke(data);
 					useArrowSelection = data.cardType == CardType.Attack && !data.multiTarget;
 					if (useArrowSelection) selectedCard.transform.DOMove(playTransform.position, 0.2f);
 					playArrow.SetActive(useArrowSelection);
