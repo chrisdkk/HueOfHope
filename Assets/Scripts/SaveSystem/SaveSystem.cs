@@ -22,7 +22,7 @@ public class SaveSystem : MonoBehaviour
 
     public void SaveGame()
     {
-        PlayerPrefs.SetInt("PlayerHealth", BattleManager.Instance.PlayerScript.CharacterStats.Health);
+        PlayerPrefs.SetInt("PlayerHealth", GameStateManager.Instance.CurrentPlayerHealth);
 
         PlayerPrefs.SetInt("ChapterProgress", mapSystem.currentChapterIndex);
         PlayerPrefs.SetInt("StageProgress", mapSystem.currentStageIndex);
@@ -31,8 +31,6 @@ public class SaveSystem : MonoBehaviour
         PlayerPrefs.SetString("PlayerDeck", deckCardNames);
 
         PlayerPrefs.Save();
-        
-        Debug.Log("Saved Game");
     }
 
     public int GetSavedPlayerHealth()
