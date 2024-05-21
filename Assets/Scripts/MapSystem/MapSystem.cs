@@ -14,6 +14,8 @@ public class MapSystem : MonoBehaviour
 
     [SerializeField] private RewardManager rewardManager;
 
+    public event Action OnChapterTwo;
+
     private bool chapterOver = false;
 
     public event Action<Chapter, int> OnStageChange;
@@ -25,10 +27,16 @@ public class MapSystem : MonoBehaviour
         // default values
         currentChapterIndex = 0;
         currentStageIndex = 0;
+        
     }
 
     public List<GameObject> GetEnemies()
     {
+        if (currentChapterIndex >= 1)
+        {
+            OnChapterTwo?.Invoke();
+        }
+        
         return chapterList[currentChapterIndex].stageList[currentStageIndex].stageEnemies;
     }
 
@@ -41,12 +49,12 @@ public class MapSystem : MonoBehaviour
     {
         return chapterList[currentChapterIndex].stageList[currentStageIndex].storyText;
     }
-    
+
     public bool GetHealingOption()
     {
         return chapterList[currentChapterIndex].stageList[currentStageIndex].healingAfterStage;
     }
-    
+
     private void EndCurrentStage()
     {
         AdvanceToNextStage();
@@ -65,7 +73,7 @@ public class MapSystem : MonoBehaviour
             currentStage.stageBackground,
             currentStage.storyText,
             currentStage.healingAfterStage
-            );
+        );
     }
 
     private void AdvanceToNextStage()
@@ -81,6 +89,7 @@ public class MapSystem : MonoBehaviour
     private void AdvanceToNextChapter()
     {
         currentChapterIndex++;
+
 
         if (currentChapterIndex == chapterList.Count())
         {
