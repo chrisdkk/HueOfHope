@@ -72,6 +72,7 @@ namespace HandSystem
 				{
 					cardsInHand.Remove(card);
 					cardPool.ReleaseCard(card);
+					UpdateCardCost();
 				});
 			}
 		}
@@ -81,12 +82,13 @@ namespace HandSystem
 			foreach (GameObject o in cardsInHand)
 			{
 				CardVisual visual = o.GetComponent<CardVisual>();
-				if (visual.CardData.apCost > BattleManager.Instance.PlayerScript.CurrentActionPoints)
+				if (visual.isEnabled && visual.CardData.apCost > BattleManager.Instance.PlayerScript.CurrentActionPoints)
 				{
 					visual.SetDisabled();
 				}
-				else
+				else if (!visual.isEnabled && visual.CardData.apCost <= BattleManager.Instance.PlayerScript.CurrentActionPoints)
 				{
+					Debug.Log("setenabled");
 					visual.SetEnabled();
 				}
 			}
@@ -100,8 +102,6 @@ namespace HandSystem
             if (cardData.apCost > player.CurrentActionPoints) return;
 
 			player.CurrentActionPoints -= cardData.apCost;
-			
-			UpdateCardCost();
 
 			if (!soundPlayed)
 			{

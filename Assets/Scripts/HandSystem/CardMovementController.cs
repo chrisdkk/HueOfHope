@@ -36,6 +36,7 @@ namespace HandSystem
 		public event Action<GameObject> OnHoverTarget;
 		public event Action OnLeaveTarget;
 		public event CardPlayHandler OnPlay;
+		public event Action OnTooLowEnergy;
 
 		private void Start()
 		{
@@ -86,9 +87,11 @@ namespace HandSystem
 				return;
 			}
 
-			if (Input.GetMouseButtonDown(0) && selectedCard.GetComponent<CardVisual>().isEnabled)
+			if (Input.GetMouseButtonDown(0))
 			{
-				TransitionState(HandState.Selected);
+				if (selectedCard.GetComponent<CardVisual>().isEnabled)
+					TransitionState(HandState.Selected);
+				else OnTooLowEnergy?.Invoke();
 			}
 		}
 

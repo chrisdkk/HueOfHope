@@ -76,7 +76,6 @@ public class CardVisual : MonoBehaviour
         description.SetText(text);
         cost.SetText(CardData.apCost.ToString());
         cardImage.texture = CardData.cardImage;
-        SetEnabled();
         GenerateEffectExplanations();
     }
 
@@ -85,6 +84,7 @@ public class CardVisual : MonoBehaviour
         isEnabled = true;
         cost.color = baseColor;
         disabledOverlay.SetActive(false); 
+        Debug.Log("set enabled in card visual");
     }
 
     public void SetDisabled()

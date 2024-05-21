@@ -5412,6 +5412,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: BattleManager
       objectReference: {fileID: 0}
+    - target: {fileID: 3748433715106816482, guid: 1a729ac6608928f468242ea51f4fa022,
+        type: 3}
+      propertyPath: cardMovementController
+      value: 
+      objectReference: {fileID: 1566903809}
     - target: {fileID: 4024770110422478307, guid: 1a729ac6608928f468242ea51f4fa022,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
@@ -6459,6 +6464,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5842da15e26444bba952a0db1fed0b0d, type: 3}
+--- !u!114 &1566903809 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8744843519619001947, guid: 5842da15e26444bba952a0db1fed0b0d,
+    type: 3}
+  m_PrefabInstance: {fileID: 1566903808}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33ccf951005324b10b0945dda8eadd92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &1927091840 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7815282124507466864, guid: f852b1466c52445e18569ff4ce5130af,
