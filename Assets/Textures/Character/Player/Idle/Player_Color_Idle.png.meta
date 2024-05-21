@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: a82ca91d592bd6e419636e9c887aab2f
+guid: 4268ad831f9bf3c4ab3830783d98b968
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -97,7 +97,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Player_Color_Idle_0
+      name: Player_Color_idle_0
       rect:
         serializedVersion: 2
         x: 0
@@ -111,14 +111,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b4a144fc00475d94c8a025fc847b385f
-      internalID: 1664678411
+      spriteID: 798052f6f2b06714184ae61b720bfd27
+      internalID: 471059350
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_Color_Idle_1
+      name: Player_Color_idle_1
       rect:
         serializedVersion: 2
         x: 1445
@@ -132,14 +132,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 875441d5c6967b14aaac63ba4989ba4e
-      internalID: 1475951458
+      spriteID: 6873ba042e1323a43bad247529cdbec8
+      internalID: 1915268689
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_Color_Idle_2
+      name: Player_Color_idle_2
       rect:
         serializedVersion: 2
         x: 2890
@@ -153,14 +153,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 664ddddd3e41d9a44aabf35ff0de1c4b
-      internalID: 258828646
+      spriteID: 54ae9acfa1dc4624394499629f5d0783
+      internalID: -861525211
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_Color_Idle_3
+      name: Player_Color_idle_3
       rect:
         serializedVersion: 2
         x: 4335
@@ -174,14 +174,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d5db6189f5336a040837c610ae1a6648
-      internalID: 506926396
+      spriteID: 1db6314164fb20a478dfcfc50aa0a211
+      internalID: 910304536
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_Color_Idle_4
+      name: Player_Color_idle_4
       rect:
         serializedVersion: 2
         x: 5780
@@ -195,14 +195,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d9aa4e24e02945b41b186091b5e7f52c
-      internalID: 135413161
+      spriteID: 9704e9c5b0d36d34e868dd091e603f9e
+      internalID: -778762343
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_Color_Idle_5
+      name: Player_Color_idle_5
       rect:
         serializedVersion: 2
         x: 7225
@@ -216,14 +216,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 28374f912b75454428372aa9a07f93f2
-      internalID: -2105295096
+      spriteID: bae50f0b797f0df498526ea449d7d09c
+      internalID: -667702903
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_Color_Idle_6
+      name: Player_Color_idle_6
       rect:
         serializedVersion: 2
         x: 8670
@@ -237,8 +237,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7d94c35ac5254b44891ee1c747f9c7e4
-      internalID: -257563581
+      spriteID: b7bbb86799fefcc4ba818094d9a69868
+      internalID: 448847260
       vertices: []
       indices: 
       edges: []
@@ -246,7 +246,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 3ee1e9b840f2df549a4bff1bcfe222dc
+    spriteID: f8a4f470ab305d84c82e389a91f30cd9
     internalID: 0
     vertices: []
     indices: 
@@ -254,13 +254,13 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Player_Color_Idle_0: 1664678411
-      Player_Color_Idle_1: 1475951458
-      Player_Color_Idle_2: 258828646
-      Player_Color_Idle_3: 506926396
-      Player_Color_Idle_4: 135413161
-      Player_Color_Idle_5: -2105295096
-      Player_Color_Idle_6: -257563581
+      Player_Color_idle_0: 471059350
+      Player_Color_idle_1: 1915268689
+      Player_Color_idle_2: -861525211
+      Player_Color_idle_3: 910304536
+      Player_Color_idle_4: -778762343
+      Player_Color_idle_5: -667702903
+      Player_Color_idle_6: 448847260
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
