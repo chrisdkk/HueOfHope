@@ -33,6 +33,17 @@ namespace HandSystem
 			stateController.OnHover += HandleHover;
 		}
 
+		private void OnDestroy()
+		{
+			if (lastDrawSequence.IsActive()) lastDrawSequence.Kill();
+			if (lastDiscardSequence.IsActive()) lastDiscardSequence.Kill();
+			
+			handManager.OnDrawCard -= HandleDraw;
+			handManager.OnDiscardCard -= HandleDiscard;
+			stateController.OnIdle -= ArrangeCards;
+			stateController.OnHover -= HandleHover;
+		}
+
 		private void HandleDraw(GameObject card, Action onFinishAnimation)
 		{
 			card.transform.position = Camera.main.ScreenToWorldPoint(drawTransform.position);

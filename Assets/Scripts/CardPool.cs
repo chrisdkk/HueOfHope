@@ -50,7 +50,9 @@ public class CardPool : MonoBehaviour
 
 		GameObject card = pool.Dequeue();
 		card.SetActive(true);
-		card.GetComponent<CardVisual>().LoadCardData(data);
+		CardVisual visual = card.GetComponent<CardVisual>();
+		visual.LoadCardData(data);
+		visual.SetEnabled();
 		return card;
 	}
 
