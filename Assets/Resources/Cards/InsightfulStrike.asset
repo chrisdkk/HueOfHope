@@ -13,8 +13,6 @@ MonoBehaviour:
   m_Name: InsightfulStrike
   m_EditorClassIdentifier: 
   cardName: Insightful Strike
-  description: Deal 2 times damage equal to your current insight level plus 5 base
-    damage.
   apCost: 2
   cardType: 0
   multiTarget: 0
@@ -23,7 +21,8 @@ MonoBehaviour:
     vfxEffect: {fileID: 8525990746615576120, guid: b85d21f3b8fed714bacf0c4fd50fa512,
       type: 3}
     payload: 5
+    effectData: {fileID: 11400000, guid: 5affe69059a70aa479e910ab082e028e, type: 2}
     effectTarget: 1
     ignoreBlock: 0
     insightMultiplier: 2
-  cardImage: {fileID: 2800000, guid: 6b2057531bc5f7944950f9d78d7e1cc8, type: 3}
+  cardImage: {fileID: 2800000, guid: 6dd27730cfc653d4489fb997fb44c80e, type: 3}

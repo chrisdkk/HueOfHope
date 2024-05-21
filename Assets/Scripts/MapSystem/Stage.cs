@@ -9,5 +9,4 @@ public class Stage : ScriptableObject
     public Sprite stageBackground;
     public List<GameObject> stageEnemies;
     public string storyText;
-    public bool healingAfterStage;
 }

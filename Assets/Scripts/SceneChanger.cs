@@ -5,20 +5,11 @@ using System.Collections;
 
 public class SceneChanger : MonoBehaviour
 {
-    private AudioManager audioManager;
-    private bool isFirstBattleMusicPlaying = true;
+    [SerializeField] private GameObject continueButton;
 
-    void Start()
+    public void StartNewGame()
     {
-        audioManager = FindObjectOfType<AudioManager>();
-        if (audioManager != null)
-        {
-            audioManager.Play("Theme");
-        }
-    }
-
-    public void ChangeToPrototypeScene()
-    {
+        AudioManager audioManager = FindObjectOfType<AudioManager>();
         if (audioManager != null)
         {
             audioManager.Stop("Theme");
@@ -26,47 +17,42 @@ public class SceneChanger : MonoBehaviour
             audioManager.PlayRandomSoundEffect();
         }
 
-        SceneManager.LoadScene("Prototype");
+        FindObjectOfType<AudioManager>().Play("ButtonClick");
+        FindObjectOfType<AudioManager>().Play("FirstBattleMusic");
 
-        // Start playing battle music
-        StartCoroutine(PlayBattleMusic());
+        GameStateManager.SetGameType(GameType.NewGame);
+        SceneManager.LoadScene("Battle");
     }
 
-    IEnumerator PlayBattleMusic()
+    public void LoadPreviousGame()
     {
-        while (true)
+        if (PlayerPrefs.HasKey("PlayerHealth") && PlayerPrefs.HasKey("ChapterProgress") &&
+            PlayerPrefs.HasKey("StageProgress") && PlayerPrefs.HasKey("PlayerDeck"))
         {
-            if (audioManager != null)
-            {
-                if (isFirstBattleMusicPlaying)
-                {
-                    audioManager.PlayRandomBackgroundMusic();
-                    yield return new WaitForSeconds(audioManager.GetClipLength("FirstBattleMusic"));
-                }
-                /*else
-                {
-                    audioManager.Play("SecondBattleMusic");
-                    yield return new WaitForSeconds(audioManager.GetClipLength("SecondBattleMusic"));
-                }*/
-            }
-            
-            isFirstBattleMusicPlaying = !isFirstBattleMusicPlaying;
+            GameStateManager.SetGameType(GameType.OldGame);
+            SceneManager.LoadScene("Battle");
         }
     }
 
     public void QuitGame()
     {
-        if (audioManager != null)
-        {
-            audioManager.Play("ButtonClick");
-        }
+        FindObjectOfType<AudioManager>().Play("ButtonClick");
 
 #if UNITY_EDITOR
-        // This will stop the game in the Unity Editor
         UnityEditor.EditorApplication.isPlaying = false;
 #else
-        // This will quit the application in a built game
         Application.Quit();
 #endif
+    }
+
+    void Start()
+    {
+        FindObjectOfType<AudioManager>().Play("Theme");
+
+        if (!PlayerPrefs.HasKey("PlayerHealth") && !PlayerPrefs.HasKey("ChapterProgress") &&
+            !PlayerPrefs.HasKey("StageProgress") && !PlayerPrefs.HasKey("PlayerDeck"))
+        {
+            continueButton.SetActive(false);
+        }
     }
 }

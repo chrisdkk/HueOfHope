@@ -20,6 +20,7 @@ public class Enemy : Character
     {
         // Initialize variables for the enemy
         CharacterStats.OnHealthChange += CheckForGameOver;
+        CharacterStats.MaxHealth = maxHealth;
         CharacterStats.Health = maxHealth;
 
         // Get current action and indicate it
