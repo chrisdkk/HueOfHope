@@ -37,6 +37,12 @@ public class ToggleConfirmationUI : MonoBehaviour
     public void OnSaveQuit()
     {
         confirmationUI.SetActive(false);
+        
+        AudioManager audioManager = FindObjectOfType<AudioManager>();
+        if (audioManager != null)
+        {
+            audioManager.StopAllSounds();
+        }
 
         if (quitType == QuitType.MainMenu)
         {
@@ -58,6 +64,12 @@ public class ToggleConfirmationUI : MonoBehaviour
     public void OnOnlyQuit()
     {
         confirmationUI.SetActive(false);
+        
+        AudioManager audioManager = FindObjectOfType<AudioManager>();
+        if (audioManager != null)
+        {
+            audioManager.StopAllSounds();
+        }
 
         if (quitType == QuitType.MainMenu)
         {

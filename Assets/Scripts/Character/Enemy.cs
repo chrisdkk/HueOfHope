@@ -115,6 +115,7 @@ public class Enemy : Character
         {
             BattleManager.Instance.AddEventToQueue(() =>
             {
+                FindObjectOfType<AudioManager>().PlayRandomEnemyDie();
                 VfxEffects.PlayEffects(deathVFX, 0, this);
                 BattleManager.Instance.EnemiesInBattle.Remove(this);
                 Destroy(gameObject);

@@ -1,9 +1,13 @@
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class SceneChanger : MonoBehaviour
 {
+    
+    private AudioManager audioManager;
+    private bool isFirstBattleMusicPlaying = true;
     [SerializeField] private GameObject continueButton;
 
     public void StartNewGame()
@@ -12,14 +16,39 @@ public class SceneChanger : MonoBehaviour
         if (audioManager != null)
         {
             audioManager.Stop("Theme");
+            audioManager.Play("ButtonClick");
         }
-
-        FindObjectOfType<AudioManager>().Play("ButtonClick");
-        FindObjectOfType<AudioManager>().Play("FirstBattleMusic");
 
         GameStateManager.SetGameType(GameType.NewGame);
         SceneManager.LoadScene("Battle");
+        StartCoroutine(PlayBattleSound());
+
     }
+    
+    IEnumerator PlayBattleSound()
+    {
+        while (true)
+        {
+            if (audioManager != null)
+            {
+                audioManager.PlayRandomSoundEffect();
+                
+                if (isFirstBattleMusicPlaying)
+                {
+                    audioManager.PlayRandomBackgroundMusic();
+                    yield return new WaitForSeconds(audioManager.GetClipLength("FirstBattleMusic"));
+                }
+                /*else
+                {
+                    audioManager.Play("SecondBattleMusic");
+                    yield return new WaitForSeconds(audioManager.GetClipLength("SecondBattleMusic"));
+                }*/
+            }
+            
+            isFirstBattleMusicPlaying = !isFirstBattleMusicPlaying;
+        }
+    }
+
 
     public void LoadPreviousGame()
     {
@@ -45,6 +74,12 @@ public class SceneChanger : MonoBehaviour
     void Start()
     {
         FindObjectOfType<AudioManager>().Play("Theme");
+
+        audioManager = FindObjectOfType<AudioManager>();
+        if (audioManager != null)
+        {
+            audioManager.Play("Theme");
+        }
 
         if (!PlayerPrefs.HasKey("PlayerHealth") && !PlayerPrefs.HasKey("ChapterProgress") &&
             !PlayerPrefs.HasKey("StageProgress") && !PlayerPrefs.HasKey("PlayerDeck"))
