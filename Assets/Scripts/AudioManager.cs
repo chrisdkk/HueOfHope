@@ -55,6 +55,17 @@ public class AudioManager : MonoBehaviour
         }
     }
     
+    public void StopAllSounds()
+    {
+        foreach (Sound s in sounds)
+        {
+            if (s.source.isPlaying)
+            {
+                s.source.Stop();
+            }
+        }
+    }
+    
     public void UpdatePitch(string name, float newPitch)
     {
         Sound s = Array.Find(sounds, sound => sound.name == name);
@@ -86,7 +97,7 @@ public class AudioManager : MonoBehaviour
             CardEffectActions.SetAudioManager(audioManager);
         }
     
-        if (SceneManager.GetActiveScene().name == "Prototype")
+        if (SceneManager.GetActiveScene().name == "Battle")
         {
             Debug.Log("Starting PlayRandomSound coroutine...");
             //StartCoroutine(PlayRandomSoundEffectCoroutine());
@@ -94,7 +105,7 @@ public class AudioManager : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("Scene is not Prototype. AudioManager will not play random sounds.");
+            Debug.LogWarning("Scene is not Battle. AudioManager will not play random sounds.");
         }
     }
 
