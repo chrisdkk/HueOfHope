@@ -1,10 +1,9 @@
+using TMPro;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class CardVisual : MonoBehaviour
@@ -13,19 +12,26 @@ public class CardVisual : MonoBehaviour
     [SerializeField] private TextMeshProUGUI description;
     [SerializeField] private TextMeshProUGUI cost;
     [SerializeField] private RawImage cardImage;
+    [SerializeField] private GameObject disabledOverlay;
+    [SerializeField] private Color baseColor;
+    [SerializeField] private Color warningColor;
+    
     [SerializeField] private GameObject effectDetailPrefab;
     [SerializeField] private float effectDetailYStart;
     [SerializeField] private float effectDetailYOffset;
     [SerializeField] private float effectDetailX;
     [SerializeField] private float effectDetailScale;
     [SerializeField] private bool addInsight;
-    public CardData CardData { get; private set; }
-
     private List<GameObject> effectDetails = new List<GameObject>();
+    
+    public CardData CardData { get; private set; }
+    public bool isEnabled { get; private set; }
 
-    void Start()
+    private void Start()
     {
-        // Register to update text on stat changes
+        isEnabled = true;
+        cost.color = baseColor;
+        disabledOverlay.SetActive(false);
         BattleManager.Instance.PlayerScript.CharacterStats.OnStatChange += () => LoadCardData(CardData);
     }
 
@@ -71,6 +77,21 @@ public class CardVisual : MonoBehaviour
         cost.SetText(CardData.apCost.ToString());
         cardImage.texture = CardData.cardImage;
         GenerateEffectExplanations();
+    }
+
+    public void SetEnabled()
+    {
+        isEnabled = true;
+        cost.color = baseColor;
+        disabledOverlay.SetActive(false); 
+        Debug.Log("set enabled in card visual");
+    }
+
+    public void SetDisabled()
+    {
+        isEnabled = false;
+        cost.color = warningColor;
+        disabledOverlay.SetActive(true);
     }
 
     public void GenerateEffectExplanations()
