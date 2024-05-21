@@ -84,7 +84,6 @@ public class CardVisual : MonoBehaviour
         isEnabled = true;
         cost.color = baseColor;
         disabledOverlay.SetActive(false); 
-        Debug.Log("set enabled in card visual");
     }
 
     public void SetDisabled()
