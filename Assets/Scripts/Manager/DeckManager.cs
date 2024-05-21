@@ -5,11 +5,14 @@ public class DeckManager
 {
 	public List<CardData> DrawPile { get; private set; }
 	public List<CardData> DiscardPile { get; private set; }
+	
+	private AudioManager audioManager;
 
 	public DeckManager(List<CardData> deck)
 	{
 		DrawPile = Shuffle(new List<CardData>(deck));
 		DiscardPile = new List<CardData>();
+		audioManager = AudioManager.instance;
 	}
 
 	public CardData DrawCard()
@@ -23,12 +26,23 @@ public class DeckManager
 		
 		CardData nextCard = DrawPile[0];
 		DrawPile.RemoveAt(0);
+		
+		if (audioManager != null)
+		{
+			audioManager.Play("ShuffleCard");
+		}
+		
 		return nextCard;
 	}
 
 	public void DiscardCard(CardData card)
 	{
 		DiscardPile.Add(card);
+		
+		if (audioManager != null)
+		{
+			audioManager.Play("CardWoosh");
+		}
 	}
 
 	private List<CardData> Shuffle(List<CardData> cards)

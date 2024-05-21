@@ -1,58 +1,105 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using DG.Tweening;
+using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem.HID;
 using UnityEngine.UI;
 using Random = System.Random;
 
 public class RewardManager : MonoBehaviour
 {
-    [SerializeField] private GameObject chooseRewardButton;
+    [SerializeField] private CanvasGroup canvasGroup;
+    [SerializeField] private GameObject background;
+    [SerializeField] private GameObject additionalBackgroundItems;
+    [SerializeField] private GameObject chooseRewardVerticalGroup;
+    [SerializeField] private GameObject addCardVerticalGroup;
+    [SerializeField] private GameObject removeCardVerticalGroup;
+    [SerializeField] private GameObject backToSelectionButton;
+    [SerializeField] private Button addCardButton;
+    [SerializeField] private Button removeCardButton;
     [SerializeField] private GameObject cardParent;
+    [SerializeField] private int healingAmount = 0;
     private RewardCard selectedReward;
-    private Button buttonButtonComponent;
+    private List<CardData> rewards = new List<CardData>();
+    private float fadeDuration = 0.5f;
 
     public delegate void BattleEndedEventHandler();
 
     public event BattleEndedEventHandler OnBattleEnd;
 
-    void Start()
+    public void Initialize(string storyText)
     {
-        buttonButtonComponent = chooseRewardButton.GetComponent<Button>();
+        additionalBackgroundItems.transform.Find("Story").GetComponent<TextMeshProUGUI>().text = storyText;
     }
 
-    public void ShowReward()
+    public void StartRewardManager()
     {
-        transform.GetChild(0).gameObject.SetActive(true);
+        canvasGroup.gameObject.SetActive(true);
+        background.SetActive(true);
+        additionalBackgroundItems.SetActive(true);
+        chooseRewardVerticalGroup.SetActive(true);
+        canvasGroup.DOFade(1f, fadeDuration);
+    }
 
+    public void HealPlayer()
+    {
+        GameStateManager.Instance.CurrentPlayerHealth =
+            GameStateManager.Instance.CurrentPlayerHealth + healingAmount > GameStateManager.Instance.maxPlayerHealth
+                ? GameStateManager.Instance.maxPlayerHealth
+                : GameStateManager.Instance.CurrentPlayerHealth + healingAmount;
+
+        addCardButton.interactable = false;
+        removeCardButton.interactable = false;
+
+        background.SetActive(false);
+        additionalBackgroundItems.SetActive(false);
+        chooseRewardVerticalGroup.SetActive(false);
+        backToSelectionButton.SetActive(false);
+
+        // after rewards have been chosen, invoke
+        canvasGroup.DOFade(0f, fadeDuration).OnComplete(()=>canvasGroup.gameObject.SetActive(false));
+        OnBattleEnd?.Invoke();
+    }
+
+    public void ShowAddCard()
+    {
+        additionalBackgroundItems.SetActive(false);
+        chooseRewardVerticalGroup.SetActive(false);
+        backToSelectionButton.SetActive(true);
         // Choose 3 random card datas as reward
-        List<CardData> rewards = new List<CardData>();
-        Random r = new Random();
-        while (rewards.Count < 3)
+        if (rewards.Count == 0)
         {
-            int index = r.Next(GameStateManager.Instance.AllAvailableCards.Count);
-            // Prevent duplicates
-            if (!rewards.Contains(GameStateManager.Instance.AllAvailableCards[index]))
+            Random r = new Random();
+            while (rewards.Count < 3)
             {
-                rewards.Add(GameStateManager.Instance.AllAvailableCards[index]);
+                int index = r.Next(GameStateManager.Instance.AllAvailableCards.Count);
+                // Prevent duplicates
+                if (!rewards.Contains(GameStateManager.Instance.AllAvailableCards[index]))
+                {
+                    rewards.Add(GameStateManager.Instance.AllAvailableCards[index]);
+                }
             }
         }
 
-        // Register for onclick on button
-        chooseRewardButton.GetComponent<ChooseRewardButtonUI>().OnClick += HandleButtonOnClick;
-
-        // Load card data into card game object
+        // Load card data into card game object and register onclick
         for (int i = 0; i < rewards.Count; i++)
         {
-            CardVisual cardVisual = cardParent.transform.GetChild(i).GetComponentInChildren<CardVisual>();
-            cardVisual.LoadCardData(rewards[i]);
+            GameObject instCard = cardParent.transform.GetChild(i).gameObject;
+            instCard.GetComponent<CardVisual>().LoadCardData(rewards[i]);
+            instCard.GetComponent<RewardCard>().OnClick += HandleCardOnClick;
         }
+        addCardVerticalGroup.SetActive(true);
+    }
 
-        // Register for onclick on cards
-        foreach (RewardCard nonBattleCard in transform.GetComponentsInChildren<RewardCard>())
-        {
-            nonBattleCard.OnClick += HandleCardOnClick;
-        }
+    public void ShowRemoveCard()
+    {
+        additionalBackgroundItems.SetActive(false);
+        backToSelectionButton.SetActive(true);
+        chooseRewardVerticalGroup.SetActive(false);
+        removeCardVerticalGroup.SetActive(true);
+        removeCardVerticalGroup.GetComponent<RewardCardListUIController>().OpenDeck(HandleCardOnClick);
     }
 
     /* Remove the highlighting, if another card was clicked */
@@ -67,25 +114,82 @@ public class RewardManager : MonoBehaviour
         clickedCard.OnRewardChosen();
 
         // Enable the button if a card is selected
-        buttonButtonComponent.interactable = true;
+        addCardButton.interactable = true;
+        removeCardButton.interactable = true;
     }
 
     /* Select the reward, add it to the deck and remove the reward window */
-    void HandleButtonOnClick()
+    public void HandleAddCardButtonOnClick()
     {
         if (selectedReward != null)
         {
+            FindObjectOfType<AudioManager>().Play("ButtonClick");
             GameStateManager.Instance.deck.Add(selectedReward.GetComponent<CardVisual>().CardData);
-            
+
             selectedReward.OnOtherRewardChosen();
             selectedReward = null;
-            
-            buttonButtonComponent.interactable = false;
-            
-            transform.GetChild(0).gameObject.SetActive(false);
+            rewards.RemoveRange(0, rewards.Count);
+
+            addCardButton.interactable = false;
+            removeCardButton.interactable = false;
+
+            background.SetActive(false);
+            addCardVerticalGroup.SetActive(false);
+            backToSelectionButton.SetActive(false);
 
             // after rewards have been chosen, invoke
+            canvasGroup.DOFade(0f, fadeDuration).OnComplete(()=>canvasGroup.gameObject.SetActive(false));
             OnBattleEnd?.Invoke();
         }
+    }
+
+    public void HandleRemoveCardButtonOnClick()
+    {
+        if (selectedReward != null)
+        {
+            FindObjectOfType<AudioManager>().Play("ButtonClick");
+            GameStateManager.Instance.deck.Remove(selectedReward.GetComponent<CardVisual>().CardData);
+
+            selectedReward.OnOtherRewardChosen();
+            selectedReward = null;
+            rewards.RemoveRange(0, rewards.Count);
+
+            addCardButton.interactable = false;
+            removeCardButton.interactable = false;
+
+            background.SetActive(false);
+            removeCardVerticalGroup.SetActive(false);
+            removeCardVerticalGroup.GetComponent<RewardCardListUIController>().Close();
+            backToSelectionButton.SetActive(false);
+
+            // after rewards have been chosen, invoke
+            canvasGroup.DOFade(0f, fadeDuration).OnComplete(()=>canvasGroup.gameObject.SetActive(false));
+            OnBattleEnd?.Invoke();
+        }
+    }
+
+    public void HandleBackToSelectionButtonOnClick()
+    {
+        if (addCardVerticalGroup.activeSelf)
+        {
+            addCardVerticalGroup.SetActive(false);
+        }
+        else
+        {
+            removeCardVerticalGroup.SetActive(false);
+            removeCardVerticalGroup.GetComponent<RewardCardListUIController>().Close();
+        }
+
+        if (selectedReward != null)
+        {
+            selectedReward.OnOtherRewardChosen();
+            selectedReward = null;
+            addCardButton.interactable = false;
+            removeCardButton.interactable = false;
+        }
+
+        chooseRewardVerticalGroup.SetActive(true);
+        additionalBackgroundItems.SetActive(true);
+        backToSelectionButton.SetActive(false);
     }
 }

@@ -22,6 +22,7 @@ MonoBehaviour:
     vfxEffect: {fileID: 6855314210357232287, guid: 7c2a9b83b809a0848915fabd9596b68b,
       type: 3}
     payload: 0
+    effectData: {fileID: 11400000, guid: d53d002bbe231214f8d0f7ac88ac19bb, type: 2}
     effectTarget: 1
     ignoreBlock: 0
     insightMultiplier: 0

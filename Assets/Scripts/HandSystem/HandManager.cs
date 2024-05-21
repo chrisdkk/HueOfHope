@@ -72,7 +72,25 @@ namespace HandSystem
 				{
 					cardsInHand.Remove(card);
 					cardPool.ReleaseCard(card);
+					UpdateCardCost();
 				});
+			}
+		}
+
+		private void UpdateCardCost()
+		{
+			foreach (GameObject o in cardsInHand)
+			{
+				CardVisual visual = o.GetComponent<CardVisual>();
+				if (visual.isEnabled && visual.CardData.apCost > BattleManager.Instance.PlayerScript.CurrentActionPoints)
+				{
+					visual.SetDisabled();
+				}
+				else if (!visual.isEnabled && visual.CardData.apCost <= BattleManager.Instance.PlayerScript.CurrentActionPoints)
+				{
+					Debug.Log("setenabled");
+					visual.SetEnabled();
+				}
 			}
 		}
 
@@ -81,21 +99,18 @@ namespace HandSystem
 			CardData cardData = card.GetComponent<CardVisual>().CardData;
 			Player player = BattleManager.Instance.PlayerScript;
 
-			if (cardData.apCost > player.CurrentActionPoints) return;
+            if (cardData.apCost > player.CurrentActionPoints) return;
 
 			player.CurrentActionPoints -= cardData.apCost;
 
-			BattleManager.Instance.AddEventToQueue(() =>
+			if (!soundPlayed)
 			{
-				if (!soundPlayed)
-				{
-					FindObjectOfType<AudioManager>().Play("CardPlayed");
-					soundPlayed = true; // Markiere den Sound als bereits abgespielt
-				}
+				FindObjectOfType<AudioManager>().Play("CardPlayed");
+				soundPlayed = true; // Markiere den Sound als bereits abgespielt
+			}
 
-				DiscardCards(new List<GameObject>() {card});
-			});
-
+			DiscardCards(new List<GameObject>() {card});
+				
 			foreach (CardEffect effect in cardData.effects)
 			{
 				List<Character> targets = new List<Character>();
@@ -132,99 +147,96 @@ namespace HandSystem
                             CardEffectActions.DamageAction(player, effect.payload,
                                 effect.ignoreBlock || player.CharacterStats.IgnoreBlockOnNext > 0, ref targets);
 
-							// Reduce buff ignore block on next attack
-							if (player.CharacterStats.IgnoreBlockOnNext > 0)
-							{
-								player.CharacterStats.IgnoreBlockOnNext--;
-							}
-						});
-						break;
-					case CardEffectType.ShieldBreak:
-						BattleManager.Instance.AddEventToQueue(() =>
-							CardEffectActions.ShieldBreakAction(player, effect.payload, ref targets));
-						break;
-					case CardEffectType.BlockToDamage:
-						// Use block as damage
-						effect.payload *= player.CharacterStats.Block;
+                            // Reduce buff ignore block on next attack
+                            if (player.CharacterStats.IgnoreBlockOnNext > 0)
+                            {
+                                player.CharacterStats.IgnoreBlockOnNext--;
+                            }
+                        });
+                        break;
+                    case CardEffectType.ShieldBreak:
+                        BattleManager.Instance.AddEventToQueue(() =>
+                            CardEffectActions.ShieldBreakAction(player, effect.payload, ref targets));
+                        break;
+                    case CardEffectType.BlockToDamage:
+                        // Add event to deal damage
+                        BattleManager.Instance.AddEventToQueue(() =>
+                        {
+                            CardEffectActions.DamageAction(player, effect.payload * player.CharacterStats.Block,
+                                effect.ignoreBlock || player.CharacterStats.IgnoreBlockOnNext > 0, ref targets);
 
-						// Add event to deal damage
-						BattleManager.Instance.AddEventToQueue(() =>
-						{
-							CardEffectActions.DamageAction(player, effect.payload,
-								effect.ignoreBlock || player.CharacterStats.IgnoreBlockOnNext > 0, ref targets);
+                            // Reduce buff ignore block on next attack
+                            if (player.CharacterStats.IgnoreBlockOnNext > 0)
+                            {
+                                player.CharacterStats.IgnoreBlockOnNext--;
+                            }
+                        });
+                        break;
+                    case CardEffectType.MultipliedInsightDamage:
+                        // Multiply insight for one attack
+                        player.CharacterStats.Insight *= effect.insightMultiplier;
+                        // Add event to deal damage
+                        BattleManager.Instance.AddEventToQueue(() =>
+                        {
+                            CardEffectActions.DamageAction(player, effect.payload,
+                                effect.ignoreBlock || player.CharacterStats.IgnoreBlockOnNext > 0, ref targets);
 
-							// Reduce buff ignore block on next attack
-							if (player.CharacterStats.IgnoreBlockOnNext > 0)
-							{
-								player.CharacterStats.IgnoreBlockOnNext--;
-							}
-						});
-						break;
-					case CardEffectType.MultipliedInsightDamage:
-						// Multiply insight for one attack
-						player.CharacterStats.Insight *= effect.insightMultiplier;
-						// Add event to deal damage
-						BattleManager.Instance.AddEventToQueue(() =>
-						{
-							CardEffectActions.DamageAction(player, effect.payload,
-								effect.ignoreBlock || player.CharacterStats.IgnoreBlockOnNext > 0, ref targets);
+                            // Reset insight
+                            player.CharacterStats.Insight /= effect.insightMultiplier;
 
-							// Reset insight
-							player.CharacterStats.Insight /= effect.insightMultiplier;
+                            // Reduce buff ignore block on next attack
+                            if (player.CharacterStats.IgnoreBlockOnNext > 0)
+                            {
+                                player.CharacterStats.IgnoreBlockOnNext--;
+                            }
+                        });
+                        break;
+                    case CardEffectType.Block:
+                        BattleManager.Instance.AddEventToQueue(() =>
+                            CardEffectActions.BlockAction(effect.payload, ref targets));
+                        break;
+                    case CardEffectType.Burn:
+                        BattleManager.Instance.AddEventToQueue(() =>
+                            CardEffectActions.BurnAction(effect.payload, ref targets));
+                        break;
+                    case CardEffectType.InstApplyBurn:
+                        BattleManager.Instance.AddEventToQueue(() =>
+                            CardEffectActions.InstantApplyBurnAction(ref targets));
+                        break;
 
-							// Reduce buff ignore block on next attack
-							if (player.CharacterStats.IgnoreBlockOnNext > 0)
-							{
-								player.CharacterStats.IgnoreBlockOnNext--;
-							}
-						});
-						break;
-					case CardEffectType.Block:
-						BattleManager.Instance.AddEventToQueue(() =>
-							CardEffectActions.BlockAction(effect.payload, ref targets));
-						break;
-					case CardEffectType.Burn:
-						BattleManager.Instance.AddEventToQueue(() =>
-							CardEffectActions.BurnAction(effect.payload, ref targets));
-						break;
-					case CardEffectType.InstApplyBurn:
-						BattleManager.Instance.AddEventToQueue(() =>
-							CardEffectActions.InstantApplyBurnAction(ref targets));
-						break;
+                    case CardEffectType.TakeOverBurn:
+                        otherTargets =
+                            new List<Character>(
+                                BattleManager.Instance.EnemiesInBattle.Where(enemy => enemy != targets[0]));
+                        BattleManager.Instance.AddEventToQueue(() =>
+                            CardEffectActions.TakeOverBurn(targets[0], ref otherTargets));
+                        break;
+                    case CardEffectType.Insight:
+                        BattleManager.Instance.AddEventToQueue(() =>
+                            CardEffectActions.InsightAction(effect.payload, ref targets));
+                        break;
+                    case CardEffectType.AttackDebuff:
+                        BattleManager.Instance.AddEventToQueue(() =>
+                            CardEffectActions.AttackDebuff(effect.payload, ref targets));
+                        break;
+                    case CardEffectType.Cleanse:
+                        BattleManager.Instance.AddEventToQueue(() => CardEffectActions.Cleanse(ref targets));
+                        break;
+                    case CardEffectType.IgnoreBlockOnNextAttacks:
+                        BattleManager.Instance.AddEventToQueue(() =>
+                            player.CharacterStats.IgnoreBlockOnNext += effect.payload);
+                        break;
+                    case CardEffectType.Draw:
+                        for (int i = 0; i < effect.payload; i++)
+                        {
+                            BattleManager.Instance.AddEventToQueue(() => DrawCards(1, false));
+                        }
 
-					case CardEffectType.TakeOverBurn:
-						otherTargets =
-							new List<Character>(
-								BattleManager.Instance.EnemiesInBattle.Where(enemy => enemy != targets[0]));
-						BattleManager.Instance.AddEventToQueue(() =>
-							CardEffectActions.TakeOverBurn(targets[0], ref otherTargets));
-						break;
-					case CardEffectType.Insight:
-						BattleManager.Instance.AddEventToQueue(() =>
-							CardEffectActions.InsightAction(effect.payload, ref targets));
-						break;
-					case CardEffectType.AttackDebuff:
-						BattleManager.Instance.AddEventToQueue(() =>
-							CardEffectActions.AttackDebuff(effect.payload, ref targets));
-						break;
-					case CardEffectType.Cleanse:
-						BattleManager.Instance.AddEventToQueue(() => CardEffectActions.Cleanse(ref targets));
-						break;
-					case CardEffectType.IgnoreBlockOnNextAttacks:
-						BattleManager.Instance.AddEventToQueue(() =>
-							player.CharacterStats.IgnoreBlockOnNext += effect.payload);
-						break;
-					case CardEffectType.Draw:
-						for (int i = 0; i < effect.payload; i++)
-						{
-							BattleManager.Instance.AddEventToQueue(() => DrawCards(1, false));
-						}
-
-						break;
-					case CardEffectType.DiscardHand:
-						BattleManager.Instance.AddEventToQueue(() => DiscardCards(cardsInHand));
-						break;
-				}
+                        break;
+                    case CardEffectType.DiscardHand:
+                        BattleManager.Instance.AddEventToQueue(() => DiscardCards(cardsInHand));
+                        break;
+                }
 
                 // Add vfx to queue
                 if (effect.vfxEffect != null && !CardEffect.beforeActionVFX.Contains(effect.effectType))
@@ -232,6 +244,7 @@ namespace HandSystem
                     BattleManager.Instance.AddEventToQueue(() =>
                         VfxEffects.PlayEffects(effect.vfxEffect, effect.payload, targets.ToArray()));
                 }
+
                 if (otherTargets != null)
                 {
                     BattleManager.Instance.AddEventToQueue(() =>

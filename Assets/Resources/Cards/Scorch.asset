@@ -22,7 +22,8 @@ MonoBehaviour:
     vfxEffect: {fileID: 6294508013172393196, guid: 043176b6a68be2b43b073aaaa4782c7d,
       type: 3}
     payload: 0
+    effectData: {fileID: 11400000, guid: 160692e5f6b44b24abc910bc697ddc69, type: 2}
     effectTarget: 1
     ignoreBlock: 0
     insightMultiplier: 0
-  cardImage: {fileID: 2800000, guid: 6b2057531bc5f7944950f9d78d7e1cc8, type: 3}
+  cardImage: {fileID: 2800000, guid: b9b93823d3994274b81943f74673b760, type: 3}

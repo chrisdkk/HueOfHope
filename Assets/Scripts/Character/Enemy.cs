@@ -1,16 +1,13 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using TMPro;
 using UnityEngine;
-using Random = System.Random;
+using UnityEngine.UI;
 
 public class Enemy : Character
 {
     [SerializeField] private int maxHealth = 30;
     [SerializeField] private GameObject actionIndication;
-    [SerializeField] private List<Sprite> actionIndicationSprites; // List of sprites for indication
+    [SerializeField] private List<Sprite> actionIndicationMaterial;
     [SerializeField] private List<EnemyCard> enemyPattern = new();
     [SerializeField] private GameObject deathVFX;
 
@@ -22,11 +19,15 @@ public class Enemy : Character
     {
         // Initialize variables for the enemy
         CharacterStats.OnHealthChange += CheckForGameOver;
+        CharacterStats.MaxHealth = maxHealth;
         CharacterStats.Health = maxHealth;
 
         // Get current action and indicate it
         currentActionIndex = 0;
-        SetActionIndicationSprite();
+        actionIndication.GetComponent<Image>().sprite = actionIndicationMaterial.Find(sprite =>
+            sprite.name == enemyPattern[currentActionIndex].cardType.ToString());
+        actionIndication.GetComponentInChildren<TextMeshProUGUI>().text =
+            enemyPattern[currentActionIndex].effects[0].payload.ToString();
     }
 
     /* Play the current selected enemy card*/
@@ -101,7 +102,10 @@ public class Enemy : Character
             currentActionIndex = 0;
         }
 
-        SetActionIndicationSprite();
+        actionIndication.GetComponent<Image>().sprite = actionIndicationMaterial.Find(sprite =>
+            sprite.name == enemyPattern[currentActionIndex].cardType.ToString());
+        actionIndication.GetComponentInChildren<TextMeshProUGUI>().text =
+            enemyPattern[currentActionIndex].effects[0].payload.ToString();
     }
 
     private void CheckForGameOver(int currentHealth, int maxHealth)
@@ -110,6 +114,7 @@ public class Enemy : Character
         {
             BattleManager.Instance.AddEventToQueue(() =>
             {
+                FindObjectOfType<AudioManager>().PlayRandomEnemyDie();
                 VfxEffects.PlayEffects(deathVFX, 0, this);
                 BattleManager.Instance.EnemiesInBattle.Remove(this);
                 Destroy(gameObject);

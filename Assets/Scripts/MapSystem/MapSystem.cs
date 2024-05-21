@@ -14,6 +14,8 @@ public class MapSystem : MonoBehaviour
 
     [SerializeField] private RewardManager rewardManager;
 
+    public event Action OnChapterTwo;
+
     private bool chapterOver = false;
 
     public event Action<Chapter, int> OnStageChange;
@@ -29,12 +31,22 @@ public class MapSystem : MonoBehaviour
 
     public List<GameObject> GetEnemies()
     {
+        if (currentChapterIndex >= 1)
+        {
+            OnChapterTwo?.Invoke();
+        }
+        
         return chapterList[currentChapterIndex].stageList[currentStageIndex].stageEnemies;
     }
 
     public Sprite GetBackground()
     {
         return chapterList[currentChapterIndex].stageList[currentStageIndex].stageBackground;
+    }
+
+    public string GetStory()
+    {
+        return chapterList[currentChapterIndex].stageList[currentStageIndex].storyText;
     }
 
     private void EndCurrentStage()
@@ -49,11 +61,11 @@ public class MapSystem : MonoBehaviour
 
     public void StartNextStage()
     {
+        Stage currentStage = chapterList[currentChapterIndex].stageList[currentStageIndex];
         BattleManager.Instance.Initialize(GameStateManager.Instance.deck,
-            chapterList[currentChapterIndex].stageList[currentStageIndex].stageEnemies,
-            chapterList[currentChapterIndex].stageList[currentStageIndex].stageBackground);
-        if (currentStageIndex % 3 == 0)
-            BattleManager.Instance.PlayerScript.CharacterStats.Health = GameStateManager.Instance.maxPlayerHealth;
+            currentStage.stageEnemies,
+            currentStage.stageBackground,
+            currentStage.storyText);
     }
 
     private void AdvanceToNextStage()
@@ -69,6 +81,7 @@ public class MapSystem : MonoBehaviour
     private void AdvanceToNextChapter()
     {
         currentChapterIndex++;
+        currentStageIndex = 0;
 
         if (currentChapterIndex == chapterList.Count())
         {

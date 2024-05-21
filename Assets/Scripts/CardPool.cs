@@ -31,9 +31,9 @@ public class CardPool : MonoBehaviour
 
 	public void Populate(List<CardData> cards)
 	{
-		if (cards.Count > pool.Count)
+		while (cards.Count > pool.Count)
 		{
-			AddStep();
+				AddStep();
 		}
 
 		for (int i = 0; i < cards.Count; i++)
@@ -50,7 +50,9 @@ public class CardPool : MonoBehaviour
 
 		GameObject card = pool.Dequeue();
 		card.SetActive(true);
-		card.GetComponent<CardVisual>().LoadCardData(data);
+		CardVisual visual = card.GetComponent<CardVisual>();
+		visual.LoadCardData(data);
+		visual.SetEnabled();
 		return card;
 	}
 

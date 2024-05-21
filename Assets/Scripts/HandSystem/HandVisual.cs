@@ -9,8 +9,8 @@ namespace HandSystem
 	{
 		[SerializeField] private HandManager handManager;
 		[SerializeField] private CardMovementController stateController;
-		[SerializeField] private Transform drawTransform;
-		[SerializeField] private Transform discardTransform;
+		[SerializeField] private RectTransform drawTransform;
+		[SerializeField] private RectTransform discardTransform;
 
 		[Header("Card arrangement variables")]
 		[SerializeField] private float fanAngle = 90f;
@@ -33,9 +33,20 @@ namespace HandSystem
 			stateController.OnHover += HandleHover;
 		}
 
+		private void OnDestroy()
+		{
+			if (lastDrawSequence.IsActive()) lastDrawSequence.Kill();
+			if (lastDiscardSequence.IsActive()) lastDiscardSequence.Kill();
+			
+			handManager.OnDrawCard -= HandleDraw;
+			handManager.OnDiscardCard -= HandleDiscard;
+			stateController.OnIdle -= ArrangeCards;
+			stateController.OnHover -= HandleHover;
+		}
+
 		private void HandleDraw(GameObject card, Action onFinishAnimation)
 		{
-			card.transform.position = drawTransform.position;
+			card.transform.position = Camera.main.ScreenToWorldPoint(drawTransform.position);
 			card.transform.localScale = Vector3.zero;
 			cards.Add(card);
 
@@ -60,7 +71,8 @@ namespace HandSystem
 
 			Sequence sequence = DOTween.Sequence();
 			if (lastDiscardSequence.IsActive()) sequence.Append(lastDiscardSequence);
-			sequence.Append(card.transform.DOMove(discardTransform.position, moveDuration));
+			sequence.Append(card.transform.DOMove(Camera.main.ScreenToWorldPoint(discardTransform.position), 
+				moveDuration));
 			sequence.Join(card.transform.DOScale(Vector3.zero, moveDuration));
 			for (int i = 0; i < cards.Count; i++)
 			{
