@@ -46,6 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chapterList:
   - {fileID: 11400000, guid: a9fbad03a7396c34293caece66bd2299, type: 2}
-  currentChapterIndex: 0
+  - {fileID: 11400000, guid: a603dcadbc62516499b97b98ed59a213, type: 2}
+  currentChapterIndex: 1
   currentStageIndex: 0
   rewardManager: {fileID: 0}

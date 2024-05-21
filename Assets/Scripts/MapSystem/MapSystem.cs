@@ -14,6 +14,8 @@ public class MapSystem : MonoBehaviour
 
     [SerializeField] private RewardManager rewardManager;
 
+    public event Action OnChapterTwo;
+
     private bool chapterOver = false;
 
     public event Action<Chapter, int> OnStageChange;
@@ -29,6 +31,11 @@ public class MapSystem : MonoBehaviour
 
     public List<GameObject> GetEnemies()
     {
+        if (currentChapterIndex >= 1)
+        {
+            OnChapterTwo?.Invoke();
+        }
+        
         return chapterList[currentChapterIndex].stageList[currentStageIndex].stageEnemies;
     }
 

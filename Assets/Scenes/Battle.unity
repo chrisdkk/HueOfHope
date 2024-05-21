@@ -5407,6 +5407,11 @@ PrefabInstance:
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1852276023057740651, guid: 1a729ac6608928f468242ea51f4fa022,
+        type: 3}
+      propertyPath: mapSystem
+      value: 
+      objectReference: {fileID: 420641084}
     - target: {fileID: 3687798953733962873, guid: 1a729ac6608928f468242ea51f4fa022,
         type: 3}
       propertyPath: m_Name
@@ -5634,6 +5639,11 @@ PrefabInstance:
       propertyPath: rewardManager
       value: 
       objectReference: {fileID: 233532043}
+    - target: {fileID: 2481586220370297915, guid: 92fafd04a1b2be344b2de82cbd1a765a,
+        type: 3}
+      propertyPath: currentChapterIndex
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2952052698596643387, guid: 92fafd04a1b2be344b2de82cbd1a765a,
         type: 3}
       propertyPath: m_Name
