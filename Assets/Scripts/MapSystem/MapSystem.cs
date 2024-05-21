@@ -27,7 +27,6 @@ public class MapSystem : MonoBehaviour
         // default values
         currentChapterIndex = 0;
         currentStageIndex = 0;
-        
     }
 
     public List<GameObject> GetEnemies()
@@ -50,11 +49,6 @@ public class MapSystem : MonoBehaviour
         return chapterList[currentChapterIndex].stageList[currentStageIndex].storyText;
     }
 
-    public bool GetHealingOption()
-    {
-        return chapterList[currentChapterIndex].stageList[currentStageIndex].healingAfterStage;
-    }
-
     private void EndCurrentStage()
     {
         AdvanceToNextStage();
@@ -71,9 +65,7 @@ public class MapSystem : MonoBehaviour
         BattleManager.Instance.Initialize(GameStateManager.Instance.deck,
             currentStage.stageEnemies,
             currentStage.stageBackground,
-            currentStage.storyText,
-            currentStage.healingAfterStage
-        );
+            currentStage.storyText);
     }
 
     private void AdvanceToNextStage()
@@ -89,7 +81,7 @@ public class MapSystem : MonoBehaviour
     private void AdvanceToNextChapter()
     {
         currentChapterIndex++;
-
+        currentStageIndex = 0;
 
         if (currentChapterIndex == chapterList.Count())
         {
