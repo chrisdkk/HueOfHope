@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028331, g: 0.2257133, b: 0.3069217, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028326, g: 0.22571333, b: 0.30692202, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5402,11 +5402,21 @@ PrefabInstance:
       propertyPath: mapSystem
       value: 
       objectReference: {fileID: 420641084}
+    - target: {fileID: 3035719357428412883, guid: 1a729ac6608928f468242ea51f4fa022,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3687798953733962873, guid: 1a729ac6608928f468242ea51f4fa022,
         type: 3}
       propertyPath: m_Name
       value: BattleManager
       objectReference: {fileID: 0}
+    - target: {fileID: 3748433715106816482, guid: 1a729ac6608928f468242ea51f4fa022,
+        type: 3}
+      propertyPath: cardMovementController
+      value: 
+      objectReference: {fileID: 1566903809}
     - target: {fileID: 4024770110422478307, guid: 1a729ac6608928f468242ea51f4fa022,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
@@ -5441,6 +5451,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 8974727074811747095, guid: 1a729ac6608928f468242ea51f4fa022,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9220846328889030896, guid: 1a729ac6608928f468242ea51f4fa022,
         type: 3}
@@ -6449,6 +6464,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5842da15e26444bba952a0db1fed0b0d, type: 3}
+--- !u!114 &1566903809 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8744843519619001947, guid: 5842da15e26444bba952a0db1fed0b0d,
+    type: 3}
+  m_PrefabInstance: {fileID: 1566903808}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33ccf951005324b10b0945dda8eadd92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &1927091840 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7815282124507466864, guid: f852b1466c52445e18569ff4ce5130af,
