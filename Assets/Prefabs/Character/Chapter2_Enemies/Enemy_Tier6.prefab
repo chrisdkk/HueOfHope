@@ -336,7 +336,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 30
   actionIndication: {fileID: 3852508214694670498}
-  actionIndicationMaterial:
+  actionIndicationSprites:
   - {fileID: 21300000, guid: cba3f70b2e43ac34e961e7aa6e3dc6d5, type: 3}
   - {fileID: 21300000, guid: 40573e56467cf7a4687e5a14f3e3dd0e, type: 3}
   enemyPattern:

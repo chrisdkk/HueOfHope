@@ -7,7 +7,7 @@ public class Enemy : Character
 {
     [SerializeField] private int maxHealth = 30;
     [SerializeField] private GameObject actionIndication;
-    [SerializeField] private List<Sprite> actionIndicationMaterial;
+    [SerializeField] private List<Sprite> actionIndicationSprites;
     [SerializeField] private List<EnemyCard> enemyPattern = new();
     [SerializeField] private GameObject deathVFX;
 
@@ -24,7 +24,7 @@ public class Enemy : Character
 
         // Get current action and indicate it
         currentActionIndex = 0;
-        actionIndication.GetComponent<Image>().sprite = actionIndicationMaterial.Find(sprite =>
+        actionIndication.GetComponent<Image>().sprite = actionIndicationSprites.Find(sprite =>
             sprite.name == enemyPattern[currentActionIndex].cardType.ToString());
         actionIndication.GetComponentInChildren<TextMeshProUGUI>().text =
             enemyPattern[currentActionIndex].effects[0].payload.ToString();
@@ -102,7 +102,7 @@ public class Enemy : Character
             currentActionIndex = 0;
         }
 
-        actionIndication.GetComponent<Image>().sprite = actionIndicationMaterial.Find(sprite =>
+        actionIndication.GetComponent<Image>().sprite = actionIndicationSprites.Find(sprite =>
             sprite.name == enemyPattern[currentActionIndex].cardType.ToString());
         actionIndication.GetComponentInChildren<TextMeshProUGUI>().text =
             enemyPattern[currentActionIndex].effects[0].payload.ToString();
