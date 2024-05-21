@@ -1,6 +1,8 @@
 using UnityEngine.Audio;
 using System;    
 using UnityEngine;
+using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class AudioManager : MonoBehaviour
 {
@@ -53,12 +55,155 @@ public class AudioManager : MonoBehaviour
         }
     }
     
+    public void UpdatePitch(string name, float newPitch)
+    {
+        Sound s = Array.Find(sounds, sound => sound.name == name);
+        if (s != null)
+        {
+            s.source.pitch = newPitch;
+        }
+    }
+    
+    public float GetClipLength(string name)
+    {
+        Sound s = Array.Find(sounds, sound => sound.name == name);
+        if (s != null)
+        {
+            return s.clip.length;
+        }
+        else
+        {
+            Debug.LogWarning("Sound: " + name + " not found!");
+            return 0f;
+        }
+    }
+    
     void Start()
     {
         AudioManager audioManager = FindObjectOfType<AudioManager>();
         if (audioManager != null)
         {
             CardEffectActions.SetAudioManager(audioManager);
+        }
+    
+        if (SceneManager.GetActiveScene().name == "Prototype")
+        {
+            Debug.Log("Starting PlayRandomSound coroutine...");
+            //StartCoroutine(PlayRandomSoundEffectCoroutine());
+            //StartCoroutine(PlayRandomSound());
+        }
+        else
+        {
+            Debug.LogWarning("Scene is not Prototype. AudioManager will not play random sounds.");
+        }
+    }
+
+    public void PlayRandomBackgroundMusic()
+    {
+        StartCoroutine(PlayBackgroundMusicCoroutine());
+    }
+    
+    IEnumerator PlayBackgroundMusicCoroutine()
+    {
+        string[] backgroundSounds = { "FirstBattleMusic", "SecondBattleMusic" };
+
+        int currentSoundIndex = UnityEngine.Random.Range(0, backgroundSounds.Length);
+        while (true)
+        {
+            string soundToPlay = backgroundSounds[currentSoundIndex];
+            
+            float fadeInDuration = 5f;
+            yield return StartCoroutine(FadeInSound(soundToPlay, fadeInDuration));
+            
+            float clipLength = GetClipLength(soundToPlay);
+            
+            float fadeOutDuration = 5f;
+            yield return new WaitForSeconds(clipLength - fadeOutDuration);
+            
+            yield return StartCoroutine(FadeOutSound(soundToPlay, fadeOutDuration));
+            
+            Stop(soundToPlay);
+            
+            yield return new WaitForSeconds(1.5f);
+            
+            currentSoundIndex = (currentSoundIndex + 1) % backgroundSounds.Length;
+        }
+    }
+    
+    IEnumerator FadeInSound(string name, float duration)
+    {
+        Sound s = Array.Find(sounds, sound => sound.name == name);
+        if (s == null)
+        {
+            Debug.LogWarning("Sound: " + name + " not found!");
+            yield break;
+        }
+
+        s.source.volume = 0f;
+        s.source.Play();
+
+        float targetVolume = s.volume;
+        float startVolume = 0f;
+        float elapsedTime = 0f;
+
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+            s.source.volume = Mathf.Lerp(startVolume, targetVolume, elapsedTime / duration);
+            yield return null;
+        }
+
+        s.source.volume = targetVolume;
+    }
+    
+    IEnumerator FadeOutSound(string name, float duration)
+    {
+        Sound s = System.Array.Find(sounds, sound => sound.name == name);
+        if (s == null)
+        {
+            Debug.LogWarning("Sound: " + name + " not found!");
+            yield break;
+        }
+
+        float startVolume = s.source.volume;
+        float elapsedTime = 0f;
+
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+            s.source.volume = Mathf.Lerp(startVolume, 0f, elapsedTime / duration);
+            yield return null;
+        }
+
+        s.source.volume = 0f;
+        s.source.Stop();
+    }
+    
+    public void PlayRandomEnemyDie()
+    {
+        string[] enemyDieSounds = { "EnemyDie1", "EnemyDie2", "EnemyDie3", "EnemyDie4", "EnemyDie5" };
+        string randomSound = enemyDieSounds[UnityEngine.Random.Range(0, enemyDieSounds.Length)];
+        Play(randomSound);
+    }
+    
+    public void PlayRandomSoundEffect()
+    {
+        StartCoroutine(PlayRandomSoundEffectCoroutine());
+    }
+    
+    IEnumerator PlayRandomSoundEffectCoroutine()
+    {
+        string[] enemyDieSounds = { "Gleam1", "Gleam2", "Gleam3", "Gleam4" };
+
+        while (true)
+        {
+            float waitTime = UnityEngine.Random.Range(10f, 20f);
+            yield return new WaitForSeconds(waitTime);
+            
+            string randomSound = enemyDieSounds[UnityEngine.Random.Range(0, enemyDieSounds.Length)];
+            Play(randomSound);
+
+            Debug.Log("Playing sound effect: " + randomSound);
         }
     }
 }
