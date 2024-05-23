@@ -34,6 +34,11 @@ namespace HandSystem
 		{
 			deck = deckManager;
 		}
+		
+		void PlaySound()
+		{
+			FindObjectOfType<AudioManager>().PlayRandomPowerUp();
+		}
 
 		private void DrawCards(int numberOfCards, bool startsTurn)
 		{
@@ -103,12 +108,6 @@ namespace HandSystem
 
 			player.CurrentActionPoints -= cardData.apCost;
 
-			if (!soundPlayed)
-			{
-				FindObjectOfType<AudioManager>().Play("CardPlayed");
-				soundPlayed = true; // Markiere den Sound als bereits abgespielt
-			}
-
 			DiscardCards(new List<GameObject>() {card});
 				
 			foreach (CardEffect effect in cardData.effects)
@@ -153,10 +152,12 @@ namespace HandSystem
                                 player.CharacterStats.IgnoreBlockOnNext--;
                             }
                         });
+                        FindObjectOfType<AudioManager>().Play("Attack1");
                         break;
                     case CardEffectType.ShieldBreak:
                         BattleManager.Instance.AddEventToQueue(() =>
                             CardEffectActions.ShieldBreakAction(player, effect.payload, ref targets));
+							FindObjectOfType<AudioManager>().Play("ShieldBreak");
                         break;
                     case CardEffectType.BlockToDamage:
                         // Add event to deal damage
@@ -171,6 +172,7 @@ namespace HandSystem
                                 player.CharacterStats.IgnoreBlockOnNext--;
                             }
                         });
+                        FindObjectOfType<AudioManager>().Play("Attack1");
                         break;
                     case CardEffectType.MultipliedInsightDamage:
                         // Multiply insight for one attack
@@ -214,6 +216,7 @@ namespace HandSystem
                     case CardEffectType.Insight:
                         BattleManager.Instance.AddEventToQueue(() =>
                             CardEffectActions.InsightAction(effect.payload, ref targets));
+							Invoke("PlaySound", 0.8f);
                         break;
                     case CardEffectType.AttackDebuff:
                         BattleManager.Instance.AddEventToQueue(() =>
@@ -221,17 +224,19 @@ namespace HandSystem
                         break;
                     case CardEffectType.Cleanse:
                         BattleManager.Instance.AddEventToQueue(() => CardEffectActions.Cleanse(ref targets));
+                        FindObjectOfType<AudioManager>().Play("Chorus");
                         break;
                     case CardEffectType.IgnoreBlockOnNextAttacks:
                         BattleManager.Instance.AddEventToQueue(() =>
                             player.CharacterStats.IgnoreBlockOnNext += effect.payload);
+							FindObjectOfType<AudioManager>().PlayRandomPowerUp();
                         break;
                     case CardEffectType.Draw:
                         for (int i = 0; i < effect.payload; i++)
                         {
                             BattleManager.Instance.AddEventToQueue(() => DrawCards(1, false));
                         }
-
+                        FindObjectOfType<AudioManager>().Play("CardPlayed");
                         break;
                     case CardEffectType.DiscardHand:
                         BattleManager.Instance.AddEventToQueue(() => DiscardCards(cardsInHand));
