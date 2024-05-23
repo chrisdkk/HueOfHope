@@ -12,15 +12,7 @@ public class CreditsController : MonoBehaviour
     void Start()
     {
         scrollerTransform = GetComponent<RectTransform>();
-        DOTween.SetTweensCapacity(500, 50);
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (scrollerTransform.localPosition.y != upperScrollLimit)
-        {
-            scrollerTransform.DOLocalMoveY(upperScrollLimit, 10, true);
-        }
+        scrollerTransform.DOLocalMoveY(upperScrollLimit, 10, true).SetEase(Ease.Linear);
     }
 }
