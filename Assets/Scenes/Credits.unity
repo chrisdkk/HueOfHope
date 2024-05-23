@@ -5856,10 +5856,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Management: Lukas Waldau\n\n\nDocumentation: Florian Fussthaler\n\n\nGame
-    Design: Christof Kuba\n\n\nInterface Design: Serkan S\xF6mnez\n\n\nDevelopment:
-    Florian Fussthaler\n\n\nQuality Control & Testing: Serkan S\xF6mnez\n\n\nSound:
-    Wolfgang Pointner\n\n\nGraphics: Jaden Bindhammer"
+  m_text: "<b>Management:</b> Lukas Waldau\n\n\n<b>Documentation:</b> Florian Fussthaler\n\n\n<b>Game
+    Design:</b> Christof Kuba\n\n\n<b>Interface Design:</b> Serkan S\xF6mnez\n\n\n<b>Development:</b>
+    Florian Fussthaler\n\n\n<b>Quality Control & Testing:</b> Serkan S\xF6mnez\n\n\n<b>Sound:</b>
+    Wolfgang Pointner\n\n\n<b>Graphics:</b> Jaden Bindhammer"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 541a6bf4573d8d0499fae65d409d2de2, type: 2}
   m_sharedMaterial: {fileID: 8448765768876283713, guid: 541a6bf4573d8d0499fae65d409d2de2, type: 2}
