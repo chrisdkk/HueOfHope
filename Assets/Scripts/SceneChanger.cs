@@ -5,7 +5,6 @@ using System.Collections;
 
 public class SceneChanger : MonoBehaviour
 {
-    
     private AudioManager audioManager;
     private bool isFirstBattleMusicPlaying = true;
     [SerializeField] private GameObject continueButton;
@@ -22,9 +21,8 @@ public class SceneChanger : MonoBehaviour
         GameStateManager.SetGameType(GameType.NewGame);
         SceneManager.LoadScene("Battle");
         StartCoroutine(PlayBattleSound());
-
     }
-    
+
     IEnumerator PlayBattleSound()
     {
         while (true)
@@ -32,7 +30,7 @@ public class SceneChanger : MonoBehaviour
             if (audioManager != null)
             {
                 audioManager.PlayRandomSoundEffect();
-                
+
                 if (isFirstBattleMusicPlaying)
                 {
                     audioManager.PlayRandomBackgroundMusic();
@@ -44,11 +42,10 @@ public class SceneChanger : MonoBehaviour
                     yield return new WaitForSeconds(audioManager.GetClipLength("SecondBattleMusic"));
                 }*/
             }
-            
+
             isFirstBattleMusicPlaying = !isFirstBattleMusicPlaying;
         }
     }
-
 
     public void LoadPreviousGame()
     {
@@ -69,6 +66,11 @@ public class SceneChanger : MonoBehaviour
 #else
         Application.Quit();
 #endif
+    }
+
+    public void LoadCredits()
+    {
+        SceneManager.LoadScene("Credits");
     }
 
     void Start()

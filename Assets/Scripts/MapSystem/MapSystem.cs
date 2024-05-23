@@ -88,7 +88,7 @@ public class MapSystem : MonoBehaviour
             // completed every chapter and stage
             chapterOver = true;
 
-            SceneManager.LoadScene("Menu");
+            SceneManager.LoadScene("Win");
         }
     }
 }

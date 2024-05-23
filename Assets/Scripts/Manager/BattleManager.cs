@@ -167,11 +167,10 @@ public class BattleManager : MonoBehaviour
         eventQueue.ClearEvents();
         if (PlayerScript.CharacterStats.Health <= 0)
         {
-            SceneManager.LoadScene("Menu");
+            SceneManager.LoadScene("Lose");
             return;
         }
 
-        ;
         GameStateManager.Instance.CurrentPlayerHealth = PlayerScript.CharacterStats.Health;
         rewardWindow.GetComponent<RewardManager>().StartRewardManager();
     }
