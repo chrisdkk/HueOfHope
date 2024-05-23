@@ -7,7 +7,7 @@ using UnityEngine;
 public static class CardEffectActions
 {
     private static AudioManager audioManagerInstance;
-    
+
     public static void SetAudioManager(AudioManager audioManager)
     {
         audioManagerInstance = audioManager;
@@ -15,7 +15,7 @@ public static class CardEffectActions
 
     public static void DamageAction(Character user, int payload, bool ignoreBlock, ref List<Character> targets)
     {
-        int damage = payload + user.CharacterStats.Insight - user.CharacterStats.AttackDebuff;
+        int damage = payload != 0 ? payload + user.CharacterStats.Insight - user.CharacterStats.AttackDebuff : 0;
         // Damage can not be negative
         damage = damage < 0 ? 0 : damage;
 
@@ -40,7 +40,6 @@ public static class CardEffectActions
                 {
                     audioManagerInstance.Play("Attack1");
                 }
-                
             }
             else
             {
@@ -56,7 +55,7 @@ public static class CardEffectActions
 
     public static void ShieldBreakAction(Character user, int payload, ref List<Character> targets)
     {
-        int damage = payload + user.CharacterStats.Insight - user.CharacterStats.AttackDebuff;
+        int damage = payload != 0 ? payload + user.CharacterStats.Insight - user.CharacterStats.AttackDebuff : 0;
         // Damage can not be negative
         damage = damage < 0 ? 0 : damage;
 
@@ -66,7 +65,7 @@ public static class CardEffectActions
             target.CharacterStats.Health -= damage;
         }
     }
-    
+
     public static void BlockAction(int payload, ref List<Character> targets)
     {
         foreach (Character target in targets)
@@ -78,7 +77,7 @@ public static class CardEffectActions
             }
         }
     }
-    
+
     public static void BurnAction(int payload, ref List<Character> targets)
     {
         foreach (Character target in targets)
@@ -90,7 +89,7 @@ public static class CardEffectActions
             }
         }
     }
-    
+
     public static void InsightAction(int payload, ref List<Character> targets)
     {
         foreach (Character target in targets)
@@ -98,7 +97,7 @@ public static class CardEffectActions
             target.CharacterStats.Insight += payload;
         }
     }
-    
+
     public static void AttackDebuff(int payload, ref List<Character> targets)
     {
         foreach (Character target in targets)
@@ -124,7 +123,7 @@ public static class CardEffectActions
             target.CharacterStats.Burn = 0;
         }
     }
-    
+
     public static void TakeOverBurn(Character originalTarget, ref List<Character> targets)
     {
         foreach (Character target in targets)
