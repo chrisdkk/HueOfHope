@@ -18,12 +18,12 @@ public class NonBattleCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     {
         transform.localScale *= increasedScale;
         FindObjectOfType<AudioManager>().Play("Hover3");
-        cardVisual.ToggleDetails();
+        cardVisual.ShowDetails();
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         transform.localScale = baseScale;
-        cardVisual.ToggleDetails();
+        cardVisual.HideDetails();
     }
 }

@@ -65,11 +65,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Text
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 541a6bf4573d8d0499fae65d409d2de2, type: 2}
-  m_sharedMaterial: {fileID: 8448765768876283713, guid: 541a6bf4573d8d0499fae65d409d2de2,
-    type: 2}
+  m_sharedMaterial: {fileID: 8448765768876283713, guid: 541a6bf4573d8d0499fae65d409d2de2, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -221,7 +220,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &7791540118493988013
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -376,11 +375,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Text
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 541a6bf4573d8d0499fae65d409d2de2, type: 2}
-  m_sharedMaterial: {fileID: 8448765768876283713, guid: 541a6bf4573d8d0499fae65d409d2de2,
-    type: 2}
+  m_sharedMaterial: {fileID: 8448765768876283713, guid: 541a6bf4573d8d0499fae65d409d2de2, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -411,7 +409,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0

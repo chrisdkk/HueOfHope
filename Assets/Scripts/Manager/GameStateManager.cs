@@ -29,7 +29,7 @@ public class GameStateManager : MonoBehaviour
     public bool greenEnabled = false;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         // Initialize 1 GameStateManager per game
         if (Instance == null)

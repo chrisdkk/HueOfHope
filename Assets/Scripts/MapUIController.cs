@@ -21,12 +21,14 @@ public class MapUIController : MonoBehaviour
     private void Start()
     {
         mapSystem.OnStageChange += UpdateMapUI;
-        stageImages = stageGroup.GetComponentsInChildren<Image>();
+        stageImages = stageGroup.GetComponentsInChildren<Image>().Where(image => image.name.ToLower().Contains("stage"))
+            .ToArray();
 
         foreach (var image in stageImages)
         {
             image.sprite = stageSprite;
         }
+
         stageImages[0].sprite = stageActiveSprite;
     }
 
