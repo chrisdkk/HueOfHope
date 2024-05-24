@@ -23,8 +23,6 @@ public class RewardManager : MonoBehaviour
     [SerializeField] private GameObject healOption;
     [SerializeField] private GameObject cardParent;
 
-    public int healingAmount = 0;
-
     private RewardCard selectedReward;
     private List<CardData> rewards = new List<CardData>();
     private float fadeDuration = 0.5f;
@@ -36,7 +34,7 @@ public class RewardManager : MonoBehaviour
     public void Initialize(string storyText)
     {
         additionalBackgroundItems.transform.Find("Story").GetComponent<TextMeshProUGUI>().text = storyText;
-        healOption.GetComponentInChildren<TextMeshProUGUI>().text = "Heal " + healingAmount + " HP";
+        healOption.GetComponentInChildren<TextMeshProUGUI>().text = "Heal " + GameStateManager.Instance.HealingAmount + " HP";
     }
 
     public void StartRewardManager()
@@ -55,9 +53,9 @@ public class RewardManager : MonoBehaviour
     public void HealPlayer()
     {
         GameStateManager.Instance.CurrentPlayerHealth =
-            GameStateManager.Instance.CurrentPlayerHealth + healingAmount > GameStateManager.Instance.maxPlayerHealth
+            GameStateManager.Instance.CurrentPlayerHealth + GameStateManager.Instance.HealingAmount > GameStateManager.Instance.maxPlayerHealth
                 ? GameStateManager.Instance.maxPlayerHealth
-                : GameStateManager.Instance.CurrentPlayerHealth + healingAmount;
+                : GameStateManager.Instance.CurrentPlayerHealth + GameStateManager.Instance.HealingAmount;
 
         addCardButton.interactable = false;
         removeCardButton.interactable = false;

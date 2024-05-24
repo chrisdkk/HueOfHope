@@ -24,6 +24,7 @@ public class SaveSystem : MonoBehaviour
     {
         PlayerPrefs.SetInt("PlayerHealth", GameStateManager.Instance.CurrentPlayerHealth);
         PlayerPrefs.SetInt("MaxPlayerHealth", GameStateManager.Instance.maxPlayerHealth);
+        PlayerPrefs.SetInt("HealingAmount", GameStateManager.Instance.HealingAmount);
 
         PlayerPrefs.SetInt("ChapterProgress", mapSystem.currentChapterIndex);
         PlayerPrefs.SetInt("StageProgress", mapSystem.currentStageIndex);
@@ -32,6 +33,11 @@ public class SaveSystem : MonoBehaviour
         PlayerPrefs.SetString("PlayerDeck", deckCardNames);
 
         PlayerPrefs.Save();
+    }
+
+    public int GetSavedHealingAmount()
+    {
+        return PlayerPrefs.GetInt("HealingAmount", -1);
     }
 
     public int GetSavedMaxPlayerHealth()

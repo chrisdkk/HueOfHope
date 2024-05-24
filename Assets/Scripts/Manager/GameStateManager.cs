@@ -21,6 +21,7 @@ public class GameStateManager : MonoBehaviour
     public int maxPlayerHealth;
     public int MaxActionPoints { get; set; }
     public int BurnTickDamage { get; set; }
+    public int HealingAmount { get; set; }
 
     public List<CardData> deck;
     public List<CardData> AllAvailableCards;
@@ -45,6 +46,7 @@ public class GameStateManager : MonoBehaviour
         if (type == GameType.NewGame)
         {
             maxPlayerHealth = 30;
+            HealingAmount = 10;
             CurrentPlayerHealth = maxPlayerHealth;
             tutorialWindow.SetActive(true);
         }
@@ -52,6 +54,7 @@ public class GameStateManager : MonoBehaviour
         {
             CurrentPlayerHealth = SaveSystem.Instance.GetSavedPlayerHealth();
             maxPlayerHealth = SaveSystem.Instance.GetSavedMaxPlayerHealth();
+            HealingAmount = SaveSystem.Instance.GetSavedHealingAmount();
             mapSystem.currentChapterIndex = SaveSystem.Instance.GetSavedChapterProgress();
             mapSystem.currentStageIndex = SaveSystem.Instance.GetSavedStageProgress();
 

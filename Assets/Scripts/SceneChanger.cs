@@ -52,7 +52,7 @@ public class SceneChanger : MonoBehaviour
     {
         if (PlayerPrefs.HasKey("PlayerHealth") && PlayerPrefs.HasKey("ChapterProgress") &&
             PlayerPrefs.HasKey("StageProgress") && PlayerPrefs.HasKey("PlayerDeck") &&
-            PlayerPrefs.HasKey("MaxPlayerHealth"))
+            PlayerPrefs.HasKey("MaxPlayerHealth") && PlayerPrefs.HasKey("HealingAmount"))
         {
             GameStateManager.SetGameType(GameType.OldGame);
             SceneManager.LoadScene("Battle");

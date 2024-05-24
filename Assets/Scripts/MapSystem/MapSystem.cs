@@ -84,11 +84,11 @@ public class MapSystem : MonoBehaviour
         {
             case 1:
                 GameStateManager.Instance.maxPlayerHealth += 15;
-                rewardManager.healingAmount += 5;
+                GameStateManager.Instance.HealingAmount += 5;
                 break;
             case 2:
                 GameStateManager.Instance.maxPlayerHealth += 15;
-                rewardManager.healingAmount += 5;
+                GameStateManager.Instance.HealingAmount += 5;
                 break;
             
         }
