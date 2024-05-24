@@ -13,7 +13,7 @@ public class GameStateManager : MonoBehaviour
     public static GameStateManager Instance;
 
     [SerializeField] private MapSystem mapSystem;
-
+    [SerializeField] private GameObject tutorialWindow;
     private static GameType type;
 
     public int CurrentPlayerHealth { get; set; }
@@ -42,7 +42,7 @@ public class GameStateManager : MonoBehaviour
             if (type == GameType.NewGame)
             {
                 CurrentPlayerHealth = maxPlayerHealth;
-                deck.AddRange(GetStarterDeck());
+                tutorialWindow.SetActive(true);
             }
             else if (type == GameType.OldGame)
             {
@@ -59,21 +59,38 @@ public class GameStateManager : MonoBehaviour
         }
     }
 
-    private List<CardData> GetStarterDeck()
+    public void SetStarterDeck(int deckID) // Pyromancer=0, Sage=1, Knight=2
     {
-        List<CardData> starterDeck = new List<CardData>();
-
-        // add available cards to deck
         for (int i = 0; i < 5; i++)
         {
-            starterDeck.Add(AllAvailableCards.Find(cardData => cardData.cardName == "Cloak Block"));
-            starterDeck.Add(AllAvailableCards.Find(cardData => cardData.cardName == "Kick"));
+            deck.Add(AllAvailableCards.Find(cardData => cardData.cardName == "Cloak Block"));
+            deck.Add(AllAvailableCards.Find(cardData => cardData.cardName == "Kick"));
         }
 
-        starterDeck.AddRange(AllAvailableCards.FindAll(cardData =>
-            cardData.cardName != "Cloak Block" && cardData.cardName != "Kick"));
+        AllAvailableCards.Remove(AllAvailableCards.Find(cardData => cardData.cardName == "Kick"));
+        AllAvailableCards.Remove(AllAvailableCards.Find(cardData => cardData.cardName == "Cloak Block"));
 
-        return starterDeck;
+
+        switch (deckID)
+        {
+            case 0:
+                deck.Add(AllAvailableCards.Find(cardData => cardData.cardName == "Fire Storm"));
+                deck.Add(AllAvailableCards.Find(cardData => cardData.cardName == "Searing Strike"));
+                deck.Add(AllAvailableCards.Find(cardData => cardData.cardName == "Scorch"));
+                break;
+            case 1:
+                deck.Add(AllAvailableCards.Find(cardData => cardData.cardName == "Calm Drop"));
+                deck.Add(AllAvailableCards.Find(cardData => cardData.cardName == "Insightful Strike"));
+                deck.Add(AllAvailableCards.Find(cardData => cardData.cardName == "Flaming Insight"));
+                break;
+            case 2:
+                deck.Add(AllAvailableCards.Find(cardData => cardData.cardName == "Barrier Strike"));
+                deck.Add(AllAvailableCards.Find(cardData => cardData.cardName == "Barrier Strike"));
+                deck.Add(AllAvailableCards.Find(cardData => cardData.cardName == "Smoldering Shield"));
+                break;
+        }
+
+        BattleManager.Instance.InitializeStarterDeck(deck);
     }
 
     public static void SetGameType(GameType newType)
