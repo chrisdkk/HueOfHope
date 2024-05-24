@@ -21,6 +21,7 @@ public class CardVisual : MonoBehaviour
     [SerializeField] private float effectDetailYOffset;
     [SerializeField] private float effectDetailX;
     [SerializeField] private float effectDetailScale;
+    [SerializeField] private bool updateDamage;
     private List<GameObject> effectDetails = new List<GameObject>();
 
     public CardData CardData { get; private set; }
@@ -67,8 +68,9 @@ public class CardVisual : MonoBehaviour
             int actualPayload = effect.payload;
             bool damageUpdated = false;
 
-            if (CardEffect.insightAffectedEffects.Contains(effect.effectType) &&
-                (BattleManager.Instance.PlayerScript.CharacterStats.Insight > 0 || BattleManager.Instance.PlayerScript.CharacterStats.AttackDebuff>0))
+            if (CardEffect.insightAffectedEffects.Contains(effect.effectType) && updateDamage &&
+                (BattleManager.Instance.PlayerScript.CharacterStats.Insight > 0 ||
+                 BattleManager.Instance.PlayerScript.CharacterStats.AttackDebuff > 0))
             {
                 actualPayload += BattleManager.Instance.PlayerScript.CharacterStats.Insight;
                 actualPayload -= BattleManager.Instance.PlayerScript.CharacterStats.AttackDebuff;
@@ -77,7 +79,8 @@ public class CardVisual : MonoBehaviour
 
             if (effect.effectData != null)
             {
-                text += effect.effectData.GetText(effect.payload, actualPayload, damageUpdated, effect.insightMultiplier,
+                text += effect.effectData.GetText(effect.payload, actualPayload, damageUpdated,
+                    effect.insightMultiplier,
                     effect.effectTarget, true);
                 text += "\n";
             }
