@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -24,52 +25,51 @@ public class GameStateManager : MonoBehaviour
     public List<CardData> deck;
     public List<CardData> AllAvailableCards;
 
-    // Start is called before the first frame update
     void Awake()
     {
-        // Initialize 1 GameStateManager per game
         if (Instance == null)
         {
             Instance = this;
-
-            maxPlayerHealth = 30;
-            MaxActionPoints = 3;
-            BurnTickDamage = 4;
-
-            mapSystem.InitializeMapSystem();
-            AllAvailableCards = Resources.LoadAll<CardData>("Cards/").ToList();
-
-            if (type == GameType.NewGame)
-            {
-                CurrentPlayerHealth = maxPlayerHealth;
-                tutorialWindow.SetActive(true);
-            }
-            else if (type == GameType.OldGame)
-            {
-                CurrentPlayerHealth = SaveSystem.Instance.GetSavedPlayerHealth();
-
-                mapSystem.currentChapterIndex = SaveSystem.Instance.GetSavedChapterProgress();
-                mapSystem.currentStageIndex = SaveSystem.Instance.GetSavedStageProgress();
-
-                deck.AddRange(SaveSystem.Instance.GetSavedPlayerDeck());
-            }
-
-            BattleManager.Instance.Initialize(deck, mapSystem.GetEnemies(), mapSystem.GetBackground(),
-                mapSystem.GetStory());
         }
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        MaxActionPoints = 3;
+        BurnTickDamage = 4;
+
+        mapSystem.InitializeMapSystem();
+        AllAvailableCards = Resources.LoadAll<CardData>("Cards/").ToList();
+
+        if (type == GameType.NewGame)
+        {
+            maxPlayerHealth = 30;
+            CurrentPlayerHealth = maxPlayerHealth;
+            tutorialWindow.SetActive(true);
+        }
+        else if (type == GameType.OldGame)
+        {
+            CurrentPlayerHealth = SaveSystem.Instance.GetSavedPlayerHealth();
+            maxPlayerHealth = SaveSystem.Instance.GetSavedMaxPlayerHealth();
+            mapSystem.currentChapterIndex = SaveSystem.Instance.GetSavedChapterProgress();
+            mapSystem.currentStageIndex = SaveSystem.Instance.GetSavedStageProgress();
+
+            deck.AddRange(SaveSystem.Instance.GetSavedPlayerDeck());
+        }
+
+        BattleManager.Instance.Initialize(deck, mapSystem.GetEnemies(), mapSystem.GetBackground(),
+            mapSystem.GetStory());
     }
 
     public void SetStarterDeck(int deckID) // Pyromancer=0, Sage=1, Knight=2
     {
+        List<CardData> cards = Resources.LoadAll<CardData>("Cards/").ToList();
         for (int i = 0; i < 5; i++)
         {
-            deck.Add(AllAvailableCards.Find(cardData => cardData.cardName == "Cloak Block"));
-            deck.Add(AllAvailableCards.Find(cardData => cardData.cardName == "Kick"));
+            deck.Add(cards.Find(cardData => cardData.cardName == "Cloak Block"));
+            deck.Add(cards.Find(cardData => cardData.cardName == "Kick"));
         }
-
-        AllAvailableCards.Remove(AllAvailableCards.Find(cardData => cardData.cardName == "Kick"));
-        AllAvailableCards.Remove(AllAvailableCards.Find(cardData => cardData.cardName == "Cloak Block"));
-
 
         switch (deckID)
         {

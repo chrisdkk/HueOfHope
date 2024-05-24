@@ -66,6 +66,7 @@ public class RewardManager : MonoBehaviour
         additionalBackgroundItems.SetActive(false);
         chooseRewardVerticalGroup.SetActive(false);
         backToSelectionButton.SetActive(false);
+        healOption.SetActive(false);
 
         // after rewards have been chosen, invoke
         canvasGroup.DOFade(0f, fadeDuration).OnComplete(() => canvasGroup.gameObject.SetActive(false));
@@ -85,7 +86,9 @@ public class RewardManager : MonoBehaviour
             {
                 int index = r.Next(GameStateManager.Instance.AllAvailableCards.Count);
                 // Prevent duplicates
-                if (!rewards.Contains(GameStateManager.Instance.AllAvailableCards[index]))
+                if (!rewards.Contains(GameStateManager.Instance.AllAvailableCards[index]) &&
+                    GameStateManager.Instance.AllAvailableCards[index].cardName != "Kick" &&
+                    GameStateManager.Instance.AllAvailableCards[index].cardName != "Cloak Block")
                 {
                     rewards.Add(GameStateManager.Instance.AllAvailableCards[index]);
                 }
