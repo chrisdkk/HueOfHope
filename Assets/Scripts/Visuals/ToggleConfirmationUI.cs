@@ -19,18 +19,20 @@ public class ToggleConfirmationUI : MonoBehaviour
     
     private void Start()
     {
-        confirmationUI.SetActive(false);     
+        confirmationUI.SetActive(false);
     }
 
     public void ShowConfirmQuitToMenu()
     {
         quitType = QuitType.MainMenu;
+        FindObjectOfType<AudioManager>().Play("ButtonClick2");
         confirmationUI.SetActive(true);
     }
     
     public void ShowConfirmQuitToDesktop()
     {
         quitType = QuitType.Desktop;
+        FindObjectOfType<AudioManager>().Play("ButtonClick2");
         confirmationUI.SetActive(true);
     }
     
@@ -47,6 +49,7 @@ public class ToggleConfirmationUI : MonoBehaviour
         if (quitType == QuitType.MainMenu)
         {
             SaveSystem.Instance.SaveGame();
+            FindObjectOfType<AudioManager>().Play("ButtonClick2");
             SceneManager.LoadScene("Menu");
         }
         else if (quitType == QuitType.Desktop)
@@ -73,6 +76,7 @@ public class ToggleConfirmationUI : MonoBehaviour
 
         if (quitType == QuitType.MainMenu)
         {
+            FindObjectOfType<AudioManager>().Play("ButtonClick2");
             SceneManager.LoadScene("Menu");
         }
         else if (quitType == QuitType.Desktop)

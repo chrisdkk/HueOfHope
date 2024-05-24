@@ -49,6 +49,7 @@ public class VfxEffects : MonoBehaviour
             pos.z = -3;
             if (vfx.name.ToLower().Contains("fire"))
             {
+                FindObjectOfType<AudioManager>().Play("Fire1");
                 pos.y -= character.transform.Find("Visual").GetComponent<SpriteRenderer>().bounds.size.y / 2f;
                 instVFXs.Add(Instantiate(vfx, pos, Quaternion.identity));
             }

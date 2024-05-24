@@ -91,7 +91,12 @@ namespace HandSystem
 			{
 				if (selectedCard.GetComponent<CardVisual>().isEnabled)
 					TransitionState(HandState.Selected);
-				else OnTooLowEnergy?.Invoke();
+				else
+				{
+					FindObjectOfType<AudioManager>().Play("NoActionpoint");
+					OnTooLowEnergy?.Invoke();
+				}
+					
 			}
 		}
 

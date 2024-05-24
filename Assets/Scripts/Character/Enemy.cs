@@ -30,6 +30,11 @@ public class Enemy : Character
         actionIndication.GetComponentInChildren<TextMeshProUGUI>().text =
             enemyPattern[currentActionIndex].effects[0].payload.ToString();
     }
+    
+    void PlayDebuff()
+    {
+        FindObjectOfType<AudioManager>().PlayRandomDebuff();
+    }
 
     /* Play the current selected enemy card*/
     public void PlayEnemyCard()
@@ -66,6 +71,7 @@ public class Enemy : Character
                 case CardEffectType.Damage:
                     BattleManager.Instance.AddEventToQueue(() =>
                         CardEffectActions.DamageAction(this, effect.payload, effect.ignoreBlock, ref targets));
+                        FindObjectOfType<AudioManager>().Play("Attack1");
                     break;
 
                 case CardEffectType.Block:
@@ -81,11 +87,13 @@ public class Enemy : Character
                 case CardEffectType.Insight:
                     BattleManager.Instance.AddEventToQueue(() =>
                         CardEffectActions.InsightAction(effect.payload, ref targets));
+                        FindObjectOfType<AudioManager>().PlayRandomPowerUp();
                     break;
 
                 case CardEffectType.AttackDebuff:
                     BattleManager.Instance.AddEventToQueue(() =>
                         CardEffectActions.AttackDebuff(effect.payload, ref targets));
+                        Invoke("PlayDebuff", 0.5f);
                     break;
             }
 

@@ -29,6 +29,7 @@ public class TogglePauseMenuUI : MonoBehaviour
             pauseMenuCanvas.SetActive(false);
             confirmationUI.SetActive(false);
             
+            FindObjectOfType<AudioManager>().Play("ButtonClick2");
             BattleManager.Instance.Resume();
             
             return;
