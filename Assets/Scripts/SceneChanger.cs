@@ -36,11 +36,6 @@ public class SceneChanger : MonoBehaviour
                     audioManager.PlayRandomBackgroundMusic();
                     yield return new WaitForSeconds(audioManager.GetClipLength("FirstBattleMusic"));
                 }
-                /*else
-                {
-                    audioManager.Play("SecondBattleMusic");
-                    yield return new WaitForSeconds(audioManager.GetClipLength("SecondBattleMusic"));
-                }*/
             }
 
             isFirstBattleMusicPlaying = !isFirstBattleMusicPlaying;
@@ -50,12 +45,20 @@ public class SceneChanger : MonoBehaviour
 
     public void LoadPreviousGame()
     {
+        AudioManager audioManager = FindObjectOfType<AudioManager>();
+        if (audioManager != null)
+        {
+            audioManager.Stop("Theme");
+            audioManager.Play("ButtonClick");
+        }
+        
         if (PlayerPrefs.HasKey("PlayerHealth") && PlayerPrefs.HasKey("ChapterProgress") &&
             PlayerPrefs.HasKey("StageProgress") && PlayerPrefs.HasKey("PlayerDeck") &&
             PlayerPrefs.HasKey("MaxPlayerHealth") && PlayerPrefs.HasKey("HealingAmount"))
         {
             GameStateManager.SetGameType(GameType.OldGame);
             SceneManager.LoadScene("Battle");
+            StartCoroutine(PlayBattleSound());
         }
     }
 

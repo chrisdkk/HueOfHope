@@ -33,6 +33,7 @@ public class SaveSystem : MonoBehaviour
         PlayerPrefs.SetString("PlayerDeck", deckCardNames);
 
         PlayerPrefs.Save();
+        FindObjectOfType<AudioManager>().Play("ButtonClick2");
     }
 
     public int GetSavedHealingAmount()

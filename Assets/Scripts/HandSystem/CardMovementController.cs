@@ -85,13 +85,18 @@ namespace HandSystem
                 return;
             }
 
-            if (Input.GetMouseButtonDown(0))
-            {
-                if (selectedCard.GetComponent<CardVisual>().isEnabled)
-                    TransitionState(HandState.Selected);
-                else OnTooLowEnergy?.Invoke();
-            }
-        }
+			if (Input.GetMouseButtonDown(0))
+			{
+				if (selectedCard.GetComponent<CardVisual>().isEnabled)
+					TransitionState(HandState.Selected);
+				else
+				{
+					FindObjectOfType<AudioManager>().Play("NoActionpoint");
+					OnTooLowEnergy?.Invoke();
+				}
+					
+			}
+		}
 
         private void HandleSelectedState()
         {

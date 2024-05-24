@@ -121,6 +121,10 @@ public static class CardEffectActions
         {
             target.CharacterStats.Health -= GameStateManager.Instance.BurnTickDamage * target.CharacterStats.Burn;
             target.CharacterStats.Burn = 0;
+            if (audioManagerInstance != null)
+            {
+                audioManagerInstance.Play("Fire1");
+            }
         }
     }
 
@@ -129,6 +133,10 @@ public static class CardEffectActions
         foreach (Character target in targets)
         {
             target.CharacterStats.Burn += originalTarget.CharacterStats.Burn;
+            if (audioManagerInstance != null)
+            {
+                audioManagerInstance.Play("Fire1");
+            }
         }
     }
 }

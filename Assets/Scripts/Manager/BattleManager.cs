@@ -164,9 +164,8 @@ public class BattleManager : MonoBehaviour
         {
             PlayerScript.CharacterStats.Insight -= 1;
         }
-
+        FindObjectOfType<AudioManager>().Play("ButtonClick2");
         EnemyTurn();
-        FindObjectOfType<AudioManager>().Play("ButtonClick");
     }
 
     /*
@@ -179,6 +178,11 @@ public class BattleManager : MonoBehaviour
         eventQueue.ClearEvents();
         if (PlayerScript.CharacterStats.Health <= 0)
         {
+            AudioManager audioManager = FindObjectOfType<AudioManager>();
+            if (audioManager != null)
+            {
+                audioManager.StopAllSounds();
+            }
             SceneManager.LoadScene("Menu");
             return;
         }
@@ -186,15 +190,18 @@ public class BattleManager : MonoBehaviour
         ;
         GameStateManager.Instance.CurrentPlayerHealth = PlayerScript.CharacterStats.Health;
         rewardWindow.GetComponent<RewardManager>().StartRewardManager();
+        FindObjectOfType<AudioManager>().Play("CompleteStage");
     }
 
     public void Pause()
     {
         isPaused = true;
+        FindObjectOfType<AudioManager>().Play("ButtonClick2");
     }
 
     public void Resume()
     {
         isPaused = false;
+        FindObjectOfType<AudioManager>().Play("ButtonClick2");
     }
 }
