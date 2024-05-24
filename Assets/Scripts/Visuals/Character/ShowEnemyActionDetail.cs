@@ -25,11 +25,12 @@ public class ShowEnemyActionDetail : MonoBehaviour, IPointerEnterHandler, IPoint
 
             if (effect.effectData != null)
             {
-                text += effect.effectData.GetText(actualPayload, false, effect.insightMultiplier,
+                text += effect.effectData.GetText(effect.payload, actualPayload, false, effect.insightMultiplier,
                     effect.effectTarget, false);
                 text += "\n";
             }
         }
+
         description.SetText(text);
     }
 
