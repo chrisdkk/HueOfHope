@@ -6,7 +6,7 @@ using UnityEngine;
 public class CreditsController : MonoBehaviour
 {
     private RectTransform scrollerTransform;
-    private float upperScrollLimit = 0;
+    private readonly float upperScrollLimit = 0;
 
     // Start is called before the first frame update
     void Start()

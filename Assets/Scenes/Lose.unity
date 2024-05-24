@@ -180,7 +180,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Try again?
+  m_text: You can do it!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 541a6bf4573d8d0499fae65d409d2de2, type: 2}
   m_sharedMaterial: {fileID: 8448765768876283713, guid: 541a6bf4573d8d0499fae65d409d2de2, type: 2}
@@ -843,7 +843,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 180}
-  m_SizeDelta: {x: 926, y: 250}
+  m_SizeDelta: {x: 950, y: 250}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1218225079
 MonoBehaviour:
@@ -865,7 +865,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Game Over
+  m_text: Try Again?
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 541a6bf4573d8d0499fae65d409d2de2, type: 2}
   m_sharedMaterial: {fileID: 8448765768876283713, guid: 541a6bf4573d8d0499fae65d409d2de2, type: 2}
