@@ -944,7 +944,10 @@ PrefabInstance:
       propertyPath: m_PresetInfoIsWorld
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7791540118493988013, guid: 72814612b5ef6ff46b8c25a5c52c9a6d, type: 3}
+    - {fileID: 9112124825551000893, guid: 72814612b5ef6ff46b8c25a5c52c9a6d, type: 3}
+    - {fileID: 615149149252035143, guid: 72814612b5ef6ff46b8c25a5c52c9a6d, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

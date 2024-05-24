@@ -2281,6 +2281,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5be1aaefe51efa7488cb6cfc43e6c960, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mapSystem: {fileID: 0}
   canvasGroup: {fileID: 5192423981293958046}
   background: {fileID: 90648346266485730}
   additionalBackgroundItems: {fileID: 3038943461721879461}
@@ -2290,6 +2291,7 @@ MonoBehaviour:
   backToSelectionButton: {fileID: 7581106315377752262}
   addCardButton: {fileID: 3733559344464950509}
   removeCardButton: {fileID: 1666181837011877288}
+  healOption: {fileID: 3850825288465019777}
   cardParent: {fileID: 3858325214417123877}
   healingAmount: 10
 --- !u!114 &2727921331445673745
@@ -3521,6 +3523,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: HealOption
       objectReference: {fileID: 0}
+    - target: {fileID: 276719017341498717, guid: d45c8dd60ba773b4991ad0d2e2776c6f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1407687247199375737, guid: d45c8dd60ba773b4991ad0d2e2776c6f, type: 3}
       propertyPath: m_text
       value: Heal 10 HP
@@ -3621,6 +3627,11 @@ PrefabInstance:
 --- !u!224 &2275456314112647761 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2968980729799304333, guid: d45c8dd60ba773b4991ad0d2e2776c6f, type: 3}
+  m_PrefabInstance: {fileID: 3938392687562999516}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &3850825288465019777 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 276719017341498717, guid: d45c8dd60ba773b4991ad0d2e2776c6f, type: 3}
   m_PrefabInstance: {fileID: 3938392687562999516}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3951799780969211135

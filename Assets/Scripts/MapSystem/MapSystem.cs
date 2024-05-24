@@ -14,7 +14,7 @@ public class MapSystem : MonoBehaviour
 
     [SerializeField] private RewardManager rewardManager;
 
-    public event Action OnChapterTwo;
+    public event Action OnChapterChange;
 
     private bool chapterOver = false;
 
@@ -31,11 +31,6 @@ public class MapSystem : MonoBehaviour
 
     public List<GameObject> GetEnemies()
     {
-        if (currentChapterIndex >= 1)
-        {
-            OnChapterTwo?.Invoke();
-        }
-        
         return chapterList[currentChapterIndex].stageList[currentStageIndex].stageEnemies;
     }
 
@@ -82,7 +77,23 @@ public class MapSystem : MonoBehaviour
     {
         currentChapterIndex++;
         currentStageIndex = 0;
+        OnChapterChange?.Invoke();
 
+        // Switch for improvements the player gets after a chapter
+        switch (currentChapterIndex)
+        {
+            case 1:
+                GameStateManager.Instance.maxPlayerHealth += 15;
+                rewardManager.healingAmount += 5;
+                break;
+            case 2:
+                GameStateManager.Instance.maxPlayerHealth += 15;
+                rewardManager.healingAmount += 5;
+                break;
+            
+        }
+        GameStateManager.Instance.CurrentPlayerHealth = GameStateManager.Instance.maxPlayerHealth;
+        
         if (currentChapterIndex == chapterList.Count())
         {
             // completed every chapter and stage

@@ -24,10 +24,6 @@ public class GameStateManager : MonoBehaviour
     public List<CardData> deck;
     public List<CardData> AllAvailableCards;
 
-    public bool blueEnabled = false;
-    public bool redEnabled = false;
-    public bool greenEnabled = false;
-
     // Start is called before the first frame update
     void Awake()
     {
@@ -41,16 +37,11 @@ public class GameStateManager : MonoBehaviour
             BurnTickDamage = 4;
 
             mapSystem.InitializeMapSystem();
-
             AllAvailableCards = Resources.LoadAll<CardData>("Cards/").ToList();
 
             if (type == GameType.NewGame)
             {
                 CurrentPlayerHealth = maxPlayerHealth;
-
-                mapSystem.currentChapterIndex = 0;
-                mapSystem.currentStageIndex = 0;
-
                 deck.AddRange(GetStarterDeck());
             }
             else if (type == GameType.OldGame)

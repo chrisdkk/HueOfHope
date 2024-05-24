@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: AttackDebuff
   m_EditorClassIdentifier: 
   title: Attack Debuff
-  text: 
+  text: '[Take/Apply] [NUMBER] attack debuff stack(s)'
   effectDescription: Lasts for 1 round and decreases the damage by the amount of
     stacks

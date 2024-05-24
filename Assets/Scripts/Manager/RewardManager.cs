@@ -10,6 +10,7 @@ using Random = System.Random;
 
 public class RewardManager : MonoBehaviour
 {
+    [SerializeField] private MapSystem mapSystem;
     [SerializeField] private CanvasGroup canvasGroup;
     [SerializeField] private GameObject background;
     [SerializeField] private GameObject additionalBackgroundItems;
@@ -19,8 +20,11 @@ public class RewardManager : MonoBehaviour
     [SerializeField] private GameObject backToSelectionButton;
     [SerializeField] private Button addCardButton;
     [SerializeField] private Button removeCardButton;
+    [SerializeField] private GameObject healOption;
     [SerializeField] private GameObject cardParent;
-    [SerializeField] private int healingAmount = 0;
+
+    public int healingAmount = 0;
+
     private RewardCard selectedReward;
     private List<CardData> rewards = new List<CardData>();
     private float fadeDuration = 0.5f;
@@ -32,6 +36,7 @@ public class RewardManager : MonoBehaviour
     public void Initialize(string storyText)
     {
         additionalBackgroundItems.transform.Find("Story").GetComponent<TextMeshProUGUI>().text = storyText;
+        healOption.GetComponentInChildren<TextMeshProUGUI>().text = "Heal " + healingAmount + " HP";
     }
 
     public void StartRewardManager()
@@ -41,6 +46,10 @@ public class RewardManager : MonoBehaviour
         additionalBackgroundItems.SetActive(true);
         chooseRewardVerticalGroup.SetActive(true);
         canvasGroup.DOFade(1f, fadeDuration);
+        if (mapSystem.chapterList[mapSystem.currentChapterIndex].stageList.Count != mapSystem.currentStageIndex + 1)
+        {
+            healOption.SetActive(true);
+        }
     }
 
     public void HealPlayer()
@@ -59,7 +68,7 @@ public class RewardManager : MonoBehaviour
         backToSelectionButton.SetActive(false);
 
         // after rewards have been chosen, invoke
-        canvasGroup.DOFade(0f, fadeDuration).OnComplete(()=>canvasGroup.gameObject.SetActive(false));
+        canvasGroup.DOFade(0f, fadeDuration).OnComplete(() => canvasGroup.gameObject.SetActive(false));
         OnBattleEnd?.Invoke();
     }
 
@@ -90,6 +99,7 @@ public class RewardManager : MonoBehaviour
             instCard.GetComponent<CardVisual>().LoadCardData(rewards[i]);
             instCard.GetComponent<RewardCard>().OnClick += HandleCardOnClick;
         }
+
         addCardVerticalGroup.SetActive(true);
     }
 
@@ -136,9 +146,10 @@ public class RewardManager : MonoBehaviour
             background.SetActive(false);
             addCardVerticalGroup.SetActive(false);
             backToSelectionButton.SetActive(false);
+            healOption.SetActive(false);
 
             // after rewards have been chosen, invoke
-            canvasGroup.DOFade(0f, fadeDuration).OnComplete(()=>canvasGroup.gameObject.SetActive(false));
+            canvasGroup.DOFade(0f, fadeDuration).OnComplete(() => canvasGroup.gameObject.SetActive(false));
             OnBattleEnd?.Invoke();
         }
     }
@@ -159,11 +170,13 @@ public class RewardManager : MonoBehaviour
 
             background.SetActive(false);
             removeCardVerticalGroup.SetActive(false);
-            removeCardVerticalGroup.GetComponent<RewardCardListUIController>().Close();
             backToSelectionButton.SetActive(false);
+            healOption.SetActive(false);
+            removeCardVerticalGroup.GetComponent<RewardCardListUIController>().Close();
+
 
             // after rewards have been chosen, invoke
-            canvasGroup.DOFade(0f, fadeDuration).OnComplete(()=>canvasGroup.gameObject.SetActive(false));
+            canvasGroup.DOFade(0f, fadeDuration).OnComplete(() => canvasGroup.gameObject.SetActive(false));
             OnBattleEnd?.Invoke();
         }
     }
