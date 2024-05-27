@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -13,76 +14,86 @@ public class GameStateManager : MonoBehaviour
     public static GameStateManager Instance;
 
     [SerializeField] private MapSystem mapSystem;
-
+    [SerializeField] private GameObject tutorialWindow;
     private static GameType type;
 
     public int CurrentPlayerHealth { get; set; }
     public int maxPlayerHealth;
     public int MaxActionPoints { get; set; }
     public int BurnTickDamage { get; set; }
+    public int HealingAmount { get; set; }
 
     public List<CardData> deck;
     public List<CardData> AllAvailableCards;
 
-    public bool blueEnabled = false;
-    public bool redEnabled = false;
-    public bool greenEnabled = false;
+    void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        // Initialize 1 GameStateManager per game
-        if (Instance == null)
+        MaxActionPoints = 3;
+        BurnTickDamage = 4;
+
+        mapSystem.InitializeMapSystem();
+        AllAvailableCards = Resources.LoadAll<CardData>("Cards/").ToList();
+
+        if (type == GameType.NewGame)
         {
-            Instance = this;
-
             maxPlayerHealth = 30;
-            MaxActionPoints = 3;
-            BurnTickDamage = 4;
-
-            mapSystem.InitializeMapSystem();
-
-            AllAvailableCards = Resources.LoadAll<CardData>("Cards/").ToList();
-
-            if (type == GameType.NewGame)
-            {
-                CurrentPlayerHealth = maxPlayerHealth;
-
-                mapSystem.currentChapterIndex = 0;
-                mapSystem.currentStageIndex = 0;
-
-                deck.AddRange(GetStarterDeck());
-            }
-            else if (type == GameType.OldGame)
-            {
-                CurrentPlayerHealth = SaveSystem.Instance.GetSavedPlayerHealth();
-
-                mapSystem.currentChapterIndex = SaveSystem.Instance.GetSavedChapterProgress();
-                mapSystem.currentStageIndex = SaveSystem.Instance.GetSavedStageProgress();
-
-                deck.AddRange(SaveSystem.Instance.GetSavedPlayerDeck());
-            }
-
-            BattleManager.Instance.Initialize(deck, mapSystem.GetEnemies(), mapSystem.GetBackground(),
-                mapSystem.GetStory());
+            HealingAmount = 10;
+            CurrentPlayerHealth = maxPlayerHealth;
+            tutorialWindow.SetActive(true);
         }
+        else if (type == GameType.OldGame)
+        {
+            CurrentPlayerHealth = SaveSystem.Instance.GetSavedPlayerHealth();
+            maxPlayerHealth = SaveSystem.Instance.GetSavedMaxPlayerHealth();
+            HealingAmount = SaveSystem.Instance.GetSavedHealingAmount();
+            mapSystem.currentChapterIndex = SaveSystem.Instance.GetSavedChapterProgress();
+            mapSystem.currentStageIndex = SaveSystem.Instance.GetSavedStageProgress();
+
+            deck.AddRange(SaveSystem.Instance.GetSavedPlayerDeck());
+        }
+
+        BattleManager.Instance.Initialize(deck, mapSystem.GetEnemies(), mapSystem.GetBackground(),
+            mapSystem.GetStory());
     }
 
-    private List<CardData> GetStarterDeck()
+    public void SetStarterDeck(int deckID) // Pyromancer=0, Sage=1, Knight=2
     {
-        List<CardData> starterDeck = new List<CardData>();
-
-        // add available cards to deck
+        List<CardData> cards = Resources.LoadAll<CardData>("Cards/").ToList();
         for (int i = 0; i < 5; i++)
         {
-            starterDeck.Add(AllAvailableCards.Find(cardData => cardData.cardName == "Cloak Block"));
-            starterDeck.Add(AllAvailableCards.Find(cardData => cardData.cardName == "Kick"));
+            deck.Add(cards.Find(cardData => cardData.cardName == "Cloak Block"));
+            deck.Add(cards.Find(cardData => cardData.cardName == "Kick"));
         }
 
-        starterDeck.AddRange(AllAvailableCards.FindAll(cardData =>
-            cardData.cardName != "Cloak Block" && cardData.cardName != "Kick"));
+        switch (deckID)
+        {
+            case 0:
+                deck.Add(AllAvailableCards.Find(cardData => cardData.cardName == "Fire Storm"));
+                deck.Add(AllAvailableCards.Find(cardData => cardData.cardName == "Searing Strike"));
+                deck.Add(AllAvailableCards.Find(cardData => cardData.cardName == "Scorch"));
+                break;
+            case 1:
+                deck.Add(AllAvailableCards.Find(cardData => cardData.cardName == "Calm Drop"));
+                deck.Add(AllAvailableCards.Find(cardData => cardData.cardName == "Insightful Strike"));
+                deck.Add(AllAvailableCards.Find(cardData => cardData.cardName == "Flaming Insight"));
+                break;
+            case 2:
+                deck.Add(AllAvailableCards.Find(cardData => cardData.cardName == "Barrier Strike"));
+                deck.Add(AllAvailableCards.Find(cardData => cardData.cardName == "Barrier Strike"));
+                deck.Add(AllAvailableCards.Find(cardData => cardData.cardName == "Smoldering Shield"));
+                break;
+        }
 
-        return starterDeck;
+        BattleManager.Instance.InitializeStarterDeck(deck);
     }
 
     public static void SetGameType(GameType newType)

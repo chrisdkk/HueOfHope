@@ -7,15 +7,15 @@ public class PlayerVisual : MonoBehaviour
 {
     [SerializeField] private Animator playerAnimator;
     [SerializeField] private MapSystem mapSystem;
-    
+
     // Start is called before the first frame update
     void Start()
     {
-        mapSystem.OnChapterTwo += EnableColorAnimation;
+        mapSystem.OnChapterChange += ChangeColorAnimation;
     }
 
-    public void EnableColorAnimation()
+    public void ChangeColorAnimation()
     {
-        playerAnimator.SetInteger("ChapterIndex", 2);
+        playerAnimator.SetInteger("ChapterIndex", playerAnimator.GetInteger("ChapterIndex") + 1);
     }
 }

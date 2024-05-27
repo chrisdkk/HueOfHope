@@ -23,6 +23,8 @@ public class SaveSystem : MonoBehaviour
     public void SaveGame()
     {
         PlayerPrefs.SetInt("PlayerHealth", GameStateManager.Instance.CurrentPlayerHealth);
+        PlayerPrefs.SetInt("MaxPlayerHealth", GameStateManager.Instance.maxPlayerHealth);
+        PlayerPrefs.SetInt("HealingAmount", GameStateManager.Instance.HealingAmount);
 
         PlayerPrefs.SetInt("ChapterProgress", mapSystem.currentChapterIndex);
         PlayerPrefs.SetInt("StageProgress", mapSystem.currentStageIndex);
@@ -32,6 +34,16 @@ public class SaveSystem : MonoBehaviour
 
         PlayerPrefs.Save();
         FindObjectOfType<AudioManager>().Play("ButtonClick2");
+    }
+
+    public int GetSavedHealingAmount()
+    {
+        return PlayerPrefs.GetInt("HealingAmount", -1);
+    }
+
+    public int GetSavedMaxPlayerHealth()
+    {
+        return PlayerPrefs.GetInt("MaxPlayerHealth", -1);
     }
 
     public int GetSavedPlayerHealth()

@@ -5,7 +5,6 @@ using System.Collections;
 
 public class SceneChanger : MonoBehaviour
 {
-    
     private AudioManager audioManager;
     private bool isFirstBattleMusicPlaying = true;
     [SerializeField] private GameObject continueButton;
@@ -22,9 +21,8 @@ public class SceneChanger : MonoBehaviour
         GameStateManager.SetGameType(GameType.NewGame);
         SceneManager.LoadScene("Battle");
         StartCoroutine(PlayBattleSound());
-
     }
-    
+
     IEnumerator PlayBattleSound()
     {
         while (true)
@@ -32,14 +30,14 @@ public class SceneChanger : MonoBehaviour
             if (audioManager != null)
             {
                 audioManager.PlayRandomSoundEffect();
-                
+
                 if (isFirstBattleMusicPlaying)
                 {
                     audioManager.PlayRandomBackgroundMusic();
                     yield return new WaitForSeconds(audioManager.GetClipLength("FirstBattleMusic"));
                 }
             }
-            
+
             isFirstBattleMusicPlaying = !isFirstBattleMusicPlaying;
         }
     }
@@ -55,7 +53,8 @@ public class SceneChanger : MonoBehaviour
         }
         
         if (PlayerPrefs.HasKey("PlayerHealth") && PlayerPrefs.HasKey("ChapterProgress") &&
-            PlayerPrefs.HasKey("StageProgress") && PlayerPrefs.HasKey("PlayerDeck"))
+            PlayerPrefs.HasKey("StageProgress") && PlayerPrefs.HasKey("PlayerDeck") &&
+            PlayerPrefs.HasKey("MaxPlayerHealth") && PlayerPrefs.HasKey("HealingAmount"))
         {
             GameStateManager.SetGameType(GameType.OldGame);
             SceneManager.LoadScene("Battle");
