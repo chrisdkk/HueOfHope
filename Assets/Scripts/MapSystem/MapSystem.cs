@@ -62,15 +62,14 @@ public class MapSystem : MonoBehaviour
     private void AdvanceToNextStage()
     {
         currentStageIndex++;
-        
-        if (currentStageIndex != chapterList[currentChapterIndex].stageList.Count())
-        {
-            StartNextStage();
-        }
 
         if (currentStageIndex == chapterList[currentChapterIndex].stageList.Count())
         {
             AdvanceToNextChapter();
+        }
+        else
+        {
+            StartNextStage();
         }
     }
 
@@ -78,30 +77,32 @@ public class MapSystem : MonoBehaviour
     {
         currentChapterIndex++;
         currentStageIndex = 0;
-        OnChapterChange?.Invoke();
-        OnStageChange?.Invoke(chapterList[currentChapterIndex], currentStageIndex);
-
-        // Switch for improvements the player gets after a chapter
-        switch (currentChapterIndex)
-        {
-            case 1:
-                GameStateManager.Instance.maxPlayerHealth += 15;
-                GameStateManager.Instance.HealingAmount += 5;
-                break;
-            case 2:
-                GameStateManager.Instance.maxPlayerHealth += 15;
-                GameStateManager.Instance.HealingAmount += 5;
-                break;
-        }
-
-        GameStateManager.Instance.CurrentPlayerHealth = GameStateManager.Instance.maxPlayerHealth;
 
         if (currentChapterIndex == chapterList.Count())
         {
             // completed every chapter and stage
             chapterOver = true;
-
             SceneManager.LoadScene("Win");
+        }
+        else
+        {
+            // Switch for improvements the player gets after a chapter
+            switch (currentChapterIndex)
+            {
+                case 1:
+                    GameStateManager.Instance.maxPlayerHealth += 15;
+                    GameStateManager.Instance.HealingAmount += 5;
+                    break;
+                case 2:
+                    GameStateManager.Instance.maxPlayerHealth += 15;
+                    GameStateManager.Instance.HealingAmount += 5;
+                    break;
+            }
+
+            GameStateManager.Instance.CurrentPlayerHealth = GameStateManager.Instance.maxPlayerHealth;
+            OnChapterChange?.Invoke();
+            OnStageChange?.Invoke(chapterList[currentChapterIndex], currentStageIndex);
+            StartNextStage();
         }
     }
 }

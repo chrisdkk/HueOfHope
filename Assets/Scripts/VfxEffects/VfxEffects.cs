@@ -15,25 +15,22 @@ public class VfxEffects : MonoBehaviour
         List<GameObject> instVFXs = new List<GameObject>();
         foreach (Character character in targets)
         {
-            Vector3 pos = character.transform.Find("Visual").transform.position;
+            Vector3 pos = character.transform.position;
             pos.z = -3;
+            GameObject instVFX = Instantiate(vfx, pos, Quaternion.identity);
             if (vfx.name.ToLower().Contains("fire"))
             {
                 FindObjectOfType<AudioManager>().Play("Fire1");
-                pos.y -= character.transform.Find("Visual").GetComponent<SpriteRenderer>().bounds.size.y / 2f;
-                instVFXs.Add(Instantiate(vfx, pos, Quaternion.identity));
             }
-            else
+            if (!hasParticle)
             {
-                GameObject instVFX = Instantiate(vfx, pos, Quaternion.identity);
-                if (!hasParticle)
-                {
-                    StatusEffects statusEffects = instVFX.GetComponentInChildren<StatusEffects>();
-                    statusEffects.SetText("+" + payload);
-                }
-
-                instVFXs.Add(instVFX);
+                StatusEffects statusEffects = instVFX.GetComponentInChildren<StatusEffects>();
+                statusEffects.SetText(instVFX.name.ToLower().Contains("dmgnumberefffect")
+                    ? payload.ToString()
+                    : "+" + payload);
             }
+
+            instVFXs.Add(instVFX);
         }
 
         // Wait for the last effect to finish

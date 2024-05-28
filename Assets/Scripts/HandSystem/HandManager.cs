@@ -118,7 +118,6 @@ namespace HandSystem
             {
                 List<Character> targets = new List<Character>();
                 List<Character> otherTargets = null;
-                bool dmgOrBlock = false;
 
                 // Add targets
                 if (effect.effectTarget == CardEffectTarget.MultipleEnemies)
@@ -141,7 +140,7 @@ namespace HandSystem
                         // Add event to deal damage
                         BattleManager.Instance.AddEventToQueue(() =>
                         {
-                            CardEffectActions.DamageAction(player, effect.payload,
+                            CardEffectActions.DamageAction(effect.vfxEffect, player, effect.payload,
                                 effect.ignoreBlock || player.CharacterStats.IgnoreBlockOnNext > 0, ref targets);
 
                             // Reduce buff ignore block on next attack
@@ -151,18 +150,18 @@ namespace HandSystem
                             }
                         });
                         FindObjectOfType<AudioManager>().Play("Attack1");
-                        dmgOrBlock = true;
                         break;
                     case CardEffectType.ShieldBreak:
                         BattleManager.Instance.AddEventToQueue(() =>
-                            CardEffectActions.ShieldBreakAction(player, effect.payload, ref targets));
+                            CardEffectActions.ShieldBreakAction(effect.vfxEffect, player, effect.payload, ref targets));
                         FindObjectOfType<AudioManager>().Play("ShieldBreak");
                         break;
                     case CardEffectType.BlockToDamage:
                         // Add event to deal damage
                         BattleManager.Instance.AddEventToQueue(() =>
                         {
-                            CardEffectActions.DamageAction(player, effect.payload * player.CharacterStats.Block,
+                            CardEffectActions.DamageAction(effect.vfxEffect, player,
+                                effect.payload * player.CharacterStats.Block,
                                 effect.ignoreBlock || player.CharacterStats.IgnoreBlockOnNext > 0, ref targets);
 
                             // Reduce buff ignore block on next attack
@@ -172,7 +171,6 @@ namespace HandSystem
                             }
                         });
                         FindObjectOfType<AudioManager>().Play("Attack1");
-                        dmgOrBlock = true;
                         break;
                     case CardEffectType.MultipliedInsightDamage:
                         // Multiply insight for one attack
@@ -180,7 +178,7 @@ namespace HandSystem
                         // Add event to deal damage
                         BattleManager.Instance.AddEventToQueue(() =>
                         {
-                            CardEffectActions.DamageAction(player, effect.payload,
+                            CardEffectActions.DamageAction(effect.vfxEffect, player, effect.payload,
                                 effect.ignoreBlock || player.CharacterStats.IgnoreBlockOnNext > 0, ref targets);
 
                             // Reset insight
@@ -192,21 +190,18 @@ namespace HandSystem
                                 player.CharacterStats.IgnoreBlockOnNext--;
                             }
                         });
-                        dmgOrBlock = true;
                         break;
                     case CardEffectType.Block:
                         BattleManager.Instance.AddEventToQueue(() =>
-                            CardEffectActions.BlockAction(effect.payload, ref targets));
-                        dmgOrBlock = true;
+                            CardEffectActions.BlockAction(effect.vfxEffect, effect.payload, ref targets));
                         break;
                     case CardEffectType.Burn:
                         BattleManager.Instance.AddEventToQueue(() =>
-                            CardEffectActions.BurnAction(effect.payload, ref targets));
+                            CardEffectActions.BurnAction(effect.vfxEffect, effect.payload, ref targets));
                         break;
                     case CardEffectType.InstApplyBurn:
                         BattleManager.Instance.AddEventToQueue(() =>
-                            CardEffectActions.InstantApplyBurnAction(ref targets));
-                        dmgOrBlock = true;
+                            CardEffectActions.InstantApplyBurnAction(effect.vfxEffect, ref targets));
                         break;
 
                     case CardEffectType.TakeOverBurn:
@@ -214,24 +209,28 @@ namespace HandSystem
                             new List<Character>(
                                 BattleManager.Instance.EnemiesInBattle.Where(enemy => enemy != targets[0]));
                         BattleManager.Instance.AddEventToQueue(() =>
-                            CardEffectActions.TakeOverBurn(targets[0], ref otherTargets));
+                            CardEffectActions.TakeOverBurn(effect.vfxEffect, targets[0], ref otherTargets));
                         break;
                     case CardEffectType.Insight:
                         BattleManager.Instance.AddEventToQueue(() =>
-                            CardEffectActions.InsightAction(effect.payload, ref targets));
+                            CardEffectActions.InsightAction(effect.vfxEffect, effect.payload, ref targets));
                         Invoke("PlaySound", 0.8f);
                         break;
                     case CardEffectType.AttackDebuff:
                         BattleManager.Instance.AddEventToQueue(() =>
-                            CardEffectActions.AttackDebuff(effect.payload, ref targets));
+                            CardEffectActions.AttackDebuff(effect.vfxEffect, effect.payload, ref targets));
                         break;
                     case CardEffectType.Cleanse:
-                        BattleManager.Instance.AddEventToQueue(() => CardEffectActions.Cleanse(ref targets));
+                        BattleManager.Instance.AddEventToQueue(() =>
+                            CardEffectActions.Cleanse(effect.vfxEffect, ref targets));
                         FindObjectOfType<AudioManager>().Play("Chorus");
                         break;
                     case CardEffectType.IgnoreBlockOnNextAttacks:
                         BattleManager.Instance.AddEventToQueue(() =>
-                            player.CharacterStats.IgnoreBlockOnNext += effect.payload);
+                        {
+                            VfxEffects.PlayEffects(effect.vfxEffect, effect.payload, targets.ToArray());
+                            player.CharacterStats.IgnoreBlockOnNext += effect.payload;
+                        });
                         FindObjectOfType<AudioManager>().PlayRandomPowerUp();
                         break;
                     case CardEffectType.Draw:
@@ -245,19 +244,6 @@ namespace HandSystem
                     case CardEffectType.DiscardHand:
                         BattleManager.Instance.AddEventToQueue(() => DiscardCards(cardsInHand));
                         break;
-                }
-
-                // Add vfx to queue
-                if (effect.vfxEffect != null)
-                {
-                    BattleManager.Instance.AddEventToQueue(() =>
-                        VfxEffects.PlayEffects(effect.vfxEffect, effect.payload, targets.ToArray()));
-                }
-
-                if (otherTargets != null)
-                {
-                    BattleManager.Instance.AddEventToQueue(() =>
-                        VfxEffects.PlayEffects(effect.vfxEffect, effect.payload, otherTargets.ToArray()));
                 }
             }
         }

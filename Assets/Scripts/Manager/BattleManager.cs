@@ -17,6 +17,8 @@ public class BattleManager : MonoBehaviour
     [SerializeField] private GameObject backgroundImage;
     [SerializeField] private HandManager handManager;
     [SerializeField] private int burnValue;
+    [SerializeField] public GameObject dmbNumberEffect;
+    [SerializeField] public GameObject blockNumberEffect;
 
     private EventQueue eventQueue = new EventQueue();
     private bool battleEnded = false;

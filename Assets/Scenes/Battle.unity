@@ -5346,7 +5346,19 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 121926306}
     - target: {fileID: 1664872816408922863, guid: 1a729ac6608928f468242ea51f4fa022, type: 3}
+      propertyPath: dmbNumberEffect
+      value: 
+      objectReference: {fileID: 4315291248629269559, guid: cd34fea19ecc7ec47aff4ceacd067b53, type: 3}
+    - target: {fileID: 1664872816408922863, guid: 1a729ac6608928f468242ea51f4fa022, type: 3}
+      propertyPath: blockNumberEffect
+      value: 
+      objectReference: {fileID: 4315291248629269559, guid: 9c34255e526270b4e9ea4cc687f91df9, type: 3}
+    - target: {fileID: 1664872816408922863, guid: 1a729ac6608928f468242ea51f4fa022, type: 3}
       propertyPath: damageBlockNumber
+      value: 
+      objectReference: {fileID: 4315291248629269559, guid: cd34fea19ecc7ec47aff4ceacd067b53, type: 3}
+    - target: {fileID: 1664872816408922863, guid: 1a729ac6608928f468242ea51f4fa022, type: 3}
+      propertyPath: dmbBlockNumberEffect
       value: 
       objectReference: {fileID: 4315291248629269559, guid: cd34fea19ecc7ec47aff4ceacd067b53, type: 3}
     - target: {fileID: 1764112526986714901, guid: 1a729ac6608928f468242ea51f4fa022, type: 3}
@@ -6008,11 +6020,11 @@ PrefabInstance:
       objectReference: {fileID: 233532043}
     - target: {fileID: 2481586220370297915, guid: 92fafd04a1b2be344b2de82cbd1a765a, type: 3}
       propertyPath: currentStageIndex
-      value: 0
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 2481586220370297915, guid: 92fafd04a1b2be344b2de82cbd1a765a, type: 3}
       propertyPath: currentChapterIndex
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2952052698596643387, guid: 92fafd04a1b2be344b2de82cbd1a765a, type: 3}
       propertyPath: m_Name

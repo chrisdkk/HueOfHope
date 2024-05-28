@@ -13,7 +13,8 @@ public static class CardEffectActions
         audioManagerInstance = audioManager;
     }
 
-    public static void DamageAction(Character user, int payload, bool ignoreBlock, ref List<Character> targets)
+    public static void DamageAction(GameObject vfxEffect, Character user, int payload, bool ignoreBlock,
+        ref List<Character> targets)
     {
         int damage = payload != 0 ? payload + user.CharacterStats.Insight - user.CharacterStats.AttackDebuff : 0;
         // Damage can not be negative
@@ -51,9 +52,12 @@ public static class CardEffectActions
                 target.CharacterStats.Health = 0;
             }
         }
+
+        VfxEffects.PlayEffects(vfxEffect, damage, targets.ToArray());
+        VfxEffects.PlayEffects(BattleManager.Instance.dmbNumberEffect, damage, targets.ToArray());
     }
 
-    public static void ShieldBreakAction(Character user, int payload, ref List<Character> targets)
+    public static void ShieldBreakAction(GameObject vfxEffect, Character user, int payload, ref List<Character> targets)
     {
         int damage = payload != 0 ? payload + user.CharacterStats.Insight - user.CharacterStats.AttackDebuff : 0;
         // Damage can not be negative
@@ -66,7 +70,7 @@ public static class CardEffectActions
         }
     }
 
-    public static void BlockAction(int payload, ref List<Character> targets)
+    public static void BlockAction(GameObject vfxEffect, int payload, ref List<Character> targets)
     {
         foreach (Character target in targets)
         {
@@ -76,9 +80,12 @@ public static class CardEffectActions
                 audioManagerInstance.Play("Block1");
             }
         }
+
+        VfxEffects.PlayEffects(vfxEffect, payload, targets.ToArray());
+        VfxEffects.PlayEffects(BattleManager.Instance.blockNumberEffect, payload, targets.ToArray());
     }
 
-    public static void BurnAction(int payload, ref List<Character> targets)
+    public static void BurnAction(GameObject vfxEffect, int payload, ref List<Character> targets)
     {
         foreach (Character target in targets)
         {
@@ -88,34 +95,42 @@ public static class CardEffectActions
                 audioManagerInstance.Play("Fire1");
             }
         }
+
+        VfxEffects.PlayEffects(vfxEffect, payload, targets.ToArray());
     }
 
-    public static void InsightAction(int payload, ref List<Character> targets)
+    public static void InsightAction(GameObject vfxEffect, int payload, ref List<Character> targets)
     {
         foreach (Character target in targets)
         {
             target.CharacterStats.Insight += payload;
         }
+
+        VfxEffects.PlayEffects(vfxEffect, payload, targets.ToArray());
     }
 
-    public static void AttackDebuff(int payload, ref List<Character> targets)
+    public static void AttackDebuff(GameObject vfxEffect, int payload, ref List<Character> targets)
     {
         foreach (Character target in targets)
         {
             target.CharacterStats.AttackDebuff += payload;
         }
+
+        VfxEffects.PlayEffects(vfxEffect, payload, targets.ToArray());
     }
 
-    public static void Cleanse(ref List<Character> targets)
+    public static void Cleanse(GameObject vfxEffect, ref List<Character> targets)
     {
         foreach (Character target in targets)
         {
             target.CharacterStats.AttackDebuff = 0;
             target.CharacterStats.Burn = 0;
         }
+
+        VfxEffects.PlayEffects(vfxEffect, 0, targets.ToArray());
     }
 
-    public static void InstantApplyBurnAction(ref List<Character> targets)
+    public static void InstantApplyBurnAction(GameObject vfxEffect, ref List<Character> targets)
     {
         foreach (Character target in targets)
         {
@@ -126,9 +141,11 @@ public static class CardEffectActions
                 audioManagerInstance.Play("Fire1");
             }
         }
+
+        VfxEffects.PlayEffects(vfxEffect, GameStateManager.Instance.BurnTickDamage, targets.ToArray());
     }
 
-    public static void TakeOverBurn(Character originalTarget, ref List<Character> targets)
+    public static void TakeOverBurn(GameObject vfxEffect, Character originalTarget, ref List<Character> targets)
     {
         foreach (Character target in targets)
         {
@@ -138,5 +155,7 @@ public static class CardEffectActions
                 audioManagerInstance.Play("Fire1");
             }
         }
+
+        VfxEffects.PlayEffects(vfxEffect, originalTarget.CharacterStats.Burn, targets.ToArray());
     }
 }

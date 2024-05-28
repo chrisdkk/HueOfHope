@@ -74,40 +74,34 @@ public class Enemy : Character
             {
                 case CardEffectType.Damage:
                     BattleManager.Instance.AddEventToQueue(() =>
-                        CardEffectActions.DamageAction(this, effect.payload, effect.ignoreBlock, ref targets));
+                        CardEffectActions.DamageAction(effect.vfxEffect, this, effect.payload, effect.ignoreBlock,
+                            ref targets));
                     FindObjectOfType<AudioManager>().Play("Attack1");
                     dmgOrBlock = true;
                     break;
 
                 case CardEffectType.Block:
                     BattleManager.Instance.AddEventToQueue(() =>
-                        CardEffectActions.BlockAction(effect.payload, ref targets));
+                        CardEffectActions.BlockAction(effect.vfxEffect, effect.payload, ref targets));
                     dmgOrBlock = true;
                     break;
 
                 case CardEffectType.Burn:
                     BattleManager.Instance.AddEventToQueue(() =>
-                        CardEffectActions.BurnAction(effect.payload, ref targets));
+                        CardEffectActions.BurnAction(effect.vfxEffect, effect.payload, ref targets));
                     break;
 
                 case CardEffectType.Insight:
                     BattleManager.Instance.AddEventToQueue(() =>
-                        CardEffectActions.InsightAction(effect.payload, ref targets));
+                        CardEffectActions.InsightAction(effect.vfxEffect, effect.payload, ref targets));
                     FindObjectOfType<AudioManager>().PlayRandomPowerUp();
                     break;
 
                 case CardEffectType.AttackDebuff:
                     BattleManager.Instance.AddEventToQueue(() =>
-                        CardEffectActions.AttackDebuff(effect.payload, ref targets));
+                        CardEffectActions.AttackDebuff(effect.vfxEffect, effect.payload, ref targets));
                     Invoke("PlayDebuff", 0.5f);
                     break;
-            }
-
-            // Add vfx to queue -> for damage effects
-            if (effect.vfxEffect != null)
-            {
-                BattleManager.Instance.AddEventToQueue(() =>
-                    VfxEffects.PlayEffects(effect.vfxEffect, effect.payload, targets.ToArray()));
             }
         }
 
