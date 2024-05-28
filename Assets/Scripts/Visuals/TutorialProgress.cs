@@ -13,6 +13,24 @@ public class TutorialProgress : MonoBehaviour
     [SerializeField] private GameObject enemyActionTooltip;
     [SerializeField] private Image background;
 
+    public void CheckForTutorial()
+    {
+        if (HandleTutorialChoice.tutorialToggleState)
+        {
+            drawPileTooltip.SetActive(true);
+            discardPileTooltip.SetActive(true);
+            handTooltip.SetActive(true);
+        }
+        else
+        {
+            background.DOFade(0f, 1).OnComplete(() =>
+            {
+                gameObject.SetActive(false);
+                BattleManager.Instance.Resume();
+            });
+        }
+    }
+
     public void ReduceBackgroundTransparency()
     {
         background.DOFade(0.1f, 1);

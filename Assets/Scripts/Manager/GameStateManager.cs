@@ -46,7 +46,6 @@ public class GameStateManager : MonoBehaviour
 
         if (type == GameType.NewGame)
         {
-            Debug.Log(HandleTutorialChoice.tutorialToggleState);
             maxPlayerHealth = 30;
             HealingAmount = 10;
             CurrentPlayerHealth = maxPlayerHealth;
