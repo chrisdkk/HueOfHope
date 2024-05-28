@@ -183,7 +183,7 @@ public class BattleManager : MonoBehaviour
             {
                 audioManager.StopAllSounds();
             }
-            SceneManager.LoadScene("Menu");
+            SceneManager.LoadScene("Lose");
             return;
         }
 
