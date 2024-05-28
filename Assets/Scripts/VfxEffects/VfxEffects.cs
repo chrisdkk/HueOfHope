@@ -16,20 +16,7 @@ public class ParticleSystemProgress : MonoBehaviour
         particleSystem.Play();
 
         // Animate the currentTime from 0 to duration using DoTween
-        DOTween.To(() => currentTime, x => currentTime = x, duration, duration)
-            .OnUpdate(() =>
-            {
-                // Calculate progress (between 0 and 1) based on currentTime and duration
-                float progress = currentTime / duration;
-
-                // Use the progress value as needed, for example:
-                Debug.Log("Particle System Progress: " + progress);
-            })
-            .OnComplete(() =>
-            {
-                // Particle System emission is complete
-                Debug.Log("Particle System Complete!");
-            });
+        DOTween.To(() => currentTime, x => currentTime = x, duration, duration);
     }
 }
 
@@ -49,6 +36,7 @@ public class VfxEffects : MonoBehaviour
             pos.z = -3;
             if (vfx.name.ToLower().Contains("fire"))
             {
+                FindObjectOfType<AudioManager>().Play("Fire1");
                 pos.y -= character.transform.Find("Visual").GetComponent<SpriteRenderer>().bounds.size.y / 2f;
                 instVFXs.Add(Instantiate(vfx, pos, Quaternion.identity));
             }

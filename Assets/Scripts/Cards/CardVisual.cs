@@ -15,15 +15,15 @@ public class CardVisual : MonoBehaviour
     [SerializeField] private GameObject disabledOverlay;
     [SerializeField] private Color baseColor;
     [SerializeField] private Color warningColor;
-    
+
     [SerializeField] private GameObject effectDetailPrefab;
     [SerializeField] private float effectDetailYStart;
     [SerializeField] private float effectDetailYOffset;
     [SerializeField] private float effectDetailX;
     [SerializeField] private float effectDetailScale;
-    [SerializeField] private bool addInsight;
+    [SerializeField] private bool updateDamage;
     private List<GameObject> effectDetails = new List<GameObject>();
-    
+
     public CardData CardData { get; private set; }
     public bool isEnabled { get; private set; }
 
@@ -37,19 +37,29 @@ public class CardVisual : MonoBehaviour
 
     public void LoadCardData(CardData newData)
     {
-        // Clear old effect details if existing
-        if (effectDetails.Count > 0)
+        if (CardData == null || newData.name != CardData.name)
         {
-            foreach (GameObject effectDetail in effectDetails)
+            CardData = newData;
+            // Clear old effect details if existing
+            if (effectDetails.Count > 0)
             {
-                Destroy(effectDetail);
+                foreach (GameObject effectDetail in effectDetails)
+                {
+                    Destroy(effectDetail);
+                }
+
+                effectDetails.RemoveRange(0, effectDetails.Count);
             }
 
-            effectDetails.RemoveRange(0, effectDetails.Count);
+            title.SetText(newData.cardName);
+            cost.SetText(newData.apCost.ToString());
+            cardImage.texture = newData.cardImage;
+            GenerateEffectExplanations();
         }
-
-        CardData = newData;
-        title.SetText(CardData.cardName);
+        else
+        {
+            CardData = newData;
+        }
 
         // Build card text
         string text = "";
@@ -58,32 +68,32 @@ public class CardVisual : MonoBehaviour
             int actualPayload = effect.payload;
             bool damageUpdated = false;
 
-            if (CardEffect.insightAffectedEffects.Contains(effect.effectType) &&
-                BattleManager.Instance.PlayerScript.CharacterStats.Insight > 0 && addInsight)
+            if (CardEffect.insightAffectedEffects.Contains(effect.effectType) && updateDamage &&
+                (BattleManager.Instance.PlayerScript.CharacterStats.Insight > 0 ||
+                 BattleManager.Instance.PlayerScript.CharacterStats.AttackDebuff > 0))
             {
                 actualPayload += BattleManager.Instance.PlayerScript.CharacterStats.Insight;
+                actualPayload -= BattleManager.Instance.PlayerScript.CharacterStats.AttackDebuff;
                 damageUpdated = true;
             }
 
             if (effect.effectData != null)
             {
-                text += effect.effectData.GetText(actualPayload, damageUpdated, effect.insightMultiplier,
-                    effect.effectTarget);
+                text += effect.effectData.GetText(effect.payload, actualPayload, damageUpdated,
+                    effect.insightMultiplier,
+                    effect.effectTarget, true);
                 text += "\n";
             }
         }
 
         description.SetText(text);
-        cost.SetText(CardData.apCost.ToString());
-        cardImage.texture = CardData.cardImage;
-        GenerateEffectExplanations();
     }
 
     public void SetEnabled()
     {
         isEnabled = true;
         cost.color = baseColor;
-        disabledOverlay.SetActive(false); 
+        disabledOverlay.SetActive(false);
     }
 
     public void SetDisabled()
@@ -130,7 +140,8 @@ public class CardVisual : MonoBehaviour
                 {
                     instObject.transform.Find("Title").GetComponent<TextMeshProUGUI>().text = effect.effectData.title;
                     instObject.transform.Find("Description").GetComponent<TextMeshProUGUI>().text =
-                        effect.effectData.effectDescription;
+                        effect.effectData.effectDescription.Replace("[NUMBER]",
+                            GameStateManager.Instance.BurnTickDamage.ToString());
                 }
 
                 effectDetails.Add(instObject);
@@ -138,11 +149,19 @@ public class CardVisual : MonoBehaviour
         }
     }
 
-    public void ToggleDetails()
+    public void ShowDetails()
     {
         foreach (GameObject effectDetail in effectDetails)
         {
-            effectDetail.SetActive(!effectDetail.activeSelf);
+            effectDetail.SetActive(true);
+        }
+    }
+
+    public void HideDetails()
+    {
+        foreach (GameObject effectDetail in effectDetails)
+        {
+            effectDetail.SetActive(false);
         }
     }
 }

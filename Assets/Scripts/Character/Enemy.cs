@@ -6,10 +6,11 @@ using UnityEngine.UI;
 public class Enemy : Character
 {
     [SerializeField] private int maxHealth = 30;
-    [SerializeField] private GameObject actionIndication;
+    [SerializeField] private GameObject actionIndicationImage;
     [SerializeField] private List<Sprite> actionIndicationMaterial;
     [SerializeField] private List<EnemyCard> enemyPattern = new();
     [SerializeField] private GameObject deathVFX;
+    [SerializeField] private ShowEnemyActionDetail showEnemyActionDetail;
 
     private int currentActionIndex;
     public bool isDead = false;
@@ -25,10 +26,16 @@ public class Enemy : Character
 
         // Get current action and indicate it
         currentActionIndex = 0;
-        actionIndication.GetComponent<Image>().sprite = actionIndicationMaterial.Find(sprite =>
+        actionIndicationImage.GetComponent<Image>().sprite = actionIndicationMaterial.Find(sprite =>
             sprite.name == enemyPattern[currentActionIndex].cardType.ToString());
-        actionIndication.GetComponentInChildren<TextMeshProUGUI>().text =
+        actionIndicationImage.GetComponentInChildren<TextMeshProUGUI>().text =
             enemyPattern[currentActionIndex].effects[0].payload.ToString();
+        showEnemyActionDetail.UpdateEnemyActionDetail(enemyPattern[currentActionIndex].effects);
+    }
+    
+    void PlayDebuff()
+    {
+        FindObjectOfType<AudioManager>().PlayRandomDebuff();
     }
 
     /* Play the current selected enemy card*/
@@ -66,6 +73,7 @@ public class Enemy : Character
                 case CardEffectType.Damage:
                     BattleManager.Instance.AddEventToQueue(() =>
                         CardEffectActions.DamageAction(this, effect.payload, effect.ignoreBlock, ref targets));
+                        FindObjectOfType<AudioManager>().Play("Attack1");
                     break;
 
                 case CardEffectType.Block:
@@ -81,11 +89,13 @@ public class Enemy : Character
                 case CardEffectType.Insight:
                     BattleManager.Instance.AddEventToQueue(() =>
                         CardEffectActions.InsightAction(effect.payload, ref targets));
+                        FindObjectOfType<AudioManager>().PlayRandomPowerUp();
                     break;
 
                 case CardEffectType.AttackDebuff:
                     BattleManager.Instance.AddEventToQueue(() =>
                         CardEffectActions.AttackDebuff(effect.payload, ref targets));
+                        Invoke("PlayDebuff", 0.5f);
                     break;
             }
 
@@ -103,10 +113,11 @@ public class Enemy : Character
             currentActionIndex = 0;
         }
 
-        actionIndication.GetComponent<Image>().sprite = actionIndicationMaterial.Find(sprite =>
+        actionIndicationImage.GetComponent<Image>().sprite = actionIndicationMaterial.Find(sprite =>
             sprite.name == enemyPattern[currentActionIndex].cardType.ToString());
-        actionIndication.GetComponentInChildren<TextMeshProUGUI>().text =
+        actionIndicationImage.GetComponentInChildren<TextMeshProUGUI>().text =
             enemyPattern[currentActionIndex].effects[0].payload.ToString();
+        showEnemyActionDetail.UpdateEnemyActionDetail(enemyPattern[currentActionIndex].effects);
     }
 
     private void CheckForGameOver(int currentHealth, int maxHealth)

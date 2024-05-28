@@ -63,10 +63,6 @@ public class BattleManager : MonoBehaviour
         // un-end battle when advancing to the next stage
         battleEnded = false;
 
-        // Find Manager Objects in Scene
-        DeckManager = new DeckManager(deck);
-        handManager.Initialize(DeckManager);
-
         rewardWindow.GetComponent<RewardManager>().Initialize(storyText);
 
         PlayerScript.ResetBuffsAndDebuffs();
@@ -77,6 +73,22 @@ public class BattleManager : MonoBehaviour
         EnemiesInBattle = new List<Enemy>();
 
         AddEventToQueue(() => GenerateEnemies(enemies));
+        
+        // If player has already a deck -> Start battle -> Else wait for deck selection
+        if (deck.Count > 0)
+        {
+            // Find Manager Objects in Scene
+            DeckManager = new DeckManager(deck);
+            handManager.Initialize(DeckManager);
+            AddEventToQueue(StartPlayerTurn);
+        }
+    }
+
+    public void InitializeStarterDeck(List<CardData> deck)
+    {
+        // Find Manager Objects in Scene
+        DeckManager = new DeckManager(deck);
+        handManager.Initialize(DeckManager);
         AddEventToQueue(StartPlayerTurn);
     }
 
@@ -152,9 +164,8 @@ public class BattleManager : MonoBehaviour
         {
             PlayerScript.CharacterStats.Insight -= 1;
         }
-
+        FindObjectOfType<AudioManager>().Play("ButtonClick2");
         EnemyTurn();
-        FindObjectOfType<AudioManager>().Play("ButtonClick");
     }
 
     /*
@@ -167,21 +178,29 @@ public class BattleManager : MonoBehaviour
         eventQueue.ClearEvents();
         if (PlayerScript.CharacterStats.Health <= 0)
         {
-            SceneManager.LoadScene("Lose");
+            AudioManager audioManager = FindObjectOfType<AudioManager>();
+            if (audioManager != null)
+            {
+                audioManager.StopAllSounds();
+            }
+            SceneManager.LoadScene("Menu");
             return;
         }
 
         GameStateManager.Instance.CurrentPlayerHealth = PlayerScript.CharacterStats.Health;
         rewardWindow.GetComponent<RewardManager>().StartRewardManager();
+        FindObjectOfType<AudioManager>().Play("CompleteStage");
     }
 
     public void Pause()
     {
         isPaused = true;
+        FindObjectOfType<AudioManager>().Play("ButtonClick2");
     }
 
     public void Resume()
     {
         isPaused = false;
+        FindObjectOfType<AudioManager>().Play("ButtonClick2");
     }
 }

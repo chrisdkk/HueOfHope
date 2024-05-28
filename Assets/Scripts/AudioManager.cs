@@ -31,6 +31,8 @@ public class AudioManager : MonoBehaviour
             s.source.volume = s.volume;
             s.source.pitch = s.pitch;
             s.source.loop = s.loop;
+            
+            s.source.outputAudioMixerGroup = s.mixerGroup;
         }
     }
     
@@ -39,7 +41,6 @@ public class AudioManager : MonoBehaviour
         Sound s = Array.Find(sounds, sound => sound.name == name);
         if (s == null)
         {
-            Debug.LogWarning("Sound: " + name + " not found!");
             return;
         }
             
@@ -84,7 +85,6 @@ public class AudioManager : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("Sound: " + name + " not found!");
             return 0f;
         }
     }
@@ -95,17 +95,6 @@ public class AudioManager : MonoBehaviour
         if (audioManager != null)
         {
             CardEffectActions.SetAudioManager(audioManager);
-        }
-    
-        if (SceneManager.GetActiveScene().name == "Battle")
-        {
-            Debug.Log("Starting PlayRandomSound coroutine...");
-            //StartCoroutine(PlayRandomSoundEffectCoroutine());
-            //StartCoroutine(PlayRandomSound());
-        }
-        else
-        {
-            Debug.LogWarning("Scene is not Battle. AudioManager will not play random sounds.");
         }
     }
 
@@ -146,7 +135,6 @@ public class AudioManager : MonoBehaviour
         Sound s = Array.Find(sounds, sound => sound.name == name);
         if (s == null)
         {
-            Debug.LogWarning("Sound: " + name + " not found!");
             yield break;
         }
 
@@ -172,7 +160,6 @@ public class AudioManager : MonoBehaviour
         Sound s = System.Array.Find(sounds, sound => sound.name == name);
         if (s == null)
         {
-            Debug.LogWarning("Sound: " + name + " not found!");
             yield break;
         }
 
@@ -197,6 +184,20 @@ public class AudioManager : MonoBehaviour
         Play(randomSound);
     }
     
+    public void PlayRandomPowerUp()
+    {
+        string[] powerUpSounds = { "PowerUp1", "PowerUp2" };
+        string randomSound = powerUpSounds[UnityEngine.Random.Range(0, powerUpSounds.Length)];
+        Play(randomSound);
+    }
+    
+    public void PlayRandomDebuff()
+    {
+        string[] debuffSounds = { "Debuff1", "Debuff2" };
+        string randomSound = debuffSounds[UnityEngine.Random.Range(0, debuffSounds.Length)];
+        Play(randomSound);
+    }
+    
     public void PlayRandomSoundEffect()
     {
         StartCoroutine(PlayRandomSoundEffectCoroutine());
@@ -213,8 +214,6 @@ public class AudioManager : MonoBehaviour
             
             string randomSound = enemyDieSounds[UnityEngine.Random.Range(0, enemyDieSounds.Length)];
             Play(randomSound);
-
-            Debug.Log("Playing sound effect: " + randomSound);
         }
     }
 }

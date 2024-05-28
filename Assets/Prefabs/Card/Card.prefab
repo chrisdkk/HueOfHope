@@ -68,8 +68,7 @@ MonoBehaviour:
   m_text: New Text
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 541a6bf4573d8d0499fae65d409d2de2, type: 2}
-  m_sharedMaterial: {fileID: 8448765768876283713, guid: 541a6bf4573d8d0499fae65d409d2de2,
-    type: 2}
+  m_sharedMaterial: {fileID: 8448765768876283713, guid: 541a6bf4573d8d0499fae65d409d2de2, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -384,8 +383,7 @@ MonoBehaviour:
   m_text: 1
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 541a6bf4573d8d0499fae65d409d2de2, type: 2}
-  m_sharedMaterial: {fileID: 8448765768876283713, guid: 541a6bf4573d8d0499fae65d409d2de2,
-    type: 2}
+  m_sharedMaterial: {fileID: 8448765768876283713, guid: 541a6bf4573d8d0499fae65d409d2de2, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -577,16 +575,15 @@ MonoBehaviour:
   description: {fileID: 3627001825771031791}
   cost: {fileID: 6562120803509210204}
   cardImage: {fileID: 1912596493679587473}
-  effectDetailPrefab: {fileID: 1937280000517734562, guid: 72814612b5ef6ff46b8c25a5c52c9a6d,
-    type: 3}
+  disabledOverlay: {fileID: 7689905275395243110}
+  baseColor: {r: 1, g: 1, b: 1, a: 1}
+  warningColor: {r: 0.6981132, g: 0.19428623, b: 0.19428623, a: 1}
+  effectDetailPrefab: {fileID: 1937280000517734562, guid: 72814612b5ef6ff46b8c25a5c52c9a6d, type: 3}
   effectDetailYStart: 0.775
   effectDetailYOffset: -1
   effectDetailX: 1.66
   effectDetailScale: 0.2
-  addInsight: 1
-  disabledOverlay: {fileID: 7689905275395243110}
-  baseColor: {r: 1, g: 1, b: 1, a: 1}
-  warningColor: {r: 0.6981132, g: 0.19428623, b: 0.19428623, a: 1}
+  updateDamage: 1
 --- !u!65 &2542138737775456137
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -676,8 +673,7 @@ MonoBehaviour:
   m_text: Description
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 541a6bf4573d8d0499fae65d409d2de2, type: 2}
-  m_sharedMaterial: {fileID: 8448765768876283713, guid: 541a6bf4573d8d0499fae65d409d2de2,
-    type: 2}
+  m_sharedMaterial: {fileID: 8448765768876283713, guid: 541a6bf4573d8d0499fae65d409d2de2, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -859,8 +855,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93c430754b9e64b77b8b35ec34e1db6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nodePrefab: {fileID: 6130945922334482319, guid: ee18705248a8640bb9e97915dba45eab,
-    type: 3}
+  nodePrefab: {fileID: 6130945922334482319, guid: ee18705248a8640bb9e97915dba45eab, type: 3}
   arrowHeadPrefab: {fileID: 0}
   numberOfSegments: 10
   origin: {fileID: 3728212116655822798}

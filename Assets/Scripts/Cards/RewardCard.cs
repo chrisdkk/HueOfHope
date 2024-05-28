@@ -25,13 +25,13 @@ public class RewardCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     {
         transform.localScale *= increasedScale;
         FindObjectOfType<AudioManager>().Play("Hover3");
-        cardVisual.ToggleDetails();
+        cardVisual.ShowDetails();
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         transform.localScale = baseScale;
-        cardVisual.ToggleDetails();
+        cardVisual.HideDetails();
     }
 
     public void OnPointerClick(PointerEventData eventData)
