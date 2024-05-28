@@ -42,7 +42,6 @@ public class SceneChanger : MonoBehaviour
         }
     }
 
-
     public void LoadPreviousGame()
     {
         AudioManager audioManager = FindObjectOfType<AudioManager>();
@@ -71,6 +70,11 @@ public class SceneChanger : MonoBehaviour
 #else
         Application.Quit();
 #endif
+    }
+
+    public void LoadCredits()
+    {
+        SceneManager.LoadScene("Credits");
     }
 
     void Start()

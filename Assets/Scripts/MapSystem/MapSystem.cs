@@ -23,10 +23,6 @@ public class MapSystem : MonoBehaviour
     public void InitializeMapSystem()
     {
         rewardManager.OnBattleEnd += EndCurrentStage;
-
-        // default values
-        currentChapterIndex = 0;
-        currentStageIndex = 0;
     }
 
     public List<GameObject> GetEnemies()
@@ -66,6 +62,11 @@ public class MapSystem : MonoBehaviour
     private void AdvanceToNextStage()
     {
         currentStageIndex++;
+        
+        if (currentStageIndex != chapterList[currentChapterIndex].stageList.Count())
+        {
+            StartNextStage();
+        }
 
         if (currentStageIndex == chapterList[currentChapterIndex].stageList.Count())
         {
@@ -100,7 +101,7 @@ public class MapSystem : MonoBehaviour
             // completed every chapter and stage
             chapterOver = true;
 
-            SceneManager.LoadScene("Menu");
+            SceneManager.LoadScene("Win");
         }
     }
 }

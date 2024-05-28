@@ -79,7 +79,8 @@ public class RewardManager : MonoBehaviour
         additionalBackgroundItems.SetActive(false);
         chooseRewardVerticalGroup.SetActive(false);
         backToSelectionButton.SetActive(true);
-        // Choose 3 random card datas as reward
+        
+        // Choose 3 random card data(s) as reward
         if (rewards.Count == 0)
         {
             Random r = new Random();
