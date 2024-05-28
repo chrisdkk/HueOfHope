@@ -44,9 +44,12 @@ public class Enemy : Character
     {
         EnemyCard enemyCard = enemyPattern[currentActionIndex];
 
-        transform.DOMoveX(transform.position.x - .2f, .1125f).OnComplete(
-            () => transform.DOMoveX(transform.position.x + .3f, .1125f)
-                .OnComplete(() => transform.DOMoveX(transform.position.x - .1f, .1125f)));
+        BattleManager.Instance.AddEventToQueue(() =>
+        {
+            transform.DOMoveX(transform.position.x - .2f, .1125f).OnComplete(
+                () => transform.DOMoveX(transform.position.x + .3f, .1125f)
+                    .OnComplete(() => transform.DOMoveX(transform.position.x - .1f, .1125f)));
+        });
 
         foreach (CardEffect effect in enemyCard.effects)
         {

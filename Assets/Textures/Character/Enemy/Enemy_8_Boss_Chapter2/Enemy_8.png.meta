@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: c4b4848478d9a452985dc82d5500223c
+guid: 26773641da57e1e4c9ce79db17bd6f92
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -69,7 +69,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 8192
+    maxTextureSize: 16384
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 2
@@ -93,30 +93,17 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: Android
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: discardPile_0
+      name: Enemy_8_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 854
-        height: 793
+        width: 1187
+        height: 2150
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -124,20 +111,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5fbfe16bc7727444fb00c87de2a5cad6
-      internalID: -332430544
+      spriteID: dcaac0647981f2d49b28da2ef4e02e23
+      internalID: 1355385756
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: discardPile_1
+      name: Enemy_8_1
       rect:
         serializedVersion: 2
-        x: 854
+        x: 1187
         y: 0
-        width: 854
-        height: 793
+        width: 1187
+        height: 2150
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -145,20 +132,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 263230e0789ce544180c2dee6c8379d3
-      internalID: 2093448382
+      spriteID: 930c6b49fd8d36e43b951b10eded715d
+      internalID: -14692717
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: discardPile_2
+      name: Enemy_8_2
       rect:
         serializedVersion: 2
-        x: 1708
+        x: 2374
         y: 0
-        width: 854
-        height: 793
+        width: 1187
+        height: 2150
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -166,20 +153,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 81d2910c36dc0e249a24919599916689
-      internalID: 185639335
+      spriteID: 2fc866178ae24184b9585444afa5bf78
+      internalID: 890829847
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: discardPile_3
+      name: Enemy_8_3
       rect:
         serializedVersion: 2
-        x: 2562
+        x: 3561
         y: 0
-        width: 854
-        height: 793
+        width: 1187
+        height: 2150
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -187,20 +174,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3eb7e919753edcf438afdbb546a8498c
-      internalID: 458712979
+      spriteID: 787836b006d8bb84f855c0e20f79ea4b
+      internalID: 473792
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: discardPile_4
+      name: Enemy_8_4
       rect:
         serializedVersion: 2
-        x: 3416
+        x: 4748
         y: 0
-        width: 854
-        height: 793
+        width: 1187
+        height: 2150
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -208,20 +195,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c8b2a74acfce70c4b9374c910f532323
-      internalID: -531315505
+      spriteID: 0c7de892bda5b324494ecc20842dd47a
+      internalID: 556327175
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: discardPile_5
+      name: Enemy_8_5
       rect:
         serializedVersion: 2
-        x: 4270
+        x: 5935
         y: 0
-        width: 854
-        height: 793
+        width: 1187
+        height: 2150
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -229,8 +216,50 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 749e6c8247bff6349a38bd7750a2142f
-      internalID: 1460574983
+      spriteID: 60c61d2d49d79124e8c14e0b84b00da3
+      internalID: -1760271196
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Enemy_8_6
+      rect:
+        serializedVersion: 2
+        x: 7122
+        y: 0
+        width: 1187
+        height: 2150
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d644b4c0a54b1224896f71137cf2d8b3
+      internalID: -1172053980
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Enemy_8_7
+      rect:
+        serializedVersion: 2
+        x: 8309
+        y: 0
+        width: 1187
+        height: 2150
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d1d819a27f950dd49a53554d9f012846
+      internalID: -506366742
       vertices: []
       indices: 
       edges: []
@@ -238,7 +267,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: f5d31d4dc00a24c46aca2995fce61f34
     internalID: 0
     vertices: []
     indices: 
@@ -246,12 +275,14 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      discardPile_0: -332430544
-      discardPile_1: 2093448382
-      discardPile_2: 185639335
-      discardPile_3: 458712979
-      discardPile_4: -531315505
-      discardPile_5: 1460574983
+      Enemy_8_0: 1355385756
+      Enemy_8_1: -14692717
+      Enemy_8_2: 890829847
+      Enemy_8_3: 473792
+      Enemy_8_4: 556327175
+      Enemy_8_5: -1760271196
+      Enemy_8_6: -1172053980
+      Enemy_8_7: -506366742
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

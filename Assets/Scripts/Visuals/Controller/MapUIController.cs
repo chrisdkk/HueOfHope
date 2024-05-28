@@ -44,6 +44,10 @@ public class MapUIController : MonoBehaviour
             {
                 stageImages[i].sprite = stageActiveSprite;
             }
+            else
+            {
+                stageImages[i].sprite = stageSprite;
+            }
         }
     }
 }

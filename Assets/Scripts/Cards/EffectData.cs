@@ -15,6 +15,7 @@ public class EffectData : ScriptableObject
         CardEffectTarget cardEffectTarget, bool casterIsPlayer)
     {
         // Add payload
+        newPayload = newPayload < 0 ? 0 : newPayload;
         string currText = damageUpdated
             ? newPayload > payload
                 ? text.Replace("[NUMBER]", "<color=yellow>" + newPayload + "</color>")

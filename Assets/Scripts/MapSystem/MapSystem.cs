@@ -25,7 +25,7 @@ public class MapSystem : MonoBehaviour
         rewardManager.OnBattleEnd += EndCurrentStage;
 
         // default values
-        currentChapterIndex = 1;
+        currentChapterIndex = 0;
         currentStageIndex = 0;
     }
 
@@ -78,6 +78,7 @@ public class MapSystem : MonoBehaviour
         currentChapterIndex++;
         currentStageIndex = 0;
         OnChapterChange?.Invoke();
+        OnStageChange?.Invoke(chapterList[currentChapterIndex], currentStageIndex);
 
         // Switch for improvements the player gets after a chapter
         switch (currentChapterIndex)
@@ -90,10 +91,10 @@ public class MapSystem : MonoBehaviour
                 GameStateManager.Instance.maxPlayerHealth += 15;
                 GameStateManager.Instance.HealingAmount += 5;
                 break;
-            
         }
+
         GameStateManager.Instance.CurrentPlayerHealth = GameStateManager.Instance.maxPlayerHealth;
-        
+
         if (currentChapterIndex == chapterList.Count())
         {
             // completed every chapter and stage

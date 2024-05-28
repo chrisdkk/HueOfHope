@@ -102,8 +102,8 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 626.5
-        height: 912
+        width: 625
+        height: 910
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -121,10 +121,10 @@ TextureImporter:
       name: Enemy5_1
       rect:
         serializedVersion: 2
-        x: 626
+        x: 625
         y: 0
-        width: 626.5
-        height: 912
+        width: 625
+        height: 910
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -142,10 +142,10 @@ TextureImporter:
       name: Enemy5_2
       rect:
         serializedVersion: 2
-        x: 1252
+        x: 1250
         y: 0
-        width: 626.5
-        height: 912
+        width: 625
+        height: 910
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -163,10 +163,10 @@ TextureImporter:
       name: Enemy5_3
       rect:
         serializedVersion: 2
-        x: 1878
+        x: 1875
         y: 0
-        width: 626.5
-        height: 912
+        width: 625
+        height: 910
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -184,10 +184,10 @@ TextureImporter:
       name: Enemy5_4
       rect:
         serializedVersion: 2
-        x: 2504
+        x: 2500
         y: 0
-        width: 626.5
-        height: 912
+        width: 625
+        height: 910
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -205,10 +205,10 @@ TextureImporter:
       name: Enemy5_5
       rect:
         serializedVersion: 2
-        x: 3130
+        x: 3125
         y: 0
-        width: 626.5
-        height: 912
+        width: 625
+        height: 910
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -226,10 +226,10 @@ TextureImporter:
       name: Enemy5_6
       rect:
         serializedVersion: 2
-        x: 3756
+        x: 3750
         y: 0
-        width: 626.5
-        height: 912
+        width: 625
+        height: 910
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -247,10 +247,10 @@ TextureImporter:
       name: Enemy5_7
       rect:
         serializedVersion: 2
-        x: 4382
+        x: 4375
         y: 0
-        width: 626.5
-        height: 912
+        width: 625
+        height: 910
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -268,10 +268,10 @@ TextureImporter:
       name: Enemy5_8
       rect:
         serializedVersion: 2
-        x: 5008
+        x: 5000
         y: 0
-        width: 626.5
-        height: 912
+        width: 625
+        height: 910
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -289,10 +289,10 @@ TextureImporter:
       name: Enemy5_9
       rect:
         serializedVersion: 2
-        x: 5634
+        x: 5625
         y: 0
-        width: 626.5
-        height: 912
+        width: 625
+        height: 910
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -310,10 +310,10 @@ TextureImporter:
       name: Enemy5_10
       rect:
         serializedVersion: 2
-        x: 6260
+        x: 6250
         y: 0
-        width: 626.5
-        height: 912
+        width: 625
+        height: 910
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -331,10 +331,10 @@ TextureImporter:
       name: Enemy5_11
       rect:
         serializedVersion: 2
-        x: 6886
+        x: 6875
         y: 0
-        width: 626.5
-        height: 912
+        width: 625
+        height: 910
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -352,10 +352,10 @@ TextureImporter:
       name: Enemy5_12
       rect:
         serializedVersion: 2
-        x: 7512
+        x: 7500
         y: 0
-        width: 626.5
-        height: 912
+        width: 625
+        height: 910
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -373,10 +373,10 @@ TextureImporter:
       name: Enemy5_13
       rect:
         serializedVersion: 2
-        x: 8138
+        x: 8125
         y: 0
-        width: 626.5
-        height: 912
+        width: 625
+        height: 910
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -394,10 +394,10 @@ TextureImporter:
       name: Enemy5_14
       rect:
         serializedVersion: 2
-        x: 8764
+        x: 8750
         y: 0
-        width: 626.5
-        height: 912
+        width: 625
+        height: 910
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -415,10 +415,10 @@ TextureImporter:
       name: Enemy5_15
       rect:
         serializedVersion: 2
-        x: 9390
+        x: 9375
         y: 0
-        width: 626.5
-        height: 912
+        width: 625
+        height: 910
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -436,10 +436,10 @@ TextureImporter:
       name: Enemy5_16
       rect:
         serializedVersion: 2
-        x: 10016
+        x: 10000
         y: 0
-        width: 626.5
-        height: 912
+        width: 625
+        height: 910
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -457,10 +457,10 @@ TextureImporter:
       name: Enemy5_17
       rect:
         serializedVersion: 2
-        x: 10642
+        x: 10625
         y: 0
-        width: 626.5
-        height: 912
+        width: 625
+        height: 910
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -478,10 +478,10 @@ TextureImporter:
       name: Enemy5_18
       rect:
         serializedVersion: 2
-        x: 11268
+        x: 11250
         y: 0
-        width: 626.5
-        height: 912
+        width: 625
+        height: 910
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -499,10 +499,10 @@ TextureImporter:
       name: Enemy5_19
       rect:
         serializedVersion: 2
-        x: 11894
+        x: 11875
         y: 0
-        width: 626.5
-        height: 912
+        width: 625
+        height: 910
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -520,10 +520,10 @@ TextureImporter:
       name: Enemy5_20
       rect:
         serializedVersion: 2
-        x: 12520
+        x: 12500
         y: 0
-        width: 626.5
-        height: 912
+        width: 625
+        height: 910
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -541,10 +541,10 @@ TextureImporter:
       name: Enemy5_21
       rect:
         serializedVersion: 2
-        x: 13146
+        x: 13125
         y: 0
-        width: 626.5
-        height: 912
+        width: 625
+        height: 910
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -562,10 +562,10 @@ TextureImporter:
       name: Enemy5_22
       rect:
         serializedVersion: 2
-        x: 13772
+        x: 13750
         y: 0
-        width: 626.5
-        height: 912
+        width: 625
+        height: 910
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -583,10 +583,10 @@ TextureImporter:
       name: Enemy5_23
       rect:
         serializedVersion: 2
-        x: 14398
+        x: 14375
         y: 0
-        width: 626.5
-        height: 912
+        width: 625
+        height: 910
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -594,7 +594,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3c63dd769ed8d5c49980c4a3350e9e98
+      spriteID: 8c3660262a75db84fa830edce891d64a
       internalID: 222116912
       vertices: []
       indices: 
