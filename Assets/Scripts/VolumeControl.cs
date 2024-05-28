@@ -10,14 +10,10 @@ public class VolumeControl : MonoBehaviour
     public AudioMixer audioMixer;
     private float masterLevel;
 
-    public void Start()
+    public void SetVolume()
     {
         masterLevel = gameObject.GetComponent<Slider>().value;
-    }
 
-    // public void SetVolume(float volume) {
-    public void SetVolume() {
-        // audioMixer.SetFloat("MasterVolume", Mathf.Log10(masterLevel) * 20);
-        audioMixer.SetFloat("MasterVolume", masterLevel);
+        audioMixer.SetFloat("MasterVolume", Mathf.Log10(masterLevel) * 20);
     }
 }
