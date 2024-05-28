@@ -25,7 +25,7 @@ public class MapSystem : MonoBehaviour
         rewardManager.OnBattleEnd += EndCurrentStage;
 
         // default values
-        currentChapterIndex = 0;
+        currentChapterIndex = 1;
         currentStageIndex = 0;
     }
 
