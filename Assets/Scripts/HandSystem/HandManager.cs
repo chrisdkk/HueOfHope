@@ -42,6 +42,7 @@ namespace HandSystem
 
         private void DrawCards(int numberOfCards, bool startsTurn)
         {
+            BattleManager.Instance.eventRunning = true;
             int cardsDrawnCount = 0;
             for (int i = 0; i < numberOfCards; i++)
             {
@@ -59,6 +60,8 @@ namespace HandSystem
                         }
 
                         if (startsTurn) OnHandDrawn?.Invoke();
+
+                        BattleManager.Instance.eventRunning = false;
                     }
                 });
             }
@@ -76,9 +79,9 @@ namespace HandSystem
                 OnDiscardCard?.Invoke(card, () =>
                 {
                     cardsInHand.Remove(card);
-                    cardPool.ReleaseCard(card);
-                    UpdateCardCost();
+                    BattleManager.Instance.AddEventToQueue(() => cardPool.ReleaseCard(card));
                 });
+                UpdateCardCost();
             }
         }
 
@@ -95,7 +98,6 @@ namespace HandSystem
                 else if (!visual.isEnabled &&
                          visual.CardData.apCost <= BattleManager.Instance.PlayerScript.CurrentActionPoints)
                 {
-                    Debug.Log("setenabled");
                     visual.SetEnabled();
                 }
             }

@@ -25,6 +25,7 @@ public class BattleUIController : MonoBehaviour
 
     public void HandleEndTurnButtonClick()
     {
+        FindObjectOfType<AudioManager>().Play("ButtonClick2");
         endTurnButton.interactable = false;
         BattleManager.Instance.EndPlayerTurn();
     }

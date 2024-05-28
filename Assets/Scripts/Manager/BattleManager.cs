@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using HandSystem;
 using UnityEngine;
@@ -163,10 +164,10 @@ public class BattleManager : MonoBehaviour
         {
             PlayerScript.CharacterStats.Insight -= 1;
         }
-        FindObjectOfType<AudioManager>().Play("ButtonClick2");
+
         EnemyTurn();
     }
-
+    
     /*
      * Battle has ended, either the player has won or died
      */
