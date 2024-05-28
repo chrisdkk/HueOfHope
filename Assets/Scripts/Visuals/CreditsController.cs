@@ -13,6 +13,6 @@ public class CreditsController : MonoBehaviour
     {
         scrollerTransform = GetComponent<RectTransform>();
 
-        scrollerTransform.DOLocalMoveY(upperScrollLimit, 10, true).SetEase(Ease.Linear);
+        scrollerTransform.DOLocalMoveY(upperScrollLimit, 10, true).SetEase(Ease.InOutSine);
     }
 }

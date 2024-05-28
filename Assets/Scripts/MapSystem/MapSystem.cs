@@ -23,10 +23,6 @@ public class MapSystem : MonoBehaviour
     public void InitializeMapSystem()
     {
         rewardManager.OnBattleEnd += EndCurrentStage;
-
-        // default values
-        currentChapterIndex = 0;
-        currentStageIndex = 0;
     }
 
     public List<GameObject> GetEnemies()
