@@ -5594,7 +5594,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1407687247199375737, guid: d45c8dd60ba773b4991ad0d2e2776c6f, type: 3}
       propertyPath: m_text
-      value: New
+      value: New Game
       objectReference: {fileID: 0}
     - target: {fileID: 2968980729799304333, guid: d45c8dd60ba773b4991ad0d2e2776c6f, type: 3}
       propertyPath: m_Pivot.x
