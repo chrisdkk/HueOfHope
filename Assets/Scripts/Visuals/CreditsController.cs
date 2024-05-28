@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CreditsController : MonoBehaviour
 {
@@ -14,5 +15,10 @@ public class CreditsController : MonoBehaviour
         scrollerTransform = GetComponent<RectTransform>();
 
         scrollerTransform.DOLocalMoveY(upperScrollLimit, 10, true).SetEase(Ease.InOutSine);
+    }
+    
+    public void OnQuitToMainMenu()
+    {
+        SceneManager.LoadScene("Menu");
     }
 }

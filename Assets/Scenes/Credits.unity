@@ -5173,14 +5173,18 @@ PrefabInstance:
     - target: {fileID: 3086662090905567431, guid: d45c8dd60ba773b4991ad0d2e2776c6f, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1706404223}
+      objectReference: {fileID: 916027060}
+    - target: {fileID: 3086662090905567431, guid: d45c8dd60ba773b4991ad0d2e2776c6f, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3086662090905567431, guid: d45c8dd60ba773b4991ad0d2e2776c6f, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: OnQuitToMainMenu
       objectReference: {fileID: 0}
     - target: {fileID: 3086662090905567431, guid: d45c8dd60ba773b4991ad0d2e2776c6f, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: GameEndUIController, Assembly-CSharp
+      value: CreditsController, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 3086662090905567431, guid: d45c8dd60ba773b4991ad0d2e2776c6f, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -6053,7 +6057,6 @@ GameObject:
   - component: {fileID: 1706404219}
   - component: {fileID: 1706404221}
   - component: {fileID: 1706404222}
-  - component: {fileID: 1706404223}
   m_Layer: 0
   m_Name: Buttons
   m_TagString: Untagged
@@ -6121,18 +6124,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 0
   m_VerticalFit: 2
---- !u!114 &1706404223
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1706404218}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 969b397919882114695bebca741e5dfc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1912717478
 PrefabInstance:
   m_ObjectHideFlags: 0
