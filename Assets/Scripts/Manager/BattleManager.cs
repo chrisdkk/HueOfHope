@@ -21,8 +21,7 @@ public class BattleManager : MonoBehaviour
     private bool battleEnded = false;
     public bool eventRunning = false;
     public bool isPaused = false;
-
-
+    
     public DeckManager DeckManager { get; private set; }
     public List<Enemy> EnemiesInBattle { get; private set; }
     public Player PlayerScript { get; private set; }
@@ -62,7 +61,7 @@ public class BattleManager : MonoBehaviour
 
         // un-end battle when advancing to the next stage
         battleEnded = false;
-
+        
         rewardWindow.GetComponent<RewardManager>().Initialize(storyText);
 
         PlayerScript.ResetBuffsAndDebuffs();

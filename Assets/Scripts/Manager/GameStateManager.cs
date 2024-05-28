@@ -28,6 +28,7 @@ public class GameStateManager : MonoBehaviour
 
     void Awake()
     {
+        // init scene one, dontdestroyonload
         if (Instance == null)
         {
             Instance = this;
@@ -45,6 +46,7 @@ public class GameStateManager : MonoBehaviour
 
         if (type == GameType.NewGame)
         {
+            Debug.Log(HandleTutorialChoice.tutorialToggleState);
             maxPlayerHealth = 30;
             HealingAmount = 10;
             CurrentPlayerHealth = maxPlayerHealth;
