@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,6 +13,7 @@ public class TutorialProgress : MonoBehaviour
     [SerializeField] private GameObject actionPointsTooltip;
     [SerializeField] private GameObject enemyActionTooltip;
     [SerializeField] private Image background;
+    [SerializeField] public List<TextMeshProUGUI> starterDeckButtons;
 
     public void CheckForTutorial()
     {

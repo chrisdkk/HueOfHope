@@ -5345,6 +5345,10 @@ PrefabInstance:
       propertyPath: backgroundImage
       value: 
       objectReference: {fileID: 121926306}
+    - target: {fileID: 1664872816408922863, guid: 1a729ac6608928f468242ea51f4fa022, type: 3}
+      propertyPath: damageBlockNumber
+      value: 
+      objectReference: {fileID: 4315291248629269559, guid: cd34fea19ecc7ec47aff4ceacd067b53, type: 3}
     - target: {fileID: 1764112526986714901, guid: 1a729ac6608928f468242ea51f4fa022, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 1
@@ -5624,6 +5628,10 @@ MonoBehaviour:
   actionPointsTooltip: {fileID: 174835205}
   enemyActionTooltip: {fileID: 668544917}
   background: {fileID: 494735440}
+  starterDeckButtons:
+  - {fileID: 2072094105}
+  - {fileID: 1741619970}
+  - {fileID: 496209533}
 --- !u!1001 &392585101
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6252,11 +6260,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 276719017341498717, guid: d45c8dd60ba773b4991ad0d2e2776c6f, type: 3}
       propertyPath: m_Name
-      value: ChooseKnightButton
+      value: ChooseStarterDeck3Button
       objectReference: {fileID: 0}
     - target: {fileID: 1407687247199375737, guid: d45c8dd60ba773b4991ad0d2e2776c6f, type: 3}
       propertyPath: m_text
-      value: Knight
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 2968980729799304333, guid: d45c8dd60ba773b4991ad0d2e2776c6f, type: 3}
       propertyPath: m_Pivot.x
@@ -6544,6 +6552,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 2968980729799304333, guid: d45c8dd60ba773b4991ad0d2e2776c6f, type: 3}
   m_PrefabInstance: {fileID: 496209531}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &496209533 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1407687247199375737, guid: d45c8dd60ba773b4991ad0d2e2776c6f, type: 3}
+  m_PrefabInstance: {fileID: 496209531}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &592348194
 GameObject:
   m_ObjectHideFlags: 0
@@ -7670,6 +7689,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8178373134348947762, guid: 5842da15e26444bba952a0db1fed0b0d, type: 3}
+      propertyPath: dmgOrBlockNumber
+      value: 
+      objectReference: {fileID: 4315291248629269559, guid: cd34fea19ecc7ec47aff4ceacd067b53, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -7877,11 +7900,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 276719017341498717, guid: d45c8dd60ba773b4991ad0d2e2776c6f, type: 3}
       propertyPath: m_Name
-      value: ChooseSageButton
+      value: ChooseStarterDeck2Button
       objectReference: {fileID: 0}
     - target: {fileID: 1407687247199375737, guid: d45c8dd60ba773b4991ad0d2e2776c6f, type: 3}
       propertyPath: m_text
-      value: Sage
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 2968980729799304333, guid: d45c8dd60ba773b4991ad0d2e2776c6f, type: 3}
       propertyPath: m_Pivot.x
@@ -8169,6 +8192,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 2968980729799304333, guid: d45c8dd60ba773b4991ad0d2e2776c6f, type: 3}
   m_PrefabInstance: {fileID: 1741619968}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1741619970 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1407687247199375737, guid: d45c8dd60ba773b4991ad0d2e2776c6f, type: 3}
+  m_PrefabInstance: {fileID: 1741619968}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1817496246
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8810,11 +8844,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 276719017341498717, guid: d45c8dd60ba773b4991ad0d2e2776c6f, type: 3}
       propertyPath: m_Name
-      value: ChoosePyromancerButton
+      value: ChooseStarterDeck1Button
       objectReference: {fileID: 0}
     - target: {fileID: 1407687247199375737, guid: d45c8dd60ba773b4991ad0d2e2776c6f, type: 3}
       propertyPath: m_text
-      value: Pyromancer
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 2968980729799304333, guid: d45c8dd60ba773b4991ad0d2e2776c6f, type: 3}
       propertyPath: m_Pivot.x
@@ -9102,6 +9136,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 2968980729799304333, guid: d45c8dd60ba773b4991ad0d2e2776c6f, type: 3}
   m_PrefabInstance: {fileID: 2072094103}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2072094105 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1407687247199375737, guid: d45c8dd60ba773b4991ad0d2e2776c6f, type: 3}
+  m_PrefabInstance: {fileID: 2072094103}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2086123665 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1937280000517734562, guid: 72814612b5ef6ff46b8c25a5c52c9a6d, type: 3}

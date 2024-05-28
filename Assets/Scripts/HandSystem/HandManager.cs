@@ -118,6 +118,7 @@ namespace HandSystem
             {
                 List<Character> targets = new List<Character>();
                 List<Character> otherTargets = null;
+                bool dmgOrBlock = false;
 
                 // Add targets
                 if (effect.effectTarget == CardEffectTarget.MultipleEnemies)
@@ -131,13 +132,6 @@ namespace HandSystem
                 else
                 {
                     targets.Add(player);
-                }
-
-                // Add vfx to queue
-                if (effect.vfxEffect != null && CardEffect.beforeActionVFX.Contains(effect.effectType))
-                {
-                    BattleManager.Instance.AddEventToQueue(() =>
-                        VfxEffects.PlayEffects(effect.vfxEffect, effect.payload, targets.ToArray()));
                 }
 
                 // Add event for the effect
@@ -157,6 +151,7 @@ namespace HandSystem
                             }
                         });
                         FindObjectOfType<AudioManager>().Play("Attack1");
+                        dmgOrBlock = true;
                         break;
                     case CardEffectType.ShieldBreak:
                         BattleManager.Instance.AddEventToQueue(() =>
@@ -177,6 +172,7 @@ namespace HandSystem
                             }
                         });
                         FindObjectOfType<AudioManager>().Play("Attack1");
+                        dmgOrBlock = true;
                         break;
                     case CardEffectType.MultipliedInsightDamage:
                         // Multiply insight for one attack
@@ -196,10 +192,12 @@ namespace HandSystem
                                 player.CharacterStats.IgnoreBlockOnNext--;
                             }
                         });
+                        dmgOrBlock = true;
                         break;
                     case CardEffectType.Block:
                         BattleManager.Instance.AddEventToQueue(() =>
                             CardEffectActions.BlockAction(effect.payload, ref targets));
+                        dmgOrBlock = true;
                         break;
                     case CardEffectType.Burn:
                         BattleManager.Instance.AddEventToQueue(() =>
@@ -208,6 +206,7 @@ namespace HandSystem
                     case CardEffectType.InstApplyBurn:
                         BattleManager.Instance.AddEventToQueue(() =>
                             CardEffectActions.InstantApplyBurnAction(ref targets));
+                        dmgOrBlock = true;
                         break;
 
                     case CardEffectType.TakeOverBurn:
@@ -249,7 +248,7 @@ namespace HandSystem
                 }
 
                 // Add vfx to queue
-                if (effect.vfxEffect != null && !CardEffect.beforeActionVFX.Contains(effect.effectType))
+                if (effect.vfxEffect != null)
                 {
                     BattleManager.Instance.AddEventToQueue(() =>
                         VfxEffects.PlayEffects(effect.vfxEffect, effect.payload, targets.ToArray()));

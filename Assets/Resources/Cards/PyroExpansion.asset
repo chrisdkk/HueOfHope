@@ -13,14 +13,12 @@ MonoBehaviour:
   m_Name: PyroExpansion
   m_EditorClassIdentifier: 
   cardName: Pyro Expansion
-  description: Duplicate burn stacks to all enemies
   apCost: 2
   cardType: 0
   multiTarget: 0
   effects:
   - effectType: 13
-    vfxEffect: {fileID: 6294508013172393196, guid: 043176b6a68be2b43b073aaaa4782c7d,
-      type: 3}
+    vfxEffect: {fileID: 6294508013172393196, guid: 043176b6a68be2b43b073aaaa4782c7d, type: 3}
     payload: 0
     effectData: {fileID: 11400000, guid: a87629ef108bffb42927892c674e24cd, type: 2}
     effectTarget: 1

@@ -22,7 +22,7 @@ public class BattleManager : MonoBehaviour
     private bool battleEnded = false;
     public bool eventRunning = false;
     public bool isPaused = false;
-    
+
     public DeckManager DeckManager { get; private set; }
     public List<Enemy> EnemiesInBattle { get; private set; }
     public Player PlayerScript { get; private set; }
@@ -62,7 +62,7 @@ public class BattleManager : MonoBehaviour
 
         // un-end battle when advancing to the next stage
         battleEnded = false;
-        
+
         rewardWindow.GetComponent<RewardManager>().Initialize(storyText);
 
         PlayerScript.ResetBuffsAndDebuffs();
@@ -73,7 +73,7 @@ public class BattleManager : MonoBehaviour
         EnemiesInBattle = new List<Enemy>();
 
         AddEventToQueue(() => GenerateEnemies(enemies));
-        
+
         // If player has already a deck -> Start battle -> Else wait for deck selection
         if (deck.Count > 0)
         {
@@ -167,7 +167,7 @@ public class BattleManager : MonoBehaviour
 
         EnemyTurn();
     }
-    
+
     /*
      * Battle has ended, either the player has won or died
      */
@@ -183,6 +183,7 @@ public class BattleManager : MonoBehaviour
             {
                 audioManager.StopAllSounds();
             }
+
             SceneManager.LoadScene("Lose");
             return;
         }

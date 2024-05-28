@@ -54,6 +54,7 @@ public class Enemy : Character
         foreach (CardEffect effect in enemyCard.effects)
         {
             List<Character> targets = new List<Character>();
+            bool dmgOrBlock = false;
 
             switch (effect.effectTarget)
             {
@@ -68,13 +69,6 @@ public class Enemy : Character
                     break;
             }
 
-            // Add vfx to queue -> for status effects
-            if (effect.vfxEffect != null && CardEffect.beforeActionVFX.Contains(effect.effectType))
-            {
-                BattleManager.Instance.AddEventToQueue(() =>
-                    VfxEffects.PlayEffects(effect.vfxEffect, effect.payload, targets.ToArray()));
-            }
-
             // Add event for the effect
             switch (effect.effectType)
             {
@@ -82,11 +76,13 @@ public class Enemy : Character
                     BattleManager.Instance.AddEventToQueue(() =>
                         CardEffectActions.DamageAction(this, effect.payload, effect.ignoreBlock, ref targets));
                     FindObjectOfType<AudioManager>().Play("Attack1");
+                    dmgOrBlock = true;
                     break;
 
                 case CardEffectType.Block:
                     BattleManager.Instance.AddEventToQueue(() =>
                         CardEffectActions.BlockAction(effect.payload, ref targets));
+                    dmgOrBlock = true;
                     break;
 
                 case CardEffectType.Burn:
@@ -108,7 +104,7 @@ public class Enemy : Character
             }
 
             // Add vfx to queue -> for damage effects
-            if (effect.vfxEffect != null && !CardEffect.beforeActionVFX.Contains(effect.effectType))
+            if (effect.vfxEffect != null)
             {
                 BattleManager.Instance.AddEventToQueue(() =>
                     VfxEffects.PlayEffects(effect.vfxEffect, effect.payload, targets.ToArray()));

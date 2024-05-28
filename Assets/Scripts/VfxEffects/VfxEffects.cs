@@ -4,25 +4,8 @@ using DG.Tweening;
 using UnityEditor.Rendering;
 using UnityEngine;
 
-public class ParticleSystemProgress : MonoBehaviour
-{
-    public ParticleSystem particleSystem;
-    public float duration = 5f; // Duration of the particle system emission
-    private float currentTime = 0f;
-
-    void Start()
-    {
-        // Start the particle system emission
-        particleSystem.Play();
-
-        // Animate the currentTime from 0 to duration using DoTween
-        DOTween.To(() => currentTime, x => currentTime = x, duration, duration);
-    }
-}
-
 public class VfxEffects : MonoBehaviour
 {
-
     public static void PlayEffects(GameObject vfx, int payload, params Character[] targets)
     {
         BattleManager.Instance.eventRunning = true;
@@ -48,6 +31,7 @@ public class VfxEffects : MonoBehaviour
                     StatusEffects statusEffects = instVFX.GetComponentInChildren<StatusEffects>();
                     statusEffects.SetText("+" + payload);
                 }
+
                 instVFXs.Add(instVFX);
             }
         }
@@ -62,8 +46,8 @@ public class VfxEffects : MonoBehaviour
         {
             duration = instVFXs[instVFXs.Count - 1].GetComponentInChildren<StatusEffects>().duration;
         }
-            
-        DOTween.To(() => currentTime, x => currentTime = x, duration, duration)
+
+        DOTween.To(() => currentTime, x => currentTime = x, duration / 2, duration / 2)
             .OnComplete(() =>
             {
                 BattleManager.Instance.eventRunning = false;
