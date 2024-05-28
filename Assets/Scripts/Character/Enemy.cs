@@ -124,6 +124,7 @@ public class Enemy : Character
     {
         if (currentHealth <= 0 && !isDead)
         {
+            GetComponent<Collider>().enabled = false;
             BattleManager.Instance.AddEventToQueue(() =>
             {
                 FindObjectOfType<AudioManager>().PlayRandomEnemyDie();
