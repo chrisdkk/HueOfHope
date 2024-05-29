@@ -68,6 +68,7 @@ public static class CardEffectActions
             target.CharacterStats.Block = 0;
             target.CharacterStats.Health -= damage;
         }
+        VfxEffects.PlayEffects(vfxEffect, damage, targets.ToArray());
     }
 
     public static void BlockAction(GameObject vfxEffect, int payload, ref List<Character> targets)
