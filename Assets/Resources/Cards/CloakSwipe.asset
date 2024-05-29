@@ -13,14 +13,12 @@ MonoBehaviour:
   m_Name: CloakSwipe
   m_EditorClassIdentifier: 
   cardName: Cloak Swipe
-  description: Deal 3 AOE damage
-  apCost: 1
+  apCost: 0
   cardType: 0
   multiTarget: 1
   effects:
   - effectType: 0
-    vfxEffect: {fileID: 8525990746615576120, guid: b85d21f3b8fed714bacf0c4fd50fa512,
-      type: 3}
+    vfxEffect: {fileID: 8525990746615576120, guid: b85d21f3b8fed714bacf0c4fd50fa512, type: 3}
     payload: 3
     effectData: {fileID: 11400000, guid: 0a69784d62e91b44ba7cb5dcf0a8881f, type: 2}
     effectTarget: 2

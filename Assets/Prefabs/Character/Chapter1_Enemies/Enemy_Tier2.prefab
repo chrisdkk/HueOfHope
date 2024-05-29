@@ -425,7 +425,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 556fd7805b7f02149962fe224f23dc6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 20
+  maxHealth: 30
   actionIndicationImage: {fileID: 3033636118557516996}
   actionIndicationMaterial:
   - {fileID: 21300000, guid: cba3f70b2e43ac34e961e7aa6e3dc6d5, type: 3}
@@ -437,6 +437,13 @@ MonoBehaviour:
       vfxEffect: {fileID: 8525990746615576120, guid: b85d21f3b8fed714bacf0c4fd50fa512, type: 3}
       payload: 4
       effectData: {fileID: 11400000, guid: 0a69784d62e91b44ba7cb5dcf0a8881f, type: 2}
+      effectTarget: 0
+      ignoreBlock: 0
+      insightMultiplier: 0
+    - effectType: 1
+      vfxEffect: {fileID: 5318118474938795680, guid: 69d8f05fda8421849a84b27b8c0d773d, type: 3}
+      payload: 4
+      effectData: {fileID: 11400000, guid: 2b3a2d890ac5618429831ea6cac13072, type: 2}
       effectTarget: 0
       ignoreBlock: 0
       insightMultiplier: 0

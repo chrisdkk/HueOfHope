@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: Revelation
   m_EditorClassIdentifier: 
   cardName: Revelation
-  description: Discard your hand and draw 5 new cards
-  apCost: 1
+  apCost: 0
   cardType: 1
   multiTarget: 0
   effects:
@@ -27,7 +26,7 @@ MonoBehaviour:
     insightMultiplier: 0
   - effectType: 5
     vfxEffect: {fileID: 0}
-    payload: 5
+    payload: 4
     effectData: {fileID: 11400000, guid: a0821f3646903fb4f8f0230c5c1d337e, type: 2}
     effectTarget: 0
     ignoreBlock: 0

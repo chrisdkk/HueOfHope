@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b6f279a1cc38142b48cf348f369e6de0, type: 3}
-  m_Name: Backslash
+  m_Name: x
   m_EditorClassIdentifier: 
   cardName: Backslash
   description: Deal 15 damage & Receive 6 damage
@@ -19,16 +19,14 @@ MonoBehaviour:
   multiTarget: 0
   effects:
   - effectType: 0
-    vfxEffect: {fileID: 8525990746615576120, guid: b85d21f3b8fed714bacf0c4fd50fa512,
-      type: 3}
+    vfxEffect: {fileID: 8525990746615576120, guid: b85d21f3b8fed714bacf0c4fd50fa512, type: 3}
     payload: 15
     effectData: {fileID: 11400000, guid: 0a69784d62e91b44ba7cb5dcf0a8881f, type: 2}
     effectTarget: 1
     ignoreBlock: 0
     insightMultiplier: 0
   - effectType: 0
-    vfxEffect: {fileID: 8525990746615576120, guid: b85d21f3b8fed714bacf0c4fd50fa512,
-      type: 3}
+    vfxEffect: {fileID: 8525990746615576120, guid: b85d21f3b8fed714bacf0c4fd50fa512, type: 3}
     payload: 6
     effectData: {fileID: 11400000, guid: 0a69784d62e91b44ba7cb5dcf0a8881f, type: 2}
     effectTarget: 0
