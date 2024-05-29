@@ -20,7 +20,7 @@ MonoBehaviour:
   - effectType: 15
     vfxEffect: {fileID: 1590415177872986601, guid: acdb90624a404aa438447006f1026065, type: 3}
     payload: 1
-    effectData: {fileID: 11400000, guid: 0a69784d62e91b44ba7cb5dcf0a8881f, type: 2}
+    effectData: {fileID: 11400000, guid: 9eec612e04470ff418704a4e1eb99010, type: 2}
     effectTarget: 0
     ignoreBlock: 0
     insightMultiplier: 0

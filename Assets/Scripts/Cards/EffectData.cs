@@ -21,11 +21,10 @@ public class EffectData : ScriptableObject
                 ? text.Replace("[NUMBER]", "<color=yellow>" + newPayload + "</color>")
                 : text.Replace("[NUMBER]", "<color=red>" + newPayload + "</color>")
             : text.Replace("[NUMBER]", payload.ToString());
-
         // Change word according to target (player or enemy)
-        if (text.Contains("["))
+        if (currText.Contains("["))
         {
-            string target = text.Substring(text.IndexOf("["), text.IndexOf("]") + 1);
+            string target = currText.Substring(currText.IndexOf("["), currText.IndexOf("]") + 1);
             string[] targetOptions = target.Replace("[", "").Replace("]", "").Split("/");
 
             currText = (cardEffectTarget == CardEffectTarget.Player && casterIsPlayer) ||
