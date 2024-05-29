@@ -19,6 +19,7 @@ namespace ArrowRendering
         
         private GameObject[] nodes;
         private GameObject arrowHead;
+        private bool isInitialized;
 
         private void Start()
         {
@@ -29,9 +30,33 @@ namespace ArrowRendering
                 nodes[i] = Instantiate(nodePrefab, transform);
             }
             nodes[^1] = arrowHead = Instantiate(arrowHeadPrefab, transform);
+
+            isInitialized = true;
+        }
+
+        private void OnEnable()
+        {
+            if (isInitialized)
+            {
+                UpdateArrow();
+            }
+        }
+
+        private void OnDisable()
+        {
+            // Hide arrow behind
+            foreach (var node in nodes)
+            {
+                node.transform.position = Vector3.forward * 100f;
+            }
         }
 
         private void Update()
+        {
+            UpdateArrow();
+        }
+
+        private void UpdateArrow()
         {
             // Set target as mouse
             Vector3 mousePosition =  Camera.main.ScreenToWorldPoint(Input.mousePosition);

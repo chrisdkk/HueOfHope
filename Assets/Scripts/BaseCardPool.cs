@@ -41,6 +41,7 @@ public abstract class BaseCardPool : MonoBehaviour
 
     public void ReleaseCard(GameObject card)
     {
+        card.GetComponent<CardVisual>().SetEnabled();
         pool.Enqueue(card);
         card.SetActive(false);
     }

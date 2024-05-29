@@ -49,6 +49,7 @@ namespace HandSystem
                 CardData data = deck.DrawCard();
                 GameObject newCard = cardPool.GetCard(data);
                 cardsInHand.Add(newCard);
+                UpdateCardCost();
                 OnDrawCard?.Invoke(newCard, () =>
                 {
                     cardsDrawnCount++;
@@ -62,7 +63,6 @@ namespace HandSystem
                         if (startsTurn) OnHandDrawn?.Invoke();
 
                         BattleManager.Instance.eventRunning = false;
-                        UpdateCardCost();
                     }
                 });
             }
