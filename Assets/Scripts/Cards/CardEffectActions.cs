@@ -68,6 +68,7 @@ public static class CardEffectActions
             target.CharacterStats.Block = 0;
             target.CharacterStats.Health -= damage;
         }
+
         VfxEffects.PlayEffects(vfxEffect, damage, targets.ToArray());
     }
 
@@ -131,19 +132,20 @@ public static class CardEffectActions
         VfxEffects.PlayEffects(vfxEffect, 0, targets.ToArray());
     }
 
-    public static void InstantApplyBurnAction(GameObject vfxEffect, ref List<Character> targets)
+    public static void BurnMultipliedByAPAction(GameObject vfxEffect, ref List<Character> targets)
     {
         foreach (Character target in targets)
         {
-            target.CharacterStats.Health -= GameInitializer.Instance.BurnTickDamage * target.CharacterStats.Burn;
-            target.CharacterStats.Burn = 0;
+            target.CharacterStats.Health -= target.CharacterStats.Burn;
             if (audioManagerInstance != null)
             {
                 audioManagerInstance.Play("Fire1");
             }
-        }
 
-        VfxEffects.PlayEffects(vfxEffect, GameInitializer.Instance.BurnTickDamage, targets.ToArray());
+            VfxEffects.PlayEffects(vfxEffect, target.CharacterStats.Burn, targets.ToArray());
+            VfxEffects.PlayEffects(BattleManager.Instance.dmbNumberEffect, target.CharacterStats.Burn,
+                targets.ToArray());
+        }
     }
 
     public static void TakeOverBurn(GameObject vfxEffect, Character originalTarget, ref List<Character> targets)

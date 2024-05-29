@@ -10,19 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b6f279a1cc38142b48cf348f369e6de0, type: 3}
-  m_Name: xx
+  m_Name: InfernalSuffering
   m_EditorClassIdentifier: 
   cardName: Infernal Suffering
-  description: Instantly apply burn stack damage to all enemies
-  apCost: 2
+  apCost: 0
   cardType: 0
-  multiTarget: 1
+  multiTarget: 0
   effects:
   - effectType: 12
     vfxEffect: {fileID: 6294508013172393196, guid: 043176b6a68be2b43b073aaaa4782c7d, type: 3}
     payload: 0
     effectData: {fileID: 11400000, guid: 160692e5f6b44b24abc910bc697ddc69, type: 2}
-    effectTarget: 2
+    effectTarget: 1
     ignoreBlock: 0
     insightMultiplier: 0
   cardImage: {fileID: 2800000, guid: 3165b5e6b8369304aac243ea04482593, type: 3}

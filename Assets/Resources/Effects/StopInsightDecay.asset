@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2e10db0f6f76d3846b7c1b1fbc206fd5, type: 3}
-  m_Name: Burn
+  m_Name: StopInsightDecay
   m_EditorClassIdentifier: 
-  title: Burn
-  text: '[Gain/Apply] [NUMBER] burn stack(s)'
-  effectDescription: Burn deals stack(s) as damage per round and decreases by one
+  title: 
+  text: Stop insight from decaying in this battle
+  effectDescription: 

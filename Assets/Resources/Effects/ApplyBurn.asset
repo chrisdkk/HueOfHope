@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e10db0f6f76d3846b7c1b1fbc206fd5, type: 3}
   m_Name: ApplyBurn
   m_EditorClassIdentifier: 
-  title: 
-  text: '[Gain/Apply] burn stack damage'
+  title: Apply burn damage
+  text: '[Gain/Apply] burn stack damage for each AP used by this card'
   effectDescription: 

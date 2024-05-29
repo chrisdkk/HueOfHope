@@ -91,6 +91,7 @@ namespace HandSystem
             foreach (GameObject o in cardsInHand)
             {
                 CardVisual visual = o.GetComponent<CardVisual>();
+                o.GetComponent<CardCostReduction>().CheckForReducedCosts();
                 if (visual.isEnabled &&
                     visual.CardData.apCost > BattleManager.Instance.PlayerScript.CurrentActionPoints)
                 {
@@ -109,9 +110,12 @@ namespace HandSystem
             CardData cardData = card.GetComponent<CardVisual>().CardData;
             Player player = BattleManager.Instance.PlayerScript;
 
-            if (cardData.apCost > player.CurrentActionPoints) return;
+            int actualCost = cardData.apCost - BattleManager.Instance.reduceCardCostsBy > 0
+                ? cardData.apCost - BattleManager.Instance.reduceCardCostsBy
+                : 0;
+            if (actualCost > player.CurrentActionPoints) return;
 
-            player.CurrentActionPoints -= cardData.apCost;
+            player.CurrentActionPoints -= actualCost;
 
             DiscardCards(new List<GameObject>() { card });
 
@@ -200,9 +204,14 @@ namespace HandSystem
                         BattleManager.Instance.AddEventToQueue(() =>
                             CardEffectActions.BurnAction(effect.vfxEffect, effect.payload, ref targets));
                         break;
-                    case CardEffectType.InstApplyBurn:
-                        BattleManager.Instance.AddEventToQueue(() =>
-                            CardEffectActions.InstantApplyBurnAction(effect.vfxEffect, ref targets));
+                    case CardEffectType.BurnMultipliedByAP:
+                        for (int i = player.CurrentActionPoints; i > 0; i--)
+                        {
+                            BattleManager.Instance.AddEventToQueue(() =>
+                                CardEffectActions.BurnMultipliedByAPAction(effect.vfxEffect, ref targets));
+                        }
+
+                        player.CurrentActionPoints = 0;
                         break;
 
                     case CardEffectType.TakeOverBurn:
@@ -216,6 +225,9 @@ namespace HandSystem
                         BattleManager.Instance.AddEventToQueue(() =>
                             CardEffectActions.InsightAction(effect.vfxEffect, effect.payload, ref targets));
                         Invoke("PlaySound", 0.8f);
+                        break;
+                    case CardEffectType.StopInsightDecay:
+                        BattleManager.Instance.AddEventToQueue(() => BattleManager.Instance.insightDecay = false);
                         break;
                     case CardEffectType.AttackDebuff:
                         BattleManager.Instance.AddEventToQueue(() =>
@@ -244,6 +256,16 @@ namespace HandSystem
                         break;
                     case CardEffectType.DiscardHand:
                         BattleManager.Instance.AddEventToQueue(() => DiscardCards(cardsInHand));
+                        break;
+                    case CardEffectType.ReduceCardCostFor1Turn:
+                        BattleManager.Instance.AddEventToQueue(() =>
+                        {
+                            BattleManager.Instance.reduceCardCostsBy = effect.payload;
+                            foreach (GameObject o in cardsInHand)
+                            {
+                                o.GetComponent<CardCostReduction>().CheckForReducedCosts();
+                            }
+                        });
                         break;
                 }
             }

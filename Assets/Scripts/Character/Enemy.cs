@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 using UnityEngine.UI;
 
 public class Enemy : Character
@@ -31,7 +32,7 @@ public class Enemy : Character
             sprite.name == enemyPattern[currentActionIndex].cardType.ToString());
         actionIndicationImage.GetComponentInChildren<TextMeshProUGUI>().text =
             enemyPattern[currentActionIndex].effects[0].payload.ToString();
-        showEnemyActionDetail.UpdateEnemyActionDetail(enemyPattern[currentActionIndex].effects);
+        showEnemyActionDetail.UpdateEnemyActionDetail(enemyPattern[currentActionIndex].effects, this);
     }
 
     void PlayDebuff()
@@ -54,7 +55,6 @@ public class Enemy : Character
         foreach (CardEffect effect in enemyCard.effects)
         {
             List<Character> targets = new List<Character>();
-            bool dmgOrBlock = false;
 
             switch (effect.effectTarget)
             {
@@ -74,16 +74,15 @@ public class Enemy : Character
             {
                 case CardEffectType.Damage:
                     BattleManager.Instance.AddEventToQueue(() =>
-                        CardEffectActions.DamageAction(effect.vfxEffect, this, effect.payload, effect.ignoreBlock,
+                        CardEffectActions.DamageAction(effect.vfxEffect, this,
+                            effect.payload, effect.ignoreBlock,
                             ref targets));
                     FindObjectOfType<AudioManager>().Play("Attack1");
-                    dmgOrBlock = true;
                     break;
 
                 case CardEffectType.Block:
                     BattleManager.Instance.AddEventToQueue(() =>
                         CardEffectActions.BlockAction(effect.vfxEffect, effect.payload, ref targets));
-                    dmgOrBlock = true;
                     break;
 
                 case CardEffectType.Burn:
@@ -115,7 +114,7 @@ public class Enemy : Character
             sprite.name == enemyPattern[currentActionIndex].cardType.ToString());
         actionIndicationImage.GetComponentInChildren<TextMeshProUGUI>().text =
             enemyPattern[currentActionIndex].effects[0].payload.ToString();
-        showEnemyActionDetail.UpdateEnemyActionDetail(enemyPattern[currentActionIndex].effects);
+        showEnemyActionDetail.UpdateEnemyActionDetail(enemyPattern[currentActionIndex].effects, this);
     }
 
     private void CheckForGameOver(int currentHealth, int maxHealth)

@@ -52,15 +52,12 @@ public class CardVisual : MonoBehaviour
             }
 
             title.SetText(newData.cardName);
-            cost.SetText(newData.apCost.ToString());
             cardImage.texture = newData.cardImage;
             GenerateEffectExplanations();
         }
-        else
-        {
-            CardData = newData;
-        }
 
+        cost.SetText(newData.apCost.ToString());
+        CardData = newData;
         // Build card text
         string text = "";
         foreach (CardEffect effect in CardData.effects)
@@ -140,8 +137,7 @@ public class CardVisual : MonoBehaviour
                 {
                     instObject.transform.Find("Title").GetComponent<TextMeshProUGUI>().text = effect.effectData.title;
                     instObject.transform.Find("Description").GetComponent<TextMeshProUGUI>().text =
-                        effect.effectData.effectDescription.Replace("[NUMBER]",
-                            GameInitializer.Instance.BurnTickDamage.ToString());
+                        effect.effectData.effectDescription;
                 }
 
                 effectDetails.Add(instObject);

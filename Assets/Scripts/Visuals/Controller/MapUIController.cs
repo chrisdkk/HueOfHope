@@ -14,6 +14,7 @@ public class MapUIController : MonoBehaviour
     [SerializeField] private Sprite stageCompleteSprite;
     [SerializeField] private Sprite stageActiveSprite;
     [SerializeField] private Sprite stageBossSprite;
+    [SerializeField] private TextMeshProUGUI chapterProgress;
 
     [SerializeField] private Transform stageGroup;
     private Image[] stageImages;
@@ -30,6 +31,7 @@ public class MapUIController : MonoBehaviour
         }
 
         stageImages[0].sprite = stageActiveSprite;
+        chapterProgress.text = "Chapter " + (mapSystem.currentChapterIndex + 1) + "/" + mapSystem.chapterList.Count;
     }
 
     private void UpdateMapUI(Chapter currentChapter, int stageIndex)
@@ -49,5 +51,7 @@ public class MapUIController : MonoBehaviour
                 stageImages[i].sprite = stageSprite;
             }
         }
+
+        chapterProgress.text = "Chapter " + (mapSystem.currentChapterIndex + 1) + "/" + mapSystem.chapterList.Count;
     }
 }

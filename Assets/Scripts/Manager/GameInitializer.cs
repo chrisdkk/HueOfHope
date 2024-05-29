@@ -21,7 +21,6 @@ public class GameInitializer : MonoBehaviour
     public int CurrentPlayerHealth { get; set; }
     public int maxPlayerHealth;
     public int MaxActionPoints { get; set; }
-    public int BurnTickDamage { get; set; }
     public int HealingAmount { get; set; }
 
     public List<CardData> deck;
@@ -41,7 +40,6 @@ public class GameInitializer : MonoBehaviour
     void Start()
     {
         MaxActionPoints = 3;
-        BurnTickDamage = 4;
 
         mapSystem.InitializeMapSystem();
         AllAvailableCards = Resources.LoadAll<CardData>("Cards/").ToList();

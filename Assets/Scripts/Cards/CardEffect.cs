@@ -19,8 +19,10 @@ public enum CardEffectType
     ShieldBreak,
     MultipliedInsightDamage,
     IgnoreBlockOnNextAttacks,
-    InstApplyBurn,
-    TakeOverBurn
+    BurnMultipliedByAP,
+    TakeOverBurn,
+    StopInsightDecay,
+    ReduceCardCostFor1Turn
 }
 
 public enum CardEffectTarget
