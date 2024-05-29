@@ -17,7 +17,7 @@ public class ShowEffectDetail : MonoBehaviour, IPointerEnterHandler, IPointerExi
         title.text = effectData.title;
         description.text =
             effectData.effectDescription.Replace("[NUMBER]",
-                GameStateManager.Instance.BurnTickDamage.ToString());
+                GameInitializer.Instance.BurnTickDamage.ToString());
     }
 
     public void OnPointerEnter(PointerEventData eventData)

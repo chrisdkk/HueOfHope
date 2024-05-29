@@ -141,7 +141,7 @@ public class CardVisual : MonoBehaviour
                     instObject.transform.Find("Title").GetComponent<TextMeshProUGUI>().text = effect.effectData.title;
                     instObject.transform.Find("Description").GetComponent<TextMeshProUGUI>().text =
                         effect.effectData.effectDescription.Replace("[NUMBER]",
-                            GameStateManager.Instance.BurnTickDamage.ToString());
+                            GameInitializer.Instance.BurnTickDamage.ToString());
                 }
 
                 effectDetails.Add(instObject);

@@ -53,7 +53,7 @@ public class MapSystem : MonoBehaviour
     public void StartNextStage()
     {
         Stage currentStage = chapterList[currentChapterIndex].stageList[currentStageIndex];
-        BattleManager.Instance.Initialize(GameStateManager.Instance.deck,
+        BattleManager.Instance.Initialize(GameInitializer.Instance.deck,
             currentStage.stageEnemies,
             currentStage.stageBackground,
             currentStage.storyText);
@@ -90,16 +90,16 @@ public class MapSystem : MonoBehaviour
             switch (currentChapterIndex)
             {
                 case 1:
-                    GameStateManager.Instance.maxPlayerHealth += 15;
-                    GameStateManager.Instance.HealingAmount += 5;
+                    GameInitializer.Instance.maxPlayerHealth += 15;
+                    GameInitializer.Instance.HealingAmount += 5;
                     break;
                 case 2:
-                    GameStateManager.Instance.maxPlayerHealth += 15;
-                    GameStateManager.Instance.HealingAmount += 5;
+                    GameInitializer.Instance.maxPlayerHealth += 15;
+                    GameInitializer.Instance.HealingAmount += 5;
                     break;
             }
 
-            GameStateManager.Instance.CurrentPlayerHealth = GameStateManager.Instance.maxPlayerHealth;
+            GameInitializer.Instance.CurrentPlayerHealth = GameInitializer.Instance.maxPlayerHealth;
             OnChapterChange?.Invoke();
             OnStageChange?.Invoke(chapterList[currentChapterIndex], currentStageIndex);
             StartNextStage();

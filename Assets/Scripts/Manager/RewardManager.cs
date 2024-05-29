@@ -35,7 +35,7 @@ public class RewardManager : MonoBehaviour
     {
         additionalBackgroundItems.transform.Find("Story").GetComponent<TextMeshProUGUI>().text = storyText;
         healOption.GetComponentInChildren<TextMeshProUGUI>().text =
-            "Heal " + GameStateManager.Instance.HealingAmount + " HP";
+            "Heal " + GameInitializer.Instance.HealingAmount + " HP";
     }
 
     public void StartRewardManager()
@@ -53,11 +53,11 @@ public class RewardManager : MonoBehaviour
 
     public void HealPlayer()
     {
-        GameStateManager.Instance.CurrentPlayerHealth =
-            GameStateManager.Instance.CurrentPlayerHealth + GameStateManager.Instance.HealingAmount >
-            GameStateManager.Instance.maxPlayerHealth
-                ? GameStateManager.Instance.maxPlayerHealth
-                : GameStateManager.Instance.CurrentPlayerHealth + GameStateManager.Instance.HealingAmount;
+        GameInitializer.Instance.CurrentPlayerHealth =
+            GameInitializer.Instance.CurrentPlayerHealth + GameInitializer.Instance.HealingAmount >
+            GameInitializer.Instance.maxPlayerHealth
+                ? GameInitializer.Instance.maxPlayerHealth
+                : GameInitializer.Instance.CurrentPlayerHealth + GameInitializer.Instance.HealingAmount;
 
         addCardButton.interactable = false;
         removeCardButton.interactable = false;
@@ -86,13 +86,13 @@ public class RewardManager : MonoBehaviour
             Random r = new Random();
             while (rewards.Count < 3)
             {
-                int index = r.Next(GameStateManager.Instance.AllAvailableCards.Count);
+                int index = r.Next(GameInitializer.Instance.AllAvailableCards.Count);
                 // Prevent duplicates
-                if (!rewards.Contains(GameStateManager.Instance.AllAvailableCards[index]) &&
-                    GameStateManager.Instance.AllAvailableCards[index].cardName != "Kick" &&
-                    GameStateManager.Instance.AllAvailableCards[index].cardName != "Cloak Block")
+                if (!rewards.Contains(GameInitializer.Instance.AllAvailableCards[index]) &&
+                    GameInitializer.Instance.AllAvailableCards[index].cardName != "Kick" &&
+                    GameInitializer.Instance.AllAvailableCards[index].cardName != "Cloak Block")
                 {
-                    rewards.Add(GameStateManager.Instance.AllAvailableCards[index]);
+                    rewards.Add(GameInitializer.Instance.AllAvailableCards[index]);
                 }
             }
         }
@@ -139,7 +139,7 @@ public class RewardManager : MonoBehaviour
         if (selectedReward != null)
         {
             FindObjectOfType<AudioManager>().Play("ButtonClick");
-            GameStateManager.Instance.deck.Add(selectedReward.GetComponent<CardVisual>().CardData);
+            GameInitializer.Instance.deck.Add(selectedReward.GetComponent<CardVisual>().CardData);
 
             selectedReward.OnOtherRewardChosen();
             selectedReward = null;
@@ -164,7 +164,7 @@ public class RewardManager : MonoBehaviour
         if (selectedReward != null)
         {
             FindObjectOfType<AudioManager>().Play("ButtonClick");
-            GameStateManager.Instance.deck.Remove(selectedReward.GetComponent<CardVisual>().CardData);
+            GameInitializer.Instance.deck.Remove(selectedReward.GetComponent<CardVisual>().CardData);
 
             selectedReward.OnOtherRewardChosen();
             selectedReward = null;

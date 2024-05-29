@@ -6020,11 +6020,11 @@ PrefabInstance:
       objectReference: {fileID: 233532043}
     - target: {fileID: 2481586220370297915, guid: 92fafd04a1b2be344b2de82cbd1a765a, type: 3}
       propertyPath: currentStageIndex
-      value: 6
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2481586220370297915, guid: 92fafd04a1b2be344b2de82cbd1a765a, type: 3}
       propertyPath: currentChapterIndex
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2952052698596643387, guid: 92fafd04a1b2be344b2de82cbd1a765a, type: 3}
       propertyPath: m_Name

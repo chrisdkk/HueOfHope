@@ -10,9 +10,9 @@ public enum GameType
     OldGame
 }
 
-public class GameStateManager : MonoBehaviour
+public class GameInitializer : MonoBehaviour
 {
-    public static GameStateManager Instance;
+    public static GameInitializer Instance;
 
     [SerializeField] private MapSystem mapSystem;
     [SerializeField] private GameObject tutorialWindow;

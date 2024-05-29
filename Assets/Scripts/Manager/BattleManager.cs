@@ -68,10 +68,10 @@ public class BattleManager : MonoBehaviour
         rewardWindow.GetComponent<RewardManager>().Initialize(storyText);
 
         PlayerScript.ResetBuffsAndDebuffs();
-        PlayerScript.MaxActionPoints = GameStateManager.Instance.MaxActionPoints;
+        PlayerScript.MaxActionPoints = GameInitializer.Instance.MaxActionPoints;
         PlayerScript.ResetActionPoints();
-        PlayerScript.CharacterStats.MaxHealth = GameStateManager.Instance.maxPlayerHealth;
-        PlayerScript.CharacterStats.Health = GameStateManager.Instance.CurrentPlayerHealth;
+        PlayerScript.CharacterStats.MaxHealth = GameInitializer.Instance.maxPlayerHealth;
+        PlayerScript.CharacterStats.Health = GameInitializer.Instance.CurrentPlayerHealth;
         EnemiesInBattle = new List<Enemy>();
 
         AddEventToQueue(() => GenerateEnemies(enemies));
@@ -190,7 +190,7 @@ public class BattleManager : MonoBehaviour
             return;
         }
 
-        GameStateManager.Instance.CurrentPlayerHealth = PlayerScript.CharacterStats.Health;
+        GameInitializer.Instance.CurrentPlayerHealth = PlayerScript.CharacterStats.Health;
         rewardWindow.GetComponent<RewardManager>().StartRewardManager();
         FindObjectOfType<AudioManager>().Play("CompleteStage");
     }

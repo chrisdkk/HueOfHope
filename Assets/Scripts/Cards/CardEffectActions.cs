@@ -134,7 +134,7 @@ public static class CardEffectActions
     {
         foreach (Character target in targets)
         {
-            target.CharacterStats.Health -= GameStateManager.Instance.BurnTickDamage * target.CharacterStats.Burn;
+            target.CharacterStats.Health -= GameInitializer.Instance.BurnTickDamage * target.CharacterStats.Burn;
             target.CharacterStats.Burn = 0;
             if (audioManagerInstance != null)
             {
@@ -142,7 +142,7 @@ public static class CardEffectActions
             }
         }
 
-        VfxEffects.PlayEffects(vfxEffect, GameStateManager.Instance.BurnTickDamage, targets.ToArray());
+        VfxEffects.PlayEffects(vfxEffect, GameInitializer.Instance.BurnTickDamage, targets.ToArray());
     }
 
     public static void TakeOverBurn(GameObject vfxEffect, Character originalTarget, ref List<Character> targets)
