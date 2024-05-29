@@ -62,6 +62,7 @@ namespace HandSystem
                         if (startsTurn) OnHandDrawn?.Invoke();
 
                         BattleManager.Instance.eventRunning = false;
+                        UpdateCardCost();
                     }
                 });
             }
