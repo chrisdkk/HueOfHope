@@ -16,15 +16,26 @@ public class ShowEnemyActionDetail : MonoBehaviour, IPointerEnterHandler, IPoint
         foreach (CardEffect effect in effects)
         {
             int actualPayload = effect.payload;
+            bool damageUpdated = false;
 
-            if (CardEffect.insightAffectedEffects.Contains(effect.effectType))
+            if (CardEffect.insightAffectedEffects.Contains(effect.effectType) && enemy.CharacterStats.Insight > 0)
             {
                 actualPayload += enemy.CharacterStats.Insight;
+                damageUpdated = true;
+            }
+
+            if ((effect.effectType == CardEffectType.Damage || effect.effectType == CardEffectType.BlockToDamage ||
+                 effect.effectType == CardEffectType.MultipliedInsightDamage) && enemy.CharacterStats.AttackDebuff > 0)
+            {
+                actualPayload -= enemy.CharacterStats.AttackDebuff;
+                actualPayload = actualPayload < 0 ? 0 : actualPayload;
+                damageUpdated = true;
             }
 
             if (effect.effectData != null)
             {
-                text += effect.effectData.GetText(effect.payload, actualPayload, false, effect.insightMultiplier,
+                text += effect.effectData.GetText(effect.payload, actualPayload, damageUpdated,
+                    effect.insightMultiplier,
                     effect.effectTarget, false);
                 text += "\n";
             }

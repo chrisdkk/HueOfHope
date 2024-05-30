@@ -4,9 +4,9 @@ using UnityEngine;
 
 public enum CardType
 {
-    Attack,
-    Skill,
-    Power
+    Attack=0,
+    Defense=1,
+    Magic=2
 }
 
 [CreateAssetMenu(fileName = "Card", menuName = "ScriptableObjects/Card", order = 1)]

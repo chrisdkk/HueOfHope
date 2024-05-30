@@ -12,6 +12,8 @@ public class CardVisual : MonoBehaviour
     [SerializeField] private TextMeshProUGUI description;
     [SerializeField] private TextMeshProUGUI cost;
     [SerializeField] private RawImage cardImage;
+    [SerializeField] private RawImage cardTypeImage;
+    [SerializeField] private List<Texture> cardTypeImages;
     [SerializeField] private GameObject disabledOverlay;
     [SerializeField] private Color baseColor;
     [SerializeField] private Color warningColor;
@@ -53,6 +55,7 @@ public class CardVisual : MonoBehaviour
 
             title.SetText(newData.cardName);
             cardImage.texture = newData.cardImage;
+            cardTypeImage.texture = cardTypeImages[(int)CardData.cardType];
             GenerateEffectExplanations();
         }
 

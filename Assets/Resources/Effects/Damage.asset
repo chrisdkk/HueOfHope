@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Damage
   m_EditorClassIdentifier: 
   title: 
-  text: '[Gain/Deal] [NUMBER] damage'
+  text: '[Take/Deal] [NUMBER] damage'
   effectDescription: 

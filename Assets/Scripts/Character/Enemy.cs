@@ -23,6 +23,7 @@ public class Enemy : Character
     {
         // Initialize variables for the enemy
         CharacterStats.OnHealthChange += CheckForGameOver;
+        CharacterStats.OnStatChange += UpdateEnemyDamageNumbers;
         CharacterStats.MaxHealth = maxHealth;
         CharacterStats.Health = maxHealth;
 
@@ -30,8 +31,6 @@ public class Enemy : Character
         currentActionIndex = 0;
         actionIndicationImage.GetComponent<Image>().sprite = actionIndicationMaterial.Find(sprite =>
             sprite.name == enemyPattern[currentActionIndex].cardType.ToString());
-        actionIndicationImage.GetComponentInChildren<TextMeshProUGUI>().text =
-            enemyPattern[currentActionIndex].effects[0].payload.ToString();
         showEnemyActionDetail.UpdateEnemyActionDetail(enemyPattern[currentActionIndex].effects, this);
     }
 
@@ -112,8 +111,6 @@ public class Enemy : Character
 
         actionIndicationImage.GetComponent<Image>().sprite = actionIndicationMaterial.Find(sprite =>
             sprite.name == enemyPattern[currentActionIndex].cardType.ToString());
-        actionIndicationImage.GetComponentInChildren<TextMeshProUGUI>().text =
-            enemyPattern[currentActionIndex].effects[0].payload.ToString();
         showEnemyActionDetail.UpdateEnemyActionDetail(enemyPattern[currentActionIndex].effects, this);
     }
 
@@ -136,5 +133,10 @@ public class Enemy : Character
             });
             isDead = true;
         }
+    }
+
+    private void UpdateEnemyDamageNumbers()
+    {
+        showEnemyActionDetail.UpdateEnemyActionDetail(enemyPattern[currentActionIndex].effects, this);
     }
 }
