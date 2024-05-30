@@ -214,6 +214,7 @@ namespace HandSystem
                         }
 
                         player.CurrentActionPoints = 0;
+                        UpdateCardCost();
                         break;
 
                     case CardEffectType.TakeOverBurn:
@@ -267,6 +268,7 @@ namespace HandSystem
                             {
                                 o.GetComponent<CardCostReduction>().CheckForReducedCosts();
                             }
+
                             UpdateCardCost();
                         });
                         break;
