@@ -62,7 +62,7 @@ public class TutorialProgress : MonoBehaviour
             enemyActionTooltip.SetActive(true);
             actionPointsTooltip.SetActive(true);
             tutorialEnd = true;
-            continueButton.GetComponentInChildren<TextMeshProUGUI>().text = "End tutorial";
+            continueButton.GetComponentInChildren<TextMeshProUGUI>().text = "End Tutorial";
         }
     }
 }
