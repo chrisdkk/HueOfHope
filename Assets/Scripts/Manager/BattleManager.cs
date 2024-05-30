@@ -74,6 +74,7 @@ public class BattleManager : MonoBehaviour
         PlayerScript.CharacterStats.MaxHealth = GameInitializer.Instance.maxPlayerHealth;
         PlayerScript.CharacterStats.Health = GameInitializer.Instance.CurrentPlayerHealth;
         insightDecay = true;
+        reduceCardCostsBy = 0;
         EnemiesInBattle = new List<Enemy>();
 
         AddEventToQueue(() => GenerateEnemies(enemies));

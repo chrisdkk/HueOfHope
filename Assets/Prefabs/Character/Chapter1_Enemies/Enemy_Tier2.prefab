@@ -443,7 +443,7 @@ MonoBehaviour:
       vfxEffect: {fileID: 5318118474938795680, guid: 69d8f05fda8421849a84b27b8c0d773d, type: 3}
       payload: 4
       effectData: {fileID: 11400000, guid: 2b3a2d890ac5618429831ea6cac13072, type: 2}
-      effectTarget: 0
+      effectTarget: 1
       ignoreBlock: 0
       insightMultiplier: 0
   - cardType: 1

@@ -6824,6 +6824,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1267690944040567255, guid: a9d5d46afada7fb4e83c806d2093a6c2, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1392471885411708019, guid: a9d5d46afada7fb4e83c806d2093a6c2, type: 3}
       propertyPath: m_LocalPosition.x
       value: 960
@@ -6863,6 +6867,18 @@ PrefabInstance:
     - target: {fileID: 1392471885411708019, guid: a9d5d46afada7fb4e83c806d2093a6c2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8526119264349498268, guid: a9d5d46afada7fb4e83c806d2093a6c2, type: 3}
+      propertyPath: m_UiScaleMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8526119264349498268, guid: a9d5d46afada7fb4e83c806d2093a6c2, type: 3}
+      propertyPath: m_ReferenceResolution.x
+      value: 1920
+      objectReference: {fileID: 0}
+    - target: {fileID: 8526119264349498268, guid: a9d5d46afada7fb4e83c806d2093a6c2, type: 3}
+      propertyPath: m_ReferenceResolution.y
+      value: 1080
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

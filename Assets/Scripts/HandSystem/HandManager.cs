@@ -93,12 +93,14 @@ namespace HandSystem
                 CardVisual visual = o.GetComponent<CardVisual>();
                 o.GetComponent<CardCostReduction>().CheckForReducedCosts();
                 if (visual.isEnabled &&
-                    visual.CardData.apCost > BattleManager.Instance.PlayerScript.CurrentActionPoints)
+                    visual.CardData.apCost - BattleManager.Instance.reduceCardCostsBy >
+                    BattleManager.Instance.PlayerScript.CurrentActionPoints)
                 {
                     visual.SetDisabled();
                 }
                 else if (!visual.isEnabled &&
-                         visual.CardData.apCost <= BattleManager.Instance.PlayerScript.CurrentActionPoints)
+                         visual.CardData.apCost - BattleManager.Instance.reduceCardCostsBy <=
+                         BattleManager.Instance.PlayerScript.CurrentActionPoints)
                 {
                     visual.SetEnabled();
                 }
@@ -265,6 +267,7 @@ namespace HandSystem
                             {
                                 o.GetComponent<CardCostReduction>().CheckForReducedCosts();
                             }
+                            UpdateCardCost();
                         });
                         break;
                 }
