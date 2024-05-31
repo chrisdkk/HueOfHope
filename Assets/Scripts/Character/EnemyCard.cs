@@ -9,7 +9,6 @@ public enum EnemyCardTypes
     Block
 }
 
-[CreateAssetMenu(fileName = "EnemyCard", menuName = "ScriptableObjects/EnemyCard", order = 1)]
 [Serializable]
 public class EnemyCard
 {

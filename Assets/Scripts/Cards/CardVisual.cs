@@ -22,13 +22,20 @@ public class CardVisual : MonoBehaviour
     [SerializeField] private float effectDetailX;
     [SerializeField] private float effectDetailScale;
     [SerializeField] private bool updateDamage;
-    private List<GameObject> effectDetails = new List<GameObject>();
 
+    [SerializeField] private Vector3 colliderSizeWhileHovered;
+    
+    private List<GameObject> effectDetails = new List<GameObject>();
+    private BoxCollider boxCollider;
+    private Vector3 initialColliderSize;
+    
     public CardData CardData { get; private set; }
     public bool isEnabled { get; private set; }
 
     private void Start()
     {
+        TryGetComponent<BoxCollider>( out boxCollider);
+        if (boxCollider != null) initialColliderSize = boxCollider.size;
         isEnabled = true;
         cost.color = baseColor;
         disabledOverlay.SetActive(false);
@@ -143,6 +150,11 @@ public class CardVisual : MonoBehaviour
                 effectDetails.Add(instObject);
             }
         }
+    }
+
+    public void UpdateColliderSize(bool isHovered)
+    {
+        if (boxCollider != null) boxCollider.size = isHovered ? colliderSizeWhileHovered : initialColliderSize;
     }
 
     public void ShowDetails()
