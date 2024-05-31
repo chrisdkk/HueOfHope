@@ -1,4 +1,4 @@
-![Player Icon](./Assets/Textures/UI/GameIcon.png)
+![Player Icon](./Assets/Textures/UI/GameIcon.png "Player Icon")
 
 # HueOfHope
 
