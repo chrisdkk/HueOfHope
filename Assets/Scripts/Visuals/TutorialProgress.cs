@@ -12,8 +12,10 @@ public class TutorialProgress : MonoBehaviour
     [SerializeField] private GameObject handTooltip;
     [SerializeField] private GameObject actionPointsTooltip;
     [SerializeField] private GameObject enemyActionTooltip;
+    [SerializeField] private GameObject continueButton;
     [SerializeField] private Image background;
     [SerializeField] public List<TextMeshProUGUI> starterDeckButtons;
+    private bool tutorialEnd = false;
 
     public void CheckForTutorial()
     {
@@ -22,6 +24,7 @@ public class TutorialProgress : MonoBehaviour
             drawPileTooltip.SetActive(true);
             discardPileTooltip.SetActive(true);
             handTooltip.SetActive(true);
+            continueButton.SetActive(true);
         }
         else
         {
@@ -35,31 +38,31 @@ public class TutorialProgress : MonoBehaviour
 
     public void ReduceBackgroundTransparency()
     {
-        background.DOFade(0.1f, 1);
+        background.DOFade(0.7f, 1);
     }
 
-    public void CheckForSecondTutorialPhase()
+    public void ContinueTutorial()
     {
-        if (drawPileTooltip.activeSelf || discardPileTooltip.activeSelf || handTooltip.activeSelf)
-            return;
-
-        ShowSecondTutorialPhase();
-    }
-
-    private void ShowSecondTutorialPhase()
-    {
-        enemyActionTooltip.SetActive(true);
-        actionPointsTooltip.SetActive(true);
-    }
-
-    public void CheckForTutorialEnd()
-    {
-        if (enemyActionTooltip.activeSelf || actionPointsTooltip.activeSelf)
-            return;
-        background.DOFade(0f, 1).OnComplete(() =>
+        if (tutorialEnd)
         {
-            gameObject.SetActive(false);
-            BattleManager.Instance.Resume();
-        });
+            continueButton.SetActive(false);
+            enemyActionTooltip.SetActive(false);
+            actionPointsTooltip.SetActive(false);
+            background.DOFade(0f, 1).OnComplete(() =>
+            {
+                gameObject.SetActive(false);
+                BattleManager.Instance.Resume();
+            });
+        }
+        else
+        {
+            drawPileTooltip.SetActive(false);
+            discardPileTooltip.SetActive(false);
+            handTooltip.SetActive(false);
+            enemyActionTooltip.SetActive(true);
+            actionPointsTooltip.SetActive(true);
+            tutorialEnd = true;
+            continueButton.GetComponentInChildren<TextMeshProUGUI>().text = "End Tutorial";
+        }
     }
 }

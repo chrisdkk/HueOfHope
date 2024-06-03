@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: ApplyBurn
   m_EditorClassIdentifier: 
   title: Apply burn damage
-  text: '[Gain/Apply] burn stack damage for each AP used by this card'
+  text: '[Take/Apply] burn stack damage for each AP used by this card'
   effectDescription: 

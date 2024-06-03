@@ -17,11 +17,17 @@ public class VfxEffects : MonoBehaviour
         {
             Vector3 pos = character.transform.position;
             pos.z = -3;
+            if (vfx.name.ToLower().Contains("ice"))
+            {
+                pos.y += 1;
+            }
+
             GameObject instVFX = Instantiate(vfx, pos, Quaternion.identity);
             if (vfx.name.ToLower().Contains("fire"))
             {
                 FindObjectOfType<AudioManager>().Play("Fire1");
             }
+
             if (!hasParticle)
             {
                 StatusEffects statusEffects = instVFX.GetComponentInChildren<StatusEffects>();

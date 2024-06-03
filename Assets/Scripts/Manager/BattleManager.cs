@@ -74,6 +74,7 @@ public class BattleManager : MonoBehaviour
         PlayerScript.CharacterStats.MaxHealth = GameInitializer.Instance.maxPlayerHealth;
         PlayerScript.CharacterStats.Health = GameInitializer.Instance.CurrentPlayerHealth;
         insightDecay = true;
+        reduceCardCostsBy = 0;
         EnemiesInBattle = new List<Enemy>();
 
         AddEventToQueue(() => GenerateEnemies(enemies));
@@ -121,13 +122,10 @@ public class BattleManager : MonoBehaviour
             enemy.CharacterStats.Block = 0;
             if (enemy.CharacterStats.Burn > 0 && !enemy.isDead)
             {
-                AddEventToQueue(() =>
-                {
-                    VfxEffects.PlayEffects(burnVFX, enemy.CharacterStats.Burn, enemy);
-                    VfxEffects.PlayEffects(dmbNumberEffect, enemy.CharacterStats.Burn,
-                        enemy);
-                });
                 enemy.CharacterStats.Health -= enemy.CharacterStats.Burn;
+                VfxEffects.PlayEffects(burnVFX, enemy.CharacterStats.Burn, enemy);
+                VfxEffects.PlayEffects(dmbNumberEffect, enemy.CharacterStats.Burn,
+                    enemy);
                 enemy.CharacterStats.Burn -= 1;
             }
 
@@ -160,13 +158,10 @@ public class BattleManager : MonoBehaviour
         PlayerScript.CharacterStats.Block = 0;
         if (PlayerScript.CharacterStats.Burn > 0)
         {
-            AddEventToQueue(() =>
-            {
-                VfxEffects.PlayEffects(burnVFX, PlayerScript.CharacterStats.Burn, PlayerScript);
-                VfxEffects.PlayEffects(Instance.dmbNumberEffect, PlayerScript.CharacterStats.Burn,
-                    PlayerScript);
-            });
             PlayerScript.CharacterStats.Health -= PlayerScript.CharacterStats.Burn;
+            VfxEffects.PlayEffects(burnVFX, PlayerScript.CharacterStats.Burn, PlayerScript);
+            VfxEffects.PlayEffects(Instance.dmbNumberEffect, PlayerScript.CharacterStats.Burn,
+                PlayerScript);
             PlayerScript.CharacterStats.Burn -= 1;
         }
 

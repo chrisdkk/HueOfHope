@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: DirectDamage
   m_EditorClassIdentifier: 
   title: Direct Damage
-  text: '[Gain/Deal] [NUMBER] direct damage'
+  text: '[Take/Deal] [NUMBER] direct damage'
   effectDescription: 'Direct damage ignores the target''s block '

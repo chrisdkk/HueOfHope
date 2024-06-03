@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: InsightDamage
   m_EditorClassIdentifier: 
   title: 
-  text: '[Gain/Deal] [NUMBER] + {MULTI} x insight stacks damage'
+  text: '[Take/Deal] [NUMBER] + {MULTI} x insight stacks damage'
   effectDescription: 

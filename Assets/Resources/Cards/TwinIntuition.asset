@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardName: Twin Intuition
   apCost: 0
-  cardType: 1
+  cardType: 2
   multiTarget: 0
   effects:
   - effectType: 5
