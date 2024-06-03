@@ -11,7 +11,6 @@ public class SceneChanger : MonoBehaviour
 
     public void StartNewGame()
     {
-        AudioManager audioManager = FindObjectOfType<AudioManager>();
         if (audioManager != null)
         {
             audioManager.Stop("Theme");
@@ -19,45 +18,25 @@ public class SceneChanger : MonoBehaviour
         }
 
         GameInitializer.SetGameType(GameType.NewGame);
-        SceneManager.LoadScene("Battle");
-        StartCoroutine(PlayBattleSound());
-    }
-
-    IEnumerator PlayBattleSound()
-    {
-        while (true)
-        {
-            if (audioManager != null)
-            {
-                audioManager.PlayRandomSoundEffect();
-
-                if (isFirstBattleMusicPlaying)
-                {
-                    audioManager.PlayRandomBackgroundMusic();
-                    yield return new WaitForSeconds(audioManager.GetClipLength("FirstBattleMusic"));
-                }
-            }
-
-            isFirstBattleMusicPlaying = !isFirstBattleMusicPlaying;
-        }
+        SceneManager.LoadScene("Story");
     }
 
     public void LoadPreviousGame()
     {
-        AudioManager audioManager = FindObjectOfType<AudioManager>();
         if (audioManager != null)
         {
             audioManager.Stop("Theme");
             audioManager.Play("ButtonClick");
         }
-        
+
         if (PlayerPrefs.HasKey("PlayerHealth") && PlayerPrefs.HasKey("ChapterProgress") &&
             PlayerPrefs.HasKey("StageProgress") && PlayerPrefs.HasKey("PlayerDeck") &&
             PlayerPrefs.HasKey("MaxPlayerHealth") && PlayerPrefs.HasKey("HealingAmount"))
         {
             GameInitializer.SetGameType(GameType.OldGame);
             SceneManager.LoadScene("Battle");
-            StartCoroutine(PlayBattleSound());
+            audioManager.PlayRandomSoundEffect();
+            audioManager.PlayRandomBackgroundMusic();
         }
     }
 
@@ -79,13 +58,9 @@ public class SceneChanger : MonoBehaviour
 
     void Start()
     {
-        FindObjectOfType<AudioManager>().Play("Theme");
-
         audioManager = FindObjectOfType<AudioManager>();
-        if (audioManager != null)
-        {
-            audioManager.Play("Theme");
-        }
+        audioManager.StopAllSounds();
+        audioManager.Play("Theme");
 
         if (!PlayerPrefs.HasKey("PlayerHealth") && !PlayerPrefs.HasKey("ChapterProgress") &&
             !PlayerPrefs.HasKey("StageProgress") && !PlayerPrefs.HasKey("PlayerDeck"))
