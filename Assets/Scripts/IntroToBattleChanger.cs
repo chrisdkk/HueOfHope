@@ -16,6 +16,7 @@ public class IntroToBattleChanger : MonoBehaviour
         videoPlayer = GetComponent<VideoPlayer>();
         videoPlayer.loopPointReached += OnIntroFinished;
         audioManager = FindObjectOfType<AudioManager>();
+        videoPlayer.url = System.IO.Path.Combine(Application.streamingAssetsPath, "Intro.mp4");
     }
 
     void Update()
