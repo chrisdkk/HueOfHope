@@ -16,4 +16,5 @@ MonoBehaviour:
   stageBackground: {fileID: 21300000, guid: 57d4b03edaffee14e80147f8e435d81a, type: 3}
   stageEnemies:
   - {fileID: 5565386576038879824, guid: 29313b9e2ec5b5243aaaa23aea4912d9, type: 3}
-  storyText: 
+  storyText: 'Joy: Thank you for freeing me, I knew you would come back to save us.
+    Please continue and save the others as well!'
