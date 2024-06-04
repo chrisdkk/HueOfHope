@@ -13,7 +13,7 @@ public class RewardCardListUIController : MonoBehaviour
 
     public void OpenDeck(RewardCard.NonBattleCardClickedEventHandler onClickFunction)
     {
-        Open(GameStateManager.Instance.deck, onClickFunction);
+        Open(GameInitializer.Instance.deck, onClickFunction);
     }
 
     private void Open(List<CardData> cards, RewardCard.NonBattleCardClickedEventHandler onClickFunction)

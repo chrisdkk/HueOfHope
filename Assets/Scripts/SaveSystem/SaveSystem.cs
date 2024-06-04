@@ -22,14 +22,14 @@ public class SaveSystem : MonoBehaviour
 
     public void SaveGame()
     {
-        PlayerPrefs.SetInt("PlayerHealth", GameStateManager.Instance.CurrentPlayerHealth);
-        PlayerPrefs.SetInt("MaxPlayerHealth", GameStateManager.Instance.maxPlayerHealth);
-        PlayerPrefs.SetInt("HealingAmount", GameStateManager.Instance.HealingAmount);
+        PlayerPrefs.SetInt("PlayerHealth", GameInitializer.Instance.CurrentPlayerHealth);
+        PlayerPrefs.SetInt("MaxPlayerHealth", GameInitializer.Instance.maxPlayerHealth);
+        PlayerPrefs.SetInt("HealingAmount", GameInitializer.Instance.HealingAmount);
 
         PlayerPrefs.SetInt("ChapterProgress", mapSystem.currentChapterIndex);
         PlayerPrefs.SetInt("StageProgress", mapSystem.currentStageIndex);
 
-        String deckCardNames = String.Join(",", GameStateManager.Instance.deck.Select(d => d.cardName));
+        String deckCardNames = String.Join(",", GameInitializer.Instance.deck.Select(d => d.cardName));
         PlayerPrefs.SetString("PlayerDeck", deckCardNames);
 
         PlayerPrefs.Save();
@@ -72,7 +72,7 @@ public class SaveSystem : MonoBehaviour
         {
             if (name != null)
             {
-                SavedDeck.Add(GameStateManager.Instance.AllAvailableCards.Find(cardData => cardData.cardName == name));
+                SavedDeck.Add(GameInitializer.Instance.AllAvailableCards.Find(cardData => cardData.cardName == name));
             }
         }
 

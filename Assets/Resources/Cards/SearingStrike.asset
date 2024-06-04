@@ -13,23 +13,20 @@ MonoBehaviour:
   m_Name: SearingStrike
   m_EditorClassIdentifier: 
   cardName: Searing Strike
-  description: Deal 8 damage and apply 1 burn
   apCost: 2
   cardType: 0
   multiTarget: 0
   effects:
   - effectType: 0
-    vfxEffect: {fileID: 8525990746615576120, guid: b85d21f3b8fed714bacf0c4fd50fa512,
-      type: 3}
+    vfxEffect: {fileID: 8525990746615576120, guid: b85d21f3b8fed714bacf0c4fd50fa512, type: 3}
     payload: 8
     effectData: {fileID: 11400000, guid: 0a69784d62e91b44ba7cb5dcf0a8881f, type: 2}
     effectTarget: 1
     ignoreBlock: 0
     insightMultiplier: 0
   - effectType: 3
-    vfxEffect: {fileID: 6294508013172393196, guid: 043176b6a68be2b43b073aaaa4782c7d,
-      type: 3}
-    payload: 1
+    vfxEffect: {fileID: 4315291248629269559, guid: b67b2408f652c5f4582acbbfcbcfe70a, type: 3}
+    payload: 6
     effectData: {fileID: 11400000, guid: efaedbe18afc69c4f8a8b1e9a6a60878, type: 2}
     effectTarget: 1
     ignoreBlock: 0

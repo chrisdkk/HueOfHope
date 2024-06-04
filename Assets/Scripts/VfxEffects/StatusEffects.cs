@@ -1,19 +1,14 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class StatusEffects : MonoBehaviour
 {
-
     [SerializeField] public float duration;
 
     [SerializeField] private TextMeshProUGUI textObject;
-    [SerializeField] private Image image;
-    
+    [SerializeField] private CanvasGroup mask;
+
 
     // Start is called before the first frame update
     void Start()
@@ -23,11 +18,8 @@ public class StatusEffects : MonoBehaviour
 
     private void PlayAnimation()
     {
-        image.DOFade(1, duration/500);
-        textObject.DOFade(1, duration/500);
-        transform.DOMoveY(transform.position.y - 1, duration);
-        image.DOFade(0, duration);
-        textObject.DOFade(0, duration);
+        mask.DOFade(1, duration / 500).OnComplete(() => mask.DOFade(0, duration));
+        transform.DOMoveY(transform.position.y + 1, duration);
     }
 
     public void SetText(string text)

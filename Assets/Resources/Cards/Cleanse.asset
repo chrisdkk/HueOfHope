@@ -13,14 +13,12 @@ MonoBehaviour:
   m_Name: Cleanse
   m_EditorClassIdentifier: 
   cardName: Cleanse
-  description: Cleanse all negative effects
   apCost: 1
-  cardType: 1
+  cardType: 2
   multiTarget: 0
   effects:
   - effectType: 8
-    vfxEffect: {fileID: 1590415177872986601, guid: acdb90624a404aa438447006f1026065,
-      type: 3}
+    vfxEffect: {fileID: 1590415177872986601, guid: acdb90624a404aa438447006f1026065, type: 3}
     payload: 0
     effectData: {fileID: 11400000, guid: 4577eb82324a61a4c8bb76dd6ef7f76c, type: 2}
     effectTarget: 0

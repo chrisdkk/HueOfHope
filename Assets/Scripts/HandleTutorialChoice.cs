@@ -5,9 +5,9 @@ using UnityEngine.UI;
 
 public class HandleTutorialChoice : MonoBehaviour
 {
-    public static bool tutorialToggleState;
+    public static bool tutorialToggleState=true;
     
-    public void GetChoice()
+    public void SetChoice()
     {
         tutorialToggleState = gameObject.GetComponent<Toggle>().isOn;
     }

@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 784636f95304f6548ad3a79c307170c7, type: 3}
+  m_Name: Sage
+  m_EditorClassIdentifier: 
+  cards:
+  - {fileID: 11400000, guid: f6eba9005f8fdf74292bb591d64f5b56, type: 2}
+  - {fileID: 11400000, guid: 8edcf9ce3540d1a408684a334510d63a, type: 2}
+  - {fileID: 11400000, guid: 873cfd97b2d73aa429e76f78afcf37b3, type: 2}
+  - {fileID: 11400000, guid: c902c3182f1981c4daef198cc5072c3d, type: 2}
+  - {fileID: 11400000, guid: c902c3182f1981c4daef198cc5072c3d, type: 2}
+  - {fileID: 11400000, guid: c902c3182f1981c4daef198cc5072c3d, type: 2}
+  - {fileID: 11400000, guid: c902c3182f1981c4daef198cc5072c3d, type: 2}
+  - {fileID: 11400000, guid: c902c3182f1981c4daef198cc5072c3d, type: 2}
+  - {fileID: 11400000, guid: 7f92dae622db10e41bdf3df4e76df5e9, type: 2}
+  - {fileID: 11400000, guid: 7f92dae622db10e41bdf3df4e76df5e9, type: 2}
+  - {fileID: 11400000, guid: 7f92dae622db10e41bdf3df4e76df5e9, type: 2}
+  - {fileID: 11400000, guid: 7f92dae622db10e41bdf3df4e76df5e9, type: 2}
+  - {fileID: 11400000, guid: 7f92dae622db10e41bdf3df4e76df5e9, type: 2}
+  name: Sage

@@ -15,7 +15,7 @@ public class CardListUIController : MonoBehaviour
 
     public void OpenDeck()
     {
-        Open(GameStateManager.Instance.deck);
+        Open(GameInitializer.Instance.deck);
     }
 
     public void OpenDrawPile()

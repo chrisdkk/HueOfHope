@@ -13,9 +13,8 @@ MonoBehaviour:
   m_Name: TwinIntuition
   m_EditorClassIdentifier: 
   cardName: Twin Intuition
-  description: Draw 2 cards
-  apCost: 1
-  cardType: 1
+  apCost: 0
+  cardType: 2
   multiTarget: 0
   effects:
   - effectType: 5
