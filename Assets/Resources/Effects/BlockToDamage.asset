@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: BlockToDamage
   m_EditorClassIdentifier: 
   title: 
-  text: '[Gain/Deal] [NUMBER] x your block as damage'
+  text: '[Take/Deal] [NUMBER] x your block as damage'
   effectDescription: 

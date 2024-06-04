@@ -16,13 +16,16 @@ public class BattleManager : MonoBehaviour
     [SerializeField] private List<Transform> enemyPositions;
     [SerializeField] private GameObject backgroundImage;
     [SerializeField] private HandManager handManager;
-    [SerializeField] private int burnValue;
+    [SerializeField] public GameObject dmbNumberEffect;
+    [SerializeField] public GameObject blockNumberEffect;
 
     private EventQueue eventQueue = new EventQueue();
     private bool battleEnded = false;
     public bool eventRunning = false;
     public bool isPaused = false;
-    
+    public bool insightDecay = true;
+    public int reduceCardCostsBy = 0;
+
     public DeckManager DeckManager { get; private set; }
     public List<Enemy> EnemiesInBattle { get; private set; }
     public Player PlayerScript { get; private set; }
@@ -62,18 +65,20 @@ public class BattleManager : MonoBehaviour
 
         // un-end battle when advancing to the next stage
         battleEnded = false;
-        
+
         rewardWindow.GetComponent<RewardManager>().Initialize(storyText);
 
         PlayerScript.ResetBuffsAndDebuffs();
-        PlayerScript.MaxActionPoints = GameStateManager.Instance.MaxActionPoints;
+        PlayerScript.MaxActionPoints = GameInitializer.Instance.MaxActionPoints;
         PlayerScript.ResetActionPoints();
-        PlayerScript.CharacterStats.MaxHealth = GameStateManager.Instance.maxPlayerHealth;
-        PlayerScript.CharacterStats.Health = GameStateManager.Instance.CurrentPlayerHealth;
+        PlayerScript.CharacterStats.MaxHealth = GameInitializer.Instance.maxPlayerHealth;
+        PlayerScript.CharacterStats.Health = GameInitializer.Instance.CurrentPlayerHealth;
+        insightDecay = true;
+        reduceCardCostsBy = 0;
         EnemiesInBattle = new List<Enemy>();
 
         AddEventToQueue(() => GenerateEnemies(enemies));
-        
+
         // If player has already a deck -> Start battle -> Else wait for deck selection
         if (deck.Count > 0)
         {
@@ -117,8 +122,10 @@ public class BattleManager : MonoBehaviour
             enemy.CharacterStats.Block = 0;
             if (enemy.CharacterStats.Burn > 0 && !enemy.isDead)
             {
-                AddEventToQueue(() => VfxEffects.PlayEffects(burnVFX, burnValue, enemy));
-                enemy.CharacterStats.Health -= burnValue;
+                enemy.CharacterStats.Health -= enemy.CharacterStats.Burn;
+                VfxEffects.PlayEffects(burnVFX, enemy.CharacterStats.Burn, enemy);
+                VfxEffects.PlayEffects(dmbNumberEffect, enemy.CharacterStats.Burn,
+                    enemy);
                 enemy.CharacterStats.Burn -= 1;
             }
 
@@ -127,12 +134,15 @@ public class BattleManager : MonoBehaviour
             // Do action
             enemy.PlayEnemyCard();
 
-            // Reduce enemy status effects
-            enemy.CharacterStats.AttackDebuff = 0;
-            if (enemy.CharacterStats.Insight > 0)
+            AddEventToQueue(() =>
             {
-                enemy.CharacterStats.Insight -= 1;
-            }
+                // Reduce enemy status effects
+                enemy.CharacterStats.AttackDebuff = 0;
+                if (enemy.CharacterStats.Insight > 0)
+                {
+                    enemy.CharacterStats.Insight -= 1;
+                }
+            });
         }
 
         AddEventToQueue(StartPlayerTurn);
@@ -148,9 +158,11 @@ public class BattleManager : MonoBehaviour
         PlayerScript.CharacterStats.Block = 0;
         if (PlayerScript.CharacterStats.Burn > 0)
         {
-            PlayerScript.CharacterStats.Health -= burnValue;
+            PlayerScript.CharacterStats.Health -= PlayerScript.CharacterStats.Burn;
+            VfxEffects.PlayEffects(burnVFX, PlayerScript.CharacterStats.Burn, PlayerScript);
+            VfxEffects.PlayEffects(Instance.dmbNumberEffect, PlayerScript.CharacterStats.Burn,
+                PlayerScript);
             PlayerScript.CharacterStats.Burn -= 1;
-            AddEventToQueue(() => VfxEffects.PlayEffects(burnVFX, burnValue, PlayerScript));
         }
 
         AddEventToQueue(() => OnStartPlayerTurn?.Invoke());
@@ -160,14 +172,15 @@ public class BattleManager : MonoBehaviour
     {
         // Reduce status effects of player
         PlayerScript.CharacterStats.AttackDebuff = 0;
-        if (PlayerScript.CharacterStats.Insight > 0)
+        reduceCardCostsBy = 0;
+        if (PlayerScript.CharacterStats.Insight > 0 && insightDecay)
         {
             PlayerScript.CharacterStats.Insight -= 1;
         }
 
         EnemyTurn();
     }
-    
+
     /*
      * Battle has ended, either the player has won or died
      */
@@ -183,11 +196,12 @@ public class BattleManager : MonoBehaviour
             {
                 audioManager.StopAllSounds();
             }
+
             SceneManager.LoadScene("Lose");
             return;
         }
 
-        GameStateManager.Instance.CurrentPlayerHealth = PlayerScript.CharacterStats.Health;
+        GameInitializer.Instance.CurrentPlayerHealth = PlayerScript.CharacterStats.Health;
         rewardWindow.GetComponent<RewardManager>().StartRewardManager();
         FindObjectOfType<AudioManager>().Play("CompleteStage");
     }

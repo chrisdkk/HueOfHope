@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6f279a1cc38142b48cf348f369e6de0, type: 3}
+  m_Name: Intimidate
+  m_EditorClassIdentifier: 
+  cardName: Intimidate
+  apCost: 1
+  cardType: 0
+  multiTarget: 0
+  effects:
+  - effectType: 4
+    vfxEffect: {fileID: 4315291248629269559, guid: f23c65e8e57670f49801c6204e599dd3, type: 3}
+    payload: 7
+    effectData: {fileID: 11400000, guid: 78c7e404d66ecd34eba1209ce69f835f, type: 2}
+    effectTarget: 1
+    ignoreBlock: 0
+    insightMultiplier: 0
+  cardImage: {fileID: 2800000, guid: 8f90598505f507f44b1b3897a2bee167, type: 3}

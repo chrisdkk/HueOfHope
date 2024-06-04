@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Effect", menuName = "ScriptableObjects/Effect", order = 1)]
+[CreateAssetMenu(fileName = "Effect", menuName = "ScriptableObjects/Effect", order = 2)]
 public class EffectData : ScriptableObject
 {
     public string title;
@@ -15,16 +15,16 @@ public class EffectData : ScriptableObject
         CardEffectTarget cardEffectTarget, bool casterIsPlayer)
     {
         // Add payload
+        newPayload = newPayload < 0 ? 0 : newPayload;
         string currText = damageUpdated
             ? newPayload > payload
                 ? text.Replace("[NUMBER]", "<color=yellow>" + newPayload + "</color>")
                 : text.Replace("[NUMBER]", "<color=red>" + newPayload + "</color>")
             : text.Replace("[NUMBER]", payload.ToString());
-
         // Change word according to target (player or enemy)
-        if (text.Contains("["))
+        if (currText.Contains("["))
         {
-            string target = text.Substring(text.IndexOf("["), text.IndexOf("]") + 1);
+            string target = currText.Substring(currText.IndexOf("["), currText.IndexOf("]") + 1);
             string[] targetOptions = target.Replace("[", "").Replace("]", "").Split("/");
 
             currText = (cardEffectTarget == CardEffectTarget.Player && casterIsPlayer) ||

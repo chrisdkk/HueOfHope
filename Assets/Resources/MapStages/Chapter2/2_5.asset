@@ -15,7 +15,6 @@ MonoBehaviour:
   stageName: 2_5
   stageBackground: {fileID: 21300000, guid: e70b59617475cac43ade23d608658c44, type: 3}
   stageEnemies:
-  - {fileID: 5565386576038879824, guid: 78a0f307ef8f2ac48abaa2dc7f010264, type: 3}
-  - {fileID: 5565386576038879824, guid: 78a0f307ef8f2ac48abaa2dc7f010264, type: 3}
+  - {fileID: 5565386576038879824, guid: aa9157ed1270ec24cb1eea2bd9489088, type: 3}
+  - {fileID: 5565386576038879824, guid: aa9157ed1270ec24cb1eea2bd9489088, type: 3}
   storyText: 
-  healingAfterStage: 0

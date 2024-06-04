@@ -49,6 +49,7 @@ namespace HandSystem
                 CardData data = deck.DrawCard();
                 GameObject newCard = cardPool.GetCard(data);
                 cardsInHand.Add(newCard);
+                UpdateCardCost();
                 OnDrawCard?.Invoke(newCard, () =>
                 {
                     cardsDrawnCount++;
@@ -69,6 +70,7 @@ namespace HandSystem
 
         private void DiscardCards(List<GameObject> cardsToDiscard)
         {
+            BattleManager.Instance.eventRunning = true;
             for (int i = 0; i < Mathf.Min(cardsToDiscard.Count, cardsInHand.Count); i++)
             {
                 GameObject card = cardsToDiscard[i];
@@ -83,6 +85,8 @@ namespace HandSystem
                 });
                 UpdateCardCost();
             }
+
+            BattleManager.Instance.eventRunning = false;
         }
 
         private void UpdateCardCost()
@@ -90,13 +94,16 @@ namespace HandSystem
             foreach (GameObject o in cardsInHand)
             {
                 CardVisual visual = o.GetComponent<CardVisual>();
+                o.GetComponent<CardCostReduction>().CheckForReducedCosts();
                 if (visual.isEnabled &&
-                    visual.CardData.apCost > BattleManager.Instance.PlayerScript.CurrentActionPoints)
+                    visual.CardData.apCost - BattleManager.Instance.reduceCardCostsBy >
+                    BattleManager.Instance.PlayerScript.CurrentActionPoints)
                 {
                     visual.SetDisabled();
                 }
                 else if (!visual.isEnabled &&
-                         visual.CardData.apCost <= BattleManager.Instance.PlayerScript.CurrentActionPoints)
+                         visual.CardData.apCost - BattleManager.Instance.reduceCardCostsBy <=
+                         BattleManager.Instance.PlayerScript.CurrentActionPoints)
                 {
                     visual.SetEnabled();
                 }
@@ -108,9 +115,12 @@ namespace HandSystem
             CardData cardData = card.GetComponent<CardVisual>().CardData;
             Player player = BattleManager.Instance.PlayerScript;
 
-            if (cardData.apCost > player.CurrentActionPoints) return;
+            int actualCost = cardData.apCost - BattleManager.Instance.reduceCardCostsBy > 0
+                ? cardData.apCost - BattleManager.Instance.reduceCardCostsBy
+                : 0;
+            if (actualCost > player.CurrentActionPoints) return;
 
-            player.CurrentActionPoints -= cardData.apCost;
+            player.CurrentActionPoints -= actualCost;
 
             DiscardCards(new List<GameObject>() { card });
 
@@ -133,13 +143,6 @@ namespace HandSystem
                     targets.Add(player);
                 }
 
-                // Add vfx to queue
-                if (effect.vfxEffect != null && CardEffect.beforeActionVFX.Contains(effect.effectType))
-                {
-                    BattleManager.Instance.AddEventToQueue(() =>
-                        VfxEffects.PlayEffects(effect.vfxEffect, effect.payload, targets.ToArray()));
-                }
-
                 // Add event for the effect
                 switch (effect.effectType)
                 {
@@ -147,7 +150,7 @@ namespace HandSystem
                         // Add event to deal damage
                         BattleManager.Instance.AddEventToQueue(() =>
                         {
-                            CardEffectActions.DamageAction(player, effect.payload,
+                            CardEffectActions.DamageAction(effect.vfxEffect, player, effect.payload,
                                 effect.ignoreBlock || player.CharacterStats.IgnoreBlockOnNext > 0, ref targets);
 
                             // Reduce buff ignore block on next attack
@@ -160,14 +163,15 @@ namespace HandSystem
                         break;
                     case CardEffectType.ShieldBreak:
                         BattleManager.Instance.AddEventToQueue(() =>
-                            CardEffectActions.ShieldBreakAction(player, effect.payload, ref targets));
+                            CardEffectActions.ShieldBreakAction(effect.vfxEffect, player, effect.payload, ref targets));
                         FindObjectOfType<AudioManager>().Play("ShieldBreak");
                         break;
                     case CardEffectType.BlockToDamage:
                         // Add event to deal damage
                         BattleManager.Instance.AddEventToQueue(() =>
                         {
-                            CardEffectActions.DamageAction(player, effect.payload * player.CharacterStats.Block,
+                            CardEffectActions.DamageAction(effect.vfxEffect, player,
+                                effect.payload * player.CharacterStats.Block,
                                 effect.ignoreBlock || player.CharacterStats.IgnoreBlockOnNext > 0, ref targets);
 
                             // Reduce buff ignore block on next attack
@@ -184,7 +188,7 @@ namespace HandSystem
                         // Add event to deal damage
                         BattleManager.Instance.AddEventToQueue(() =>
                         {
-                            CardEffectActions.DamageAction(player, effect.payload,
+                            CardEffectActions.DamageAction(effect.vfxEffect, player, effect.payload,
                                 effect.ignoreBlock || player.CharacterStats.IgnoreBlockOnNext > 0, ref targets);
 
                             // Reset insight
@@ -199,15 +203,21 @@ namespace HandSystem
                         break;
                     case CardEffectType.Block:
                         BattleManager.Instance.AddEventToQueue(() =>
-                            CardEffectActions.BlockAction(effect.payload, ref targets));
+                            CardEffectActions.BlockAction(effect.vfxEffect, effect.payload, ref targets));
                         break;
                     case CardEffectType.Burn:
                         BattleManager.Instance.AddEventToQueue(() =>
-                            CardEffectActions.BurnAction(effect.payload, ref targets));
+                            CardEffectActions.BurnAction(effect.vfxEffect, effect.payload, ref targets));
                         break;
-                    case CardEffectType.InstApplyBurn:
-                        BattleManager.Instance.AddEventToQueue(() =>
-                            CardEffectActions.InstantApplyBurnAction(ref targets));
+                    case CardEffectType.BurnMultipliedByAP:
+                        for (int i = player.CurrentActionPoints; i > 0; i--)
+                        {
+                            BattleManager.Instance.AddEventToQueue(() =>
+                                CardEffectActions.BurnMultipliedByAPAction(effect.vfxEffect, ref targets));
+                        }
+
+                        player.CurrentActionPoints = 0;
+                        UpdateCardCost();
                         break;
 
                     case CardEffectType.TakeOverBurn:
@@ -215,24 +225,31 @@ namespace HandSystem
                             new List<Character>(
                                 BattleManager.Instance.EnemiesInBattle.Where(enemy => enemy != targets[0]));
                         BattleManager.Instance.AddEventToQueue(() =>
-                            CardEffectActions.TakeOverBurn(targets[0], ref otherTargets));
+                            CardEffectActions.TakeOverBurn(effect.vfxEffect, targets[0], ref otherTargets));
                         break;
                     case CardEffectType.Insight:
                         BattleManager.Instance.AddEventToQueue(() =>
-                            CardEffectActions.InsightAction(effect.payload, ref targets));
+                            CardEffectActions.InsightAction(effect.vfxEffect, effect.payload, ref targets));
                         Invoke("PlaySound", 0.8f);
+                        break;
+                    case CardEffectType.StopInsightDecay:
+                        BattleManager.Instance.AddEventToQueue(() => BattleManager.Instance.insightDecay = false);
                         break;
                     case CardEffectType.AttackDebuff:
                         BattleManager.Instance.AddEventToQueue(() =>
-                            CardEffectActions.AttackDebuff(effect.payload, ref targets));
+                            CardEffectActions.AttackDebuff(effect.vfxEffect, effect.payload, ref targets));
                         break;
                     case CardEffectType.Cleanse:
-                        BattleManager.Instance.AddEventToQueue(() => CardEffectActions.Cleanse(ref targets));
+                        BattleManager.Instance.AddEventToQueue(() =>
+                            CardEffectActions.Cleanse(effect.vfxEffect, ref targets));
                         FindObjectOfType<AudioManager>().Play("Chorus");
                         break;
                     case CardEffectType.IgnoreBlockOnNextAttacks:
                         BattleManager.Instance.AddEventToQueue(() =>
-                            player.CharacterStats.IgnoreBlockOnNext += effect.payload);
+                        {
+                            VfxEffects.PlayEffects(effect.vfxEffect, effect.payload, targets.ToArray());
+                            player.CharacterStats.IgnoreBlockOnNext += effect.payload;
+                        });
                         FindObjectOfType<AudioManager>().PlayRandomPowerUp();
                         break;
                     case CardEffectType.Draw:
@@ -246,19 +263,18 @@ namespace HandSystem
                     case CardEffectType.DiscardHand:
                         BattleManager.Instance.AddEventToQueue(() => DiscardCards(cardsInHand));
                         break;
-                }
+                    case CardEffectType.ReduceCardCostFor1Turn:
+                        BattleManager.Instance.AddEventToQueue(() =>
+                        {
+                            BattleManager.Instance.reduceCardCostsBy = effect.payload;
+                            foreach (GameObject o in cardsInHand)
+                            {
+                                o.GetComponent<CardCostReduction>().CheckForReducedCosts();
+                            }
 
-                // Add vfx to queue
-                if (effect.vfxEffect != null && !CardEffect.beforeActionVFX.Contains(effect.effectType))
-                {
-                    BattleManager.Instance.AddEventToQueue(() =>
-                        VfxEffects.PlayEffects(effect.vfxEffect, effect.payload, targets.ToArray()));
-                }
-
-                if (otherTargets != null)
-                {
-                    BattleManager.Instance.AddEventToQueue(() =>
-                        VfxEffects.PlayEffects(effect.vfxEffect, effect.payload, otherTargets.ToArray()));
+                            UpdateCardCost();
+                        });
+                        break;
                 }
             }
         }

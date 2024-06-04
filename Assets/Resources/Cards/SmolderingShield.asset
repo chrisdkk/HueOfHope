@@ -13,23 +13,20 @@ MonoBehaviour:
   m_Name: SmolderingShield
   m_EditorClassIdentifier: 
   cardName: Smoldering Shield
-  description: Gain 20 block & 2 burn stacks
   apCost: 2
   cardType: 1
   multiTarget: 0
   effects:
   - effectType: 1
-    vfxEffect: {fileID: 5318118474938795680, guid: 69d8f05fda8421849a84b27b8c0d773d,
-      type: 3}
-    payload: 20
+    vfxEffect: {fileID: 5318118474938795680, guid: 69d8f05fda8421849a84b27b8c0d773d, type: 3}
+    payload: 16
     effectData: {fileID: 11400000, guid: 2b3a2d890ac5618429831ea6cac13072, type: 2}
     effectTarget: 0
     ignoreBlock: 0
     insightMultiplier: 0
   - effectType: 3
-    vfxEffect: {fileID: 6294508013172393196, guid: 043176b6a68be2b43b073aaaa4782c7d,
-      type: 3}
-    payload: 2
+    vfxEffect: {fileID: 4315291248629269559, guid: b67b2408f652c5f4582acbbfcbcfe70a, type: 3}
+    payload: 3
     effectData: {fileID: 11400000, guid: efaedbe18afc69c4f8a8b1e9a6a60878, type: 2}
     effectTarget: 0
     ignoreBlock: 0

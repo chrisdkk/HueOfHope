@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -53,7 +54,7 @@ public class MapSystem : MonoBehaviour
     public void StartNextStage()
     {
         Stage currentStage = chapterList[currentChapterIndex].stageList[currentStageIndex];
-        BattleManager.Instance.Initialize(GameStateManager.Instance.deck,
+        BattleManager.Instance.Initialize(GameInitializer.Instance.deck,
             currentStage.stageEnemies,
             currentStage.stageBackground,
             currentStage.storyText);
@@ -62,15 +63,14 @@ public class MapSystem : MonoBehaviour
     private void AdvanceToNextStage()
     {
         currentStageIndex++;
-        
-        if (currentStageIndex != chapterList[currentChapterIndex].stageList.Count())
-        {
-            StartNextStage();
-        }
 
         if (currentStageIndex == chapterList[currentChapterIndex].stageList.Count())
         {
             AdvanceToNextChapter();
+        }
+        else
+        {
+            StartNextStage();
         }
     }
 
@@ -78,29 +78,32 @@ public class MapSystem : MonoBehaviour
     {
         currentChapterIndex++;
         currentStageIndex = 0;
-        OnChapterChange?.Invoke();
-
-        // Switch for improvements the player gets after a chapter
-        switch (currentChapterIndex)
-        {
-            case 1:
-                GameStateManager.Instance.maxPlayerHealth += 15;
-                GameStateManager.Instance.HealingAmount += 5;
-                break;
-            case 2:
-                GameStateManager.Instance.maxPlayerHealth += 15;
-                GameStateManager.Instance.HealingAmount += 5;
-                break;
-        }
-
-        GameStateManager.Instance.CurrentPlayerHealth = GameStateManager.Instance.maxPlayerHealth;
 
         if (currentChapterIndex == chapterList.Count())
         {
             // completed every chapter and stage
             chapterOver = true;
-
             SceneManager.LoadScene("Win");
+        }
+        else
+        {
+            // Switch for improvements the player gets after a chapter
+            switch (currentChapterIndex)
+            {
+                case 1:
+                    GameInitializer.Instance.maxPlayerHealth += 15;
+                    GameInitializer.Instance.HealingAmount += 5;
+                    break;
+                case 2:
+                    GameInitializer.Instance.maxPlayerHealth += 15;
+                    GameInitializer.Instance.HealingAmount += 5;
+                    break;
+            }
+
+            GameInitializer.Instance.CurrentPlayerHealth = GameInitializer.Instance.maxPlayerHealth;
+            OnChapterChange?.Invoke();
+            OnStageChange?.Invoke(chapterList[currentChapterIndex], currentStageIndex);
+            StartNextStage();
         }
     }
 }

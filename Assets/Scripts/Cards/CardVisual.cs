@@ -12,6 +12,8 @@ public class CardVisual : MonoBehaviour
     [SerializeField] private TextMeshProUGUI description;
     [SerializeField] private TextMeshProUGUI cost;
     [SerializeField] private RawImage cardImage;
+    [SerializeField] private RawImage cardTypeImage;
+    [SerializeField] private List<Texture> cardTypeImages;
     [SerializeField] private GameObject disabledOverlay;
     [SerializeField] private Color baseColor;
     [SerializeField] private Color warningColor;
@@ -22,13 +24,20 @@ public class CardVisual : MonoBehaviour
     [SerializeField] private float effectDetailX;
     [SerializeField] private float effectDetailScale;
     [SerializeField] private bool updateDamage;
-    private List<GameObject> effectDetails = new List<GameObject>();
 
+    [SerializeField] private Vector3 colliderSizeWhileHovered;
+    
+    private List<GameObject> effectDetails = new List<GameObject>();
+    private BoxCollider boxCollider;
+    private Vector3 initialColliderSize;
+    
     public CardData CardData { get; private set; }
     public bool isEnabled { get; private set; }
 
     private void Start()
     {
+        TryGetComponent<BoxCollider>( out boxCollider);
+        if (boxCollider != null) initialColliderSize = boxCollider.size;
         isEnabled = true;
         cost.color = baseColor;
         disabledOverlay.SetActive(false);
@@ -52,15 +61,13 @@ public class CardVisual : MonoBehaviour
             }
 
             title.SetText(newData.cardName);
-            cost.SetText(newData.apCost.ToString());
             cardImage.texture = newData.cardImage;
+            cardTypeImage.texture = cardTypeImages[(int)CardData.cardType];
             GenerateEffectExplanations();
         }
-        else
-        {
-            CardData = newData;
-        }
 
+        cost.SetText(newData.apCost.ToString());
+        CardData = newData;
         // Build card text
         string text = "";
         foreach (CardEffect effect in CardData.effects)
@@ -140,13 +147,17 @@ public class CardVisual : MonoBehaviour
                 {
                     instObject.transform.Find("Title").GetComponent<TextMeshProUGUI>().text = effect.effectData.title;
                     instObject.transform.Find("Description").GetComponent<TextMeshProUGUI>().text =
-                        effect.effectData.effectDescription.Replace("[NUMBER]",
-                            GameStateManager.Instance.BurnTickDamage.ToString());
+                        effect.effectData.effectDescription;
                 }
 
                 effectDetails.Add(instObject);
             }
         }
+    }
+
+    public void UpdateColliderSize(bool isHovered)
+    {
+        if (boxCollider != null) boxCollider.size = isHovered ? colliderSizeWhileHovered : initialColliderSize;
     }
 
     public void ShowDetails()

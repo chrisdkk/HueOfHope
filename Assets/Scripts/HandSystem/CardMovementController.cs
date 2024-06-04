@@ -148,13 +148,13 @@ namespace HandSystem
 
         private void TransitionState(HandState newState)
         {
+            var visual = selectedCard != null ? selectedCard.GetComponent<CardVisual>() : null;
             handState = newState;
             switch (newState)
             {
                 case HandState.Idle:
-                    if (selectedCard != null)
-                        selectedCard.GetComponent<BoxCollider>().size = new Vector3(1.9f, 2.65f, 0.01f);
-                    selectedCard.GetComponent<CardVisual>().HideDetails();
+                    visual.UpdateColliderSize(false);
+                    visual.HideDetails();
                     selectedCard = null;
                     useArrowSelection = false;
                     playArrow.SetActive(false);
@@ -162,14 +162,14 @@ namespace HandSystem
                     eventSystem.enabled = true;
                     break;
                 case HandState.Hover:
-                    selectedCard.GetComponent<CardVisual>().ShowDetails();
-                    selectedCard.GetComponent<BoxCollider>().size = new Vector3(2.2f, 3f, 0.01f);
+                    visual.ShowDetails();
+                    visual.UpdateColliderSize(true);
                     OnHover?.Invoke(selectedCard);
                     break;
                 case HandState.Selected:
-                    selectedCard.GetComponent<CardVisual>().ShowDetails();
-                    CardData data = selectedCard.GetComponent<CardVisual>().CardData;
-                    if (data != null) OnSelect?.Invoke(data);
+                    visual.ShowDetails();
+                    CardData data = visual.CardData;
+                    OnSelect?.Invoke(data);
                     useArrowSelection = data.cardType == CardType.Attack && !data.multiTarget;
                     if (useArrowSelection) selectedCard.transform.DOMove(playTransform.position, 0.2f);
                     playArrow.SetActive(useArrowSelection);

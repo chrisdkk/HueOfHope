@@ -1,6 +1,8 @@
 using System.Collections.Generic;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 using UnityEngine.UI;
 
 public class Enemy : Character
@@ -21,6 +23,7 @@ public class Enemy : Character
     {
         // Initialize variables for the enemy
         CharacterStats.OnHealthChange += CheckForGameOver;
+        CharacterStats.OnStatChange += UpdateEnemyDamageNumbers;
         CharacterStats.MaxHealth = maxHealth;
         CharacterStats.Health = maxHealth;
 
@@ -28,11 +31,9 @@ public class Enemy : Character
         currentActionIndex = 0;
         actionIndicationImage.GetComponent<Image>().sprite = actionIndicationMaterial.Find(sprite =>
             sprite.name == enemyPattern[currentActionIndex].cardType.ToString());
-        actionIndicationImage.GetComponentInChildren<TextMeshProUGUI>().text =
-            enemyPattern[currentActionIndex].effects[0].payload.ToString();
-        showEnemyActionDetail.UpdateEnemyActionDetail(enemyPattern[currentActionIndex].effects);
+        showEnemyActionDetail.UpdateEnemyActionDetail(enemyPattern[currentActionIndex].effects, this);
     }
-    
+
     void PlayDebuff()
     {
         FindObjectOfType<AudioManager>().PlayRandomDebuff();
@@ -42,6 +43,13 @@ public class Enemy : Character
     public void PlayEnemyCard()
     {
         EnemyCard enemyCard = enemyPattern[currentActionIndex];
+
+        BattleManager.Instance.AddEventToQueue(() =>
+        {
+            transform.DOMoveX(transform.position.x - .2f, .1125f).OnComplete(
+                () => transform.DOMoveX(transform.position.x + .3f, .1125f)
+                    .OnComplete(() => transform.DOMoveX(transform.position.x - .1f, .1125f)));
+        });
 
         foreach (CardEffect effect in enemyCard.effects)
         {
@@ -60,50 +68,38 @@ public class Enemy : Character
                     break;
             }
 
-            // Add vfx to queue -> for status effects
-            if (effect.vfxEffect != null && CardEffect.beforeActionVFX.Contains(effect.effectType))
-            {
-                BattleManager.Instance.AddEventToQueue(() =>
-                    VfxEffects.PlayEffects(effect.vfxEffect, effect.payload, targets.ToArray()));
-            }
-
             // Add event for the effect
             switch (effect.effectType)
             {
                 case CardEffectType.Damage:
                     BattleManager.Instance.AddEventToQueue(() =>
-                        CardEffectActions.DamageAction(this, effect.payload, effect.ignoreBlock, ref targets));
-                        FindObjectOfType<AudioManager>().Play("Attack1");
+                        CardEffectActions.DamageAction(effect.vfxEffect, this,
+                            effect.payload, effect.ignoreBlock,
+                            ref targets));
+                    FindObjectOfType<AudioManager>().Play("Attack1");
                     break;
 
                 case CardEffectType.Block:
                     BattleManager.Instance.AddEventToQueue(() =>
-                        CardEffectActions.BlockAction(effect.payload, ref targets));
+                        CardEffectActions.BlockAction(effect.vfxEffect, effect.payload, ref targets));
                     break;
 
                 case CardEffectType.Burn:
                     BattleManager.Instance.AddEventToQueue(() =>
-                        CardEffectActions.BurnAction(effect.payload, ref targets));
+                        CardEffectActions.BurnAction(effect.vfxEffect, effect.payload, ref targets));
                     break;
 
                 case CardEffectType.Insight:
                     BattleManager.Instance.AddEventToQueue(() =>
-                        CardEffectActions.InsightAction(effect.payload, ref targets));
-                        FindObjectOfType<AudioManager>().PlayRandomPowerUp();
+                        CardEffectActions.InsightAction(effect.vfxEffect, effect.payload, ref targets));
+                    FindObjectOfType<AudioManager>().PlayRandomPowerUp();
                     break;
 
                 case CardEffectType.AttackDebuff:
                     BattleManager.Instance.AddEventToQueue(() =>
-                        CardEffectActions.AttackDebuff(effect.payload, ref targets));
-                        Invoke("PlayDebuff", 0.5f);
+                        CardEffectActions.AttackDebuff(effect.vfxEffect, effect.payload, ref targets));
+                    Invoke("PlayDebuff", 0.5f);
                     break;
-            }
-
-            // Add vfx to queue -> for damage effects
-            if (effect.vfxEffect != null && !CardEffect.beforeActionVFX.Contains(effect.effectType))
-            {
-                BattleManager.Instance.AddEventToQueue(() =>
-                    VfxEffects.PlayEffects(effect.vfxEffect, effect.payload, targets.ToArray()));
             }
         }
 
@@ -115,9 +111,7 @@ public class Enemy : Character
 
         actionIndicationImage.GetComponent<Image>().sprite = actionIndicationMaterial.Find(sprite =>
             sprite.name == enemyPattern[currentActionIndex].cardType.ToString());
-        actionIndicationImage.GetComponentInChildren<TextMeshProUGUI>().text =
-            enemyPattern[currentActionIndex].effects[0].payload.ToString();
-        showEnemyActionDetail.UpdateEnemyActionDetail(enemyPattern[currentActionIndex].effects);
+        showEnemyActionDetail.UpdateEnemyActionDetail(enemyPattern[currentActionIndex].effects, this);
     }
 
     private void CheckForGameOver(int currentHealth, int maxHealth)
@@ -139,5 +133,10 @@ public class Enemy : Character
             });
             isDead = true;
         }
+    }
+
+    private void UpdateEnemyDamageNumbers()
+    {
+        showEnemyActionDetail.UpdateEnemyActionDetail(enemyPattern[currentActionIndex].effects, this);
     }
 }
