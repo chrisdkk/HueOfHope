@@ -70,6 +70,7 @@ namespace HandSystem
 
         private void DiscardCards(List<GameObject> cardsToDiscard)
         {
+            BattleManager.Instance.eventRunning = true;
             for (int i = 0; i < Mathf.Min(cardsToDiscard.Count, cardsInHand.Count); i++)
             {
                 GameObject card = cardsToDiscard[i];
@@ -84,6 +85,8 @@ namespace HandSystem
                 });
                 UpdateCardCost();
             }
+
+            BattleManager.Instance.eventRunning = false;
         }
 
         private void UpdateCardCost()
