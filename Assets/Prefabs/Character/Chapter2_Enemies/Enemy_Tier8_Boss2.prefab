@@ -441,7 +441,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 556fd7805b7f02149962fe224f23dc6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 120
+  maxHealth: 160
   actionIndicationImage: {fileID: 7265678401763518845}
   actionIndicationMaterial:
   - {fileID: 21300000, guid: cba3f70b2e43ac34e961e7aa6e3dc6d5, type: 3}
@@ -451,14 +451,39 @@ MonoBehaviour:
     effects:
     - effectType: 1
       vfxEffect: {fileID: 5318118474938795680, guid: 69d8f05fda8421849a84b27b8c0d773d, type: 3}
-      payload: 9
+      payload: 12
+      effectData: {fileID: 11400000, guid: 2b3a2d890ac5618429831ea6cac13072, type: 2}
+      effectTarget: 1
+      ignoreBlock: 0
+      insightMultiplier: 0
+  - cardType: 1
+    effects:
+    - effectType: 1
+      vfxEffect: {fileID: 5318118474938795680, guid: 69d8f05fda8421849a84b27b8c0d773d, type: 3}
+      payload: 8
       effectData: {fileID: 11400000, guid: 2b3a2d890ac5618429831ea6cac13072, type: 2}
       effectTarget: 1
       ignoreBlock: 0
       insightMultiplier: 0
     - effectType: 2
       vfxEffect: {fileID: 4315291248629269559, guid: 12c871f3079e2484bb424cc133aca4dc, type: 3}
-      payload: 2
+      payload: 3
+      effectData: {fileID: 11400000, guid: e1720844252edc846b27978af788e250, type: 2}
+      effectTarget: 1
+      ignoreBlock: 0
+      insightMultiplier: 0
+  - cardType: 0
+    effects:
+    - effectType: 3
+      vfxEffect: {fileID: 4315291248629269559, guid: b67b2408f652c5f4582acbbfcbcfe70a, type: 3}
+      payload: 8
+      effectData: {fileID: 11400000, guid: efaedbe18afc69c4f8a8b1e9a6a60878, type: 2}
+      effectTarget: 0
+      ignoreBlock: 1
+      insightMultiplier: 0
+    - effectType: 2
+      vfxEffect: {fileID: 4315291248629269559, guid: 12c871f3079e2484bb424cc133aca4dc, type: 3}
+      payload: 5
       effectData: {fileID: 11400000, guid: e1720844252edc846b27978af788e250, type: 2}
       effectTarget: 1
       ignoreBlock: 0
@@ -466,16 +491,9 @@ MonoBehaviour:
   - cardType: 0
     effects:
     - effectType: 0
-      vfxEffect: {fileID: 8525990746615576120, guid: b85d21f3b8fed714bacf0c4fd50fa512, type: 3}
-      payload: 5
+      vfxEffect: {fileID: 5318118474938795680, guid: 69d8f05fda8421849a84b27b8c0d773d, type: 3}
+      payload: 12
       effectData: {fileID: 11400000, guid: 0a69784d62e91b44ba7cb5dcf0a8881f, type: 2}
-      effectTarget: 0
-      ignoreBlock: 0
-      insightMultiplier: 0
-    - effectType: 4
-      vfxEffect: {fileID: 4315291248629269559, guid: f23c65e8e57670f49801c6204e599dd3, type: 3}
-      payload: 4
-      effectData: {fileID: 11400000, guid: 78c7e404d66ecd34eba1209ce69f835f, type: 2}
       effectTarget: 0
       ignoreBlock: 0
       insightMultiplier: 0
@@ -483,8 +501,15 @@ MonoBehaviour:
     effects:
     - effectType: 0
       vfxEffect: {fileID: 8525990746615576120, guid: b85d21f3b8fed714bacf0c4fd50fa512, type: 3}
-      payload: 8
+      payload: 3
       effectData: {fileID: 11400000, guid: 0a69784d62e91b44ba7cb5dcf0a8881f, type: 2}
+      effectTarget: 0
+      ignoreBlock: 0
+      insightMultiplier: 0
+    - effectType: 1
+      vfxEffect: {fileID: 5318118474938795680, guid: 69d8f05fda8421849a84b27b8c0d773d, type: 3}
+      payload: 8
+      effectData: {fileID: 11400000, guid: 2b3a2d890ac5618429831ea6cac13072, type: 2}
       effectTarget: 0
       ignoreBlock: 0
       insightMultiplier: 0

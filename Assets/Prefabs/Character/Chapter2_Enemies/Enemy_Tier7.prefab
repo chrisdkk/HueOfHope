@@ -424,7 +424,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 556fd7805b7f02149962fe224f23dc6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 30
+  maxHealth: 46
   actionIndicationImage: {fileID: 1838592098326120287}
   actionIndicationMaterial:
   - {fileID: 21300000, guid: cba3f70b2e43ac34e961e7aa6e3dc6d5, type: 3}
@@ -448,14 +448,21 @@ MonoBehaviour:
       effectTarget: 1
       ignoreBlock: 0
       insightMultiplier: 0
+    - effectType: 2
+      vfxEffect: {fileID: 4315291248629269559, guid: 12c871f3079e2484bb424cc133aca4dc, type: 3}
+      payload: 3
+      effectData: {fileID: 11400000, guid: e1720844252edc846b27978af788e250, type: 2}
+      effectTarget: 2
+      ignoreBlock: 0
+      insightMultiplier: 0
   - cardType: 0
     effects:
-    - effectType: 3
-      vfxEffect: {fileID: 6294508013172393196, guid: 043176b6a68be2b43b073aaaa4782c7d, type: 3}
-      payload: 6
+    - effectType: 0
+      vfxEffect: {fileID: 6710139492206580332, guid: 95b8d3d65b5d7f1409c4ed1723887826, type: 3}
+      payload: 12
       effectData: {fileID: 11400000, guid: 0a69784d62e91b44ba7cb5dcf0a8881f, type: 2}
       effectTarget: 0
-      ignoreBlock: 1
+      ignoreBlock: 0
       insightMultiplier: 0
   deathVFX: {fileID: 7226888052703040409, guid: 7ec363c8df426644ea85f8d6d570561c, type: 3}
   showEnemyActionDetail: {fileID: 4988412006847136591}
