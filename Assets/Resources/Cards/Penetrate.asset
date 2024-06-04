@@ -13,15 +13,14 @@ MonoBehaviour:
   m_Name: Penetrate
   m_EditorClassIdentifier: 
   cardName: Penetrate
-  description: Deal 4 direct damage
   apCost: 1
   cardType: 0
   multiTarget: 0
   effects:
   - effectType: 0
-    vfxEffect: {fileID: 4553287630450876385, guid: 15483e51212e3d74886ea57291f4639a,
-      type: 3}
-    payload: 4
+    vfxEffect: {fileID: 4553287630450876385, guid: 15483e51212e3d74886ea57291f4639a, type: 3}
+    payload: 8
+    effectData: {fileID: 11400000, guid: bd23162ee319fd541b79e1dc71ea2f80, type: 2}
     effectTarget: 1
     ignoreBlock: 1
     insightMultiplier: 0

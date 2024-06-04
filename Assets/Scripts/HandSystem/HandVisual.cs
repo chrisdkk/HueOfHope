@@ -33,6 +33,17 @@ namespace HandSystem
 			stateController.OnHover += HandleHover;
 		}
 
+		private void OnDestroy()
+		{
+			if (lastDrawSequence.IsActive()) lastDrawSequence.Kill();
+			if (lastDiscardSequence.IsActive()) lastDiscardSequence.Kill();
+			
+			handManager.OnDrawCard -= HandleDraw;
+			handManager.OnDiscardCard -= HandleDiscard;
+			stateController.OnIdle -= ArrangeCards;
+			stateController.OnHover -= HandleHover;
+		}
+
 		private void HandleDraw(GameObject card, Action onFinishAnimation)
 		{
 			card.transform.position = Camera.main.ScreenToWorldPoint(drawTransform.position);
@@ -88,14 +99,14 @@ namespace HandSystem
 				hoveredCard.transform.DOKill();
 				if (i == hoverID) continue;
 				Vector3 offset = new Vector3(0.5f / (i - hoverID), 0, 0);
-				cards[i].transform.localScale = Vector3.one;
-				cards[i].transform.localRotation = Quaternion.Euler(CalculateCardRotation(i));
+				cards[i].transform.DOScale(Vector3.one, moveDuration);
+				cards[i].transform.DOLocalRotate(CalculateCardRotation(i), moveDuration);
 				cards[i].transform.DOLocalMove(CalculateCardPosition(i) + offset, moveDuration);
 			}
 
-			hoveredCard.transform.localScale = Vector3.one * focusScale;
-			hoveredCard.transform.localRotation = Quaternion.identity;
-			hoveredCard.transform.localPosition = new Vector3(CalculateCardPosition(hoverID).x, hoverY, -2f);
+			hoveredCard.transform.DOScale(Vector3.one * focusScale, moveDuration);
+			hoveredCard.transform.DORotate(Vector3.zero, moveDuration);
+			hoveredCard.transform.DOLocalMove(new Vector3(CalculateCardPosition(hoverID).x, hoverY, -2f), moveDuration);
 		}
 
 		private void ArrangeCards()

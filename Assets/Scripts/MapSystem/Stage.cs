@@ -8,4 +8,5 @@ public class Stage : ScriptableObject
     public string stageName = "Unnamed";
     public Sprite stageBackground;
     public List<GameObject> stageEnemies;
+    public string storyText;
 }

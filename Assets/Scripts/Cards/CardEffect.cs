@@ -19,8 +19,10 @@ public enum CardEffectType
     ShieldBreak,
     MultipliedInsightDamage,
     IgnoreBlockOnNextAttacks,
-    InstApplyBurn,
-    TakeOverBurn
+    BurnMultipliedByAP,
+    TakeOverBurn,
+    StopInsightDecay,
+    ReduceCardCostFor1Turn
 }
 
 public enum CardEffectTarget
@@ -33,9 +35,13 @@ public enum CardEffectTarget
 [Serializable]
 public class CardEffect
 {
+    public static List<CardEffectType> insightAffectedEffects = new List<CardEffectType>()
+        { CardEffectType.Damage, CardEffectType.MultipliedInsightDamage };
+
     public CardEffectType effectType;
     public GameObject vfxEffect;
     public int payload;
+    public EffectData effectData;
     public CardEffectTarget effectTarget;
     public bool ignoreBlock;
     public int insightMultiplier;

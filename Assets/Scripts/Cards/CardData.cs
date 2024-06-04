@@ -4,16 +4,15 @@ using UnityEngine;
 
 public enum CardType
 {
-    Attack,
-    Skill,
-    Power
+    Attack=0,
+    Defense=1,
+    Magic=2
 }
 
 [CreateAssetMenu(fileName = "Card", menuName = "ScriptableObjects/Card", order = 1)]
 public class CardData : ScriptableObject
 {
     public string cardName;
-    public string description;
     public int apCost = 0;
     public CardType cardType = CardType.Attack;
     public bool multiTarget;

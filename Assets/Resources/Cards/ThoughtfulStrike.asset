@@ -13,23 +13,22 @@ MonoBehaviour:
   m_Name: ThoughtfulStrike
   m_EditorClassIdentifier: 
   cardName: Thoughtful Strike
-  description: Deal 5 damage & Gain 5 block
-  apCost: 2
+  apCost: 1
   cardType: 0
   multiTarget: 0
   effects:
   - effectType: 0
-    vfxEffect: {fileID: 8525990746615576120, guid: b85d21f3b8fed714bacf0c4fd50fa512,
-      type: 3}
+    vfxEffect: {fileID: 8525990746615576120, guid: b85d21f3b8fed714bacf0c4fd50fa512, type: 3}
     payload: 5
+    effectData: {fileID: 11400000, guid: 0a69784d62e91b44ba7cb5dcf0a8881f, type: 2}
     effectTarget: 1
     ignoreBlock: 0
     insightMultiplier: 0
   - effectType: 1
-    vfxEffect: {fileID: 5318118474938795680, guid: 69d8f05fda8421849a84b27b8c0d773d,
-      type: 3}
+    vfxEffect: {fileID: 5318118474938795680, guid: 69d8f05fda8421849a84b27b8c0d773d, type: 3}
     payload: 5
+    effectData: {fileID: 11400000, guid: 2b3a2d890ac5618429831ea6cac13072, type: 2}
     effectTarget: 0
     ignoreBlock: 0
     insightMultiplier: 0
-  cardImage: {fileID: 2800000, guid: 6b2057531bc5f7944950f9d78d7e1cc8, type: 3}
+  cardImage: {fileID: 2800000, guid: 21886de22a8d77e4d8b8fda496320738, type: 3}

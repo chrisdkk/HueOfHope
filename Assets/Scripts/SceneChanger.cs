@@ -1,38 +1,71 @@
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class SceneChanger : MonoBehaviour
 {
-    public void ChangeToPrototypeScene()
+    private AudioManager audioManager;
+    private bool isFirstBattleMusicPlaying = true;
+    [SerializeField] private GameObject continueButton;
+
+    public void StartNewGame()
     {
-        AudioManager audioManager = FindObjectOfType<AudioManager>();
         if (audioManager != null)
         {
             audioManager.Stop("Theme");
+            audioManager.Play("ButtonClick");
         }
-        
-        FindObjectOfType<AudioManager>().Play("ButtonClick");
-        FindObjectOfType<AudioManager>().Play("FirstBattleMusic");
-        SceneManager.LoadScene("Prototype");
-        
+
+        GameInitializer.SetGameType(GameType.NewGame);
+        SceneManager.LoadScene("Story");
+    }
+
+    public void LoadPreviousGame()
+    {
+        if (audioManager != null)
+        {
+            audioManager.Stop("Theme");
+            audioManager.Play("ButtonClick");
+        }
+
+        if (PlayerPrefs.HasKey("PlayerHealth") && PlayerPrefs.HasKey("ChapterProgress") &&
+            PlayerPrefs.HasKey("StageProgress") && PlayerPrefs.HasKey("PlayerDeck") &&
+            PlayerPrefs.HasKey("MaxPlayerHealth") && PlayerPrefs.HasKey("HealingAmount"))
+        {
+            GameInitializer.SetGameType(GameType.OldGame);
+            SceneManager.LoadScene("Battle");
+            audioManager.PlayRandomSoundEffect();
+            audioManager.PlayRandomBackgroundMusic();
+        }
     }
 
     public void QuitGame()
     {
         FindObjectOfType<AudioManager>().Play("ButtonClick");
-        
-        #if UNITY_EDITOR
-            // This will stop the game in the Unity Editor
-            UnityEditor.EditorApplication.isPlaying = false;
-        #else
-            // This will quit the application in a built game
-            Application.Quit();
-        #endif
+
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
+    }
+
+    public void LoadCredits()
+    {
+        SceneManager.LoadScene("Credits");
     }
 
     void Start()
     {
-        FindObjectOfType<AudioManager>().Play("Theme");
+        audioManager = FindObjectOfType<AudioManager>();
+        audioManager.StopAllSounds();
+        audioManager.Play("Theme");
+
+        if (!PlayerPrefs.HasKey("PlayerHealth") && !PlayerPrefs.HasKey("ChapterProgress") &&
+            !PlayerPrefs.HasKey("StageProgress") && !PlayerPrefs.HasKey("PlayerDeck"))
+        {
+            continueButton.SetActive(false);
+        }
     }
 }
