@@ -16,5 +16,4 @@ MonoBehaviour:
   stageBackground: {fileID: 21300000, guid: 3b0d1e704eedde1488ee6fdb02ededf8, type: 3}
   stageEnemies:
   - {fileID: 5565386576038879824, guid: 06643386fd605274a959f74dfe44de0a, type: 3}
-  storyText: They seem to suffer....
-  healingAfterStage: 0
+  storyText: 'You: They seem to suffer....'
