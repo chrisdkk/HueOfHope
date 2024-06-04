@@ -17,4 +17,4 @@ MonoBehaviour:
   stageEnemies:
   - {fileID: 5565386576038879824, guid: 78a0f307ef8f2ac48abaa2dc7f010264, type: 3}
   - {fileID: 5565386576038879824, guid: 78a0f307ef8f2ac48abaa2dc7f010264, type: 3}
-  storyText: 
+  storyText: <b>YOU:</b> I have to continue to save everyone

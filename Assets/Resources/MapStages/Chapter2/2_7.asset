@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: 2_7
   m_EditorClassIdentifier: 
   stageName: 2_7
-  stageBackground: {fileID: 21300000, guid: 57d4b03edaffee14e80147f8e435d81a, type: 3}
+  stageBackground: {fileID: 21300000, guid: 6c96265f6724d9540a249c16ed7eaa35, type: 3}
   stageEnemies:
   - {fileID: 5565386576038879824, guid: 9aece7b270bacfa45b7b1a707b15ffc6, type: 3}
-  storyText: 
-  healingAfterStage: 0
+  storyText: '<b>ANGER: WHAT TOOK YOU SO LONG? ANYWAY, I AM HAPPY TO SEE YOU!</b>'
