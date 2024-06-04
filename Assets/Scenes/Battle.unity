@@ -8219,6 +8219,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8178373134348947762, guid: 5842da15e26444bba952a0db1fed0b0d, type: 3}
+      propertyPath: cardPrefab
+      value: 
+      objectReference: {fileID: 5102065105404934718, guid: 233ea21290818462da6c79081947af88, type: 3}
+    - target: {fileID: 8178373134348947762, guid: 5842da15e26444bba952a0db1fed0b0d, type: 3}
       propertyPath: dmgOrBlockNumber
       value: 
       objectReference: {fileID: 4315291248629269559, guid: cd34fea19ecc7ec47aff4ceacd067b53, type: 3}

@@ -8,7 +8,7 @@ namespace HandSystem
     public class HandManager : MonoBehaviour
     {
         [SerializeField] private CardMovementController stateController;
-        [SerializeField] private CardPool cardPool;
+        [SerializeField] private GameObject cardPrefab;
         [SerializeField] private int maxHandSize;
 
         private DeckManager deck;
@@ -47,7 +47,8 @@ namespace HandSystem
             for (int i = 0; i < numberOfCards; i++)
             {
                 CardData data = deck.DrawCard();
-                GameObject newCard = cardPool.GetCard(data);
+                GameObject newCard = Instantiate(cardPrefab, transform);
+                newCard.GetComponent<CardVisual>().LoadCardData(data);
                 cardsInHand.Add(newCard);
                 UpdateCardCost();
                 OnDrawCard?.Invoke(newCard, () =>
@@ -70,7 +71,6 @@ namespace HandSystem
 
         private void DiscardCards(List<GameObject> cardsToDiscard)
         {
-            BattleManager.Instance.eventRunning = true;
             for (int i = 0; i < Mathf.Min(cardsToDiscard.Count, cardsInHand.Count); i++)
             {
                 GameObject card = cardsToDiscard[i];
@@ -81,12 +81,10 @@ namespace HandSystem
                 OnDiscardCard?.Invoke(card, () =>
                 {
                     cardsInHand.Remove(card);
-                    BattleManager.Instance.AddEventToQueue(() => cardPool.ReleaseCard(card));
+                    BattleManager.Instance.AddEventToQueue(() => Destroy(card));
                 });
                 UpdateCardCost();
             }
-
-            BattleManager.Instance.eventRunning = false;
         }
 
         private void UpdateCardCost()
