@@ -259,7 +259,7 @@ namespace HandSystem
                         FindObjectOfType<AudioManager>().Play("CardPlayed");
                         break;
                     case CardEffectType.DiscardHand:
-                        BattleManager.Instance.AddEventToQueue(() => DiscardCards(cardsInHand));
+                        BattleManager.Instance.AddEventToQueue(() => DiscardCards(cardsInHand.Where(c => c != card).ToList()));
                         break;
                     case CardEffectType.ReduceCardCostFor1Turn:
                         BattleManager.Instance.AddEventToQueue(() =>
